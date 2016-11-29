@@ -25,6 +25,10 @@ function unwrapType(type) {
 }
 
 _.each(introspectionData.types, type => {
+  //Skip introspection types
+  if (_.startsWith(type.name, '__'))
+    return;
+
   if (type.kind === 'SCALAR')
     return;
 
