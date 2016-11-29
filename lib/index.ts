@@ -1,4 +1,7 @@
 import * as cytoscape from 'cytoscape';
+import * as dagre from 'dagre';
+import * as cydagre from 'cytoscape-dagre';
+import * as _ from 'lodash';
 
 import {
   graphql,
@@ -7,6 +10,48 @@ import {
   GraphQLString
 } from 'graphql';
 
+
+const introspectionData = require('./github_introspection.json').data.__schema;
+//console.log(introspectionData);
+var rootTypeName = introspectionData.queryType.name;
+
+var nodes = [];
+var edges = [];
+
+function unwrapType(type) {
+  while (type.kind === 'NON_NULL' || type.kind == 'LIST')
+    type = type.ofType;
+  return type;
+}
+
+_.each(introspectionData.types, type => {
+  if (type.kind === 'SCALAR')
+    return;
+
+  nodes.push({
+    group: 'nodes',
+    data: {id:type.name, name:type.name},
+  });
+
+  _.each(type.fields, field => {
+    var fieldType = unwrapType(field.type);
+    if (fieldType.kind === 'SCALAR')
+      return;
+
+    console.log(field.name);
+    edges.push({
+      group: 'edges',
+      data: {
+        id: type.name + '::' + field.name,
+        label: field.name,
+        source: type.name,
+        target: fieldType.name
+      }
+    });
+  });
+});
+
+cydagre( cytoscape, dagre ); // register extension:w
 var cy = cytoscape({
   container: document.querySelector('#cy'),
 
@@ -43,30 +88,12 @@ var cy = cytoscape({
         'opacity': 0.25,
         'text-opacity': 0
       }),
-
   elements: {
-    nodes: [
-      { data: { id: 'j', name: 'Jerry' } },
-      { data: { id: 'e', name: 'Elaine' } },
-      { data: { id: 'k', name: 'Kramer' } },
-      { data: { id: 'g', name: 'George' } }
-    ],
-    edges: [
-      { data: { source: 'j', target: 'e' } },
-      { data: { source: 'j', target: 'k' } },
-      { data: { source: 'j', target: 'g' } },
-      { data: { source: 'e', target: 'j' } },
-      { data: { source: 'e', target: 'k' } },
-      { data: { source: 'k', target: 'j' } },
-      { data: { source: 'k', target: 'e' } },
-      { data: { source: 'k', target: 'g' } },
-      { data: { source: 'g', target: 'j' } }
-    ]
+    nodes: nodes,
+    edges: edges
   },
-
   layout: {
-    name: 'grid',
-    padding: 10
+    name: 'dagre',
   }
 });
 

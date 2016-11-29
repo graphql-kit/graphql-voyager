@@ -24,6 +24,9 @@
   },
   "dependencies": {
     "cytoscape": "^2.7.11",
-    "graphql": "^0.8.2"
+    "cytoscape-dagre": "^1.3.0",
+    "dagre": "^0.7.4",
+    "graphql": "^0.8.2",
+    "lodash": "^4.17.2"
   }
 }
