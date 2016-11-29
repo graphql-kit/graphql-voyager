@@ -1,0 +1,28 @@
+{
+  "compilerOptions": {
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "module": "commonjs",
+    "target": "es5",
+    "noImplicitAny": false,
+    "sourceMap": true,
+    "outDir": ".tmp",
+    "pretty": true,
+    "moduleResolution": "node",
+    "types": [
+      "requirejs",
+      "core-js"
+    ],
+    "noEmitHelpers": true
+  },
+  "compileOnSave": false,
+  "exclude": [
+    "node_modules",
+    ".tmp",
+    "dist"
+  ],
+  "awesomeTypescriptLoaderOptions": {
+    "resolveGlobs": true,
+    "useWebpackText": true
+  }
+}
