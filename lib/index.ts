@@ -125,12 +125,11 @@ var cy = cytoscape({
       .css({
         'opacity': 0.25,
         'text-opacity': 0
-    //  })
-    //.selector('node[?usedInQuery],node[?usedInMutation]')
-    //.selector('node[!usedInQuery]')
-    //  .style({
-    //    'display': 'none',
-    //    'visibility': 'hidden',
+      })
+    .selector('node[!usedInQuery]')
+      .style({
+        'display': 'none',
+        'visibility': 'hidden',
       }),
   elements: {
     nodes: nodes,
@@ -167,8 +166,9 @@ function getSubgraph(id) {
   return result;
 }
 
-getSubgraph(typeId('Query')).data('usedInQuery', true);
-getSubgraph(typeId('Mutation')).data('usedInMutation', true);
+getSubgraph(typeId(schema.queryType.name)).data('usedInQuery', true);
+if (!_.isUndefined(schema.mutationType))
+  getSubgraph(typeId(schema.mutationType.name)).data('usedInMutation', true);
 
 //console.log(JSON.stringify(cy.json(), null, 2));
 //cy.nodes('[!usedInQuery]').remove();
