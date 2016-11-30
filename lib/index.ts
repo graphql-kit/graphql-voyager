@@ -125,12 +125,12 @@ var cy = cytoscape({
       .css({
         'opacity': 0.25,
         'text-opacity': 0
-      })
+    //  })
     //.selector('node[?usedInQuery],node[?usedInMutation]')
-    .selector('node[!usedInQuery]')
-      .style({
-        'display': 'none',
-        'visibility': 'hidden',
+    //.selector('node[!usedInQuery]')
+    //  .style({
+    //    'display': 'none',
+    //    'visibility': 'hidden',
       }),
   elements: {
     nodes: nodes,
@@ -152,17 +152,26 @@ cy.on('tap', function(e){
   }
 });
 
-function getSubtree(id) {
+function getSubgraph(id) {
   var root = cy.getElementById(id);
-  return root.successors().union(root);
+  var result = root;
+  while (true) {
+    var previous_size = result.size();
+    result = result.successors().union(result);
+    if (result.size() === previous_size)
+      break;
+    result = result.incomers().union(result);
+    if (result.size() === previous_size)
+      break;
+  }
+  return result;
 }
 
-getSubtree(typeId('Query')).data('usedInQuery', true);
-getSubtree(typeId('Mutation')).data('usedInMutation', true);
+getSubgraph(typeId('Query')).data('usedInQuery', true);
+getSubgraph(typeId('Mutation')).data('usedInMutation', true);
 
-//var toRemove = cy.nodes('[!usedInQuery]');
-//toRemove.connectedEdges().remove();
-//toRemove.remove();
+//console.log(JSON.stringify(cy.json(), null, 2));
+//cy.nodes('[!usedInQuery]').remove();
 
 var layout = cy.makeLayout({ name: 'dagre' });
 layout.run();
