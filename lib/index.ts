@@ -130,6 +130,11 @@ var cy = cytoscape({
       .style({
         'display': 'none',
         'visibility': 'hidden',
+      })
+    .selector('node[?relayType]')
+      .style({
+        'display': 'none',
+        'visibility': 'hidden',
       }),
   elements: {
     nodes: nodes,
@@ -159,7 +164,7 @@ function getSubgraph(id) {
     result = result.successors().union(result);
     if (result.size() === previous_size)
       break;
-    result = result.incomers().union(result);
+    result = result.incomers('[sourceKind = "INTERFACE"]').union(result);
     if (result.size() === previous_size)
       break;
   }
@@ -172,6 +177,32 @@ if (!_.isUndefined(schema.mutationType))
 
 //console.log(JSON.stringify(cy.json(), null, 2));
 //cy.nodes('[!usedInQuery]').remove();
+
+console.log('nodes ' + cy.nodes(':visible').size());
+console.log('edges ' + cy.edges(':visible').size());
+
+cy.getElementById(typeId('Node')).data('relayType', true);
+cy.getElementById(typeId('PageInfo')).data('relayType', true);
+
+console.log('remove relay');
+cy.nodes('[typeName $= "Connection"]').forEach(connNode => {
+  connNode.data('relayType', true);
+  var edgeNode = connNode.outgoers('[fieldName = "edges"]').target();
+  edgeNode.data('relayType', true);
+  var realTarget = edgeNode.outgoers('[fieldName = "node"]').target();
+
+  connNode.incomers('edge').forEach(realSource => {
+    //FIXME: add fake edge instead of modifying existing
+    realSource.data('target', realTarget.id());
+  });
+
+});
+
+console.log('nodes ' + cy.nodes(':visible').size());
+console.log('edges ' + cy.edges(':visible').size());
+
+cy.nodes(':hidden').remove();
+console.log('roots ' + cy.edges(':visible').roots().size());
 
 var layout = cy.makeLayout({ name: 'dagre' });
 layout.run();
