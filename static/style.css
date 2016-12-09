@@ -31,6 +31,10 @@ body {
   stroke: #888;
 }
 
+.edge text {
+  display: none;
+}
+
 .edge:hover path {
   stroke: #000;
   stroke-width: 3;
@@ -39,6 +43,10 @@ body {
 .edge:hover polygon  {
   fill: #000;
   stroke: #000;
+}
+
+.edge:hover text  {
+  display: block;
 }
 
 .edge path.hover-path {
@@ -51,14 +59,14 @@ body {
   opacity: 0.2;
 }
 
-.selection-active .node.selected-reachable, .selection-active .node.selected {
+.selection-active .node.selected-reachable,
+.selection-active .node.selected,
+.selection-active .edge.selected {
   opacity: 1;
 }
 
-.selection-active .edge.selected,
 .selection-active .node.selected polygon,
 .selection-active .edge.selected path:not(.hover-path) {
-    opacity: 1;
     stroke: #000;
     stroke-width: 2;
 }
