@@ -113,6 +113,17 @@ function skipType(type):boolean {
   );
 }
 
+function printFieldType(field) {
+  return _.reduce(field.typeWrappers, (str, wrapper) => {
+    switch (wrapper) {
+      case 'NON_NULL':
+        return `${str}!`;
+      case 'LIST':
+        return `[${str}]`;
+    }
+  }, getFieldType(field).name);
+}
+
 function skipField(field):boolean {
   return types[field.type].isRelayType && !field.relayNodeType;
 }
@@ -147,4 +158,4 @@ export function getOutEdges(typeName:string):{id: string, nodeId: string}[] {
     .value();
 }
 
-export var dot = ejs.render(template, {_, types, isScalar, skipType, skipField, getFieldType});
+export var dot = ejs.render(template, {_, types, isScalar, skipType, skipField, getFieldType, printFieldType});
