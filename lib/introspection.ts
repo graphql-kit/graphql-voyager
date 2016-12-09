@@ -2,7 +2,7 @@ import * as _ from 'lodash';
 import * as ejs from 'ejs';
 
 const template = require('./template.ejs');
-const schema = require('./swapi_introspection.json').data.__schema;
+const schema = require('./github_introspection.json').data.__schema;
 
 function unwrapType(type, wrappers) {
   while (type.kind === 'NON_NULL' || type.kind == 'LIST') {
@@ -81,7 +81,9 @@ types['Node'].isRelayType = true;
 types['PageInfo'].isRelayType = true;
 
 _.each(types, type => {
+  type._id = `TYPE::${type.name}`;
   _.each(type.fields, field => {
+    field._id = `FIELD_EDGE::${type.name}::${field.name}`;
     if (!/.Connection$/.test(field.type))
       return;
     //FIXME: additional checks
@@ -94,15 +96,15 @@ _.each(types, type => {
   });
 });
 
-function isScalar(typeObj) {
+function isScalar(typeObj):boolean {
   return ['SCALAR', 'ENUM'].indexOf(typeObj.kind) !== -1;
 }
 
-function isInputObject(typeObj) {
+function isInputObject(typeObj):boolean {
   return typeObj.kind === 'INPUT_OBJECT';
 }
 
-function skipType(type) {
+function skipType(type):boolean {
   return (
     isScalar(type) ||
     isInputObject(type) ||
@@ -111,12 +113,38 @@ function skipType(type) {
   );
 }
 
-function skipField(field) {
+function skipField(field):boolean {
   return types[field.type].isRelayType && !field.relayNodeType;
 }
 
 function getFieldType(field) {
   return field.relayNodeType || field.type;
+}
+
+export function getInEdgesIds(typeName:string):string[] {
+  let type = types[typeName];
+  let res = [];
+  _.each(types, type => {
+    if (skipType(type)) return;
+    _.each(type.fields, field => {
+      if (skipField(field)) return;
+      let fieldType = types[field.type];
+      if (isScalar(fieldType)) return;
+      if (getFieldType(field) !== typeName) return;
+      res.push(field._id);
+    });
+  });
+  return res;
+}
+
+export function getOutEdgesIds(typeName:string):string[] {
+  let type = types[typeName];
+  return _(type.fields)
+    .values()
+    .filter(field => !skipField(field))
+    .filter(field => !isScalar(types[getFieldType(field)]))
+    .map('_id')
+    .value();
 }
 
 export var dot = ejs.render(template, {_, types, isScalar, skipType, skipField, getFieldType});

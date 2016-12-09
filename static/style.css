@@ -16,14 +16,19 @@ body {
   max-height: 100%;
 }
 
+.node {
+  pointer-events: bounding-box;
+  cursor: pointer;
+}
+
 .edge path {
-  stroke: #999;
+  stroke: #888;
   stroke-width: 2;
 }
 
 .edge polygon {
-  fill: #999;
-  stroke: #999;
+  fill: #888;
+  stroke: #888;
 }
 
 .edge:hover path {
@@ -39,4 +44,22 @@ body {
 .edge path.hover-path {
   stroke: transparent;
   stroke-width: 15;
+}
+
+.selection-active .edge path:not(.hover-path),
+.selection-active .edge polygon {
+  opacity: 0.2;
+}
+
+.selection-active .node.selected polygon,
+.selection-active .edge.selected path:not(.hover-path) {
+    opacity: 1;
+    stroke: #000;
+    stroke-width: 2;
+}
+
+.selection-active .edge.selected polygon {
+  opacity: 1;
+  fill: #000;
+  stroke: #000;
 }
