@@ -2,29 +2,71 @@ import * as _ from 'lodash';
 
 var xmlns = "http://www.w3.org/2000/svg";
 
-import { getInEdges } from './introspection';
-import { getOutEdges } from './introspection';
+import {
+  getInEdges,
+  getOutEdges,
+  isScalar,
+  cleanTypeName
+} from './introspection';
+
+
+import {
+  removeClass,
+  forEachNode
+} from './dom-helpers';
+
+
+function createSvgGroup() {
+  return document.createElementNS(xmlns, 'g');
+}
 
 export function appendHoverPaths(svg: SVGElement) {
-  let $paths = svg.querySelectorAll('g.edge path');
-  _.each($paths, $path => {
+  forEachNode(svg, 'g.edge path', $path => {
     let $newPath = $path.cloneNode() as HTMLElement;
     $newPath.classList.add('hover-path');
     $path.parentNode.appendChild($newPath);
   });
 }
 
+export function splitFieldText($textNode: SVGTextElement): Element {
+  let [fieldName, typeName] = $textNode.textContent.split(':');
+  typeName = cleanTypeName(typeName);
+  let $clone = $textNode.cloneNode() as Element;
+  $textNode.textContent = fieldName + ':';
+  $clone.textContent = typeName;
+  $clone.classList.add('field-type');
+  $clone.setAttribute('data-type', typeName);
+  $clone.classList.add(isScalar(typeName) ? 'field-type-scalar' : 'field-type-compound');
+
+  // performance bottleneck
+  let clonePos = parseInt($textNode.getAttribute('x')) + $textNode.getBBox().width + 1;
+  $clone.setAttribute('x', clonePos.toString());
+  let $group = createSvgGroup();
+  $group.appendChild($textNode);
+  $group.appendChild($clone);
+  return $group;
+}
+
 export function wrapFields(svg:SVGElement) {
-  let $nodes = document.querySelectorAll('.node');
-  _.each($nodes, ($node: HTMLElement) => {
+  forEachNode(svg, '.node', $node => {
     $node.removeChild($node.querySelector('title'));
     let $children = _.toArray($node.children);
-    for(let i = 0; i < $children.length; i += 2) {
-      let $wrap = document.createElementNS(xmlns, 'g');
-      let $text = $children[i + 1] as HTMLElement;
-      $wrap.setAttribute('id', 'FIELD::' + $text.textContent.trim());
-      $wrap.appendChild($children[i]);
-      $wrap.appendChild($text);
+    let $title =  $children.slice(0, 2);
+    let $fields = $children.slice(2);
+
+    let $titleWrap = createSvgGroup();
+    let $text = $title[1] as SVGTextElement;
+    $titleWrap.appendChild($title[0]);
+    $titleWrap.appendChild($text);
+    $titleWrap.classList.add('type-title');
+    $node.appendChild($titleWrap);
+    let typeName = $text.textContent.trim();
+    for(let i = 0; i < $fields.length; i += 2) {
+      let $wrap = createSvgGroup();
+      let $text = $fields[i + 1] as SVGTextElement;
+      $wrap.setAttribute('id', 'FIELD::' + typeName + '::' + $text.textContent.split(':')[0].trim());
+      $wrap.appendChild($fields[i]);
+      $wrap.appendChild(splitFieldText($text));
       $node.appendChild($wrap);
     }
   });
@@ -70,16 +112,9 @@ function selectNode(node:Element) {
 }
 
 function deselectAll() {
-  let $elems = document.querySelectorAll('svg .selected');
-  for(let i = 0; i < $elems.length; i++) {
-    $elems[i].classList.remove('selected');
-  }
-
-  $elems = document.querySelectorAll('svg .selected-reachable');
-  for(let i = 0; i < $elems.length; i++) {
-    $elems[i].classList.remove('selected-reachable');
-  }
-
+  let viewport = document.getElementById('viewport');
+  removeClass(viewport, 'svg .selected', 'selected');
+  removeClass(viewport, 'svg .selected-reachable', 'selected-reachable');
 }
 
 function getNode(elem:Element): Element | null {

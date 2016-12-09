@@ -77,3 +77,11 @@ body {
   fill: #000;
   stroke: #000;
 }
+
+.field-type-compound {
+  fill: #04f;
+}
+
+.field-type-compound:hover {
+  fill: #8af;
+}

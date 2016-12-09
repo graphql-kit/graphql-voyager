@@ -96,7 +96,16 @@ _.each(types, type => {
   });
 });
 
-function isScalar(typeObj):boolean {
+export function cleanTypeName(typeName:string):string {
+  return typeName.trim().replace(/^\[*/, '').replace(/[\]\!]*$/, '');
+}
+export function isScalar(typeObjOrName):boolean {
+  let typeObj;
+  if (_.isString(typeObjOrName)) {
+    typeObj = types[typeObjOrName];
+  } else {
+    typeObj = typeObjOrName
+  }
   return ['SCALAR', 'ENUM'].indexOf(typeObj.kind) !== -1;
 }
 
