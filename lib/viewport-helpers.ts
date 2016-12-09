@@ -41,9 +41,9 @@ export function appendClickHighlightning(svg) {
   svg.addEventListener('mouseup', event => {
     svg.removeEventListener('mousemove', moveHandler);
     if (dragged) return;
-    if (isNode(event.target) || isNode(event.target.parentNode)) {
+    if (isNode(event.target)) {
       svg.classList.add('selection-active');
-      selectNode(isNode(event.target) ? event.target : event.target.parentNode);
+      selectNode(getNode(event.target));
     } else {
       if (isControl(event.target)) return;
       svg.classList.remove('selection-active');
@@ -52,7 +52,7 @@ export function appendClickHighlightning(svg) {
   });
 }
 
-function selectNode(node:HTMLElement) {
+function selectNode(node:Element) {
   deselectAll();
   node.classList.add('selected');
   let typeName = node.id.split('::')[1];
@@ -82,8 +82,16 @@ function deselectAll() {
 
 }
 
-function isNode(elem:HTMLElement) {
-  return elem.classList.contains('node');
+function getNode(elem:Element): Element | null {
+  while (elem && elem.tagName !== 'svg') {
+    if (elem.classList.contains('node')) return elem;
+    elem = elem.parentNode as Element;
+  }
+  return null;
+}
+
+function isNode(elem:Element):boolean {
+  return getNode(elem) != null;
 }
 
 function isControl(elem:SVGElement) {
