@@ -69,7 +69,7 @@ export function wrapFields(svg:SVGElement) {
       let $text = $fields[i + 1] as SVGTextElement;
       $wrap.setAttribute('id', 'FIELD::' + typeName + '::' + $text.textContent.split(':')[0].trim());
       $wrap.appendChild(splitFieldText($text));
-      $wrap.appendChild($fields[i]);
+      $wrap.insertBefore($fields[i], $wrap.firstChild);
       $node.appendChild($wrap);
     }
   });
