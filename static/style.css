@@ -15,3 +15,28 @@ body {
   max-width: 100%;
   max-height: 100%;
 }
+
+.edge path {
+  stroke: #999;
+  stroke-width: 2;
+}
+
+.edge polygon {
+  fill: #999;
+  stroke: #999;
+}
+
+.edge:hover path {
+  stroke: #000;
+  stroke-width: 3;
+}
+
+.edge:hover polygon  {
+  fill: #000;
+  stroke: #000;
+}
+
+.edge path.hover-path {
+  stroke: transparent;
+  stroke-width: 15;
+}
