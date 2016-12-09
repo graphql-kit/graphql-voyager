@@ -2,7 +2,7 @@ import * as _ from 'lodash';
 import * as ejs from 'ejs';
 
 const template = require('./template.ejs');
-const schema = require('./github_introspection.json').data.__schema;
+const schema = require('./swapi_introspection.json').data.__schema;
 
 function unwrapType(type, wrappers) {
   while (type.kind === 'NON_NULL' || type.kind == 'LIST') {
@@ -121,7 +121,7 @@ function getFieldType(field) {
   return field.relayNodeType || field.type;
 }
 
-export function getInEdgesIds(typeName:string):string[] {
+export function getInEdges(typeName:string):{id: string, nodeId: string}[] {
   let type = types[typeName];
   let res = [];
   _.each(types, type => {
@@ -131,19 +131,19 @@ export function getInEdgesIds(typeName:string):string[] {
       let fieldType = types[field.type];
       if (isScalar(fieldType)) return;
       if (getFieldType(field) !== typeName) return;
-      res.push(field._id);
+      res.push({ id: field._id, nodeId: type._id });
     });
   });
   return res;
 }
 
-export function getOutEdgesIds(typeName:string):string[] {
+export function getOutEdges(typeName:string):{id: string, nodeId: string}[] {
   let type = types[typeName];
   return _(type.fields)
     .values()
     .filter(field => !skipField(field))
     .filter(field => !isScalar(types[getFieldType(field)]))
-    .map('_id')
+    .map(field => ({ id: field._id, nodeId: types[getFieldType(field)]._id }))
     .value();
 }
 

@@ -46,11 +46,16 @@ body {
   stroke-width: 15;
 }
 
-.selection-active .edge path:not(.hover-path),
-.selection-active .edge polygon {
+.selection-active .edge,
+.selection-active .node {
   opacity: 0.2;
 }
 
+.selection-active .node.selected-reachable, .selection-active .node.selected {
+  opacity: 1;
+}
+
+.selection-active .edge.selected,
 .selection-active .node.selected polygon,
 .selection-active .edge.selected path:not(.hover-path) {
     opacity: 1;

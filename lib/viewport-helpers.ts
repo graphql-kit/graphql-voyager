@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 
-import { getInEdgesIds } from './introspection';
-import { getOutEdgesIds } from './introspection';
+import { getInEdges } from './introspection';
+import { getOutEdges } from './introspection';
 
 export function appendHoverPaths(svg: SVGElement) {
   let $paths = svg.querySelectorAll('g.edge path');
@@ -29,22 +29,30 @@ function selectNode(node:HTMLElement) {
   deselectAll();
   node.classList.add('selected');
   let typeName = node.id.split('::')[1];
-  let inEdges = getInEdgesIds(typeName);
-  let outEdges = getOutEdgesIds(typeName);
+  let inEdges = getInEdges(typeName);
+  let outEdges = getOutEdges(typeName);
 
-  let allEdgesIds = _.union(inEdges, outEdges);
+  let allEdges = _.union(inEdges, outEdges);
 
-  _.each(allEdgesIds, edgeId => {
-    let $edge = document.getElementById(edgeId);
+  _.each(allEdges, edge => {
+    let $edge = document.getElementById(edge.id);
     $edge.classList.add('selected');
+    let $node = document.getElementById(edge.nodeId);
+    $node.classList.add('selected-reachable');
   });
 }
 
 function deselectAll() {
-  let $selected = document.querySelectorAll('svg .selected');
-  for(let i = 0; i < $selected.length; i++) {
-    $selected[i].classList.remove('selected');
+  let $elems = document.querySelectorAll('svg .selected');
+  for(let i = 0; i < $elems.length; i++) {
+    $elems[i].classList.remove('selected');
   }
+
+  $elems = document.querySelectorAll('svg .selected-reachable');
+  for(let i = 0; i < $elems.length; i++) {
+    $elems[i].classList.remove('selected-reachable');
+  }
+
 }
 
 function isNode(elem:HTMLElement) {
