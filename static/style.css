@@ -21,6 +21,11 @@ body {
   cursor: pointer;
 }
 
+.node polygon {
+  stroke: #888;
+}
+
+
 .edge path {
   stroke: #888;
   stroke-width: 2;

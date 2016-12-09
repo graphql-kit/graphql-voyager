@@ -30,17 +30,20 @@ export function appendHoverPaths(svg: SVGElement) {
 
 export function splitFieldText($textNode: SVGTextElement): Element {
   let [fieldName, typeName] = $textNode.textContent.split(':');
-  typeName = cleanTypeName(typeName);
   let $clone = $textNode.cloneNode() as Element;
-  $textNode.textContent = fieldName + ':';
+  $textNode.textContent = fieldName;
   $clone.textContent = typeName;
   $clone.classList.add('field-type');
+
+  typeName = cleanTypeName(typeName);
   $clone.setAttribute('data-type', typeName);
   $clone.classList.add(isScalar(typeName) ? 'field-type-scalar' : 'field-type-compound');
 
   // performance bottleneck
-  let clonePos = parseInt($textNode.getAttribute('x')) + $textNode.getBBox().width + 1;
+  let bbox = (<SVGPolygonElement>$textNode.previousElementSibling).getBBox();
+  let clonePos = bbox.x + bbox.width - 5;
   $clone.setAttribute('x', clonePos.toString());
+  $clone.setAttribute('text-anchor', 'end');
   let $group = createSvgGroup();
   $group.appendChild($textNode);
   $group.appendChild($clone);
@@ -65,8 +68,8 @@ export function wrapFields(svg:SVGElement) {
       let $wrap = createSvgGroup();
       let $text = $fields[i + 1] as SVGTextElement;
       $wrap.setAttribute('id', 'FIELD::' + typeName + '::' + $text.textContent.split(':')[0].trim());
-      $wrap.appendChild($fields[i]);
       $wrap.appendChild(splitFieldText($text));
+      $wrap.appendChild($fields[i]);
       $node.appendChild($wrap);
     }
   });
