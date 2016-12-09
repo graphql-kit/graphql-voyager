@@ -45,7 +45,8 @@ body {
   stroke: #000;
 }
 
-.edge:hover text  {
+.edge:hover text,
+.edge.selected text  {
   display: block;
 }
 
@@ -67,8 +68,8 @@ body {
 
 .selection-active .node.selected polygon,
 .selection-active .edge.selected path:not(.hover-path) {
-    stroke: #000;
-    stroke-width: 2;
+  stroke: #000;
+  stroke-width: 2;
 }
 
 .selection-active .edge.selected polygon {

@@ -14,11 +14,21 @@ export function appendHoverPaths(svg: SVGElement) {
 }
 
 export function appendClickHighlightning(svg) {
-  svg.addEventListener('click', event => {
-    if (isNode(event.target) || isNode(event.target.parentNode) ) {
+  let dragged = false;
+
+  let moveHandler = () => dragged = true;
+  svg.addEventListener('mousedown', event => {
+    dragged = false;
+    setTimeout(() => svg.addEventListener('mousemove', moveHandler));
+  });
+  svg.addEventListener('mouseup', event => {
+    svg.removeEventListener('mousemove', moveHandler);
+    if (dragged) return;
+    if (isNode(event.target) || isNode(event.target.parentNode)) {
       svg.classList.add('selection-active');
       selectNode(isNode(event.target) ? event.target : event.target.parentNode);
     } else {
+      if (isControl(event.target)) return;
       svg.classList.remove('selection-active');
       deselectAll();
     }
@@ -57,4 +67,8 @@ function deselectAll() {
 
 function isNode(elem:HTMLElement) {
   return elem.classList.contains('node');
+}
+
+function isControl(elem:SVGElement) {
+  return elem.className.baseVal.startsWith('svg-pan-zoom');
 }
