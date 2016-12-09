@@ -53,6 +53,9 @@ module.exports = {
     }, {
       test: /\.json$/,
       loader: 'json-loader'
+    }, {
+      test: /\.ejs$/,
+      loader: 'raw-loader'
     }]
   },
 

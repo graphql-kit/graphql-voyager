@@ -1,6 +1,7 @@
 import * as _ from 'lodash';
 import * as ejs from 'ejs';
 
+const template = require('./template.ejs');
 const schema = require('./swapi_introspection.json').data.__schema;
 
 function unwrapType(type, wrappers) {
@@ -117,40 +118,6 @@ function skipField(field) {
 function getFieldType(field) {
   return field.relayNodeType || field.type;
 }
-
-const template = `
-strict digraph erd {
-  graph [
-    rankdir = "LR"
-  ];
-  node [
-    fontsize = "16"
-    shape = "plaintext"
-  ];
-  edge [
-  ];
-<%_ _.each(types, type => { -%>
-  <%_ if (skipType(type)) return; -%>
-  <%- type.name %> [
-    label = <<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0">
-      <TR><TD><B><%- type.name %></B></TD></TR>
-      <%_ _.each(type.fields, field => { -%>
-        <%_ if (skipField(field)) return; -%>
-      <TR><TD PORT="<%- field.name %>">
-        <%- field.name %>
-      </TD></TR>
-      <%_ }); -%>
-    </TABLE>>
-  ];
-  <%_ _.each(type.fields, field => { -%>
-    <%_ if (skipField(field)) return; -%>
-    <%_ var fieldType = types[field.type]; -%>
-    <%_ if (isScalar(fieldType)) return; -%>
-  "<%- type.name %>":"<%- field.name %>" -> "<%- getFieldType(field) %>"
-  <%_ }); -%>
-<%_ }); -%>
-}
-`;
 
 export var dot = ejs.render(template, {_, types, isScalar, skipType, skipField, getFieldType});
 
