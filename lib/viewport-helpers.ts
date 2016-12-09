@@ -1,16 +1,33 @@
 import * as _ from 'lodash';
 
+var xmlns = "http://www.w3.org/2000/svg";
+
 import { getInEdges } from './introspection';
 import { getOutEdges } from './introspection';
 
 export function appendHoverPaths(svg: SVGElement) {
   let $paths = svg.querySelectorAll('g.edge path');
-  for (let i=0; i < $paths.length; i++) {
-    let $path = $paths[i];
+  _.each($paths, $path => {
     let $newPath = $path.cloneNode() as HTMLElement;
     $newPath.classList.add('hover-path');
     $path.parentNode.appendChild($newPath);
-  }
+  });
+}
+
+export function wrapFields(svg:SVGElement) {
+  let $nodes = document.querySelectorAll('.node');
+  _.each($nodes, ($node: HTMLElement) => {
+    $node.removeChild($node.querySelector('title'));
+    let $children = _.toArray($node.children);
+    for(let i = 0; i < $children.length; i += 2) {
+      let $wrap = document.createElementNS(xmlns, 'g');
+      let $text = $children[i + 1] as HTMLElement;
+      $wrap.setAttribute('id', 'FIELD::' + $text.textContent.trim());
+      $wrap.appendChild($children[i]);
+      $wrap.appendChild($text);
+      $node.appendChild($wrap);
+    }
+  });
 }
 
 export function appendClickHighlightning(svg) {
