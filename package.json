@@ -11,14 +11,13 @@
   "license": "MIT",
   "devDependencies": {
     "@types/core-js": "^0.9.34",
-    "@types/graphql": "^0.8.2",
     "@types/requirejs": "^2.1.28",
     "awesome-typescript-loader": "^3.0.0-beta.9",
     "css-loader": "^0.26.0",
     "json-loader": "^0.5.4",
     "source-map-loader": "^0.1.5",
     "style-loader": "^0.13.1",
-    "typescript": "^2.0.10",
+    "typescript": "^2.1.4",
     "webpack": "^2.1.0-beta.27",
     "webpack-dev-server": "^2.1.0-beta.12"
   },
