@@ -118,7 +118,7 @@ function skipField(field):boolean {
 }
 
 function getFieldType(field) {
-  return field.relayNodeType || field.type;
+  return types[field.relayNodeType || field.type];
 }
 
 export function getInEdges(typeName:string):{id: string, nodeId: string}[] {
@@ -130,7 +130,7 @@ export function getInEdges(typeName:string):{id: string, nodeId: string}[] {
       if (skipField(field)) return;
       let fieldType = types[field.type];
       if (isScalar(fieldType)) return;
-      if (getFieldType(field) !== typeName) return;
+      if (getFieldType(field).name !== typeName) return;
       res.push({ id: field._id, nodeId: type._id });
     });
   });
@@ -142,8 +142,8 @@ export function getOutEdges(typeName:string):{id: string, nodeId: string}[] {
   return _(type.fields)
     .values()
     .filter(field => !skipField(field))
-    .filter(field => !isScalar(types[getFieldType(field)]))
-    .map(field => ({ id: field._id, nodeId: types[getFieldType(field)]._id }))
+    .filter(field => !isScalar(getFieldType(field)))
+    .map(field => ({ id: field._id, nodeId: getFieldType(field)._id }))
     .value();
 }
 
