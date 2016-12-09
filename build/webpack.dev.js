@@ -9,7 +9,13 @@ module.exports = {
   devtool: '#inline-source-map',
 
   resolve: {
-    extensions: ['.ts', '.js', '.json', '.css']
+    extensions: ['.ts', '.js', '.json', '.css'],
+    alias: {
+      'ejs': 'ejs/ejs.min.js'
+    }
+  },
+  node: {
+    fs: "empty"
   },
   entry: {
     'index': './lib/index.ts',

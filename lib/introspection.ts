@@ -74,7 +74,7 @@ function convertType(inType) {
   return outType;
 }
 
-var types = _(schema.types).map(convertType).keyBy('name').value();
+const types = _(schema.types).map(convertType).keyBy('name').value();
 
 types['Node'].isRelayType = true;
 types['PageInfo'].isRelayType = true;
@@ -84,9 +84,9 @@ _.each(types, type => {
     if (!/.Connection$/.test(field.type))
       return;
     //FIXME: additional checks
-    var relayConnetion = types[field.type];
+    let relayConnetion = types[field.type];
     relayConnetion.isRelayType = true;
-    var relayEdge = types[relayConnetion.fields['edges'].type];
+    let relayEdge = types[relayConnetion.fields['edges'].type];
     relayEdge.isRelayType = true;
 
     field.relayNodeType = relayEdge.fields['node'].type
@@ -118,7 +118,7 @@ function getFieldType(field) {
   return field.relayNodeType || field.type;
 }
 
-var template = `
+const template = `
 strict digraph erd {
   graph [
     rankdir = "LR"
@@ -152,8 +152,9 @@ strict digraph erd {
 }
 `;
 
-var dot = ejs.render(template, {_, types, isScalar, skipType, skipField, getFieldType});
-console.log(dot);
+export var dot = ejs.render(template, {_, types, isScalar, skipType, skipField, getFieldType});
+
+
 
 /*
   // nodes
@@ -198,4 +199,3 @@ console.log(dot);
   dotfile += '\n\n';
 
 */
-
