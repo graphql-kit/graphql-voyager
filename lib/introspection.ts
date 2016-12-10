@@ -99,6 +99,28 @@ _.each(types, type => {
 export function cleanTypeName(typeName:string):string {
   return typeName.trim().replace(/^\[*/, '').replace(/[\]\!]*$/, '');
 }
+function walkTree(rootName, cb) {
+  var typeNames = [rootName];
+
+  for (var i = 0; i < typeNames.length; ++i) {
+    var name = typeNames[i];
+    if (typeNames.indexOf(name) < i)
+      continue;
+
+    var type = types[name];
+    cb(type);
+    //FIXME:
+    //typeNames.push(...type.interfaces);
+    //typeNames.push(...type.derivedTypes);
+    typeNames.push(..._.map(type.fields, 'type'));
+    console.log(typeNames);
+  }
+}
+
+walkTree(schema.queryType.name, type => type.usedInQuery = true);
+if (schema.mutationType)
+  walkTree(schema.mutationType.name, type => type.mutationType = true);
+
 export function isScalar(typeObjOrName):boolean {
   let typeObj;
   if (_.isString(typeObjOrName)) {
@@ -118,7 +140,8 @@ function skipType(type):boolean {
     isScalar(type) ||
     isInputObject(type) ||
     type.isSystemType ||
-    type.isRelayType
+    type.isRelayType ||
+    !type.usedInQuery
   );
 }
 
