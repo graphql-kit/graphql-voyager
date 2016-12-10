@@ -15,7 +15,7 @@ appendHoverPaths(svg);
 appendClickHighlightning(svg);
 wrapFields(svg);
 
-let zoomer = svgPanZoom(svg, {
+export var zoomer = svgPanZoom(svg, {
   zoomScaleSensitivity: 0.3,
   minZoom: 0.5,
   controlIconsEnabled: true

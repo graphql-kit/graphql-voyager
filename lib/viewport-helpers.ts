@@ -1,5 +1,7 @@
 import * as _ from 'lodash';
-
+import { zoomer } from './index';
+import * as svgPanZoom from 'svg-pan-zoom';
+import * as animate from '@f/animate';
 var xmlns = "http://www.w3.org/2000/svg";
 
 import {
@@ -86,7 +88,9 @@ export function appendClickHighlightning(svg) {
   svg.addEventListener('mouseup', event => {
     svg.removeEventListener('mousemove', moveHandler);
     if (dragged) return;
-    if (isNode(event.target)) {
+    if (isLink(event.target)) {
+      panAndZoomToLink(event.target);
+    } else if (isNode(event.target)) {
       svg.classList.add('selection-active');
       selectNode(getParent(event.target, 'node'));
     } else if (isEdge(event.target)) {
@@ -142,6 +146,45 @@ function isNode(elem:Element):boolean {
 
 function isEdge(elem:Element):boolean {
   return getParent(elem, 'edge') != null;
+}
+
+function isLink(elem:Element):boolean {
+  return elem.classList.contains('field-type-compound');
+}
+
+function panAndZoomToLink(link: Element) {
+  let typeName = link.getAttribute('data-type');
+  let nodeId = 'TYPE::' + typeName;
+
+  let bbBox = document.getElementById(nodeId).getBoundingClientRect();
+  let currentPan = zoomer.getPan();
+  let viewPortSizes = (<any>zoomer).getSizes();
+
+  currentPan.x += viewPortSizes.width/2 - bbBox.width/2;
+  currentPan.y += viewPortSizes.height/2 - bbBox.height/2;
+
+  let zoomUpdate = Math.max(bbBox.height / viewPortSizes.height, bbBox.width / viewPortSizes.width);
+  zoomUpdate *= 1.2;
+
+  let newZoom = zoomer.getZoom() / zoomUpdate;
+  let newX = currentPan.x - bbBox.left;
+  let newY = currentPan.y - bbBox.top;
+  //zoomer.zoomAtPoint(newZoom, {x:newX, y:newY});
+  animatePanAndZoom(newX , newY, newZoom, zoomer);
+}
+
+function animatePanAndZoom(x, y, zoomEnd, zoomer:SvgPanZoom.Instance) {
+  let pan = zoomer.getPan();
+  let panEnd = {x, y};
+  animate(pan, panEnd, (props, t) => {
+    zoomer.pan({x: props.x, y: props.y});
+    if (props == panEnd) {
+      let zoom = zoomer.getZoom();
+      animate({zoom}, {zoom: zoomEnd}, props => {
+        zoomer.zoom(props.zoom);
+      });
+    }
+  });
 }
 
 function isControl(elem:SVGElement) {

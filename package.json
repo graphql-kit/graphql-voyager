@@ -23,6 +23,7 @@
     "webpack-dev-server": "^2.1.0-beta.12"
   },
   "dependencies": {
+    "@f/animate": "^1.0.1",
     "ejs": "^2.5.3",
     "lodash": "^4.17.2",
     "svg-pan-zoom": "^3.4.0",
