@@ -88,7 +88,10 @@ export function appendClickHighlightning(svg) {
     if (dragged) return;
     if (isNode(event.target)) {
       svg.classList.add('selection-active');
-      selectNode(getNode(event.target));
+      selectNode(getParent(event.target, 'node'));
+    } else if (isEdge(event.target)) {
+      svg.classList.remove('selection-active');
+      selectEdge(getParent(event.target, 'edge'));
     } else {
       if (isControl(event.target)) return;
       svg.classList.remove('selection-active');
@@ -114,22 +117,31 @@ function selectNode(node:Element) {
   });
 }
 
+function selectEdge(edge:Element) {
+  deselectAll();
+  edge.classList.add('selected');
+}
+
 function deselectAll() {
   let viewport = document.getElementById('viewport');
   removeClass(viewport, 'svg .selected', 'selected');
   removeClass(viewport, 'svg .selected-reachable', 'selected-reachable');
 }
 
-function getNode(elem:Element): Element | null {
+function getParent(elem:Element, className:string): Element | null {
   while (elem && elem.tagName !== 'svg') {
-    if (elem.classList.contains('node')) return elem;
+    if (elem.classList.contains(className)) return elem;
     elem = elem.parentNode as Element;
   }
   return null;
 }
 
 function isNode(elem:Element):boolean {
-  return getNode(elem) != null;
+  return getParent(elem, 'node') != null;
+}
+
+function isEdge(elem:Element):boolean {
+  return getParent(elem, 'edge') != null;
 }
 
 function isControl(elem:SVGElement) {

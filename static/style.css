@@ -40,6 +40,10 @@ body {
   display: none;
 }
 
+.edge:hover {
+  cursor: pointer;
+}
+
 .edge:hover path {
   stroke: #000;
   stroke-width: 3;
@@ -72,12 +76,14 @@ body {
 }
 
 .selection-active .node.selected polygon,
-.selection-active .edge.selected path:not(.hover-path) {
+.selection-active .edge.selected path:not(.hover-path),
+.edge.selected path:not(.hover-path) {
   stroke: #000;
-  stroke-width: 2;
+  stroke-width: 3;
 }
 
-.selection-active .edge.selected polygon {
+.selection-active .edge.selected polygon,
+.edge.selected polygon {
   opacity: 1;
   fill: #000;
   stroke: #000;
