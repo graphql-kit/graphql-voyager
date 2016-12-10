@@ -22,7 +22,7 @@ function createSvgGroup() {
   return document.createElementNS(xmlns, 'g');
 }
 
-export function appendHoverPaths(svg: SVGElement) {
+export function attachHoverPaths(svg: SVGElement) {
   forEachNode(svg, 'g.edge path', $path => {
     let $newPath = $path.cloneNode() as HTMLElement;
     $newPath.classList.add('hover-path');
@@ -69,7 +69,10 @@ export function wrapFields(svg:SVGElement) {
     for(let i = 0; i < $fields.length; i += 2) {
       let $wrap = createSvgGroup();
       let $text = $fields[i + 1] as SVGTextElement;
-      $wrap.setAttribute('id', 'FIELD::' + typeName + '::' + $text.textContent.split(':')[0].trim());
+
+      let [fieldName, fieldType] = $text.textContent.split(':');
+      $wrap.classList.add(isScalar(cleanTypeName(fieldType)) ? 'type-field-scalar' : 'type-field-compound');
+      $wrap.setAttribute('id', 'FIELD::' + typeName + '::' + fieldName.trim());
       $wrap.appendChild(splitFieldText($text));
       $wrap.insertBefore($fields[i], $wrap.firstChild);
       $node.appendChild($wrap);
@@ -77,7 +80,7 @@ export function wrapFields(svg:SVGElement) {
   });
 }
 
-export function appendClickHighlightning(svg) {
+export function attachClickHighlighting(svg) {
   let dragged = false;
 
   let moveHandler = () => dragged = true;
@@ -100,6 +103,31 @@ export function appendClickHighlightning(svg) {
       if (isControl(event.target)) return;
       svg.classList.remove('selection-active');
       deselectAll();
+    }
+  });
+}
+
+export function attachHoverHighlighting(svg) {
+  let $prevHovered = null;
+  let $prevHoveredEdge = null;
+
+  function clearSelection() {
+    if ($prevHovered) $prevHovered.classList.remove('hovered');
+    if ($prevHoveredEdge) $prevHoveredEdge.classList.remove('hovered');
+  }
+
+  svg.addEventListener('mousemove', event => {
+    if (isCompoundField(event.target)) {
+      let $field = getParent(event.target, 'type-field-compound');
+      if ($field.classList.contains('hovered')) return;
+      clearSelection();
+      $field.classList.add('hovered');
+      $prevHovered = $field;
+      let $corEdge = svg.getElementById($field.id.replace('FIELD::', 'FIELD_EDGE::'));
+      $corEdge.classList.add('hovered');
+      $prevHoveredEdge = $corEdge;
+    } else {
+      clearSelection();
     }
   });
 }
@@ -150,6 +178,10 @@ function isEdge(elem:Element):boolean {
 
 function isLink(elem:Element):boolean {
   return elem.classList.contains('field-type-compound');
+}
+
+function isCompoundField(elem:Element):boolean {
+  return getParent(elem, 'type-field-compound') != null;
 }
 
 function panAndZoomToLink(link: Element) {

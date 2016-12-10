@@ -2,7 +2,7 @@ import * as _ from 'lodash';
 import * as ejs from 'ejs';
 
 const template = require('./template.ejs');
-const schema = require('./swapi_introspection.json').data.__schema;
+const schema = require('./github_introspection.json').data.__schema;
 
 function unwrapType(type, wrappers) {
   while (type.kind === 'NON_NULL' || type.kind == 'LIST') {

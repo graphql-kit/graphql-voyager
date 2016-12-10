@@ -2,7 +2,12 @@ import { dot } from './introspection';
 import * as Viz from 'viz.js';
 import * as svgPanZoom from 'svg-pan-zoom';
 
-import { appendHoverPaths, appendClickHighlightning, wrapFields} from './viewport-helpers';
+import {
+  attachHoverPaths,
+  attachClickHighlighting,
+  attachHoverHighlighting,
+  wrapFields
+} from './viewport-helpers';
 
 let result = Viz(dot);
 
@@ -11,9 +16,10 @@ elem.innerHTML = result;
 
 let svg = <SVGElement>elem.firstElementChild;
 
-appendHoverPaths(svg);
-appendClickHighlightning(svg);
+attachHoverPaths(svg);
+attachClickHighlighting(svg);
 wrapFields(svg);
+attachHoverHighlighting(svg);
 
 export var zoomer = svgPanZoom(svg, {
   zoomScaleSensitivity: 0.3,

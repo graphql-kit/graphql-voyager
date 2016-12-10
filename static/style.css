@@ -49,13 +49,15 @@ body {
   stroke-width: 3;
 }
 
-.edge:hover polygon  {
+.edge:hover polygon,
+.edge.hovered polygon {
   fill: #000;
   stroke: #000;
 }
 
 .edge:hover text,
-.edge.selected text  {
+.edge.selected text,
+.edge.hovered text  {
   display: block;
 }
 
@@ -77,7 +79,8 @@ body {
 
 .selection-active .node.selected polygon,
 .selection-active .edge.selected path:not(.hover-path),
-.edge.selected path:not(.hover-path) {
+.edge.selected path:not(.hover-path),
+.edge.hovered path:not(.hover-path) {
   stroke: #000;
   stroke-width: 3;
 }
@@ -95,4 +98,8 @@ body {
 
 .field-type-compound:hover {
   fill: #8af;
+}
+
+.hovered polygon {
+  fill: #ffd;
 }
