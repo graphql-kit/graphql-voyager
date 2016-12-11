@@ -212,6 +212,7 @@ function animatePanAndZoom(x, y, zoomEnd, zoomer:SvgPanZoom.Instance) {
     zoomer.pan({x: props.x, y: props.y});
     if (props == panEnd) {
       let zoom = zoomer.getZoom();
+      if (zoomEnd > zoom) return;
       animate({zoom}, {zoom: zoomEnd}, props => {
         zoomer.zoom(props.zoom);
       });
