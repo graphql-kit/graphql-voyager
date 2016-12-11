@@ -113,7 +113,6 @@ function walkTree(rootName, cb) {
     //typeNames.push(...type.interfaces);
     //typeNames.push(...type.derivedTypes);
     typeNames.push(..._.map(type.fields, 'type'));
-    console.log(typeNames);
   }
 }
 
