@@ -9,8 +9,7 @@ import {
   getOutEdges,
   isScalar,
   cleanTypeName
-} from './introspection';
-
+} from './graph_renderer';
 
 import {
   removeClass,

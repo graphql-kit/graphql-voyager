@@ -1,4 +1,4 @@
-import { dot } from './introspection';
+import { dot } from './graph_renderer';
 import * as Viz from 'viz.js';
 import * as svgPanZoom from 'svg-pan-zoom';
 
