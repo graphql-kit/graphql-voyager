@@ -134,9 +134,8 @@ export function attachHoverHighlighting(svg) {
 function selectNode(node:Element) {
   deselectAll();
   node.classList.add('selected');
-  let typeName = node.id.split('::')[1];
-  let inEdges = getInEdges(typeName);
-  let outEdges = getOutEdges(typeName);
+  let inEdges = getInEdges(node.id);
+  let outEdges = getOutEdges(node.id);
 
   let allEdges = _.union(inEdges, outEdges);
 

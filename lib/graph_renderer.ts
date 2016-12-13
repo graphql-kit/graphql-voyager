@@ -5,14 +5,59 @@ import {getSchema} from './introspection';
 const template = require('./template.ejs');
 const introspection = require('./swapi_introspection.json').data;
 
-var types = getSchema(introspection).types;
-_.each(types, type => {
-  type._id = `TYPE::${type.name}`;
-  _.each(type.fields, field => {
-    field._id = `FIELD_EDGE::${type.name}::${field.name}`;
-  });
-});
+var schema = getSchema(introspection);
+var types = schema.types;
 
+function walkTree(types, rootName, cb) {
+  var typeNames = [rootName];
+
+  for (var i = 0; i < typeNames.length; ++i) {
+    var name = typeNames[i];
+    if (typeNames.indexOf(name) < i)
+      continue;
+
+    var type = types[name];
+    cb(type);
+    //FIXME:
+    //typeNames.push(...type.derivedTypes);
+    typeNames.push(..._.map(type.fields, 'type'));
+  }
+}
+
+function skipType(type):boolean {
+  return (
+    isScalar(type) ||
+    isInputObject(type) ||
+    type.isSystemType ||
+    type.isRelayType
+  );
+}
+
+function skipField(field):boolean {
+  return types[field.type].isRelayType && !field.relayNodeType;
+}
+
+function getFieldType(field) {
+  return types[field.relayNodeType || field.type];
+}
+
+var nodes = {};
+walkTree(schema.types, schema.queryType, type => {
+  if (skipType(type)) return;
+  var id = `TYPE::${type.name}`;
+  nodes[id] = {
+    id,
+    data: type,
+    field_edges: _(type.fields)
+      .reject(skipField)
+      .filter(field => !isScalar(field.type))
+      .map(field => ({
+        id: `FIELD_EDGE::${type.name}::${field.name}`,
+        to: getFieldType(field).name,
+        data: field,
+      })).value()
+  };
+});
 
 export function cleanTypeName(typeName:string):string {
   return typeName.trim().replace(/^\[*/, '').replace(/[\]\!]*$/, '');
@@ -32,16 +77,6 @@ function isInputObject(typeObj):boolean {
   return typeObj.kind === 'INPUT_OBJECT';
 }
 
-function skipType(type):boolean {
-  return (
-    isScalar(type) ||
-    isInputObject(type) ||
-    type.isSystemType ||
-    type.isRelayType ||
-    !type.usedInQuery
-  );
-}
-
 function printFieldType(field) {
   return _.reduce(field.typeWrappers, (str, wrapper) => {
     switch (wrapper) {
@@ -53,38 +88,24 @@ function printFieldType(field) {
   }, getFieldType(field).name);
 }
 
-function skipField(field):boolean {
-  return types[field.type].isRelayType && !field.relayNodeType;
-}
-
-function getFieldType(field) {
-  return types[field.relayNodeType || field.type];
-}
-
-export function getInEdges(typeName:string):{id: string, nodeId: string}[] {
-  let type = types[typeName];
+export function getInEdges(nodeId:string):{id: string, nodeId: string}[] {
+  var typeName = nodes[nodeId].data.name;
   let res = [];
-  _.each(types, type => {
-    if (skipType(type)) return;
-    _.each(type.fields, field => {
-      if (skipField(field)) return;
-      let fieldType = types[field.type];
-      if (isScalar(fieldType)) return;
-      if (getFieldType(field).name !== typeName) return;
-      res.push({ id: field._id, nodeId: type._id });
+  _.each(nodes, node => {
+    _.each(node.field_edges, edge => {
+      if (edge.to === typeName)
+        res.push({ id: edge.id, nodeId: node.id });
     });
   });
   return res;
 }
 
-export function getOutEdges(typeName:string):{id: string, nodeId: string}[] {
-  let type = types[typeName];
-  return _(type.fields)
-    .values()
-    .filter(field => !skipField(field))
-    .filter(field => !isScalar(getFieldType(field)))
-    .map(field => ({ id: field._id, nodeId: getFieldType(field)._id }))
-    .value();
+export function getOutEdges(nodeId:string):{id: string, nodeId: string}[] {
+  let node = nodes[nodeId];
+  return _.map(node.field_edges, edge => ({
+    id: edge.id,
+    nodeId: 'TYPE::' + edge.to
+  }))
 }
 
-export var dot = ejs.render(template, {_, types, isScalar, skipType, skipField, getFieldType, printFieldType});
+export var dot = ejs.render(template, {_, nodes, printFieldType});

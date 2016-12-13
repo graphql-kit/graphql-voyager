@@ -44,8 +44,6 @@ function convertType(inType) {
     description: inType.description,
 
     isSystemType: _.startsWith(inType.name, '__'),
-    usedInQuery: false,
-    usedInMutation: false
   };
 
   switch (outType.kind) {
@@ -100,31 +98,10 @@ function markRelayTypes(types) {
   });
 }
 
-function walkTree(types, rootName, cb) {
-  var typeNames = [rootName];
-
-  for (var i = 0; i < typeNames.length; ++i) {
-    var name = typeNames[i];
-    if (typeNames.indexOf(name) < i)
-      continue;
-
-    var type = types[name];
-    cb(type);
-    //FIXME:
-    //typeNames.push(...type.interfaces);
-    //typeNames.push(...type.derivedTypes);
-    typeNames.push(..._.map(type.fields, 'type'));
-  }
-}
-
 export function getSchema(introspection) {
   var schema = simplifySchema(introspection.__schema);
 
   markRelayTypes(schema.types);
-
-  walkTree(schema.types, schema.queryType, type => type.usedInQuery = true);
-  if (schema.mutationType)
-    walkTree(schema.types, schema.mutationType, type => type.mutationType = true);
 
   return schema;
 }
