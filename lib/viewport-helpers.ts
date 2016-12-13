@@ -1,12 +1,10 @@
 import * as _ from 'lodash';
-import { zoomer } from './index';
+import { zoomer, typeGraph } from './index';
 import * as svgPanZoom from 'svg-pan-zoom';
 import * as animate from '@f/animate';
 var xmlns = "http://www.w3.org/2000/svg";
 
 import {
-  getInEdges,
-  getOutEdges,
   isScalar,
   cleanTypeName
 } from './graph_renderer';
@@ -134,8 +132,8 @@ export function attachHoverHighlighting(svg) {
 function selectNode(node:Element) {
   deselectAll();
   node.classList.add('selected');
-  let inEdges = getInEdges(node.id);
-  let outEdges = getOutEdges(node.id);
+  let inEdges = typeGraph.getInEdges(node.id);
+  let outEdges = typeGraph.getOutEdges(node.id);
 
   let allEdges = _.union(inEdges, outEdges);
 

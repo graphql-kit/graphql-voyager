@@ -1,4 +1,4 @@
-import { dot } from './graph_renderer';
+import { getTypeGraph } from './graph_renderer';
 import * as Viz from 'viz.js';
 import * as svgPanZoom from 'svg-pan-zoom';
 
@@ -9,7 +9,8 @@ import {
   wrapFields
 } from './viewport-helpers';
 
-let result = Viz(dot);
+export var typeGraph = getTypeGraph();
+let result = Viz(typeGraph.getDot());
 
 let elem = document.getElementById('viewport');
 elem.innerHTML = result;
