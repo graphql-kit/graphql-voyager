@@ -1,7 +1,10 @@
 {
-  "name": "cytoscape-playground",
+  "name": "graphql-voyager",
   "version": "0.0.0",
-  "description": "Playground",
+  "description": "GraphQL introspection viewer
+  
+  
+  ",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
