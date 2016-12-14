@@ -1,3 +1,3 @@
-# cytoscape-playground
+# graphql-voyager
 
-nothing to see here
+nothing to see here: WORK IN PROGRESS
