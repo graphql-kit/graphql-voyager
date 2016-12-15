@@ -8,6 +8,17 @@ const introspection = require('./swapi_introspection.json').data;
 var schema = getSchema(introspection);
 var types = schema.types;
 
+function printFieldType(typeName, wrappers) {
+  return _.reduce(wrappers, (str, wrapper) => {
+    switch (wrapper) {
+      case 'NON_NULL':
+        return `${str}!`;
+      case 'LIST':
+        return `[${str}]`;
+    }
+  }, typeName);
+}
+
 function walkTree(types, rootName, cb) {
   var typeNames = [rootName];
 
@@ -24,39 +35,38 @@ function walkTree(types, rootName, cb) {
   }
 }
 
-function skipType(type):boolean {
-  return (
-    isScalar(type) ||
-    isInputObject(type) ||
-    type.isSystemType ||
-    type.isRelayType
-  );
-}
-
-function skipField(field):boolean {
-  return types[field.type].isRelayType && !field.relayNodeType;
-}
-
-function getFieldType(field) {
-  return types[field.relayNodeType || field.type];
-}
-
 export function getTypeGraph():TypeGraph {
+  function skipType(type):boolean {
+    return (
+      type.kind === 'INPUT_OBJECT' ||
+      isScalar(type) ||
+      type.isSystemType ||
+      type.isRelayType
+    );
+  }
+
   var nodes = {};
   walkTree(schema.types, schema.queryType, type => {
-    if (skipType(type)) return;
+    if (skipType(type))
+      return;
+
     var id = `TYPE::${type.name}`;
     nodes[id] = {
       id,
       data: type,
       field_edges: _(type.fields)
-        .reject(skipField)
-        .filter(field => !isScalar(field.type))
-        .map(field => ({
-          id: `FIELD_EDGE::${type.name}::${field.name}`,
-          to: getFieldType(field).name,
-          data: field,
-        })).value()
+        .map(field => {
+          var fieldType = types[field.relayNodeType || field.type];
+
+          if (skipType(fieldType))
+            return;
+
+          return {
+            id: `FIELD_EDGE::${type.name}::${field.name}`,
+            to: fieldType.name,
+            data: field,
+          }
+        }).compact().keyBy('data.name').value(),
     };
   });
 
@@ -106,19 +116,4 @@ export function isScalar(typeObjOrName):boolean {
     typeObj = typeObjOrName
   }
   return ['SCALAR', 'ENUM'].indexOf(typeObj.kind) !== -1;
-}
-
-function isInputObject(typeObj):boolean {
-  return typeObj.kind === 'INPUT_OBJECT';
-}
-
-function printFieldType(field) {
-  return _.reduce(field.typeWrappers, (str, wrapper) => {
-    switch (wrapper) {
-      case 'NON_NULL':
-        return `${str}!`;
-      case 'LIST':
-        return `[${str}]`;
-    }
-  }, getFieldType(field).name);
 }
