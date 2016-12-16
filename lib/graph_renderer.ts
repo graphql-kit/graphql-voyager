@@ -1,12 +1,7 @@
 import * as _ from 'lodash';
 import * as ejs from 'ejs';
-import {getSchema} from './introspection';
 
 const template = require('./template.ejs');
-const introspection = require('./swapi_introspection.json').data;
-
-var schema = getSchema(introspection);
-var types = schema.types;
 
 function printFieldType(typeName, wrappers) {
   return _.reduce(wrappers, (str, wrapper) => {
@@ -35,13 +30,12 @@ function walkTree(types, rootName, cb) {
   }
 }
 
-export function getTypeGraph():TypeGraph {
+export function getTypeGraph(schema):TypeGraph {
   var skipRelay = false;
 
   function skipType(type):boolean {
     return (
-      type.kind === 'INPUT_OBJECT' ||
-      isScalar(type) ||
+      ['SCALAR', 'ENUM', 'INPUT_OBJECT'].indexOf(type.kind) !== -1 ||
       type.isSystemType ||
       (skipRelay && type.isRelayType)
     );
@@ -61,7 +55,7 @@ export function getTypeGraph():TypeGraph {
           var fieldType = field.type;
           if (skipRelay && field.relayNodeType)
             fieldType = field.relayNodeType;
-          fieldType = types[fieldType];
+          fieldType = schema.types[fieldType];
 
           if (skipType(fieldType))
             return;
@@ -75,13 +69,15 @@ export function getTypeGraph():TypeGraph {
     };
   });
 
-  return new TypeGraph(nodes);
+  return new TypeGraph(schema, nodes);
 }
 
 class TypeGraph {
   nodes: any;
-  constructor(nodes) {
+  schema: any;
+  constructor(schema, nodes) {
     this.nodes = nodes;
+    this.schema = schema;
   }
 
   getDot():string {
@@ -107,18 +103,13 @@ class TypeGraph {
       nodeId: 'TYPE::' + edge.to
     }))
   }
+
+  isDisplayedType(name: string):boolean {
+    return !_.isUndefined(this.nodes['TYPE::' + name]);
+  }
 }
 
 export function cleanTypeName(typeName:string):string {
   return typeName.trim().replace(/^\[*/, '').replace(/[\]\!]*$/, '');
 }
 
-export function isScalar(typeObjOrName):boolean {
-  let typeObj;
-  if (_.isString(typeObjOrName)) {
-    typeObj = types[typeObjOrName];
-  } else {
-    typeObj = typeObjOrName
-  }
-  return ['SCALAR', 'ENUM'].indexOf(typeObj.kind) !== -1;
-}

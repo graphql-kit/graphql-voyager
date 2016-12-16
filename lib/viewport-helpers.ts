@@ -5,7 +5,6 @@ import * as animate from '@f/animate';
 var xmlns = "http://www.w3.org/2000/svg";
 
 import {
-  isScalar,
   cleanTypeName
 } from './graph_renderer';
 
@@ -36,7 +35,7 @@ export function splitFieldText($textNode: SVGTextElement): Element {
 
   typeName = cleanTypeName(typeName);
   $clone.setAttribute('data-type', typeName);
-  $clone.classList.add(isScalar(typeName) ? 'field-type-scalar' : 'field-type-compound');
+  $clone.classList.add(typeGraph.isDisplayedType(typeName) ? 'field-type-compound' : 'field-type-scalar');
 
   // performance bottleneck
   let bbox = (<SVGPolygonElement>$textNode.previousElementSibling).getBBox();
@@ -68,7 +67,7 @@ export function wrapFields(svg:SVGElement) {
       let $text = $fields[i + 1] as SVGTextElement;
 
       let [fieldName, fieldType] = $text.textContent.split(':');
-      $wrap.classList.add(isScalar(cleanTypeName(fieldType)) ? 'type-field-scalar' : 'type-field-compound');
+      $wrap.classList.add(typeGraph.isDisplayedType(cleanTypeName(fieldType)) ? 'type-field-compound' : 'type-field-scalar');
       $wrap.setAttribute('id', 'FIELD::' + typeName + '::' + fieldName.trim());
       $wrap.appendChild(splitFieldText($text));
       $wrap.insertBefore($fields[i], $wrap.firstChild);
