@@ -30,8 +30,17 @@ function walkTree(types, rootName, cb) {
   }
 }
 
-export function getTypeGraph(schema):TypeGraph {
+export function getTypeGraph(inSchema):TypeGraph {
   var skipRelay = false;
+  var sortByAlphabet = true;
+
+  var clone = _.bind(_.cloneDeepWith, this, _, value => {
+    if (!sortByAlphabet || !_.isPlainObject(value))
+      return;
+    return _(value).toPairs().sortBy(0).fromPairs().mapValues(clone).value();
+  });
+
+  var schema = clone(inSchema);
 
   function skipType(type):boolean {
     return (
