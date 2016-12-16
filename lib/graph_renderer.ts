@@ -36,12 +36,14 @@ function walkTree(types, rootName, cb) {
 }
 
 export function getTypeGraph():TypeGraph {
+  var skipRelay = false;
+
   function skipType(type):boolean {
     return (
       type.kind === 'INPUT_OBJECT' ||
       isScalar(type) ||
       type.isSystemType ||
-      type.isRelayType
+      (skipRelay && type.isRelayType)
     );
   }
 
@@ -56,7 +58,10 @@ export function getTypeGraph():TypeGraph {
       data: type,
       field_edges: _(type.fields)
         .map(field => {
-          var fieldType = types[field.relayNodeType || field.type];
+          var fieldType = field.type;
+          if (skipRelay && field.relayNodeType)
+            fieldType = field.relayNodeType;
+          fieldType = types[fieldType];
 
           if (skipType(fieldType))
             return;
