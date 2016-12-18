@@ -30,12 +30,14 @@ function walkTree(types, rootName, cb) {
   }
 }
 
-export function getTypeGraph(inSchema):TypeGraph {
-  var skipRelay = false;
-  var sortByAlphabet = true;
+export function getTypeGraph(inSchema, options):TypeGraph {
+  options = _.defaults(options, {
+    skipRelay: false,
+    sortByAlphabet: false
+  });
 
   var clone = _.bind(_.cloneDeepWith, this, _, value => {
-    if (!sortByAlphabet || !_.isPlainObject(value))
+    if (!options.sortByAlphabet || !_.isPlainObject(value))
       return;
     return _(value).toPairs().sortBy(0).fromPairs().mapValues(clone).value();
   });
@@ -46,7 +48,7 @@ export function getTypeGraph(inSchema):TypeGraph {
     return (
       ['SCALAR', 'ENUM', 'INPUT_OBJECT'].indexOf(type.kind) !== -1 ||
       type.isSystemType ||
-      (skipRelay && type.isRelayType)
+      (options.skipRelay && type.isRelayType)
     );
   }
 
@@ -62,7 +64,7 @@ export function getTypeGraph(inSchema):TypeGraph {
       field_edges: _(type.fields)
         .map(field => {
           var fieldType = field.type;
-          if (skipRelay && field.relayNodeType)
+          if (options.skipRelay && field.relayNodeType)
             fieldType = field.relayNodeType;
           fieldType = schema.types[fieldType];
 

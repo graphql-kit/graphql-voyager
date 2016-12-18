@@ -12,7 +12,10 @@ import {
 } from './viewport-helpers';
 
 var schema = getSchema(introspection);
-export var typeGraph = getTypeGraph(schema);
+export var typeGraph = getTypeGraph(schema, {
+ skipRelay: false,
+ sortByAlphabet: true
+});
 let result = Viz(typeGraph.getDot());
 
 let elem = document.getElementById('viewport');
