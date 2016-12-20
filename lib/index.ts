@@ -1,7 +1,7 @@
-import { getTypeGraph } from './graph_renderer';
 import * as Viz from 'viz.js';
 import * as svgPanZoom from 'svg-pan-zoom';
-import {getSchema} from './introspection';
+import { getSchema } from './introspection';
+import { TypeGraph } from './graph_renderer';
 const introspection = require('./swapi_introspection.json').data;
 
 import {
@@ -12,9 +12,9 @@ import {
 } from './viewport-helpers';
 
 var schema = getSchema(introspection);
-export var typeGraph = getTypeGraph(schema, {
- skipRelay: false,
- sortByAlphabet: true
+export var typeGraph = new TypeGraph(schema, {
+ skipRelay: true,
+ //sortByAlphabet: true
 });
 let result = Viz(typeGraph.getDot());
 
