@@ -52,7 +52,7 @@ function convertType(inType) {
       outType.fields = _(inType.fields).map(convertField).keyBy('name').value();
       break;
     case 'INTERFACE':
-      outType.derivedTypes = _.map(inType.possibleType, 'name');
+      outType.derivedTypes = _.map(inType.possibleTypes, 'name');
       outType.fields = _(inType.fields).map(convertField).keyBy('name').value();
       break;
     case 'UNION':

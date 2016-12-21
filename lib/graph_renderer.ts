@@ -31,8 +31,11 @@ export class TypeGraph {
       this.nodes[id] = {
         id,
         data: type,
-        edges: _([...this._fieldEdges(type), ...this._unionEdges(type)])
-          .compact().keyBy('id').value(),
+        edges: _([
+            ...this._fieldEdges(type),
+            ...this._unionEdges(type),
+            ...this._interfaceEdges(type)
+          ]).compact().keyBy('id').value(),
       };
     });
   }
@@ -70,6 +73,20 @@ export class TypeGraph {
         id: `UNION_EDGE::${type.name}::${possibleType.name}`,
         relationType: 'union',
         to: possibleType.name,
+      };
+    });
+  }
+
+  _interfaceEdges(type) {
+    return _.map(type.derivedTypes, typeName => {
+      var derivedType = this.schema.types[typeName];
+      if (this._skipType(derivedType))
+        return;
+
+      return {
+        id: `INTERFACE_EDGE::${type.name}::${derivedType.name}`,
+        relationType: 'interface',
+        to: derivedType.name,
       };
     });
   }
@@ -141,7 +158,7 @@ function walkTree(types, rootName, cb) {
     var type = types[name];
     cb(type);
     //FIXME:
-    //typeNames.push(...type.derivedTypes);
+    typeNames.push(...type.derivedTypes);
     typeNames.push(...type.possibleTypes);
     typeNames.push(..._.map(type.fields, 'type'));
   }
