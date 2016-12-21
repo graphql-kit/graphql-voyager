@@ -8,7 +8,7 @@ import {
   attachHoverPaths,
   attachClickHighlighting,
   attachHoverHighlighting,
-  wrapFields
+  preprocessVizSvg
 } from './viewport-helpers';
 
 var schema = getSchema(introspection);
@@ -16,19 +16,18 @@ export var typeGraph = new TypeGraph(schema, {
  skipRelay: true,
  //sortByAlphabet: true
 });
-let result = Viz(typeGraph.getDot());
 
-let elem = document.getElementById('viewport');
-elem.innerHTML = result;
+let svgString = Viz(typeGraph.getDot());
+let svgElement = preprocessVizSvg(svgString);
 
-let svg = <SVGElement>elem.firstElementChild;
+document.getElementById('viewport').appendChild(svgElement);
 
-attachHoverPaths(svg);
-attachClickHighlighting(svg);
-wrapFields(svg);
-attachHoverHighlighting(svg);
-
-export var zoomer = svgPanZoom(svg, {
+//attachHoverPaths(svg);
+//attachClickHighlighting(svg);
+//wrapFields(svg);
+//attachHoverHighlighting(svg);
+//
+export var zoomer = svgPanZoom(svgElement, {
   zoomScaleSensitivity: 0.3,
   minZoom: 0.5,
   controlIconsEnabled: true

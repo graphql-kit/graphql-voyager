@@ -48,6 +48,37 @@ export function splitFieldText($textNode: SVGTextElement): Element {
   return $group;
 }
 
+export function preprocessVizSvg(svgString) {
+  var wrapper= document.createElement('div');
+  wrapper.innerHTML= svgString;
+  var svg = <SVGElement>wrapper.firstElementChild;
+
+  forEachNode(svg, 'a[*|href="remove_me_url"]', $a => {
+    let $g = $a.parentNode;
+
+    var $docFrag = document.createDocumentFragment();
+    while ($a.firstChild) {
+        let $child = $a.removeChild($a.firstChild);
+        $docFrag.appendChild($child);
+    }
+
+    $g.replaceChild($docFrag, $a);
+
+    $g.id = $g.id.replace(/^a_/, '').replace(/_/, '-');
+  });
+
+  forEachNode(svg, '[id]', $el => {
+    let [tag, ...restOfId] = $el.id.split('::');
+    if (_.size(restOfId) < 1)
+      return;
+
+    $el.classList.add(tag.toLowerCase());
+  });
+
+  wrapper.removeChild(svg);
+  return svg;
+}
+
 export function wrapFields(svg:SVGElement) {
   forEachNode(svg, '.node', $node => {
     $node.removeChild($node.querySelector('title'));
