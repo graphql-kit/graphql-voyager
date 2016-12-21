@@ -3,34 +3,6 @@ import * as ejs from 'ejs';
 
 const template = require('./template.ejs');
 
-function printFieldType(typeName, wrappers) {
-  return _.reduce(wrappers, (str, wrapper) => {
-    switch (wrapper) {
-      case 'NON_NULL':
-        return `${str}!`;
-      case 'LIST':
-        return `[${str}]`;
-    }
-  }, typeName);
-}
-
-function walkTree(types, rootName, cb) {
-  var typeNames = [rootName];
-
-  for (var i = 0; i < typeNames.length; ++i) {
-    var name = typeNames[i];
-    if (typeNames.indexOf(name) < i)
-      continue;
-
-    var type = types[name];
-    cb(type);
-    //FIXME:
-    //typeNames.push(...type.derivedTypes);
-    typeNames.push(...type.possibleTypes);
-    typeNames.push(..._.map(type.fields, 'type'));
-  }
-}
-
 export class TypeGraph {
   nodes: any;
   schema: any;
@@ -109,6 +81,11 @@ export class TypeGraph {
     return this.schema.types[fieldType];
   }
 
+  getFieldTypeById(fieldId: string) {
+    let [tag, type, field] = fieldId.split('::');
+    return this._getFieldType(this.schema.types[type].fields[field]);
+  }
+
   getDot():string {
     return ejs.render(template, {_, graph: this, printFieldType});
   }
@@ -142,7 +119,34 @@ export class TypeGraph {
   }
 }
 
+function printFieldType(typeName, wrappers) {
+  return _.reduce(wrappers, (str, wrapper) => {
+    switch (wrapper) {
+      case 'NON_NULL':
+        return `${str}!`;
+      case 'LIST':
+        return `[${str}]`;
+    }
+  }, typeName);
+}
+
+function walkTree(types, rootName, cb) {
+  var typeNames = [rootName];
+
+  for (var i = 0; i < typeNames.length; ++i) {
+    var name = typeNames[i];
+    if (typeNames.indexOf(name) < i)
+      continue;
+
+    var type = types[name];
+    cb(type);
+    //FIXME:
+    //typeNames.push(...type.derivedTypes);
+    typeNames.push(...type.possibleTypes);
+    typeNames.push(..._.map(type.fields, 'type'));
+  }
+}
+
 export function cleanTypeName(typeName:string):string {
   return typeName.trim().replace(/^\[*/, '').replace(/[\]\!]*$/, '');
 }
-
