@@ -23,21 +23,15 @@ export class TypeGraph {
     this.schema = clone(schema);
 
     this.nodes = {};
-    walkTree(schema.types, schema.queryType, type => {
-      if (this._skipType(type))
-        return;
-
-      var id = `TYPE::${type.name}`;
-      this.nodes[id] = {
-        id,
-        data: type,
-        edges: _([
-            ...this._fieldEdges(type),
-            ...this._unionEdges(type),
-            ...this._interfaceEdges(type)
-          ]).compact().keyBy('id').value(),
-      };
-    });
+    this._buildGraph(schema.types, schema.queryType, type => ({
+      id: `TYPE::${type.name}`,
+      data: type,
+      edges: _([
+          ...this._fieldEdges(type),
+          ...this._unionEdges(type),
+          ...this._interfaceEdges(type)
+        ]).compact().keyBy('id').value(),
+    }));
   }
 
   _skipType(type):boolean {
@@ -98,6 +92,24 @@ export class TypeGraph {
     return this.schema.types[fieldType];
   }
 
+  _buildGraph(types, rootName, cb) {
+    var typeNames = [rootName];
+
+    for (var i = 0; i < typeNames.length; ++i) {
+      var name = typeNames[i];
+      if (typeNames.indexOf(name) < i)
+        continue;
+
+      var node = cb(types[name]);
+      if (_.isUndefined(node))
+        continue;
+
+      this.nodes[node.id] = node;
+      typeNames.push(..._.map(node.edges, 'to'));
+    }
+}
+
+
   getFieldTypeById(fieldId: string) {
     let [tag, type, field] = fieldId.split('::');
     return this._getFieldType(this.schema.types[type].fields[field]);
@@ -145,23 +157,6 @@ function printFieldType(typeName, wrappers) {
         return `[${str}]`;
     }
   }, typeName);
-}
-
-function walkTree(types, rootName, cb) {
-  var typeNames = [rootName];
-
-  for (var i = 0; i < typeNames.length; ++i) {
-    var name = typeNames[i];
-    if (typeNames.indexOf(name) < i)
-      continue;
-
-    var type = types[name];
-    cb(type);
-    //FIXME:
-    typeNames.push(...type.derivedTypes);
-    typeNames.push(...type.possibleTypes);
-    typeNames.push(..._.map(type.fields, 'type'));
-  }
 }
 
 export function cleanTypeName(typeName:string):string {
