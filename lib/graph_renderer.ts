@@ -50,7 +50,6 @@ export class TypeGraph {
 
       return {
         id: `FIELD_EDGE::${type.name}::${field.name}`,
-        relationType: 'field',
         to: fieldType.name,
         data: field,
       }
@@ -64,8 +63,7 @@ export class TypeGraph {
         return;
 
       return {
-        id: `UNION_EDGE::${type.name}::${possibleType.name}`,
-        relationType: 'union',
+        id: `POSIBLE_TYPE_EDGE::${type.name}::${possibleType.name}`,
         to: possibleType.name,
       };
     });
@@ -78,11 +76,22 @@ export class TypeGraph {
         return;
 
       return {
-        id: `INTERFACE_EDGE::${type.name}::${derivedType.name}`,
-        relationType: 'interface',
+        id: `DERIVED_TYPE_EDGE::${type.name}::${derivedType.name}`,
         to: derivedType.name,
       };
     });
+  }
+
+  _isFieldEdge(edge) {
+    return edge.id.startsWith('FIELD_EDGE::');
+  }
+
+  _isPosibleTypeEdge(edge) {
+    return edge.id.startsWith('POSIBLE_TYPE_EDGE::');
+  }
+
+  _isDerivedTypeEdge(edge) {
+    return edge.id.startsWith('DERIVED_TYPE_EDGE::');
   }
 
   _getFieldType(field) {
