@@ -5,6 +5,7 @@ function unwrapType(type, wrappers) {
     wrappers.push(type.kind);
     type = type.ofType;
   }
+
   return type.name;
 }
 

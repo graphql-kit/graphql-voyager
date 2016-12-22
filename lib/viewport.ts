@@ -185,7 +185,6 @@ export class Viewport {
   }
 }
 
-
 export function preprocessVizSvg(svgString:string) {
   var wrapper = document.createElement('div');
   wrapper.innerHTML = svgString;
