@@ -92,11 +92,11 @@ body {
   stroke: #000;
 }
 
-.field-type-link {
+.type-link {
   fill: #04f;
 }
 
-.field-type-link:hover {
+.type-link:hover {
   fill: #8af;
 }
 

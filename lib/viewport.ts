@@ -36,9 +36,8 @@ export class Viewport {
     this.clear();
     this.renderer = new TypeGraph(this.schema, options);
     let svgString = Viz(this.renderer.getDot());
-    this.$svg = preprocessVizSvg(svgString);
+    this.$svg = preprocessVizSvg(svgString, this.renderer);
     this.container.appendChild(this.$svg);
-    this.addClasses();
     this.enableZoom();
     this.bindClick();
     this.bindHover();
@@ -47,16 +46,6 @@ export class Viewport {
   clear() {
     this.zoomer && this.zoomer.destroy();
     this.container.innerHTML = '';
-  }
-
-  addClasses() {
-    forEachNode(this.$svg, '.field', $field => {
-      let type = this.renderer.getFieldTypeById($field.id);
-      if (this.renderer.isDisplayedType(type.name)) {
-        $field.classList.add('field-type-displayed');
-        $field.querySelector('.field-type').classList.add('field-type-link');
-      }
-    });
   }
 
   enableZoom() {
@@ -105,8 +94,8 @@ export class Viewport {
 
     this.$svg.addEventListener('mousemove', event => {
       let target = event.target as Element;
-      if (isDisplayedField(target)) {
-        let $fieldGroup = getParent(target, 'field-type-displayed');
+      if (isEdgeSource(target)) {
+        let $fieldGroup = getParent(target, 'edge-source');
         if ($fieldGroup.classList.contains('hovered')) return;
         clearSelection();
         $fieldGroup.classList.add('hovered');
@@ -185,7 +174,7 @@ export class Viewport {
   }
 }
 
-export function preprocessVizSvg(svgString:string) {
+export function preprocessVizSvg(svgString:string, graph:TypeGraph) {
   var wrapper = document.createElement('div');
   wrapper.innerHTML = svgString;
   var svg = <SVGElement>wrapper.firstElementChild;
@@ -222,6 +211,12 @@ export function preprocessVizSvg(svgString:string) {
     let texts = $field.querySelectorAll('text');
     texts[0].classList.add('field-name');
     texts[1].classList.add('field-type');
+
+    let type = graph.getFieldTypeById($field.id);
+    if (graph.isDisplayedType(type.name)) {
+      $field.classList.add('edge-source');
+      $field.querySelector('.field-type').classList.add('type-link');
+    }
   })
 
   wrapper.removeChild(svg);
@@ -245,11 +240,11 @@ function isEdge(elem:Element):boolean {
 }
 
 function isLink(elem:Element):boolean {
-  return elem.classList.contains('field-type-link');
+  return elem.classList.contains('type-link');
 }
 
-function isDisplayedField(elem:Element):boolean {
-  return getParent(elem, 'field-type-displayed') != null;
+function isEdgeSource(elem:Element):boolean {
+  return getParent(elem, 'edge-source') != null;
 }
 
 function isControl(elem:SVGElement) {
