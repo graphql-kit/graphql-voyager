@@ -51,7 +51,7 @@ body {
 
 .edge:hover polygon,
 .edge.hovered polygon {
-  fill: #000;
+  fill: #e4f2e1;
   stroke: #000;
 }
 
