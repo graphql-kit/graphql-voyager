@@ -17,7 +17,7 @@ export class TypeGraph {
     var clone = _.bind(_.cloneDeepWith, this, _, value => {
       if (!this.options.sortByAlphabet || !_.isPlainObject(value))
         return;
-      return _(value).toPairs().sortBy(0).fromPairs().mapValues(clone).value();
+      return _(value).toPairs().sortBy(0).fromPairs().mapValues<any>(clone).value();
     });
 
     this.schema = clone(schema);
@@ -43,7 +43,7 @@ export class TypeGraph {
   }
 
   _fieldEdges(type) {
-    return _.map(type.fields, field => {
+    return _.map<any, any>(type.fields, field => {
       var fieldType = this._getFieldType(field);
       if (this._skipType(fieldType))
         return;
@@ -57,7 +57,7 @@ export class TypeGraph {
   }
 
   _unionEdges(type) {
-    return _.map(type.possibleTypes, typeName => {
+    return _.map<string, any>(type.possibleTypes, typeName => {
       var possibleType = this.schema.types[typeName];
       if (this._skipType(possibleType))
         return;
@@ -70,7 +70,7 @@ export class TypeGraph {
   }
 
   _interfaceEdges(type) {
-    return _.map(type.derivedTypes, typeName => {
+    return _.map<string, any>(type.derivedTypes, typeName => {
       var derivedType = this.schema.types[typeName];
       if (this._skipType(derivedType))
         return;
@@ -142,7 +142,7 @@ export class TypeGraph {
 
   getOutEdges(nodeId:string):{id: string, nodeId: string}[] {
     let node = this.nodes[nodeId];
-    return _.map(node.edges, edge => ({
+    return _.map<any, any>(node.edges, edge => ({
       id: edge.id,
       nodeId: 'TYPE::' + edge.to
     }))
