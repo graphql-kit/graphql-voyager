@@ -63,7 +63,7 @@ export class TypeGraph {
         return;
 
       return {
-        id: `POSIBLE_TYPE_EDGE::${type.name}::${possibleType.name}`,
+        id: `POSSIBLE_TYPE_EDGE::${type.name}::${possibleType.name}`,
         to: possibleType.name,
       };
     });
@@ -86,8 +86,8 @@ export class TypeGraph {
     return edge.id.startsWith('FIELD_EDGE::');
   }
 
-  _isPosibleTypeEdge(edge) {
-    return edge.id.startsWith('POSIBLE_TYPE_EDGE::');
+  _isPossibleTypeEdge(edge) {
+    return edge.id.startsWith('POSSIBLE_TYPE_EDGE::');
   }
 
   _isDerivedTypeEdge(edge) {
