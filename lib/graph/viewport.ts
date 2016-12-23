@@ -3,20 +3,18 @@ import * as Viz from 'viz.js';
 import * as svgPanZoom from 'svg-pan-zoom';
 import * as animate from '@f/animate';
 
-import { TypeGraph } from './graph_renderer';
-import { getSchema } from './introspection';
+import {
+  TypeGraph,
+  cleanTypeName
+} from './type-graph';
+import { getSchema } from '../introspection/';
 
 const xmlns = "http://www.w3.org/2000/svg";
-
-
-import {
-  cleanTypeName
-} from './graph_renderer';
 
 import {
   removeClass,
   forEachNode
-} from './dom-helpers';
+} from '../utils/';
 
 
 export class Viewport {
