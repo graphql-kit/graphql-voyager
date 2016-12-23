@@ -95,14 +95,15 @@ export class Viewport {
     this.$svg.addEventListener('mousemove', event => {
       let target = event.target as Element;
       if (isEdgeSource(target)) {
-        let $fieldGroup = getParent(target, 'edge-source');
-        if ($fieldGroup.classList.contains('hovered')) return;
+        let $sourceGroup = getParent(target, 'edge-source');
+        if ($sourceGroup.classList.contains('hovered')) return;
         clearSelection();
-        $fieldGroup.classList.add('hovered');
-        $prevHovered = $fieldGroup;
-        let $fieldEdge = document.getElementById($fieldGroup.id.replace('FIELD::', 'FIELD_EDGE::'));
-        $fieldEdge.classList.add('hovered');
-        $prevHoveredEdge = $fieldEdge;
+        $sourceGroup.classList.add('hovered');
+        $prevHovered = $sourceGroup;
+        let edgeId = this.renderer.getEdgeBySourceId($sourceGroup.id).id;
+        let $edge = document.getElementById(edgeId);
+        $edge.classList.add('hovered');
+        $prevHoveredEdge = $edge;
       } else {
         clearSelection();
       }
@@ -137,9 +138,9 @@ export class Viewport {
   }
 
   panAndZoomToLink(link: Element) {
-    let fieldId = link.parentElement.id;
-    let type = this.renderer.getFieldTypeById(fieldId);
-    let nodeId = 'TYPE::' + type.name;
+    //FIXME:
+    let typeName = cleanTypeName(link.textContent);
+    let nodeId = 'TYPE::' + typeName;
 
     let bbBox = document.getElementById(nodeId).getBoundingClientRect();
     let currentPan = this.zoomer.getPan();
@@ -217,6 +218,16 @@ export function preprocessVizSvg(svgString:string, graph:TypeGraph) {
       $field.classList.add('edge-source');
       $field.querySelector('.field-type').classList.add('type-link');
     }
+  })
+
+  forEachNode(svg, '.derived-type', $derivedType => {
+    $derivedType.classList.add('edge-source');
+    $derivedType.querySelector('text').classList.add('type-link');
+  })
+
+  forEachNode(svg, '.possible-type', $possibleType => {
+    $possibleType.classList.add('edge-source');
+    $possibleType.querySelector('text').classList.add('type-link');
   })
 
   wrapper.removeChild(svg);

@@ -152,6 +152,11 @@ export class TypeGraph {
     return this.nodes['TYPE::${typeName}']['FIELD_EDGE::${typeName}::${fieldName}'];
   }
 
+  getEdgeBySourceId(id:string) {
+    let [tag, type, ...rest] = id.split('::');
+    return this.nodes['TYPE::' + type].edges[buildId(tag + '_EDGE', type, ...rest)];
+  }
+
   isDisplayedType(name: string):boolean {
     return !_.isUndefined(this.nodes['TYPE::' + name]);
   }
@@ -166,6 +171,10 @@ function printFieldType(typeName, wrappers) {
         return `[${str}]`;
     }
   }, typeName);
+}
+
+function buildId(...parts) {
+  return parts.join('::');
 }
 
 export function cleanTypeName(typeName:string):string {
