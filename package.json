@@ -11,6 +11,8 @@
   "license": "MIT",
   "devDependencies": {
     "@types/core-js": "^0.9.34",
+    "@types/react": "^0.14.55",
+    "@types/react-dom": "^0.14.19",
     "@types/requirejs": "^2.1.28",
     "awesome-typescript-loader": "^3.0.0-beta.9",
     "css-loader": "^0.26.0",
@@ -26,6 +28,8 @@
     "@f/animate": "^1.0.1",
     "ejs": "^2.5.3",
     "lodash": "^4.17.2",
+    "react": "^15.4.1",
+    "react-dom": "^15.4.1",
     "svg-pan-zoom": "^3.4.0",
     "viz.js": "^1.4.1"
   }

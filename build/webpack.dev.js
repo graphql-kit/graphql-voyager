@@ -9,7 +9,7 @@ module.exports = {
   devtool: '#inline-source-map',
 
   resolve: {
-    extensions: ['.ts', '.js', '.json', '.css'],
+    extensions: ['.ts', '.tsx', '.js', '.json', '.css'],
     alias: {
       'ejs': 'ejs/ejs.min.js'
     }
@@ -42,7 +42,7 @@ module.exports = {
         /node_modules/
       ]
     }, {
-      test: /\.ts$/,
+      test: /\.tsx?$/,
       loaders: [
         'awesome-typescript-loader'
       ],

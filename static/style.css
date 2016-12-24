@@ -6,8 +6,18 @@ body {
   height: 100vh;
 }
 
+body > main {
+  display: flex;
+  height: 100%;
+}
+
+#panel_root {
+  min-width: 300px;
+  padding: 10px 20px;
+  background: #f2f2f2;
+}
+
 #viewport {
-  width: 100%;
   height: 100%;
 }
 

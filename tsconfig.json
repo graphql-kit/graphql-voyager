@@ -13,7 +13,7 @@
       "requirejs",
       "core-js"
     ],
-    "noEmitHelpers": true
+    "jsx": "react"
   },
   "compileOnSave": false,
   "exclude": [
