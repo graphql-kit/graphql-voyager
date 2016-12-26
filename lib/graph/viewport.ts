@@ -178,7 +178,7 @@ export function preprocessVizSvg(svgString:string, graph:TypeGraph) {
   wrapper.innerHTML = svgString;
   var svg = <SVGElement>wrapper.firstElementChild;
 
-  forEachNode(svg, 'a[*|href="remove_me_url"]', $a => {
+  forEachNode(svg, 'a', $a => {
     let $g = $a.parentNode;
 
     var $docFrag = document.createDocumentFragment();
@@ -191,6 +191,8 @@ export function preprocessVizSvg(svgString:string, graph:TypeGraph) {
 
     $g.id = $g.id.replace(/^a_/, '');
   });
+
+  forEachNode(svg, 'title', $el => $el.remove());
 
   forEachNode(svg, '[id]', $el => {
     let [tag, ...restOfId] = $el.id.split('::');
