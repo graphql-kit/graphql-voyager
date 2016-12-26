@@ -211,7 +211,8 @@ export function preprocessVizSvg(svgString:string, graph:TypeGraph) {
   forEachNode(svg, '.field', $field => {
     let texts = $field.querySelectorAll('text');
     texts[0].classList.add('field-name');
-    texts[1].classList.add('field-type');
+    texts[1].remove();
+    texts[2].classList.add('field-type');
 
     let type = graph.getFieldTypeById($field.id);
     if (graph.isDisplayedType(type.name)) {
