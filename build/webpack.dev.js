@@ -8,6 +8,10 @@ const IS_PRODUCTION = process.env.NODE_ENV === "production";
 module.exports = {
   devtool: '#inline-source-map',
 
+  performance: {
+    hints: false
+  },
+
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.json', '.css'],
     alias: {
