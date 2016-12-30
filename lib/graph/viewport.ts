@@ -9,6 +9,8 @@ import {
 } from './type-graph';
 import { getSchema } from '../introspection/';
 
+import { observeStore } from '../redux';
+
 const xmlns = "http://www.w3.org/2000/svg";
 
 import {
@@ -20,19 +22,15 @@ import {
 export class Viewport {
   $svg: SVGElement;
   renderer: TypeGraph;
-  schema: any;
   zoomer: SvgPanZoom.Instance;
 
   constructor(public container: HTMLElement) {
+    this.renderer = new TypeGraph();
+    observeStore(state => state.typeGraph, typeGraph => this.render());
   }
 
-  load(introspection:any) {
-    this.schema = getSchema(introspection);
-  }
-
-  render(options:any) {
+  render() {
     this.clear();
-    this.renderer = new TypeGraph(this.schema, options);
     let svgString = Viz(this.renderer.getDot());
     this.$svg = preprocessVizSvg(svgString, this.renderer);
     this.container.appendChild(this.$svg);

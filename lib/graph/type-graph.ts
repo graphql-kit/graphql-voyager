@@ -1,127 +1,121 @@
 import * as _ from 'lodash';
 import * as ejs from 'ejs';
 
+import { store } from '../redux';
+
 const template = require('./template.ejs');
 
-export class TypeGraph {
-  nodes: any;
-  schema: any;
-  options: any;
+export function getTypeGraph(schema, skipRelay) {
+  return buildGraph(schema.queryType, type => ({
+    id: `TYPE::${type.name}`,
+    edges: _([
+        ...fieldEdges(type),
+        ...unionEdges(type),
+        ...interfaceEdges(type)
+      ]).compact().keyBy('id').value(),
+  }));
 
-  constructor(schema, options) {
-    this.options = _.defaults(options, {
-      skipRelay: false,
-      sortByAlphabet: false
-    });
-
-    var clone = _.bind(_.cloneDeepWith, this, _, value => {
-      if (!this.options.sortByAlphabet || !_.isPlainObject(value))
-        return;
-      return _(value).toPairs().sortBy(0).fromPairs().mapValues<any>(clone).value();
-    });
-
-    this.schema = clone(schema);
-
-    this.nodes = {};
-    this._buildGraph(schema.types, schema.queryType, type => ({
-      id: `TYPE::${type.name}`,
-      data: type,
-      edges: _([
-          ...this._fieldEdges(type),
-          ...this._unionEdges(type),
-          ...this._interfaceEdges(type)
-        ]).compact().keyBy('id').value(),
-    }));
-  }
-
-  _skipType(type):boolean {
+  function skipType(typeName):boolean {
+    var type = schema.types[typeName];
     return (
       ['SCALAR', 'ENUM', 'INPUT_OBJECT'].indexOf(type.kind) !== -1 ||
       type.isSystemType ||
-      (this.options.skipRelay && type.isRelayType)
+      (skipRelay && type.isRelayType)
     );
   }
 
-  _fieldEdges(type) {
+  function fieldEdges(type) {
     return _.map<any, any>(type.fields, field => {
-      var fieldType = this._getFieldType(field);
-      if (this._skipType(fieldType))
+      var fieldType = field.type;
+      if (skipRelay && field.relayNodeType)
+        fieldType = field.relayNodeType;
+
+      if (skipType(fieldType))
         return;
 
       return {
         id: `FIELD_EDGE::${type.name}::${field.name}`,
-        to: fieldType.name,
-        data: field,
+        to: fieldType,
       }
     });
   }
 
-  _unionEdges(type) {
-    return _.map<string, any>(type.possibleTypes, typeName => {
-      var possibleType = this.schema.types[typeName];
-      if (this._skipType(possibleType))
+  function unionEdges(type) {
+    return _.map<string, any>(type.possibleTypes, possibleType => {
+      if (skipType(possibleType))
         return;
 
       return {
-        id: `POSSIBLE_TYPE_EDGE::${type.name}::${possibleType.name}`,
-        to: possibleType.name,
+        id: `POSSIBLE_TYPE_EDGE::${type.name}::${possibleType}`,
+        to: possibleType,
       };
     });
   }
 
-  _interfaceEdges(type) {
-    return _.map<string, any>(type.derivedTypes, typeName => {
-      var derivedType = this.schema.types[typeName];
-      if (this._skipType(derivedType))
+  function interfaceEdges(type) {
+    return _.map<string, any>(type.derivedTypes, derivedType => {
+      if (skipType(derivedType))
         return;
 
       return {
-        id: `DERIVED_TYPE_EDGE::${type.name}::${derivedType.name}`,
-        to: derivedType.name,
+        id: `DERIVED_TYPE_EDGE::${type.name}::${derivedType}`,
+        to: derivedType,
       };
     });
   }
 
-  _isFieldEdge(edge) {
-    return edge.id.startsWith('FIELD_EDGE::');
-  }
-
-  _isPossibleTypeEdge(edge) {
-    return edge.id.startsWith('POSSIBLE_TYPE_EDGE::');
-  }
-
-  _isDerivedTypeEdge(edge) {
-    return edge.id.startsWith('DERIVED_TYPE_EDGE::');
-  }
-
-  _getFieldType(field) {
-    var fieldType = field.type;
-    if (this.options.skipRelay && field.relayNodeType)
-      fieldType = field.relayNodeType;
-    return this.schema.types[fieldType];
-  }
-
-  _buildGraph(types, rootName, cb) {
+  function buildGraph(rootName, cb) {
     var typeNames = [rootName];
+    var nodes = {};
 
     for (var i = 0; i < typeNames.length; ++i) {
       var name = typeNames[i];
       if (typeNames.indexOf(name) < i)
         continue;
 
-      var node = cb(types[name]);
-      if (_.isUndefined(node))
-        continue;
-
-      this.nodes[node.id] = node;
+      var node = cb(schema.types[name]);
+      nodes[node.id] = node;
       typeNames.push(..._.map(node.edges, 'to'));
     }
+    return nodes;
+  }
 }
 
+export class TypeGraph {
+  constructor() {
+  }
+
+  _isSkipRelay() {
+    return store.getState().displayOptions.skipRelay;
+  }
+
+  _getSchema() {
+    return store.getState().schema;
+  }
+
+  _getNodes() {
+    return store.getState().typeGraph;
+  }
+
+  _getTypeById(typeId:string) {
+    let [tag, type] = typeId.split('::');
+    return this._getSchema().types[type];
+  }
+
+  _getFieldById(fieldId:string) {
+    let [tag, type, field] = fieldId.split('::');
+    return this._getSchema().types[type].fields[field];
+  }
+
+  _getFieldType(field) {
+    var fieldType = field.type;
+    if (this._isSkipRelay() && field.relayNodeType)
+      fieldType = field.relayNodeType;
+    return this._getSchema().types[fieldType];
+  }
 
   getFieldTypeById(fieldId: string) {
-    let [tag, type, field] = fieldId.split('::');
-    return this._getFieldType(this.schema.types[type].fields[field]);
+    return this._getFieldType(this._getFieldById(fieldId));
   }
 
   getDot():string {
@@ -129,9 +123,9 @@ export class TypeGraph {
   }
 
   getInEdges(nodeId:string):{id: string, nodeId: string}[] {
-    var typeName = this.nodes[nodeId].data.name;
+    var typeName = this._getTypeById(nodeId).name;
     let res = [];
-    _.each(this.nodes, node => {
+    _.each(this._getNodes(), node => {
       _.each(node.edges, edge => {
         if (edge.to === typeName)
           res.push({ id: edge.id, nodeId: node.id });
@@ -141,24 +135,32 @@ export class TypeGraph {
   }
 
   getOutEdges(nodeId:string):{id: string, nodeId: string}[] {
-    let node = this.nodes[nodeId];
+    let node = this._getNodes()[nodeId];
     return _.map<any, any>(node.edges, edge => ({
       id: edge.id,
       nodeId: 'TYPE::' + edge.to
     }))
   }
 
-  getFieldEdge(typeName:string, fieldName:string) {
-    return this.nodes['TYPE::${typeName}']['FIELD_EDGE::${typeName}::${fieldName}'];
-  }
-
   getEdgeBySourceId(id:string) {
     let [tag, type, ...rest] = id.split('::');
-    return this.nodes['TYPE::' + type].edges[buildId(tag + '_EDGE', type, ...rest)];
+    return this._getNodes()['TYPE::' + type].edges[buildId(tag + '_EDGE', type, ...rest)];
   }
 
   isDisplayedType(name: string):boolean {
-    return !_.isUndefined(this.nodes['TYPE::' + name]);
+    return !_.isUndefined(this._getNodes()['TYPE::' + name]);
+  }
+
+  isFieldEdge(edge) {
+    return edge.id.startsWith('FIELD_EDGE::');
+  }
+
+  isPossibleTypeEdge(edge) {
+    return edge.id.startsWith('POSSIBLE_TYPE_EDGE::');
+  }
+
+  isDerivedTypeEdge(edge) {
+    return edge.id.startsWith('DERIVED_TYPE_EDGE::');
   }
 }
 

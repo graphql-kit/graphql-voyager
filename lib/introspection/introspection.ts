@@ -99,9 +99,8 @@ function markRelayTypes(types) {
   });
 }
 
-export function getSchema(introspection) {
+export function getSchema(introspection, sortByAlphabet:boolean) {
   var schema = simplifySchema(introspection.__schema);
-
   markRelayTypes(schema.types);
 
   return schema;
