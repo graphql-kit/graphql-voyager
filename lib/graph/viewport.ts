@@ -23,7 +23,10 @@ export class Viewport {
 
   constructor(public container: HTMLElement) {
     this.renderer = new TypeGraph();
-    observeStore(state => state.typeGraph, typeGraph => this.render());
+    observeStore(state => state.typeGraph, typeGraph => {
+      if (typeGraph !== null)
+        this.render()
+    });
   }
 
   render() {
