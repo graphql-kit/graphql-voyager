@@ -114,12 +114,8 @@ export class TypeGraph {
     return this._getSchema().types[fieldType];
   }
 
-  getFieldTypeById(fieldId: string) {
-    return this._getFieldType(this._getFieldById(fieldId));
-  }
-
   getDot():string {
-    return ejs.render(template, {_, graph: this, printFieldType});
+    return ejs.render(template, {_, graph: this, stringifyWrappers});
   }
 
   getInEdges(nodeId:string):{id: string, nodeId: string}[] {
@@ -147,10 +143,6 @@ export class TypeGraph {
     return this._getNodes()['TYPE::' + type].edges[buildId(tag + '_EDGE', type, ...rest)];
   }
 
-  isDisplayedType(name: string):boolean {
-    return !_.isUndefined(this._getNodes()['TYPE::' + name]);
-  }
-
   isFieldEdge(edge) {
     return edge.id.startsWith('FIELD_EDGE::');
   }
@@ -164,21 +156,17 @@ export class TypeGraph {
   }
 }
 
-function printFieldType(typeName, wrappers) {
-  return _.reduce(wrappers, (str, wrapper) => {
+function stringifyWrappers(wrappers) {
+  return _.reduce(wrappers, ([left, right], wrapper) => {
     switch (wrapper) {
       case 'NON_NULL':
-        return `${str}!`;
+        return [left, right + '!'];
       case 'LIST':
-        return `[${str}]`;
+        return ['[' + left, right + ']'];
     }
-  }, typeName);
+  }, ['', '']);
 }
 
 function buildId(...parts) {
   return parts.join('::');
-}
-
-export function cleanTypeName(typeName:string):string {
-  return typeName.trim().replace(/^\[*/, '').replace(/[\]\!]*$/, '');
 }

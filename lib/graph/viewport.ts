@@ -3,10 +3,7 @@ import * as Viz from 'viz.js';
 import * as svgPanZoom from 'svg-pan-zoom';
 import * as animate from '@f/animate';
 
-import {
-  TypeGraph,
-  cleanTypeName
-} from './type-graph';
+import { TypeGraph } from './type-graph';
 import { getSchema } from '../introspection/';
 
 import { observeStore } from '../redux';
@@ -32,7 +29,7 @@ export class Viewport {
   render() {
     this.clear();
     let svgString = Viz(this.renderer.getDot());
-    this.$svg = preprocessVizSvg(svgString, this.renderer);
+    this.$svg = preprocessVizSvg(svgString);
     this.container.appendChild(this.$svg);
     this.enableZoom();
     this.bindClick();
@@ -134,9 +131,7 @@ export class Viewport {
   }
 
   panAndZoomToLink(link: Element) {
-    //FIXME:
-    let typeName = cleanTypeName(link.textContent);
-    let nodeId = 'TYPE::' + typeName;
+    let nodeId = 'TYPE::' + link.textContent;
 
     let bbBox = document.getElementById(nodeId).getBoundingClientRect();
     let currentPan = this.zoomer.getPan();
@@ -171,7 +166,7 @@ export class Viewport {
   }
 }
 
-export function preprocessVizSvg(svgString:string, graph:TypeGraph) {
+export function preprocessVizSvg(svgString:string) {
   var wrapper = document.createElement('div');
   wrapper.innerHTML = svgString;
   var svg = <SVGElement>wrapper.firstElementChild;
@@ -192,12 +187,16 @@ export function preprocessVizSvg(svgString:string, graph:TypeGraph) {
 
   forEachNode(svg, 'title', $el => $el.remove());
 
+  var displayedTypes = [];
   forEachNode(svg, '[id]', $el => {
     let [tag, ...restOfId] = $el.id.split('::');
     if (_.size(restOfId) < 1)
       return;
 
     $el.classList.add(tag.toLowerCase().replace(/_/, '-'));
+
+    if (tag === 'TYPE')
+      displayedTypes.push(restOfId[0]);
   });
 
   forEachNode(svg, 'g.edge path', $path => {
@@ -210,12 +209,14 @@ export function preprocessVizSvg(svgString:string, graph:TypeGraph) {
     let texts = $field.querySelectorAll('text');
     texts[0].classList.add('field-name');
     texts[1].remove();
-    texts[2].classList.add('field-type');
 
-    let type = graph.getFieldTypeById($field.id);
-    if (graph.isDisplayedType(type.name)) {
-      $field.classList.add('edge-source');
-      $field.querySelector('.field-type').classList.add('type-link');
+    for (var i = 2; i < texts.length; ++i) {
+      texts[i].classList.add('field-type');
+      var str = texts[i].innerHTML;
+      if (displayedTypes.indexOf(str) !== -1) {
+        texts[i].classList.add('type-link');
+        $field.classList.add('edge-source');
+      }
     }
   })
 

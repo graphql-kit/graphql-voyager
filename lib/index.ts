@@ -10,6 +10,6 @@ import { changeIntrospection, changeDisplayOptions } from './actions/';
 const viewport = new Viewport(document.getElementById('viewport'));
 store.dispatch(changeIntrospection(swapiIntrospection));
 //store.dispatch(changeIntrospection(githubIntrospection));
-store.dispatch(changeDisplayOptions({sortByAlphabet: true}));
+store.dispatch(changeDisplayOptions({skipRelay: false}));
 
 initPanel(document.getElementById('panel_root'));
