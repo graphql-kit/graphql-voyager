@@ -99,9 +99,21 @@ function markRelayTypes(types) {
   });
 }
 
+function sortKeys(value) {
+  if (_.isArray(value))
+    return _.map(value, sortKeys);
+  else if (_.isPlainObject(value))
+    return _(value).toPairs().sortBy(0).fromPairs().mapValues(sortKeys).value();
+  else
+    return value;
+}
+
 export function getSchema(introspection, sortByAlphabet:boolean) {
   var schema = simplifySchema(introspection.__schema);
   markRelayTypes(schema.types);
 
+  if (sortByAlphabet)
+    return sortKeys(schema);
   return schema;
+
 }

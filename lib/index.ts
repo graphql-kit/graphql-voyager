@@ -5,10 +5,11 @@ import { githubIntrospection, swapiIntrospection } from './introspection';
 
 import { initPanel } from './panel/';
 import { store } from './redux';
-import { changeIntrospection } from './actions/';
+import { changeIntrospection, changeDisplayOptions } from './actions/';
 
 const viewport = new Viewport(document.getElementById('viewport'));
 store.dispatch(changeIntrospection(swapiIntrospection));
-store.dispatch(changeIntrospection(githubIntrospection));
+//store.dispatch(changeIntrospection(githubIntrospection));
+store.dispatch(changeDisplayOptions({sortByAlphabet: true}));
 
 initPanel(document.getElementById('panel_root'));

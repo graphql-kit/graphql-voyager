@@ -29,7 +29,7 @@ export function rootReducer(previousState = initialState, action) {
   switch(type) {
     case ActionTypes.CHANGE_INTROSPECTION:
       var introspection = action.payload;
-      var displayOptions = {...initialState.displayOptions};
+      var displayOptions:any = {...initialState.displayOptions};
       var schema = getSchema(introspection, displayOptions.sortByAlphabet);
       return {
         ...previousState,
@@ -43,10 +43,12 @@ export function rootReducer(previousState = initialState, action) {
         selectedNodeId: null,
       };
     case ActionTypes.CHANGE_DISPLAY_OPTIONS:
+      var displayOptions:any = {...previousState.displayOptions, ...action.payload};
       return {
         ...previousState,
-        ...reduceSortByAlphabet(previousState, action.payload.sortByAlphabet),
-        displayOptions: action.payload,
+        ...reduceSortByAlphabet(previousState, displayOptions.sortByAlphabet),
+        displayOptions,
+        typeGraph: getTypeGraph(previousState.schema, displayOptions.skipRelay),
         svgRenderingFinished: false,
         currentSvgIndex: null,
         selectedNodeId: null,
