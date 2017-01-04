@@ -14,7 +14,7 @@ interface PanelRootProps {
 
 function mapStateToProps(state) {
   return {
-    isLoading: state.svgRenderingFinished,
+    isLoading: !state.svgRenderingFinished,
     sortByAlphabet: state.displayOptions.sortByAlphabet,
     skipRelay: state.displayOptions.skipRelay,
   };
