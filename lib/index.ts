@@ -11,6 +11,8 @@ const viewport = new Viewport(document.getElementById('viewport'));
 
 initPanel(document.getElementById('panel_root'));
 
-store.dispatch(changeIntrospection(swapiIntrospection));
-//store.dispatch(changeIntrospection(githubIntrospection));
-store.dispatch(changeDisplayOptions({skipRelay: false}));
+setTimeout(() => {
+  store.dispatch(changeIntrospection(swapiIntrospection));
+  //store.dispatch(changeIntrospection(githubIntrospection));
+  //store.dispatch(changeDisplayOptions({skipRelay: false}));
+});
