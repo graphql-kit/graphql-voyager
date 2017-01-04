@@ -14,6 +14,20 @@ export function changeDisplayOptions(options) {
   };
 }
 
+export function changeSortByAlphabet(state) {
+  return {
+    type: CHANGE_DISPLAY_OPTIONS,
+    payload: {sortByAlphabet: state},
+  };
+}
+
+export function changeSkipRelay(state) {
+  return {
+    type: CHANGE_DISPLAY_OPTIONS,
+    payload: {skipRelay: state},
+  };
+}
+
 export const RENDERING_SVG_FINISHED = "RENDERING_SVG_FINISHED";
 export const SWITCH_CURRENT_SVG = "SWITCH_CURRENT_SVG";
 export const SELECT_NODE = "SELECT_NODE";
