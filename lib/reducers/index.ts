@@ -1,11 +1,19 @@
 import { getSchema } from '../introspection'
 import { getTypeGraph } from '../graph'
 import * as ActionTypes from '../actions'
+import { githubIntrospection, swapiIntrospection } from '../introspection';
 
 var initialState = {
+  introspectionPresets: {
+    'github': githubIntrospection,
+    'swapi': swapiIntrospection,
+  },
   introspection: null,
   schema: null,
   typeGraph: null,
+  panel: {
+    showIntrospectionLoad: false,
+  },
   displayOptions: {
     skipRelay: true,
     sortByAlphabet: false
@@ -72,6 +80,14 @@ export function rootReducer(previousState = initialState, action) {
         ...previousState,
         selectedNodeId: action.payload,
       };
+    case ActionTypes.PANEL_CHANGE_INTROSPECTION_LOAD_VISIBILITY:
+      return {
+        ...previousState,
+        panel: {
+          ...previousState.panel,
+          showIntrospectionLoad: action.payload
+        }
+      }
     default:
       return previousState;
   }
