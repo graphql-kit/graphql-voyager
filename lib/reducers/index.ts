@@ -4,11 +4,14 @@ import * as ActionTypes from '../actions'
 import { githubIntrospection, swapiIntrospection } from '../introspection';
 
 var initialState = {
-  introspectionPresets: {
-    'github': githubIntrospection,
-    'swapi': swapiIntrospection,
+  introspection: {
+    presets: {
+      'github': githubIntrospection,
+      'swapi': swapiIntrospection,
+      //'custom': null,
+    },
+    activePreset: null,
   },
-  introspection: null,
   schema: null,
   typeGraph: null,
   panel: {
@@ -25,9 +28,12 @@ var initialState = {
   selectedNodeId: null,
 };
 
+
 function reduceSortByAlphabet(previousState, state:boolean) {
+  var activePreset = previousState.introspection.activePreset;
+  var introspection = previousState.introspection.presets[activePreset];
   if (previousState.displayOptions.sortByAlphabet != state)
-    return {schema: getSchema(previousState.introspection, state)}
+    return {schema: getSchema(introspection, state)}
   return {}
 }
 
@@ -35,13 +41,17 @@ export function rootReducer(previousState = initialState, action) {
   const { type, error } = action;
 
   switch(type) {
-    case ActionTypes.CHANGE_INTROSPECTION:
-      var introspection = action.payload;
+    case ActionTypes.CHANGE_ACTIVE_INTROSPECTION:
+      var activePreset = action.payload;
+      var introspection = previousState.introspection.presets[activePreset];
       var displayOptions:any = {...initialState.displayOptions};
       var schema = getSchema(introspection, displayOptions.sortByAlphabet);
       return {
         ...previousState,
-        introspection,
+        introspection: {
+          ...previousState.introspection,
+          activePreset,
+        },
         schema,
         typeGraph: getTypeGraph(schema, displayOptions.skipRelay),
         displayOptions,

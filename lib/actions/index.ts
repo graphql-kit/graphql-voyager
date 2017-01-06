@@ -1,24 +1,17 @@
 import { store } from '../redux';
 import * as _ from 'lodash';
 
-export const CHANGE_INTROSPECTION = "CHANGE_INTROSPECTION";
-export function changeIntrospection(introspection) {
-  return {
-    type: CHANGE_INTROSPECTION,
-    payload: introspection,
-  };
-}
-
-export function changeIntrospectionToPreset(presetName: string) {
-  var introspection = store.getState().introspectionPresets[presetName];
+export const CHANGE_ACTIVE_INTROSPECTION = "CHANGE_ACTIVE_INTROSPECTION";
+export function changeActiveIntrospection(presetName: string) {
+  var introspection = store.getState().introspection.presets[presetName];
 
   if (_.isUndefined(introspection))
     throw Error('Invalid preset name: ' + presetName);
 
   return {
-    type: CHANGE_INTROSPECTION,
-    payload: introspection,
-  }
+    type: CHANGE_ACTIVE_INTROSPECTION,
+    payload: presetName,
+  };
 }
 
 export const CHANGE_DISPLAY_OPTIONS = "CHANGE_DISPLAY_OPTIONS";

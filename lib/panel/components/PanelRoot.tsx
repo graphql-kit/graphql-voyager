@@ -3,7 +3,7 @@ import { connect } from "react-redux"
 import * as ReactModal from "react-modal";
 
 import {
-  changeIntrospectionToPreset,
+  changeActiveIntrospection,
   changeSortByAlphabet,
   changeSkipRelay,
   panelChangeIntrospectionLoadVisibility,
@@ -14,6 +14,7 @@ interface PanelRootProps {
   sortByAlphabet: boolean;
   skipRelay: boolean;
   showIntrospectionLoad: boolean;
+  activePreset: string;
 }
 
 function mapStateToProps(state) {
@@ -22,6 +23,7 @@ function mapStateToProps(state) {
     sortByAlphabet: state.displayOptions.sortByAlphabet,
     skipRelay: state.displayOptions.skipRelay,
     showIntrospectionLoad: state.panel.showIntrospectionLoad,
+    activePreset: state.introspection.activePreset,
   };
 }
 
@@ -32,6 +34,7 @@ class PanelRoot extends React.Component<PanelRootProps, void> {
         sortByAlphabet,
         skipRelay,
         showIntrospectionLoad,
+        activePreset,
       } = this.props;
       var dispatch = this.props['dispatch'];
       return (
@@ -51,11 +54,13 @@ class PanelRoot extends React.Component<PanelRootProps, void> {
             <form onSubmit={e => {
                 e.preventDefault()
                 var presetName = e.target['elements'].introspection.value
-                dispatch(changeIntrospectionToPreset(presetName));
+                dispatch(changeActiveIntrospection(presetName));
                 dispatch(panelChangeIntrospectionLoadVisibility(false));
             }}>
-              <input type="radio" name="introspection" value="swapi"/> SWAPI<br/>
-              <input type="radio" name="introspection" value="github"/> GitHub<br/>
+              <input type="radio" name="introspection" value="swapi"
+                defaultChecked={activePreset === 'swapi'} /> SWAPI<br/>
+              <input type="radio" name="introspection" value="github"
+                defaultChecked={activePreset === 'github'}/> GitHub<br/>
               <button type="submit"> Change Introspection </button>
             </form>
           </ReactModal>
