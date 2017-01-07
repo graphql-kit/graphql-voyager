@@ -15,7 +15,7 @@ var initialState = {
   schema: null,
   typeGraph: null,
   panel: {
-    showIntrospectionLoad: false,
+    showIntrospectionLoad: true,
   },
   displayOptions: {
     skipRelay: true,

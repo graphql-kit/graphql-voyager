@@ -51,6 +51,7 @@ class PanelRoot extends React.Component<PanelRootProps, void> {
               () => dispatch(panelChangeIntrospectionLoadVisibility(false))
             }
           >
+            <h2>Please select introspection:</h2>
             <form onSubmit={e => {
                 e.preventDefault()
                 var presetName = e.target['elements'].introspection.value
