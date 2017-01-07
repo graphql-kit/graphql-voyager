@@ -28,15 +28,6 @@ var initialState = {
   selectedNodeId: null,
 };
 
-
-function reduceSortByAlphabet(previousState, state:boolean) {
-  var activePreset = previousState.introspection.activePreset;
-  var introspection = previousState.introspection.presets[activePreset];
-  if (previousState.displayOptions.sortByAlphabet != state)
-    return {schema: getSchema(introspection, state)}
-  return {}
-}
-
 export function rootReducer(previousState = initialState, action) {
   const { type, error } = action;
 
@@ -61,16 +52,31 @@ export function rootReducer(previousState = initialState, action) {
         selectedNodeId: null,
       };
     case ActionTypes.CHANGE_DISPLAY_OPTIONS:
-      var displayOptions:any = {...previousState.displayOptions, ...action.payload};
-      return {
+      var newState:any = {
         ...previousState,
-        ...reduceSortByAlphabet(previousState, displayOptions.sortByAlphabet),
-        displayOptions,
-        typeGraph: getTypeGraph(previousState.schema, displayOptions.skipRelay),
+        displayOptions: {...previousState.displayOptions, ...action.payload},
         svgRenderingFinished: false,
         currentSvgIndex: null,
         selectedNodeId: null,
       };
+
+      if (newState.introspection.activePreset === null)
+        return newState;
+
+      var sortByAlphabet = newState.displayOptions.sortByAlphabet;
+      if (previousState.displayOptions.sortByAlphabet !== sortByAlphabet) {
+        var activePreset = newState.introspection.activePreset;
+        var introspection = newState.introspection.presets[activePreset];
+        newState = {...newState, schema: getSchema(introspection, sortByAlphabet)};
+      }
+
+      var skipRelay = newState.displayOptions.skipRelay;
+      if (previousState.displayOptions.skipRelay !== skipRelay) {
+        var schema = newState.schema;
+        newState = {...newState, typeGraph: getTypeGraph(schema, skipRelay)}
+      }
+
+      return newState;
     case ActionTypes.RENDERING_SVG_FINISHED:
       return {
         ...previousState,
