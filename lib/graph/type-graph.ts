@@ -12,7 +12,14 @@ export function getTypeGraph(schema, skipRelay) {
         ...fieldEdges(type),
         ...unionEdges(type),
         ...interfaceEdges(type)
-      ]).compact().keyBy('id').value(),
+      ])
+      .compact()
+      .map(edge => ({
+        ...edge,
+        id: `${edge.connectionType.toUpperCase()}_EDGE::${type.name}::${edge.fromPort}`
+      }))
+      .keyBy('id')
+      .value(),
   }));
 
   function skipType(typeName):boolean {
@@ -34,7 +41,8 @@ export function getTypeGraph(schema, skipRelay) {
         return;
 
       return {
-        id: `FIELD_EDGE::${type.name}::${field.name}`,
+        connectionType: 'field',
+        fromPort: field.name,
         to: fieldType,
       }
     });
@@ -46,7 +54,8 @@ export function getTypeGraph(schema, skipRelay) {
         return;
 
       return {
-        id: `POSSIBLE_TYPE_EDGE::${type.name}::${possibleType}`,
+        connectionType: 'possible_type',
+        fromPort: possibleType,
         to: possibleType,
       };
     });
@@ -58,7 +67,8 @@ export function getTypeGraph(schema, skipRelay) {
         return;
 
       return {
-        id: `DERIVED_TYPE_EDGE::${type.name}::${derivedType}`,
+        connectionType: 'derived_type',
+        fromPort: derivedType,
         to: derivedType,
       };
     });
@@ -141,18 +151,6 @@ export class TypeGraph {
   getEdgeBySourceId(id:string) {
     let [tag, type, ...rest] = id.split('::');
     return this._getNodes()['TYPE::' + type].edges[buildId(tag + '_EDGE', type, ...rest)];
-  }
-
-  isFieldEdge(edge) {
-    return edge.id.startsWith('FIELD_EDGE::');
-  }
-
-  isPossibleTypeEdge(edge) {
-    return edge.id.startsWith('POSSIBLE_TYPE_EDGE::');
-  }
-
-  isDerivedTypeEdge(edge) {
-    return edge.id.startsWith('DERIVED_TYPE_EDGE::');
   }
 }
 
