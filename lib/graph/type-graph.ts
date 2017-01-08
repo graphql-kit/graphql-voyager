@@ -3,7 +3,7 @@ import * as ejs from 'ejs';
 
 import { store } from '../redux';
 
-const template = require('./template.ejs');
+const template = require('./dot_template.ejs');
 
 export function getTypeGraph(schema, skipRelay) {
   return buildGraph(schema.queryType, type => ({
