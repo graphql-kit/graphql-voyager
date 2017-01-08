@@ -99,11 +99,17 @@ function markRelayTypes(types) {
   });
 }
 
-function sortKeys(value) {
-  if (_.isArray(value))
-    return _.map(value, sortKeys);
+function sortIntrospection(value) {
+  if (_.isArray(value)) {
+    if (_.isString(value[0]))
+      return value.sort();
+    else
+      return _.map(value, sortIntrospection);
+  }
   else if (_.isPlainObject(value))
-    return _(value).toPairs().sortBy(0).fromPairs().mapValues(sortKeys).value();
+    return _(value)
+      .toPairs().sortBy(0).fromPairs()
+      .mapValues(sortIntrospection).value();
   else
     return value;
 }
@@ -113,7 +119,7 @@ export function getSchema(introspection, sortByAlphabet:boolean) {
   markRelayTypes(schema.types);
 
   if (sortByAlphabet)
-    return sortKeys(schema);
+    return sortIntrospection(schema);
   return schema;
 
 }
