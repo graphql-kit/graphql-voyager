@@ -71,12 +71,8 @@ export function rootReducer(previousState = initialState, action) {
       }
 
       var skipRelay = newState.displayOptions.skipRelay;
-      if (previousState.displayOptions.skipRelay !== skipRelay) {
-        var schema = newState.schema;
-        newState = {...newState, typeGraph: getTypeGraph(schema, skipRelay)}
-      }
-
-      return newState;
+      var schema = newState.schema;
+      return {...newState, typeGraph: getTypeGraph(schema, skipRelay)};
     case ActionTypes.RENDERING_SVG_FINISHED:
       return {
         ...previousState,
