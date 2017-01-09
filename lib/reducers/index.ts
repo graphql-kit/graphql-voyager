@@ -15,7 +15,7 @@ var initialState = {
   schema: null,
   typeGraph: null,
   panel: {
-    showIntrospectionLoad: true,
+    showIntrospectionModal: true,
   },
   displayOptions: {
     skipRelay: true,
@@ -96,7 +96,7 @@ export function rootReducer(previousState = initialState, action) {
         ...previousState,
         panel: {
           ...previousState.panel,
-          showIntrospectionLoad: true
+          showIntrospectionModal: true
         }
       }
     case ActionTypes.HIDE_INTROSPECTION_MODAL:
@@ -104,7 +104,7 @@ export function rootReducer(previousState = initialState, action) {
         ...previousState,
         panel: {
           ...previousState.panel,
-          showIntrospectionLoad: false
+          showIntrospectionModal: false
         }
       }
     default:

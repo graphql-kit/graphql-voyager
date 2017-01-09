@@ -15,7 +15,7 @@ import {
 } from '../../actions/';
 
 interface IntrospectionModalProps {
-  showIntrospectionLoad: boolean;
+  showIntrospectionModal: boolean;
   presetsNames: Array<string>;
   activePreset: string;
   dispatch: any;
@@ -23,7 +23,7 @@ interface IntrospectionModalProps {
 
 function mapStateToProps(state) {
   return {
-    showIntrospectionLoad: state.panel.showIntrospectionLoad,
+    showIntrospectionModal: state.panel.showIntrospectionModal,
     activePreset: state.introspection.activePreset,
     presetsNames: _.keys(state.introspection.presets),
   };
@@ -33,7 +33,7 @@ class IntrospectionModal extends React.Component<IntrospectionModalProps, void> 
   presetGroup: RadioButtonGroup;
   render() {
     const {
-      showIntrospectionLoad,
+      showIntrospectionModal,
       presetsNames,
       activePreset
     } = this.props;
@@ -45,7 +45,7 @@ class IntrospectionModal extends React.Component<IntrospectionModalProps, void> 
       overlay: { zIndex: 10 }
     };
     return (
-      <ReactModal isOpen={showIntrospectionLoad}
+      <ReactModal isOpen={showIntrospectionModal}
         style={customStyle}
         contentLabel="Select Introspection"
         onRequestClose={
