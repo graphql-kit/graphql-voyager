@@ -30,7 +30,6 @@ var initialState = {
 
 export function rootReducer(previousState = initialState, action) {
   const { type, error } = action;
-
   switch(type) {
     case ActionTypes.CHANGE_ACTIVE_INTROSPECTION:
       var activePreset = action.payload;
@@ -92,12 +91,20 @@ export function rootReducer(previousState = initialState, action) {
         ...previousState,
         selectedNodeId: action.payload,
       };
-    case ActionTypes.PANEL_CHANGE_INTROSPECTION_LOAD_VISIBILITY:
+    case ActionTypes.SHOW_INTROSPECTION_MODAL:
       return {
         ...previousState,
         panel: {
           ...previousState.panel,
-          showIntrospectionLoad: action.payload
+          showIntrospectionLoad: true
+        }
+      }
+    case ActionTypes.HIDE_INTROSPECTION_MODAL:
+      return {
+        ...previousState,
+        panel: {
+          ...previousState.panel,
+          showIntrospectionLoad: false
         }
       }
     default:

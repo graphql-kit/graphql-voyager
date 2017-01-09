@@ -12,7 +12,7 @@ body > main {
 }
 
 #panel_root {
-  min-width: 300px;
+  min-width: 220px;
   padding: 10px 20px;
   background: #f2f2f2;
 }
@@ -112,4 +112,9 @@ body > main {
 
 .hovered polygon {
   fill: #ffd;
+}
+
+
+.panel-content {
+  padding: 20px;
 }

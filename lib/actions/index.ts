@@ -1,7 +1,7 @@
 import { store } from '../redux';
 import * as _ from 'lodash';
 
-export const CHANGE_ACTIVE_INTROSPECTION = "CHANGE_ACTIVE_INTROSPECTION";
+export const CHANGE_ACTIVE_INTROSPECTION = 'CHANGE_ACTIVE_INTROSPECTION';
 export function changeActiveIntrospection(presetName: string) {
   var introspection = store.getState().introspection.presets[presetName];
 
@@ -14,7 +14,7 @@ export function changeActiveIntrospection(presetName: string) {
   };
 }
 
-export const CHANGE_DISPLAY_OPTIONS = "CHANGE_DISPLAY_OPTIONS";
+export const CHANGE_DISPLAY_OPTIONS = 'CHANGE_DISPLAY_OPTIONS';
 export function changeDisplayOptions(options) {
   return {
     type: CHANGE_DISPLAY_OPTIONS,
@@ -36,16 +36,22 @@ export function changeSkipRelay(state) {
   };
 }
 
-export const RENDERING_SVG_FINISHED = "RENDERING_SVG_FINISHED";
-export const SWITCH_CURRENT_SVG = "SWITCH_CURRENT_SVG";
-export const SELECT_NODE = "SELECT_NODE";
+export const RENDERING_SVG_FINISHED = 'RENDERING_SVG_FINISHED';
+export const SWITCH_CURRENT_SVG = 'SWITCH_CURRENT_SVG';
+export const SELECT_NODE = 'SELECT_NODE';
 
-export const PANEL_CHANGE_INTROSPECTION_LOAD_VISIBILITY =
-  "PANEL_CHANGE_INTROSPECTION_LOAD_VISIBILITY";
+export const SHOW_INTROSPECTION_MODAL =
+  'SHOW_INTROSPECTION_MODAL';
+export const HIDE_INTROSPECTION_MODAL = 'HIDE_INTROSPECTION_MODAL';
 
-export function panelChangeIntrospectionLoadVisibility(state) {
+export function showIntrospectionModal() {
   return {
-    type: PANEL_CHANGE_INTROSPECTION_LOAD_VISIBILITY,
-    payload: state
+    type: SHOW_INTROSPECTION_MODAL
+  };
+}
+
+export function hideIntrospectionModal() {
+  return {
+    type: HIDE_INTROSPECTION_MODAL
   };
 }
