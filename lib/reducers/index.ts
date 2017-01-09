@@ -8,7 +8,7 @@ var initialState = {
     presets: {
       'github': githubIntrospection,
       'swapi': swapiIntrospection,
-      //'custom': null,
+      'custom': ''
     },
     activePreset: null,
   },
@@ -50,6 +50,17 @@ export function rootReducer(previousState = initialState, action) {
         currentSvgIndex: null,
         selectedNodeId: null,
       };
+    case ActionTypes.CHANGE_CUSTOM_INTROSPECTION:
+      return {
+        ...previousState,
+        introspection: {
+          ...previousState.introspection,
+          presets: {
+            ...previousState.introspection.presets,
+            custom: action.payload
+          }
+        }
+      }
     case ActionTypes.CHANGE_DISPLAY_OPTIONS:
       var newState:any = {
         ...previousState,

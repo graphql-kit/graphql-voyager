@@ -17,6 +17,23 @@ body > main {
   background: #f2f2f2;
 }
 
+
+.panel-content {
+  padding: 20px;
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.panel-content > textarea {
+  flex: 1;
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 20px 0;
+}
+
 #viewport {
   height: 100%;
 }
@@ -112,9 +129,4 @@ body > main {
 
 .hovered polygon {
   fill: #ffd;
-}
-
-
-.panel-content {
-  padding: 20px;
 }

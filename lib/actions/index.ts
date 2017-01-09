@@ -55,3 +55,11 @@ export function hideIntrospectionModal() {
     type: HIDE_INTROSPECTION_MODAL
   };
 }
+
+export const CHANGE_CUSTOM_INTROSPECTION = 'CHANGE_CUSTOM_INTROSPECTION';
+export function changeCustomIntrospection(value) {
+  return {
+    type: CHANGE_CUSTOM_INTROSPECTION,
+    payload: JSON.parse(value)
+  };
+}

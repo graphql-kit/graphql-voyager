@@ -12,13 +12,21 @@ import NavigationClose from 'material-ui/svg-icons/navigation/close';
 import {
   changeActiveIntrospection,
   hideIntrospectionModal,
+  changeCustomIntrospection
 } from '../../actions/';
 
 interface IntrospectionModalProps {
   showIntrospectionModal: boolean;
   presetsNames: Array<string>;
   activePreset: string;
+  presetValue: string;
+  presets: any[];
   dispatch: any;
+}
+
+interface IntrospectionModalState {
+  presetValue: string;
+  currentPreset: string;
 }
 
 function mapStateToProps(state) {
@@ -26,26 +34,56 @@ function mapStateToProps(state) {
     showIntrospectionModal: state.panel.showIntrospectionModal,
     activePreset: state.introspection.activePreset,
     presetsNames: _.keys(state.introspection.presets),
+    presets: state.introspection.presets
   };
 }
 
-class IntrospectionModal extends React.Component<IntrospectionModalProps, void> {
+class IntrospectionModal extends React.Component<IntrospectionModalProps, IntrospectionModalState> {
   presetGroup: RadioButtonGroup;
+  constructor(props) {
+    super(props);
+    this.state = this.getState(this.props.activePreset);
+  }
+
+  getState(preset) {
+    return {
+      presetValue: this.props.presets[preset]
+        && JSON.stringify(this.props.presets[preset], null, 2) || '',
+      currentPreset: preset || 'custom'
+    }
+  }
+
+  switchPresetValue(preset) {
+    this.setState(this.getState(preset));
+  }
+
+  handleTextChange(event) {
+   this.setState({...this.state, presetValue: event.target.value});
+  }
+
+  handleChange() {
+    let selected = (this.refs['presetGroup'] as any).state.selected;
+    if (selected === 'custom') {
+      this.props.dispatch(changeCustomIntrospection(this.state.presetValue));
+    }
+    this.props.dispatch(changeActiveIntrospection(selected));
+    this.props.dispatch(hideIntrospectionModal());
+  }
+
   render() {
     const {
-      showIntrospectionModal,
-      presetsNames,
-      activePreset
+      dispatch
     } = this.props;
-    const dispatch = this.props.dispatch;
+
     let customStyle = {
       content: {
-        padding: 0
+        padding: 0, display: 'flex', flexDirection: 'column'
       },
       overlay: { zIndex: 10 }
     };
+
     return (
-      <ReactModal isOpen={showIntrospectionModal}
+      <ReactModal isOpen={this.props.showIntrospectionModal}
         style={customStyle}
         contentLabel="Select Introspection"
         onRequestClose={
@@ -61,21 +99,19 @@ class IntrospectionModal extends React.Component<IntrospectionModalProps, void> 
           </IconButton>}
         />
         <div className="panel-content">
-          <RadioButtonGroup name="preset" defaultSelected={activePreset}
-          ref="presetGroup">
-            {_.map(presetsNames, (name,i) => <RadioButton
+          <RadioButtonGroup name="preset" defaultSelected={this.state.currentPreset}
+          ref="presetGroup" onChange={(e,value) => this.switchPresetValue(value)}>
+            {_.map(this.props.presetsNames, (name,i) => <RadioButton
                 key={i}
                 value={name}
                 label={name}
               />
             )}
           </RadioButtonGroup>
-          <br />
+          <textarea value={this.state.presetValue} disabled={this.state.currentPreset != 'custom'}
+          onChange={this.handleTextChange.bind(this)} placeholder="Paste Introspection"/>
           <RaisedButton label="Change Introspection" primary={true}
-            onTouchTap={() => {
-              dispatch(changeActiveIntrospection((this.refs['presetGroup'] as any).state.selected));
-              dispatch(hideIntrospectionModal());
-            }}/>
+            onTouchTap={this.handleChange.bind(this)}/>
         </div>
       </ReactModal>
     );
