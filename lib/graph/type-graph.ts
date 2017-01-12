@@ -8,6 +8,21 @@ const template = require('./dot_template.ejs');
 export function getTypeGraph(schema, skipRelay) {
   return buildGraph(schema.queryType, type => ({
     id: `TYPE::${type.name}`,
+    ...type,
+    fields: _.map(type.fields, field => ({
+      ...field,
+      id: `FIELD::${type.name}::${field.name}`,
+      displayType: skipRelay && field.relayNodeType || field.type,
+      relaySkip: !!(skipRelay && field.relayNodeType)
+    })),
+    possibleTypes: _.map(type.possibleTypes, possibleType => ({
+      type: possibleType,
+      id: `POSSIBLE_TYPE::${type.name}::${possibleType}`,
+    })),
+    derivedTypes: _.map(type.derivedTypes, derivedType => ({
+      type: derivedType,
+      id: `DERIVED_TYPE::${type.name}::${derivedType}`,
+    })),
     edges: _([
         ...fieldEdges(type),
         ...unionEdges(type),
@@ -125,7 +140,7 @@ export class TypeGraph {
   }
 
   getDot():string {
-    return ejs.render(template, {_, graph: this, stringifyWrappers});
+    return ejs.render(template, {_, typeGraph: this._getNodes(), stringifyWrappers});
   }
 
   getInEdges(nodeId:string):{id: string, nodeId: string}[] {
