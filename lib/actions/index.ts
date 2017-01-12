@@ -38,7 +38,21 @@ export function changeSkipRelay(state) {
 
 export const RENDERING_SVG_FINISHED = 'RENDERING_SVG_FINISHED';
 export const SWITCH_CURRENT_SVG = 'SWITCH_CURRENT_SVG';
-export const SELECT_NODE = 'SELECT_NODE';
+
+export const SELECT_ELEMENT = 'SELECT_ELEMENT';
+export function selectElement(id) {
+  return {
+    type: SELECT_ELEMENT,
+    payload: id,
+  };
+}
+
+export function clearSelection() {
+  return {
+    type: SELECT_ELEMENT,
+    payload: null,
+  };
+}
 
 export const SHOW_INTROSPECTION_MODAL =
   'SHOW_INTROSPECTION_MODAL';

@@ -5,8 +5,9 @@ import * as animate from '@f/animate';
 
 import { TypeGraph } from './type-graph';
 import { getSchema } from '../introspection/';
+import * as Actions from '../actions'
 
-import { observeStore } from '../redux';
+import { store, observeStore } from '../redux';
 
 const xmlns = "http://www.w3.org/2000/svg";
 
@@ -26,6 +27,25 @@ export class Viewport {
     observeStore(state => state.typeGraph, typeGraph => {
       if (typeGraph !== null)
         this.render()
+    });
+
+    observeStore(state => state.selectedId, selectedId => {
+      if (!this.$svg)
+        return;
+
+      this.deselectAll();
+
+      if (selectedId === null) {
+        this.$svg.classList.remove('selection-active');
+        return;
+      }
+
+      this.$svg.classList.add('selection-active');
+      var $selected = document.getElementById(selectedId);
+      if ($selected.classList.contains('node'))
+        this.selectNode($selected);
+      else if ($selected.classList.contains('edge'))
+        this.selectEdge($selected);
     });
   }
 
@@ -66,15 +86,14 @@ export class Viewport {
       if (isLink(event.target as Element)) {
         this.panAndZoomToLink(event.target as Element);
       } else if (isNode(event.target as Element)) {
-        this.$svg.classList.add('selection-active');
-        this.selectNode(getParent(event.target as Element, 'node'));
+        let $node = getParent(event.target as Element, 'node');
+        store.dispatch(Actions.selectElement($node.id));
       } else if (isEdge(event.target as Element)) {
-        this.$svg.classList.remove('selection-active');
-        this.selectEdge(getParent(event.target as Element, 'edge'));
+        let $edge = getParent(event.target as Element, 'edge');
+        store.dispatch(Actions.selectElement($edge.id));
       } else {
         if (isControl(event.target as SVGElement)) return;
-        this.$svg.classList.remove('selection-active');
-        this.deselectAll();
+        store.dispatch(Actions.clearSelection());
       }
     });
   }
@@ -107,7 +126,6 @@ export class Viewport {
   }
 
   selectNode(node:Element) {
-    this.deselectAll();
     node.classList.add('selected');
     let inEdges = this.renderer.getInEdges(node.id);
     let outEdges = this.renderer.getOutEdges(node.id);
@@ -123,7 +141,6 @@ export class Viewport {
   }
 
   selectEdge(edge:Element) {
-    this.deselectAll();
     edge.classList.add('selected');
   }
 

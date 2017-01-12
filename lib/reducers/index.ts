@@ -25,7 +25,7 @@ var initialState = {
   svgCache: [
   ],
   svgRenderingFinished: false,
-  selectedNodeId: null,
+  selectedId: null
 };
 
 export function rootReducer(previousState = initialState, action) {
@@ -97,10 +97,10 @@ export function rootReducer(previousState = initialState, action) {
         currentSvgIndex: action.payload,
         svgRenderingFinished: true,
       };
-    case ActionTypes.SELECT_NODE:
+    case ActionTypes.SELECT_ELEMENT:
       return {
         ...previousState,
-        selectedNodeId: action.payload,
+        selectedId: action.payload,
       };
     case ActionTypes.SHOW_INTROSPECTION_MODAL:
       return {
