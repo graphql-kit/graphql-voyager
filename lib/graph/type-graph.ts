@@ -1,11 +1,16 @@
 import * as _ from 'lodash';
 import * as ejs from 'ejs';
+import { createSelector } from 'reselect'
 
 import { store } from '../redux';
+import { getSchemaSelector } from '../introspection/'
 
 const template = require('./dot_template.ejs');
 
-export function getTypeGraph(schema, skipRelay) {
+function getTypeGraph(schema, skipRelay) {
+  if (schema === null)
+    return null;
+
   return buildGraph(schema.queryType, type => ({
     id: `TYPE::${type.name}`,
     ...type,
@@ -106,47 +111,26 @@ export function getTypeGraph(schema, skipRelay) {
   }
 }
 
+export const getTypeGraphSelector = createSelector(
+  getSchemaSelector,
+  (state:any) => state.displayOptions.skipRelay,
+  getTypeGraph
+);
+
 export class TypeGraph {
-  constructor() {
-  }
-
-  _isSkipRelay() {
-    return store.getState().displayOptions.skipRelay;
-  }
-
-  _getSchema() {
-    return store.getState().schema;
-  }
-
-  _getNodes() {
-    return store.getState().typeGraph;
-  }
-
-  _getTypeById(typeId:string) {
-    let [tag, type] = typeId.split('::');
-    return this._getSchema().types[type];
-  }
-
-  _getFieldById(fieldId:string) {
-    let [tag, type, field] = fieldId.split('::');
-    return this._getSchema().types[type].fields[field];
-  }
-
-  _getFieldType(field) {
-    var fieldType = field.type;
-    if (this._isSkipRelay() && field.relayNodeType)
-      fieldType = field.relayNodeType;
-    return this._getSchema().types[fieldType];
+  typeGraph: any;
+  constructor(typeGraph) {
+    this.typeGraph = typeGraph
   }
 
   getDot():string {
-    return ejs.render(template, {_, typeGraph: this._getNodes(), stringifyWrappers});
+    return ejs.render(template, {_, typeGraph: this.typeGraph, stringifyWrappers});
   }
 
   getInEdges(nodeId:string):{id: string, nodeId: string}[] {
-    var typeName = this._getTypeById(nodeId).name;
+    var typeName = this.typeGraph[nodeId].name;
     let res = [];
-    _.each(this._getNodes(), node => {
+    _.each(this.typeGraph, node => {
       _.each(node.edges, edge => {
         if (edge.to === typeName)
           res.push({ id: edge.id, nodeId: node.id });
@@ -156,7 +140,7 @@ export class TypeGraph {
   }
 
   getOutEdges(nodeId:string):{id: string, nodeId: string}[] {
-    let node = this._getNodes()[nodeId];
+    let node = this.typeGraph[nodeId];
     return _.map<any, any>(node.edges, edge => ({
       id: edge.id,
       nodeId: 'TYPE::' + edge.to
@@ -165,7 +149,7 @@ export class TypeGraph {
 
   getEdgeBySourceId(id:string) {
     let [tag, type, ...rest] = id.split('::');
-    return this._getNodes()['TYPE::' + type].edges[buildId(tag + '_EDGE', type, ...rest)];
+    return this.typeGraph['TYPE::' + type].edges[buildId(tag + '_EDGE', type, ...rest)];
   }
 }
 

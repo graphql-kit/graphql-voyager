@@ -3,8 +3,7 @@ import * as Viz from 'viz.js';
 import * as svgPanZoom from 'svg-pan-zoom';
 import * as animate from '@f/animate';
 
-import { TypeGraph } from './type-graph';
-import { getSchema } from '../introspection/';
+import { getTypeGraphSelector, TypeGraph } from './type-graph';
 import * as Actions from '../actions'
 
 import { store, observeStore } from '../redux';
@@ -23,10 +22,12 @@ export class Viewport {
   zoomer: SvgPanZoom.Instance;
 
   constructor(public container: HTMLElement) {
-    this.renderer = new TypeGraph();
-    observeStore(state => state.typeGraph, typeGraph => {
-      if (typeGraph !== null)
-        this.render()
+    observeStore(getTypeGraphSelector, typeGraph => {
+      if (typeGraph === null)
+        return;
+
+      this.renderer = new TypeGraph(typeGraph);
+      this.render()
     });
 
     observeStore(state => state.selectedId, selectedId => {

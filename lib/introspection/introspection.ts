@@ -1,4 +1,7 @@
 import * as _ from 'lodash';
+import { createSelector } from 'reselect';
+
+import { store } from "../redux";
 
 function unwrapType(type, wrappers) {
   while (type.kind === 'NON_NULL' || type.kind == 'LIST') {
@@ -114,12 +117,18 @@ function sortIntrospection(value) {
     return value;
 }
 
-export function getSchema(introspection, sortByAlphabet:boolean) {
-  var schema = simplifySchema(introspection.__schema);
-  markRelayTypes(schema.types);
+export const getSchemaSelector = createSelector(
+  (state:any) => state.introspection.presets[state.introspection.activePreset],
+  (state:any) => state.displayOptions.sortByAlphabet,
+  (introspection, sortByAlphabet) => {
+    if (!introspection || introspection === '')
+      return null;
 
-  if (sortByAlphabet)
-    return sortIntrospection(schema);
-  return schema;
+    var schema = simplifySchema(introspection.__schema);
+    markRelayTypes(schema.types);
 
-}
+    if (sortByAlphabet)
+      return sortIntrospection(schema);
+    return schema;
+  }
+);
