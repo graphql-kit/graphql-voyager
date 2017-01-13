@@ -1,5 +1,6 @@
 import * as ActionTypes from '../actions/'
 import { githubIntrospection, swapiIntrospection } from '../introspection';
+import * as _ from 'lodash';
 
 var initialState = {
   introspection: {
@@ -11,7 +12,7 @@ var initialState = {
     activePreset: null,
   },
   panel: {
-    showIntrospectionModal: true,
+    showIntrospectionModal: true
   },
   displayOptions: {
     skipRelay: true,
@@ -52,11 +53,14 @@ export function rootReducer(previousState = initialState, action) {
         }
       }
     case ActionTypes.CHANGE_DISPLAY_OPTIONS:
+      let displayOptions = {...previousState.displayOptions, ...action.payload};
+      let cacheIdx = _.findIndex(previousState.svgCache, cacheItem => {
+        return _.isEqual(cacheItem.displayOptions, displayOptions)
+      });
       return {
         ...previousState,
-        displayOptions: {...previousState.displayOptions, ...action.payload},
-        svgRenderingInProgress: true,
-        currentSvgIndex: null,
+        displayOptions,
+        currentSvgIndex: cacheIdx >= 0 ? cacheIdx : null,
         selectedNodeId: null,
       };
     case ActionTypes.SVG_RENDERING_FINISHED:
@@ -64,7 +68,7 @@ export function rootReducer(previousState = initialState, action) {
         ...previousState,
         svgRenderingInProgress: false,
         svgCache: previousState.svgCache.concat([{
-          displayOpts: previousState.displayOptions,
+          displayOptions: previousState.displayOptions,
           svg: action.payload
         }]),
         currentSvgIndex: previousState.svgCache.length

@@ -14,11 +14,3 @@ export function changeActiveIntrospection(presetName: string) {
     payload: presetName,
   };
 }
-
-export function loadIntrospection(presetName: string) {
-  return dispatch => {
-    dispatch(changeActiveIntrospection(presetName));
-
-    return dispatch(renderSvg());
-  }
-}

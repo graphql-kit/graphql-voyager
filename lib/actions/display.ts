@@ -13,32 +13,14 @@ export function changeDisplayOptions(options) {
   };
 }
 
-export function updateDisplayOptions(options) {
-  return (dispatch, getPrevState) => {
-    let prevState = getPrevState();
-    options = { ...prevState.displayOptions, ...options };
-
-    dispatch(changeDisplayOptions(options));
-
-    let cacheIdx = _.findIndex(prevState.svgCache, cacheItem => {
-      return _.isEqual(cacheItem.displayOpts, options)
-    });
-    if (cacheIdx >= 0) {
-      dispatch(switchCurrentSvg(cacheIdx));
-    } else {
-      return dispatch(renderSvg());
-    }
-  }
-}
-
 export function changeSortByAlphabet(state) {
-  return updateDisplayOptions({
+  return changeDisplayOptions({
     sortByAlphabet: state
   });
 }
 
 export function changeSkipRelay(state) {
-  return updateDisplayOptions({
+  return changeDisplayOptions({
     skipRelay: state
   });
 }

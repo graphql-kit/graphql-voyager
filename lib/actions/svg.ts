@@ -10,6 +10,15 @@ export function renderSvg() {
   }
 }
 
+export function renderSvgIfNeeded() {
+  return (dispatch, getState) => {
+    let state = getState();
+    if (state.currentSvgIndex == null && state.introspection.activePreset) {
+      dispatch(renderSvg());
+    }
+  }
+}
+
 export const SVG_RENDERING_FINISHED = 'SVG_RENDERING_FINISHED';
 export function svgRenderingFinished(svgString) {
   return {

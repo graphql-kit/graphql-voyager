@@ -1,6 +1,7 @@
 import { getTypeGraphSelector, TypeGraph } from './type-graph';
 const VizWorker = require('./viz-worker.worker');
 import { store, observeStore } from '../redux';
+import { renderSvgIfNeeded } from '../actions/'
 
 export class SVGRenderer {
   worker: Worker;
@@ -13,6 +14,7 @@ export class SVGRenderer {
       if (typeGraph === null)
         return;
       this.typeGraph = new TypeGraph(typeGraph);
+      store.dispatch<any>(renderSvgIfNeeded());
     });
   }
 
