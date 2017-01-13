@@ -1,4 +1,4 @@
-import * as ActionTypes from '../actions'
+import * as ActionTypes from '../actions/'
 import { githubIntrospection, swapiIntrospection } from '../introspection';
 
 var initialState = {
@@ -85,7 +85,7 @@ export function rootReducer(previousState = initialState, action) {
         ...previousState,
         panel: {
           ...previousState.panel,
-          showIntrospectionModal: false
+          showIntrospectionModal: true
         }
       }
     case ActionTypes.HIDE_INTROSPECTION_MODAL:
