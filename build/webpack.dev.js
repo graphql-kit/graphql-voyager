@@ -38,26 +38,35 @@ module.exports = {
     chunkFilename: '[id].chunk.js'
   },
   module: {
-    rules: [{
+    rules: [
+    {
       enforce: 'pre',
       test: /\.js$/,
       loader: 'source-map-loader',
       exclude: [
         /node_modules/
       ]
-    }, {
+    },
+    {
       test: /\.tsx?$/,
       loaders: [
         'awesome-typescript-loader'
       ],
       exclude: [/\.(spec|e2e)\.ts$/]
-    }, {
+    },
+    {
+      test: /\.worker.js$/,
+      use: 'worker-loader'
+    },
+    {
       test: /\.css$/,
       loaders: ['style-loader', 'css-loader?importLoaders=1', 'postcss-loader']
-    }, {
+    },
+    {
       test: /\.json$/,
       loader: 'json-loader'
-    }, {
+    },
+    {
       test: /\.ejs$/,
       loader: 'raw-loader'
     }]
