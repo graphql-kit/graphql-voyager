@@ -10,7 +10,7 @@ import IconButton from 'material-ui/IconButton';
 import NavigationClose from 'material-ui/svg-icons/navigation/close';
 
 import {
-  changeActiveIntrospection,
+  loadIntrospection,
   hideIntrospectionModal,
   changeCustomIntrospection
 } from '../../actions/';
@@ -66,7 +66,7 @@ class IntrospectionModal extends React.Component<IntrospectionModalProps, Intros
     if (selected === 'custom') {
       this.props.dispatch(changeCustomIntrospection(this.state.presetValue));
     }
-    this.props.dispatch(changeActiveIntrospection(selected));
+    this.props.dispatch(loadIntrospection(selected));
     this.props.dispatch(hideIntrospectionModal());
   }
 

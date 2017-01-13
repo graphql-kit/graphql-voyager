@@ -1,5 +1,4 @@
 import * as _ from 'lodash';
-import * as Viz from 'viz.js';
 import * as svgPanZoom from 'svg-pan-zoom';
 import * as animate from '@f/animate';
 
@@ -18,17 +17,25 @@ import {
 
 export class Viewport {
   $svg: SVGElement;
-  renderer: TypeGraph;
+  typeGraph: TypeGraph;
   zoomer: SvgPanZoom.Instance;
+  worker: Worker;
 
   constructor(public container: HTMLElement) {
     observeStore(getTypeGraphSelector, typeGraph => {
       if (typeGraph === null)
         return;
 
-      this.renderer = new TypeGraph(typeGraph);
-      this.render()
+      this.typeGraph = new TypeGraph(typeGraph);
     });
+
+    observeStore(state => state.currentSvgIndex, svgIdx => {
+      if (svgIdx == null) {
+        return;
+      }
+      let cachedSvg = store.getState().svgCache[svgIdx];
+      this.display(cachedSvg.svg);
+    })
 
     observeStore(state => state.selectedId, selectedId => {
       if (!this.$svg)
@@ -50,9 +57,8 @@ export class Viewport {
     });
   }
 
-  render() {
+  display(svgString) {
     this.clear();
-    let svgString = Viz(this.renderer.getDot());
     this.$svg = preprocessVizSvg(svgString);
     this.container.appendChild(this.$svg);
     this.enableZoom();
@@ -116,7 +122,7 @@ export class Viewport {
         clearSelection();
         $sourceGroup.classList.add('hovered');
         $prevHovered = $sourceGroup;
-        let edgeId = this.renderer.getEdgeBySourceId($sourceGroup.id).id;
+        let edgeId = this.typeGraph.getEdgeBySourceId($sourceGroup.id).id;
         let $edge = document.getElementById(edgeId);
         $edge.classList.add('hovered');
         $prevHoveredEdge = $edge;
@@ -128,8 +134,8 @@ export class Viewport {
 
   selectNode(node:Element) {
     node.classList.add('selected');
-    let inEdges = this.renderer.getInEdges(node.id);
-    let outEdges = this.renderer.getOutEdges(node.id);
+    let inEdges = this.typeGraph.getInEdges(node.id);
+    let outEdges = this.typeGraph.getOutEdges(node.id);
 
     let allEdges = _.union(inEdges, outEdges);
 
@@ -197,7 +203,7 @@ export function preprocessVizSvg(svgString:string) {
 
     var $docFrag = document.createDocumentFragment();
     while ($a.firstChild) {
-        let $child = $a.removeChild($a.firstChild);
+        let $child = $a.firstChild;
         $docFrag.appendChild($child);
     }
 
@@ -206,7 +212,7 @@ export function preprocessVizSvg(svgString:string) {
     $g.id = $g.id.replace(/^a_/, '');
   });
 
-  forEachNode(svg, 'title', $el => $el.remove());
+  //forEachNode(svg, 'title', $el => $el.remove());
 
   var displayedTypes = [];
   forEachNode(svg, '[id]', $el => {
@@ -229,7 +235,7 @@ export function preprocessVizSvg(svgString:string) {
   forEachNode(svg, '.field', $field => {
     let texts = $field.querySelectorAll('text');
     texts[0].classList.add('field-name');
-    texts[1].remove();
+    //texts[1].remove();
 
     for (var i = 2; i < texts.length; ++i) {
       texts[i].classList.add('field-type');

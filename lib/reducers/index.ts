@@ -20,7 +20,7 @@ var initialState = {
   currentSvgIndex: null,
   svgCache: [
   ],
-  svgRenderingFinished: false,
+  svgRenderingInProgress: false,
   selectedId: null
 };
 
@@ -35,7 +35,7 @@ export function rootReducer(previousState = initialState, action) {
           activePreset: action.payload,
         },
         displayOptions: {...initialState.displayOptions},
-        svgRenderingFinished: false,
+        svgRenderingInProgress: true,
         svgCache: [],
         currentSvgIndex: null,
         selectedNodeId: null,
@@ -55,23 +55,25 @@ export function rootReducer(previousState = initialState, action) {
       return {
         ...previousState,
         displayOptions: {...previousState.displayOptions, ...action.payload},
-        svgRenderingFinished: false,
+        svgRenderingInProgress: true,
         currentSvgIndex: null,
         selectedNodeId: null,
       };
-    case ActionTypes.RENDERING_SVG_FINISHED:
+    case ActionTypes.SVG_RENDERING_FINISHED:
       return {
         ...previousState,
-        svgCache: previousState.svgCache.concat([[
-          previousState.displayOptions,
-          action.payload
-        ]]),
+        svgRenderingInProgress: false,
+        svgCache: previousState.svgCache.concat([{
+          displayOpts: previousState.displayOptions,
+          svg: action.payload
+        }]),
+        currentSvgIndex: previousState.svgCache.length
       };
     case ActionTypes.SWITCH_CURRENT_SVG:
       return {
         ...previousState,
         currentSvgIndex: action.payload,
-        svgRenderingFinished: true,
+        svgRenderingInProgress: false
       };
     case ActionTypes.SELECT_ELEMENT:
       return {
@@ -83,7 +85,7 @@ export function rootReducer(previousState = initialState, action) {
         ...previousState,
         panel: {
           ...previousState.panel,
-          showIntrospectionModal: true
+          showIntrospectionModal: false
         }
       }
     case ActionTypes.HIDE_INTROSPECTION_MODAL:

@@ -1,5 +1,8 @@
 import { store } from '../redux';
 import * as _ from 'lodash';
+import { SVGRenderer } from '../graph/svg-renderer';
+
+var svgRenderer = new SVGRenderer();
 
 export const CHANGE_ACTIVE_INTROSPECTION = 'CHANGE_ACTIVE_INTROSPECTION';
 export function changeActiveIntrospection(presetName: string) {
@@ -14,6 +17,16 @@ export function changeActiveIntrospection(presetName: string) {
   };
 }
 
+export function loadIntrospection(presetName: string) {
+  return dispatch => {
+    dispatch(changeActiveIntrospection(presetName));
+
+    svgRenderer.render().then((svgString) => {
+      dispatch(svgRenderingFinished(svgString));
+    });
+  }
+}
+
 export const CHANGE_DISPLAY_OPTIONS = 'CHANGE_DISPLAY_OPTIONS';
 export function changeDisplayOptions(options) {
   return {
@@ -22,22 +35,52 @@ export function changeDisplayOptions(options) {
   };
 }
 
+export function updateDisplayOptions(options) {
+  return (dispatch, getPrevState) => {
+    let prevState = getPrevState();
+    options = { ...prevState.displayOptions, ...options };
+
+    dispatch(changeDisplayOptions(options));
+
+    let cacheIdx = _.findIndex(prevState.svgCache, cacheItem => {
+      return _.isEqual(cacheItem.displayOpts, options)
+    });
+    if (cacheIdx >= 0) {
+      dispatch(switchCurrentSvg(cacheIdx));
+    } else {
+      svgRenderer.render().then((svgString) => {
+        dispatch(svgRenderingFinished(svgString));
+      });
+    }
+  }
+}
+
 export function changeSortByAlphabet(state) {
-  return {
-    type: CHANGE_DISPLAY_OPTIONS,
-    payload: {sortByAlphabet: state},
-  };
+  return updateDisplayOptions({
+    sortByAlphabet: state
+  });
 }
 
 export function changeSkipRelay(state) {
-  return {
-    type: CHANGE_DISPLAY_OPTIONS,
-    payload: {skipRelay: state},
-  };
+  return updateDisplayOptions({
+    skipRelay: state
+  });
 }
 
-export const RENDERING_SVG_FINISHED = 'RENDERING_SVG_FINISHED';
+export const SVG_RENDERING_FINISHED = 'RENDERING_SVG_FINISHED';
+export function svgRenderingFinished(svgString) {
+  return {
+    type: SVG_RENDERING_FINISHED,
+    payload: svgString
+  };
+}
 export const SWITCH_CURRENT_SVG = 'SWITCH_CURRENT_SVG';
+export function switchCurrentSvg(idx) {
+  return {
+    type: SWITCH_CURRENT_SVG,
+    payload: idx
+  };
+}
 
 export const SELECT_ELEMENT = 'SELECT_ELEMENT';
 export function selectElement(id) {
@@ -54,8 +97,7 @@ export function clearSelection() {
   };
 }
 
-export const SHOW_INTROSPECTION_MODAL =
-  'SHOW_INTROSPECTION_MODAL';
+export const SHOW_INTROSPECTION_MODAL = 'SHOW_INTROSPECTION_MODAL';
 export const HIDE_INTROSPECTION_MODAL = 'HIDE_INTROSPECTION_MODAL';
 
 export function showIntrospectionModal() {

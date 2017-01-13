@@ -23,7 +23,7 @@ interface PanelRootProps {
 
 function mapStateToProps(state) {
   return {
-    isLoading: !state.svgRenderingFinished,
+    isLoading: state.svgRenderingInProgress,
     sortByAlphabet: state.displayOptions.sortByAlphabet,
     skipRelay: state.displayOptions.skipRelay
   };
@@ -40,6 +40,7 @@ class PanelRoot extends React.Component<PanelRootProps, void> {
       return (
         <div>
           <h2>GraphQL Voyager</h2>
+          {isLoading && <div> Loading </div>}
           <IntrospectionModal> </IntrospectionModal>
           <RaisedButton label="Load Introspection" primary={true}
             onTouchTap={() => dispatch(showIntrospectionModal())}/>
