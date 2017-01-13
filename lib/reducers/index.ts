@@ -7,7 +7,7 @@ var initialState = {
     presets: {
       'github': githubIntrospection,
       'swapi': swapiIntrospection,
-      'custom': ''
+      'custom': null
     },
     activePreset: null,
   },
