@@ -151,9 +151,14 @@ export class TypeGraph {
     let [tag, type, ...rest] = id.split('::');
     return this.typeGraph['TYPE::' + type].edges[buildId(tag + '_EDGE', type, ...rest)];
   }
+
+  getTypeById(id: string) {
+    let [tag, type] = id.split('::');
+    return this.typeGraph['TYPE::' + type];
+  }
 }
 
-function stringifyWrappers(wrappers) {
+export function stringifyWrappers(wrappers) {
   return _.reduce(wrappers, ([left, right], wrapper) => {
     switch (wrapper) {
       case 'NON_NULL':
