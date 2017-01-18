@@ -14,6 +14,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import Checkbox from 'material-ui/Checkbox';
 
 import IntrospectionModal from './IntrospectionModal';
+import TypeInfo from './TypeInfo';
 
 interface PanelRootProps {
   isLoading: boolean;
@@ -49,6 +50,7 @@ class PanelRoot extends React.Component<PanelRootProps, void> {
             onCheck={(e, val) => dispatch(changeSortByAlphabet(val))} />
           <Checkbox label="Skip Relay" checked={skipRelay}
             onCheck={(e, val) => dispatch(changeSkipRelay(val))} />
+          <TypeInfo/>
         </div>
       );
   }
