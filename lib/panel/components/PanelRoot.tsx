@@ -20,6 +20,7 @@ interface PanelRootProps {
   isLoading: boolean;
   sortByAlphabet: boolean;
   skipRelay: boolean;
+  dispatch: any;
 }
 
 function mapStateToProps(state) {
@@ -35,14 +36,14 @@ class PanelRoot extends React.Component<PanelRootProps, void> {
       const {
         isLoading,
         sortByAlphabet,
-        skipRelay
+        skipRelay,
+        dispatch
       } = this.props;
-      const dispatch = this.props['dispatch'];
       return (
         <div>
           <h2>GraphQL Voyager</h2>
           {isLoading && <div> Loading </div>}
-          <IntrospectionModal> </IntrospectionModal>
+          <IntrospectionModal/>
           <RaisedButton label="Load Introspection" primary={true}
             onTouchTap={() => dispatch(showIntrospectionModal())}/>
           <p/>

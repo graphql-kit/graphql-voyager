@@ -17,7 +17,6 @@ import {
 
 interface IntrospectionModalProps {
   showIntrospectionModal: boolean;
-  presetsNames: Array<string>;
   activePreset: string;
   presetValue: string;
   presets: any[];
@@ -33,7 +32,6 @@ function mapStateToProps(state) {
   return {
     showIntrospectionModal: state.panel.showIntrospectionModal,
     activePreset: state.introspection.activePreset,
-    presetsNames: _.keys(state.introspection.presets),
     presets: state.introspection.presets
   };
 }
@@ -72,8 +70,15 @@ class IntrospectionModal extends React.Component<IntrospectionModalProps, Intros
 
   render() {
     const {
-      dispatch
+      showIntrospectionModal,
+      presets,
+      dispatch,
     } = this.props;
+
+    const {
+      currentPreset,
+      presetValue,
+    } = this.state;
 
     let customStyle = {
       content: {
@@ -83,7 +88,7 @@ class IntrospectionModal extends React.Component<IntrospectionModalProps, Intros
     };
 
     return (
-      <ReactModal isOpen={this.props.showIntrospectionModal}
+      <ReactModal isOpen={showIntrospectionModal}
         style={customStyle}
         contentLabel="Select Introspection"
         onRequestClose={
@@ -99,16 +104,16 @@ class IntrospectionModal extends React.Component<IntrospectionModalProps, Intros
           </IconButton>}
         />
         <div className="panel-content">
-          <RadioButtonGroup name="preset" defaultSelected={this.state.currentPreset}
+          <RadioButtonGroup name="preset" defaultSelected={currentPreset}
           ref="presetGroup" onChange={(e,value) => this.switchPresetValue(value)}>
-            {_.map(this.props.presetsNames, (name,i) => <RadioButton
+            {_.map(_.keys(presets), (name,i) => <RadioButton
                 key={i}
                 value={name}
                 label={name}
               />
             )}
           </RadioButtonGroup>
-          <textarea value={this.state.presetValue} disabled={this.state.currentPreset != 'custom'}
+          <textarea value={presetValue} disabled={currentPreset != 'custom'}
           onChange={this.handleTextChange.bind(this)} placeholder="Paste Introspection"/>
           <RaisedButton label="Change Introspection" primary={true}
             onTouchTap={this.handleChange.bind(this)}/>
