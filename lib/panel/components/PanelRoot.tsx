@@ -33,27 +33,27 @@ function mapStateToProps(state) {
 
 class PanelRoot extends React.Component<PanelRootProps, void> {
   render() {
-      const {
-        isLoading,
-        sortByAlphabet,
-        skipRelay,
-        dispatch
-      } = this.props;
-      return (
-        <div>
-          <h2>GraphQL Voyager</h2>
-          {isLoading && <div> Loading </div>}
-          <IntrospectionModal/>
-          <RaisedButton label="Load Introspection" primary={true}
-            onTouchTap={() => dispatch(showIntrospectionModal())}/>
-          <p/>
-          <Checkbox label="Sort by Alphabet" checked={sortByAlphabet}
-            onCheck={(e, val) => dispatch(changeSortByAlphabet(val))} />
-          <Checkbox label="Skip Relay" checked={skipRelay}
-            onCheck={(e, val) => dispatch(changeSkipRelay(val))} />
-          <TypeInfo/>
-        </div>
-      );
+    const {
+      isLoading,
+      sortByAlphabet,
+      skipRelay,
+      dispatch
+    } = this.props;
+    return (
+      <div>
+        <h2>GraphQL Voyager</h2>
+        {isLoading && <div> Loading </div>}
+        <IntrospectionModal/>
+        <RaisedButton label="Load Introspection" primary={true}
+          onTouchTap={() => dispatch(showIntrospectionModal())}/>
+        <p/>
+        <Checkbox label="Sort by Alphabet" checked={sortByAlphabet}
+          onCheck={(e, val) => dispatch(changeSortByAlphabet(val))} />
+        <Checkbox label="Skip Relay" checked={skipRelay}
+          onCheck={(e, val) => dispatch(changeSkipRelay(val))} />
+        <TypeInfo/>
+      </div>
+    );
   }
 }
 
