@@ -130,3 +130,97 @@ body > main {
 .hovered polygon {
   fill: #ffd;
 }
+
+.doc-explorer-title-bar {
+  cursor: default;
+  display: flex;
+  height: 34px;
+  line-height: 14px;
+  padding: 8px 8px 5px;
+  position: relative;
+  user-select: none;
+}
+
+.doc-explorer-title {
+  flex: 1;
+  font-weight: bold;
+  overflow-x: hidden;
+  padding: 10px 0 10px 10px;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.doc-type-description p:first-child ,
+.doc-type-description blockquote:first-child {
+  margin-top: 0;
+}
+
+.doc-explorer-contents a {
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.doc-explorer-contents a:hover {
+  text-decoration: underline;
+}
+
+.doc-value-description {
+  padding: 4px 0 8px 12px;
+}
+
+.doc-category {
+  margin: 20px 0;
+}
+
+.doc-category-title {
+  border-bottom: 1px solid #e0e0e0;
+  color: #777;
+  cursor: default;
+  font-size: 14px;
+  font-variant: small-caps;
+  font-weight: bold;
+  letter-spacing: 1px;
+  margin: 0 -15px 10px 0;
+  padding: 10px 0;
+  user-select: none;
+}
+
+.doc-category-item {
+  margin: 12px 0;
+  color: #555;
+}
+
+.type-name {
+  color: #CA9800;
+}
+
+.field-name {
+  color: #1F61A0;
+}
+
+.value-name {
+  color: #0B7FC7;
+}
+
+.arg-name {
+  color: #8B2BB9;
+}
+
+.arg:after {
+  content: ', ';
+}
+
+.arg:last-child:after {
+  content: '';
+}
+
+.arg-default-value {
+  color: #0B7FC7;
+}
+
+.doc-alert-text {
+  color: #F00F00;
+  font-family: 'Consolas', 'Inconsolata', 'Droid Sans Mono', 'Monaco', monospace;
+  font-size: 13px;
+}
