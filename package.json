@@ -28,7 +28,9 @@
   "dependencies": {
     "@f/animate": "^1.0.1",
     "ejs": "^2.5.3",
+    "graphql": "^0.8.2",
     "lodash": "^4.17.2",
+    "marked": "^0.3.6",
     "material-ui": "^0.16.6",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
