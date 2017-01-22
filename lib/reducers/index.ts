@@ -60,6 +60,7 @@ export function rootReducer(previousState = initialState, action) {
       return {
         ...previousState,
         displayOptions,
+        svgRenderingInProgress: cacheIdx >= 0 ? false : true,
         currentSvgIndex: cacheIdx >= 0 ? cacheIdx : null,
         selectedNodeId: null,
       };
