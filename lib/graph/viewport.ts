@@ -37,24 +37,7 @@ export class Viewport {
       this.display(cachedSvg.svg);
     })
 
-    observeStore(state => state.selectedId, selectedId => {
-      if (!this.$svg)
-        return;
-
-      this.deselectAll();
-
-      if (selectedId === null) {
-        this.$svg.classList.remove('selection-active');
-        return;
-      }
-
-      this.$svg.classList.add('selection-active');
-      var $selected = document.getElementById(selectedId);
-      if ($selected.classList.contains('node'))
-        this.selectNode($selected);
-      else if ($selected.classList.contains('edge'))
-        this.selectEdge($selected);
-    });
+    observeStore(state => state.selectedId, id => this.selectId(id));
   }
 
   display(svgString) {
@@ -130,6 +113,25 @@ export class Viewport {
         clearSelection();
       }
     });
+  }
+
+  selectId(id:string) {
+    if (!this.$svg)
+      return;
+
+    this.deselectAll();
+
+    if (id === null) {
+      this.$svg.classList.remove('selection-active');
+      return;
+    }
+
+    this.$svg.classList.add('selection-active');
+    var $selected = document.getElementById(id);
+    if ($selected.classList.contains('node'))
+      this.selectNode($selected);
+    else if ($selected.classList.contains('edge'))
+      this.selectEdge($selected);
   }
 
   selectNode(node:Element) {
