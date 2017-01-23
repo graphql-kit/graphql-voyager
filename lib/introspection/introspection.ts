@@ -48,6 +48,7 @@ function convertType(inType) {
     description: inType.description,
 
     isSystemType: _.startsWith(inType.name, '__'),
+    isBasicType: (['SCALAR', 'ENUM', 'INPUT_OBJECT'].indexOf(inType.kind) !== -1),
   };
 
   switch (outType.kind) {
@@ -83,19 +84,19 @@ function simplifySchema(inSchema) {
   };
 }
 
-function markRelayTypes(types) {
+function markRelayTypes(types, queryType) {
   types['Node'].isRelayType = true;
   types['PageInfo'].isRelayType = true;
 
-  return _.mapValues(types, type => ({
+  types = _.mapValues(types, type => ({
     ...type,
     fields: _.mapValues(type.fields, field => {
-      if (!/.Connection$/.test(field.type))
+      if (!/.Connection$/.test(field.type.name))
         return field;
       //FIXME: additional checks
-      let relayConnetion = types[field.type];
+      let relayConnetion = field.type;
       relayConnetion.isRelayType = true;
-      let relayEdge = types[relayConnetion.fields['edges'].type];
+      let relayEdge = relayConnetion.fields['edges'].type;
       relayEdge.isRelayType = true;
 
       return {
@@ -106,6 +107,13 @@ function markRelayTypes(types) {
       };
     }),
   }));
+
+  let query = types[queryType];
+  if (_.get(query,'fields.node.type.isRelayType'))
+    delete query.fields['node'];
+  if (_.get(query,'fields.relay.type.name') == queryType)
+    delete query.fields['relay'];
+  return types;
 }
 
 function sortIntrospection(value) {
@@ -123,23 +131,29 @@ function sortIntrospection(value) {
     return value;
 }
 
-function assignIDs(types) {
-  return _.mapValues(types, type => ({
-    ...type,
-    id: `TYPE::${type.name}`,
-    fields: _.mapValues(type.fields, field => ({
-      ...field,
-      id: `FIELD::${type.name}::${field.name}`,
-    })),
-    possibleTypes: _.map(type.possibleTypes, possibleType => ({
-      type: possibleType,
-      id: `POSSIBLE_TYPE::${type.name}::${possibleType}`,
-    })),
-    derivedTypes: _.map(type.derivedTypes, derivedType => ({
-      type: derivedType,
-      id: `DERIVED_TYPE::${type.name}::${derivedType}`,
-    })),
-  }));
+function assignTypesAndIDs(types) {
+  _.each(types, type => {
+    type.id = `TYPE::${type.name}`;
+
+    _.each(type.fields, field => {
+      field.id = `FIELD::${type.name}::${field.name}`;
+      field.type = types[field.type];
+    });
+
+    if (!_.isEmpty(type.possibleTypes)) {
+      type.possibleTypes = _.map(type.possibleTypes, possibleType => ({
+        id: `POSSIBLE_TYPE::${type.name}::${possibleType}`,
+        type: types[possibleType]
+      }));
+    }
+
+    if (!_.isEmpty(type.derivedTypes)) {
+      type.derivedTypes = _.map(type.derivedTypes, derivedType => ({
+        id: `DERIVED_TYPE::${type.name}::${derivedType}`,
+        type: types[derivedType]
+      }));
+    }
+  });
 }
 
 export const getSchemaSelector = createSelector(
@@ -150,13 +164,14 @@ export const getSchemaSelector = createSelector(
       return null;
 
     var schema = simplifySchema(introspection.__schema);
-    if (displayOptions.skipRelay)
-      schema.types = markRelayTypes(schema.types);
 
     if (displayOptions.sortByAlphabet)
       schema =  sortIntrospection(schema);
 
-    schema.types = assignIDs(schema.types);
+    assignTypesAndIDs(schema.types);
+
+    if (displayOptions.skipRelay)
+      schema.types = markRelayTypes(schema.types, schema.queryType);
     return schema;
   }
 );

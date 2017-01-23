@@ -218,7 +218,7 @@ export function preprocessVizSvg(svgString:string) {
 
   var edges = {};
   forEachNode(svg, '.edge', $edge => {
-    edges[$edge.id.replace('_EDGE::', '::')] = $edge;
+    edges[$edge.id.replace(/^EDGE::/, '')] = $edge;
     $edge.removeAttribute('id');
   });
 

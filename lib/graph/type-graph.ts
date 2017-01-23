@@ -13,15 +13,6 @@ function getTypeGraph(schema, skipRelay) {
 
   return buildGraph(schema.queryType);
 
-  function skipType(typeName):boolean {
-    var type = schema.types[typeName];
-    return (
-      ['SCALAR', 'ENUM', 'INPUT_OBJECT'].indexOf(type.kind) !== -1 ||
-      type.isSystemType ||
-      (skipRelay && type.isRelayType)
-    );
-  }
-
   function fieldEdges(type) {
     return _.map<any, any>(type.fields, field => ({
       connectionType: 'field',
@@ -33,46 +24,38 @@ function getTypeGraph(schema, skipRelay) {
   function unionEdges(type) {
     return _.map<string, any>(type.possibleTypes, possibleType => ({
       connectionType: 'possible_type',
-      fromPort: possibleType.type,
-      to: possibleType.type,
     }));
   }
 
-  function interfaceEdges(type) {
-    return _.map<string, any>(type.derivedTypes, derivedType => ({
-      connectionType: 'derived_type',
-      fromPort: derivedType.type,
-      to: derivedType.type,
-    }));
+  function getEdges(type) {
+    return _([
+      ..._.values(type.fields),
+      ...type.derivedTypes || [],
+      ...type.possibleTypes || [],
+    ])
+      .reject('type.isBasicType')
+      .map(member => ({
+        from: member.id,
+        to: member.type.id,
+      }))
+      .value();
   }
 
   function buildGraph(rootName) {
-    var typeNames = [rootName];
-    var nodes = {};
+    var typeIDs = [rootName];
+    var nodes = [];
 
-    for (var i = 0; i < typeNames.length; ++i) {
-      var name = typeNames[i];
-      if (typeNames.indexOf(name) < i)
+    for (var i = 0; i < typeIDs.length; ++i) {
+      var id = typeIDs[i];
+      if (typeIDs.indexOf(id) < i)
         continue;
 
-      var type = schema.types[name];
-      var edges = _([
-        ...fieldEdges(type),
-        ...unionEdges(type),
-        ...interfaceEdges(type)
-      ])
-      .reject(edge => skipType(edge.to))
-      .map(edge => ({
-        ...edge,
-        id: `${edge.connectionType.toUpperCase()}_EDGE::${type.name}::${edge.fromPort}`
-      }))
-      .keyBy('id')
-      .value();
+      var type = schema.types[id.replace(/^TYPE::/, '')];
 
-      nodes[type.id] = {...type, edges};
-      typeNames.push(..._.map(edges, 'to'));
+      nodes.push(type);
+      typeIDs.push(..._.map(getEdges(type), 'to'));
     }
-    return nodes;
+    return _.keyBy(nodes, 'id');
   }
 }
 
