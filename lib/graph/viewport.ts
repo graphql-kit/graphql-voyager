@@ -214,7 +214,7 @@ export function preprocessVizSvg(svgString:string) {
     $g.id = $g.id.replace(/^a_/, '');
   });
 
-  //forEachNode(svg, 'title', $el => $el.remove());
+  forEachNode(svg, 'title', $el => $el.remove());
 
   var displayedTypes = [];
   forEachNode(svg, '[id]', $el => {
