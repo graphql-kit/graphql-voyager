@@ -237,7 +237,8 @@ export function preprocessVizSvg(svgString:string) {
   forEachNode(svg, '.field', $field => {
     let texts = $field.querySelectorAll('text');
     texts[0].classList.add('field-name');
-    //texts[1].remove();
+    //Remove spaces used for text alligment
+    texts[1].remove();
 
     for (var i = 2; i < texts.length; ++i) {
       texts[i].classList.add('field-type');
