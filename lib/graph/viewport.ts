@@ -216,7 +216,12 @@ export function preprocessVizSvg(svgString:string) {
 
   forEachNode(svg, 'title', $el => $el.remove());
 
-  var displayedTypes = [];
+  var edges = {};
+  forEachNode(svg, '.edge', $edge => {
+    edges[$edge.id.replace('_EDGE::', '::')] = $edge;
+    $edge.removeAttribute('id');
+  });
+
   forEachNode(svg, '[id]', $el => {
     let [tag, ...restOfId] = $el.id.split('::');
     if (_.size(restOfId) < 1)
@@ -224,8 +229,9 @@ export function preprocessVizSvg(svgString:string) {
 
     $el.classList.add(tag.toLowerCase().replace(/_/, '-'));
 
-    if (tag === 'TYPE')
-      displayedTypes.push(restOfId[0]);
+    var $edge = edges[$el.id];
+    if ($edge)
+      $el.appendChild($edge);
   });
 
   forEachNode(svg, 'g.edge path', $path => {
@@ -243,10 +249,8 @@ export function preprocessVizSvg(svgString:string) {
     for (var i = 2; i < texts.length; ++i) {
       texts[i].classList.add('field-type');
       var str = texts[i].innerHTML;
-      if (displayedTypes.indexOf(str) !== -1) {
+      if (edges[$field.id])
         texts[i].classList.add('type-link');
-        $field.classList.add('edge-source');
-      }
     }
   })
 
