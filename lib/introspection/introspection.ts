@@ -87,19 +87,25 @@ function markRelayTypes(types) {
   types['Node'].isRelayType = true;
   types['PageInfo'].isRelayType = true;
 
-  _.each(types, type => {
-    _.each(type.fields, field => {
+  return _.mapValues(types, type => ({
+    ...type,
+    fields: _.mapValues(type.fields, field => {
       if (!/.Connection$/.test(field.type))
-        return;
+        return field;
       //FIXME: additional checks
       let relayConnetion = types[field.type];
       relayConnetion.isRelayType = true;
       let relayEdge = types[relayConnetion.fields['edges'].type];
       relayEdge.isRelayType = true;
 
-      field.relayNodeType = relayEdge.fields['node'].type
-    });
-  });
+      return {
+        ...field,
+        type: relayEdge.fields['node'].type,
+        typeWrappers: ['LIST'],
+        relayType: field.type,
+      };
+    }),
+  }));
 }
 
 function sortIntrospection(value) {
@@ -117,18 +123,40 @@ function sortIntrospection(value) {
     return value;
 }
 
+function assignIDs(types) {
+  return _.mapValues(types, type => ({
+    ...type,
+    id: `TYPE::${type.name}`,
+    fields: _.mapValues(type.fields, field => ({
+      ...field,
+      id: `FIELD::${type.name}::${field.name}`,
+    })),
+    possibleTypes: _.map(type.possibleTypes, possibleType => ({
+      type: possibleType,
+      id: `POSSIBLE_TYPE::${type.name}::${possibleType}`,
+    })),
+    derivedTypes: _.map(type.derivedTypes, derivedType => ({
+      type: derivedType,
+      id: `DERIVED_TYPE::${type.name}::${derivedType}`,
+    })),
+  }));
+}
+
 export const getSchemaSelector = createSelector(
   (state:any) => state.introspection.presets[state.introspection.activePreset],
-  (state:any) => state.displayOptions.sortByAlphabet,
-  (introspection, sortByAlphabet) => {
+  (state:any) => state.displayOptions,
+  (introspection, displayOptions) => {
     if (!introspection || introspection === '')
       return null;
 
     var schema = simplifySchema(introspection.__schema);
-    markRelayTypes(schema.types);
+    if (displayOptions.skipRelay)
+      schema.types = markRelayTypes(schema.types);
 
-    if (sortByAlphabet)
-      return sortIntrospection(schema);
+    if (displayOptions.sortByAlphabet)
+      schema =  sortIntrospection(schema);
+
+    schema.types = assignIDs(schema.types);
     return schema;
   }
 );

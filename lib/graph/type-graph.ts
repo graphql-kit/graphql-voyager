@@ -11,36 +11,7 @@ function getTypeGraph(schema, skipRelay) {
   if (schema === null)
     return null;
 
-  return buildGraph(schema.queryType, type => ({
-    id: `TYPE::${type.name}`,
-    ...type,
-    fields: _.map(type.fields, field => ({
-      ...field,
-      id: `FIELD::${type.name}::${field.name}`,
-      displayType: skipRelay && field.relayNodeType || field.type,
-      relaySkip: !!(skipRelay && field.relayNodeType)
-    })),
-    possibleTypes: _.map(type.possibleTypes, possibleType => ({
-      type: possibleType,
-      id: `POSSIBLE_TYPE::${type.name}::${possibleType}`,
-    })),
-    derivedTypes: _.map(type.derivedTypes, derivedType => ({
-      type: derivedType,
-      id: `DERIVED_TYPE::${type.name}::${derivedType}`,
-    })),
-    edges: _([
-        ...fieldEdges(type),
-        ...unionEdges(type),
-        ...interfaceEdges(type)
-      ])
-      .compact()
-      .map(edge => ({
-        ...edge,
-        id: `${edge.connectionType.toUpperCase()}_EDGE::${type.name}::${edge.fromPort}`
-      }))
-      .keyBy('id')
-      .value(),
-  }));
+  return buildGraph(schema.queryType);
 
   function skipType(typeName):boolean {
     var type = schema.types[typeName];
@@ -52,49 +23,30 @@ function getTypeGraph(schema, skipRelay) {
   }
 
   function fieldEdges(type) {
-    return _.map<any, any>(type.fields, field => {
-      var fieldType = field.type;
-      if (skipRelay && field.relayNodeType)
-        fieldType = field.relayNodeType;
-
-      if (skipType(fieldType))
-        return;
-
-      return {
-        connectionType: 'field',
-        fromPort: field.name,
-        to: fieldType,
-      }
-    });
+    return _.map<any, any>(type.fields, field => ({
+      connectionType: 'field',
+      fromPort: field.name,
+      to: field.type,
+    }));
   }
 
   function unionEdges(type) {
-    return _.map<string, any>(type.possibleTypes, possibleType => {
-      if (skipType(possibleType))
-        return;
-
-      return {
-        connectionType: 'possible_type',
-        fromPort: possibleType,
-        to: possibleType,
-      };
-    });
+    return _.map<string, any>(type.possibleTypes, possibleType => ({
+      connectionType: 'possible_type',
+      fromPort: possibleType.type,
+      to: possibleType.type,
+    }));
   }
 
   function interfaceEdges(type) {
-    return _.map<string, any>(type.derivedTypes, derivedType => {
-      if (skipType(derivedType))
-        return;
-
-      return {
-        connectionType: 'derived_type',
-        fromPort: derivedType,
-        to: derivedType,
-      };
-    });
+    return _.map<string, any>(type.derivedTypes, derivedType => ({
+      connectionType: 'derived_type',
+      fromPort: derivedType.type,
+      to: derivedType.type,
+    }));
   }
 
-  function buildGraph(rootName, cb) {
+  function buildGraph(rootName) {
     var typeNames = [rootName];
     var nodes = {};
 
@@ -103,9 +55,22 @@ function getTypeGraph(schema, skipRelay) {
       if (typeNames.indexOf(name) < i)
         continue;
 
-      var node = cb(schema.types[name]);
-      nodes[node.id] = node;
-      typeNames.push(..._.map(node.edges, 'to'));
+      var type = schema.types[name];
+      var edges = _([
+        ...fieldEdges(type),
+        ...unionEdges(type),
+        ...interfaceEdges(type)
+      ])
+      .reject(edge => skipType(edge.to))
+      .map(edge => ({
+        ...edge,
+        id: `${edge.connectionType.toUpperCase()}_EDGE::${type.name}::${edge.fromPort}`
+      }))
+      .keyBy('id')
+      .value();
+
+      nodes[type.id] = {...type, edges};
+      typeNames.push(..._.map(edges, 'to'));
     }
     return nodes;
   }
