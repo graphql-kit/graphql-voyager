@@ -1,7 +1,6 @@
 import { SVGRenderer } from '../graph/svg-renderer';
 const svgRenderer = new SVGRenderer();
 
-
 export function renderSvg() {
   return dispatch => {
     svgRenderer.render().then((svgString) => {

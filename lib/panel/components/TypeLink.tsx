@@ -1,8 +1,7 @@
 import * as React from "react";
 import { connect } from "react-redux"
 
-import { stringifyWrappers } from '../../graph';
-import { getTypeGraphSelector, TypeGraph } from '../../graph';
+import { stringifyWrappers } from '../../introspection';
 import { selectElement } from '../../actions/';
 
 interface TypeLinkProps {

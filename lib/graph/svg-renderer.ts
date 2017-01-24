@@ -1,19 +1,19 @@
-import { getTypeGraphSelector, TypeGraph } from './type-graph';
-const VizWorker = require('./viz-worker.worker');
+import { getDotSelector } from './dot'
 import { store, observeStore } from '../redux';
-import { renderSvgIfNeeded } from '../actions/'
+import { renderSvgIfNeeded } from '../actions/';
 
+const VizWorker = require('./viz-worker.worker');
 export class SVGRenderer {
   worker: Worker;
-  typeGraph: TypeGraph;
+  dot: string;
 
   constructor() {
     this.worker = new VizWorker();
 
-    observeStore(getTypeGraphSelector, typeGraph => {
-      if (typeGraph === null)
+    observeStore(getDotSelector, dot => {
+      if (dot === null)
         return;
-      this.typeGraph = new TypeGraph(typeGraph);
+      this.dot = dot;
       store.dispatch<any>(renderSvgIfNeeded());
     });
   }
@@ -29,7 +29,7 @@ export class SVGRenderer {
         }
         this.worker.removeEventListener('message', cb);
       }
-      this.worker.postMessage({dot: this.typeGraph.getDot()});
+      this.worker.postMessage({dot: this.dot});
       this.worker.addEventListener('message', cb);
     });
   }

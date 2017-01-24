@@ -2,9 +2,7 @@ import * as _ from 'lodash';
 import * as svgPanZoom from 'svg-pan-zoom';
 import * as animate from '@f/animate';
 
-import { getTypeGraphSelector, TypeGraph } from './type-graph';
 import * as Actions from '../actions'
-
 import { store, observeStore } from '../redux';
 
 const xmlns = "http://www.w3.org/2000/svg";

@@ -2,7 +2,8 @@ import * as _ from 'lodash';
 import * as React from "react";
 import { connect } from "react-redux"
 
-import { getTypeGraphSelector, TypeGraph } from '../../graph';
+import { extractTypeId } from '../../introspection';
+import { getTypeGraphSelector } from '../../graph';
 import Markdown from './Markdown';
 import TypeLink from './TypeLink';
 import Argument from './Argument';
@@ -18,7 +19,7 @@ function mapStateToProps(state) {
   return {
     skipRelay: state.displayOptions.skipRelay,
     selectedId: state.selectedId,
-    typeGraph: new TypeGraph(getTypeGraphSelector(state)),
+    typeGraph: getTypeGraphSelector(state),
   };
 }
 
@@ -110,7 +111,7 @@ class TypeDoc extends React.Component<TypeDocProps, void> {
     if (selectedId === null)
       return null;
 
-    var type = typeGraph.getTypeById(selectedId);
+    var type = typeGraph[extractTypeId(selectedId)];
 
     return (
       <div>
