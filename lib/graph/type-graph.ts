@@ -49,7 +49,7 @@ function getTypeGraph(schema) {
       nodes.push(type);
       typeNames.push(...getEdgeTargets(type));
     }
-    return _.keyBy(nodes, 'name');
+    return _.keyBy(nodes, 'id');
   }
 }
 
