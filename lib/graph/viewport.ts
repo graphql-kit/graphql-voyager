@@ -17,18 +17,10 @@ import {
 
 export class Viewport {
   $svg: SVGElement;
-  typeGraph: TypeGraph;
   zoomer: SvgPanZoom.Instance;
   worker: Worker;
 
   constructor(public container: HTMLElement) {
-    observeStore(getTypeGraphSelector, typeGraph => {
-      if (typeGraph === null)
-        return;
-
-      this.typeGraph = new TypeGraph(typeGraph);
-    });
-
     observeStore(state => state.currentSvgIndex, svgIdx => {
       if (svgIdx == null) {
         return;
@@ -80,7 +72,7 @@ export class Viewport {
         store.dispatch(Actions.selectElement($node.id));
       } else if (isEdge(event.target as Element)) {
         let $edge = getParent(event.target as Element, 'edge');
-        store.dispatch(Actions.selectElement($edge.id));
+        store.dispatch(Actions.selectElement(edgeSource($edge).id));
       } else {
         if (isControl(event.target as SVGElement)) return;
         store.dispatch(Actions.clearSelection());
@@ -105,8 +97,7 @@ export class Viewport {
         clearSelection();
         $sourceGroup.classList.add('hovered');
         $prevHovered = $sourceGroup;
-        let edgeId = this.typeGraph.getEdgeBySourceId($sourceGroup.id).id;
-        let $edge = document.getElementById(edgeId);
+        let $edge = edgeFrom($sourceGroup.id);
         $edge.classList.add('hovered');
         $prevHoveredEdge = $edge;
       } else {
@@ -130,27 +121,27 @@ export class Viewport {
     var $selected = document.getElementById(id);
     if ($selected.classList.contains('node'))
       this.selectNode($selected);
-    else if ($selected.classList.contains('edge'))
+    else if ($selected.classList.contains('edge-source'))
       this.selectEdge($selected);
   }
 
   selectNode(node:Element) {
     node.classList.add('selected');
-    let inEdges = this.typeGraph.getInEdges(node.id);
-    let outEdges = this.typeGraph.getOutEdges(node.id);
 
-    let allEdges = _.union(inEdges, outEdges);
-
-    _.each(allEdges, edge => {
-      let $edge = document.getElementById(edge.id);
+    forEachNode(node, '.edge-source', source => {
+      const $edge = edgeFrom(source.id);
       $edge.classList.add('selected');
-      let $node = document.getElementById(edge.nodeId);
-      $node.classList.add('selected-reachable');
+      edgeTarget($edge).classList.add('selected-reachable');
+    });
+
+    _.each(edgesTo(node.id), $edge => {
+      $edge.classList.add('selected');
+      edgeSource($edge).parentElement.classList.add('selected-reachable');
     });
   }
 
-  selectEdge(edge:Element) {
-    edge.classList.add('selected');
+  selectEdge(edgeSource:Element) {
+    edgeFrom(edgeSource.id).classList.add('selected');
   }
 
   deselectAll() {
@@ -216,10 +207,13 @@ export function preprocessVizSvg(svgString:string) {
 
   forEachNode(svg, 'title', $el => $el.remove());
 
-  var edges = {};
+  var edgesSources = {};
   forEachNode(svg, '.edge', $edge => {
-    edges[$edge.id.replace(/^EDGE::/, '')] = $edge;
+    let [from, to] = $edge.id.split(' => ');
     $edge.removeAttribute('id');
+    $edge.setAttribute('data-from', from);
+    $edge.setAttribute('data-to', to);
+    edgesSources[from] = true;
   });
 
   forEachNode(svg, '[id]', $el => {
@@ -228,10 +222,6 @@ export function preprocessVizSvg(svgString:string) {
       return;
 
     $el.classList.add(tag.toLowerCase().replace(/_/, '-'));
-
-    var $edge = edges[$el.id];
-    if ($edge)
-      $el.appendChild($edge);
   });
 
   forEachNode(svg, 'g.edge path', $path => {
@@ -249,8 +239,10 @@ export function preprocessVizSvg(svgString:string) {
     for (var i = 2; i < texts.length; ++i) {
       texts[i].classList.add('field-type');
       var str = texts[i].innerHTML;
-      if (edges[$field.id])
+      if (edgesSources[$field.id]) {
+        $field.classList.add('edge-source');
         texts[i].classList.add('type-link');
+      }
     }
   })
 
@@ -295,3 +287,20 @@ function isEdgeSource(elem:Element):boolean {
 function isControl(elem:SVGElement) {
   return elem.className.baseVal.startsWith('svg-pan-zoom');
 }
+
+function edgeSource(edge:Element) {
+  return document.getElementById(edge['dataset']['from']);
+}
+
+function edgeTarget(edge:Element) {
+  return document.getElementById(edge['dataset']['to']);
+}
+
+function edgeFrom(id:String) {
+  return document.querySelector(`.edge[data-from='${id}']`);
+}
+
+function edgesTo(id:String) {
+  return document.querySelectorAll(`.edge[data-to='${id}']`);
+}
+
