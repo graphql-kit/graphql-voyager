@@ -8,6 +8,7 @@ import { getTypeGraphSelector } from './type-graph';
 const template = require('./dot_template.ejs');
 
 function getDot(typeGraph):string {
+  if (typeGraph === null) return null;
   return ejs.render(template, {_, typeGraph, stringifyWrappers});
 }
 
