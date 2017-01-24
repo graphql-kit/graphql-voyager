@@ -1,7 +1,9 @@
 import { SVGRenderer } from '../graph/svg-renderer';
-const svgRenderer = new SVGRenderer();
+
+let svgRenderer: SVGRenderer;
 
 export function renderSvg() {
+  if (!svgRenderer) svgRenderer = new SVGRenderer();
   return dispatch => {
     svgRenderer.render().then((svgString) => {
       dispatch(svgRenderingFinished(svgString));
