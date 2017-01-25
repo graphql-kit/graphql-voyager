@@ -11,14 +11,30 @@ interface TypeListProps {
 export default class TypeList extends React.Component<TypeListProps, void> {
   render() {
     const { typeGraph } = this.props;
-    const types = _.sortBy(typeGraph, 'name');
+
+    if (typeGraph === null)
+      return null;
+
+    const rootType = typeGraph.nodes[typeGraph.rootId];
+    const types = _(typeGraph.nodes)
+      .values()
+      .reject({id: rootType.id})
+      .sortBy('name').value();
+
     return (
       <div>
+        <div className="doc-typelist-root-item">
+          <TypeLink name={rootType.name}/>
+          <Markdown
+            className="doc-type-description"
+            text={rootType.description || 'No Description'}
+          />
+        </div>
         {_.map(types, type =>
           <div key={type.id} className="doc-typelist-item">
             <TypeLink name={type.name}/>
             <Markdown
-              className="doc-type-description" 
+              className="doc-type-description"
               text={type.description || 'No Description'}
             />
           </div>

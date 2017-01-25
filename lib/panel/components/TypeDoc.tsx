@@ -112,7 +112,7 @@ class TypeDoc extends React.Component<TypeDocProps, void> {
     if (selectedId === null)
       return (<TypeList typeGraph={typeGraph}/>);
 
-    var type = typeGraph[extractTypeId(selectedId)];
+    var type = typeGraph.nodes[extractTypeId(selectedId)];
 
     return (
       <div>

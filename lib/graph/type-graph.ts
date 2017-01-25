@@ -36,6 +36,7 @@ function getTypeGraph(schema) {
   }
 
   function buildGraph(rootName) {
+    var rootType = schema.types[rootName];
     var typeNames = [rootName];
     var nodes = [];
 
@@ -49,7 +50,10 @@ function getTypeGraph(schema) {
       nodes.push(type);
       typeNames.push(...getEdgeTargets(type));
     }
-    return _.keyBy(nodes, 'id');
+    return {
+      rootId: rootType.id,
+      nodes: _.keyBy(nodes, 'id'),
+    };
   }
 }
 
