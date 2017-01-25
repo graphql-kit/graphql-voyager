@@ -111,6 +111,11 @@ function markRelayTypes(types, queryType) {
   let query = types[queryType];
   if (_.get(query,'fields.node.type.isRelayType'))
     delete query.fields['node'];
+
+  //GitHub use `nodes` instead of `node`.
+  if (_.get(query,'fields.nodes.type.isRelayType'))
+    delete query.fields['nodes'];
+
   if (_.get(query,'fields.relay.type.name') == queryType)
     delete query.fields['relay'];
   return types;
