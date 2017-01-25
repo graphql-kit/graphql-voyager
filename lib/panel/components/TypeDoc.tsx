@@ -4,6 +4,7 @@ import { connect } from "react-redux"
 
 import { extractTypeId } from '../../introspection';
 import { getTypeGraphSelector } from '../../graph';
+import TypeList from './TypeList';
 import Markdown from './Markdown';
 import TypeLink from './TypeLink';
 import Argument from './Argument';
@@ -109,7 +110,7 @@ class TypeDoc extends React.Component<TypeDocProps, void> {
     } = this.props;
 
     if (selectedId === null)
-      return null;
+      return (<TypeList typeGraph={typeGraph}/>);
 
     var type = typeGraph[extractTypeId(selectedId)];
 
