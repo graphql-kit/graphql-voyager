@@ -191,7 +191,10 @@ body > main {
   color: #555;
 }
 
-.type-name {
+.built-in-type-name,
+.scalar-type-name,
+.input-object-type-name,
+.object-type-name {
   color: #CA9800;
 }
 

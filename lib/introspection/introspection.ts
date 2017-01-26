@@ -46,9 +46,6 @@ function convertType(inType) {
     kind: inType.kind,
     name: inType.name,
     description: inType.description,
-
-    isSystemType: _.startsWith(inType.name, '__'),
-    isBasicType: (['SCALAR', 'ENUM', 'INPUT_OBJECT'].indexOf(inType.kind) !== -1),
   };
 
   switch (outType.kind) {

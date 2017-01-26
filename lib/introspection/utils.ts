@@ -19,3 +19,25 @@ export function extractTypeId(id:string) {
   let [tag, type] = id.split('::');
   return buildId('TYPE', type);
 }
+
+export function isSystemType(type) {
+  return _.startsWith(type.name, '__');
+}
+
+export function isBuiltInScalarType(type) {
+  return [
+    'Int',
+    'Float',
+    'String',
+    'Boolean',
+    'ID'
+  ].indexOf(type.name) !== -1;
+}
+
+export function isScalarType(type) {
+  return (type.kind === 'SCALAR' || type.kind === 'ENUM');
+}
+
+export function isInputObjectType(type) {
+  return (type.kind === 'INPUT_OBJECT');
+}

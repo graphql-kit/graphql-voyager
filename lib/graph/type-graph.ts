@@ -2,7 +2,12 @@ import * as _ from 'lodash';
 import { createSelector } from 'reselect'
 
 import { store } from '../redux';
-import { getSchemaSelector } from '../introspection/'
+
+import {
+  getSchemaSelector,
+  isScalarType,
+  isInputObjectType,
+} from '../introspection/';
 
 function getTypeGraph(schema) {
   if (schema === null)
@@ -30,8 +35,10 @@ function getTypeGraph(schema) {
       ...type.derivedTypes || [],
       ...type.possibleTypes || [],
     ])
-      .reject('type.isBasicType')
-      .map(member => member.type.name)
+      .map('type')
+      .reject(isScalarType)
+      .reject(isInputObjectType)
+      .map('name')
       .value();
   }
 
