@@ -24,7 +24,7 @@ export default class TypeList extends React.Component<TypeListProps, void> {
     return (
       <div>
         <div className="doc-typelist-root-item">
-          <TypeLink name={rootType.name}/>
+          <TypeLink type={rootType}/>
           <Markdown
             className="doc-type-description"
             text={rootType.description || 'No Description'}
@@ -32,7 +32,7 @@ export default class TypeList extends React.Component<TypeListProps, void> {
         </div>
         {_.map(types, type =>
           <div key={type.id} className="doc-typelist-item">
-            <TypeLink name={type.name}/>
+            <TypeLink type={type}/>
             <Markdown
               className="doc-type-description"
               text={type.description || 'No Description'}

@@ -56,7 +56,7 @@ class TypeDoc extends React.Component<TypeDocProps, void> {
         </div>
         {_.map(types, type =>
           <div key={type.id} className="doc-category-item">
-            <TypeLink name={type.type.name}/>
+            <TypeLink type={type.type}/>
           </div>
         )}
       </div>
@@ -90,7 +90,7 @@ class TypeDoc extends React.Component<TypeDocProps, void> {
               ')'
             ]}
             {': '}
-            <TypeLink name={field.type.name} wrappers={field.typeWrappers} />
+            <TypeLink type={field.type} wrappers={field.typeWrappers} />
             {
               field.isDeprecated &&
               <span className="doc-alert-text">{' (DEPRECATED)'}</span>

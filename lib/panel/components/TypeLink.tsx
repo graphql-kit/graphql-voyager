@@ -5,7 +5,7 @@ import { stringifyWrappers } from '../../introspection';
 import { selectElement } from '../../actions/';
 
 interface TypeLinkProps {
-  name: string;
+  type: any;
   wrappers?: string[];
   dispatch: any;
 }
@@ -13,7 +13,7 @@ interface TypeLinkProps {
 class TypeLink extends React.Component<TypeLinkProps, void> {
   render() {
     const {
-      name,
+      type,
       wrappers,
       dispatch,
     } = this.props;
@@ -26,9 +26,9 @@ class TypeLink extends React.Component<TypeLinkProps, void> {
         <a
           className="type-name"
           onClick={() => {
-            dispatch(selectElement('TYPE::' + name));
+            dispatch(selectElement(type.id));
           }}
-        >{name}</a>
+        >{type.name}</a>
         {rightWrap}
       </span>
     );

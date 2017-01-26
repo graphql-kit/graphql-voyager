@@ -14,7 +14,7 @@ export default class Argument extends React.Component<ArgumentProps, void> {
       <span className="arg">
         <span className="arg-name">{arg.name}</span>
         {': '}
-        <TypeLink name={arg.type} wrappers={arg.typeWrappers}/>
+        <TypeLink type={arg.type} wrappers={arg.typeWrappers}/>
         {arg.defaultValue !== undefined &&
           <span>
             {' = '}

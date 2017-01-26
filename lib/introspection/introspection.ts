@@ -143,6 +143,10 @@ function assignTypesAndIDs(types) {
     _.each(type.fields, field => {
       field.id = `FIELD::${type.name}::${field.name}`;
       field.type = types[field.type];
+      _.each(field.args, arg => {
+        arg.id = `ARGUMENT::${type.name}::${field.name}::${arg.name}`;
+        arg.type = types[arg.type];
+      });
     });
 
     if (!_.isEmpty(type.possibleTypes)) {
