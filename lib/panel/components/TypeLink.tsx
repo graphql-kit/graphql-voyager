@@ -8,7 +8,7 @@ import {
   isInputObjectType,
 } from '../../introspection';
 
-import { selectElement } from '../../actions/';
+import { selectElement, focusElement } from '../../actions/';
 
 interface TypeLinkProps {
   type: any;
@@ -29,6 +29,7 @@ class TypeLink extends React.Component<TypeLinkProps, void> {
         <a
           className="object-type-name"
           onClick={() => {
+            dispatch(focusElement(type.id));
             dispatch(selectElement(type.id));
           }}
         >{type.name}</a>

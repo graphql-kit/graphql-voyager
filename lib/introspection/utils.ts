@@ -15,6 +15,10 @@ export function buildId(...parts) {
   return parts.join('::');
 }
 
+export function typeNameToId(name:string) {
+  return buildId('TYPE', name);
+}
+
 export function extractTypeId(id:string) {
   let [tag, type] = id.split('::');
   return buildId('TYPE', type);

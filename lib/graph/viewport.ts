@@ -5,13 +5,12 @@ import * as animate from '@f/animate';
 import * as Actions from '../actions'
 import { store, observeStore } from '../redux';
 
-const xmlns = "http://www.w3.org/2000/svg";
-
 import {
   removeClass,
   forEachNode
 } from '../utils/';
 
+import { typeNameToId } from '../introspection';
 
 export class Viewport {
   $svg: SVGElement;
@@ -28,6 +27,13 @@ export class Viewport {
     })
 
     observeStore(state => state.selectedId, id => this.selectId(id));
+    observeStore(state => state.graphView.focusedId, id => {
+      if (id === null)
+        return;
+
+      this.focusElement(id);
+      store.dispatch(Actions.focusElementDone(id));
+    });
   }
 
   display(svgString) {
@@ -66,7 +72,8 @@ export class Viewport {
 
       var target = event.target as Element;
       if (isLink(target)) {
-        this.panAndZoomToLink(target);
+        const typeId = typeNameToId(target.textContent);
+        store.dispatch(Actions.focusElement(typeId));
       } else if (isNode(target)) {
         let $node = getParent(target, 'node');
         store.dispatch(Actions.selectElement($node.id));
@@ -149,10 +156,9 @@ export class Viewport {
     removeClass(this.$svg, '.selected-reachable', 'selected-reachable');
   }
 
-  panAndZoomToLink(link: Element) {
-    let nodeId = 'TYPE::' + link.textContent;
-
-    let bbBox = document.getElementById(nodeId).getBoundingClientRect();
+  focusElement(id:string) {
+    console.log(id);
+    let bbBox = document.getElementById(id).getBoundingClientRect();
     let currentPan = this.zoomer.getPan();
     let viewPortSizes = (<any>this.zoomer).getSizes();
 

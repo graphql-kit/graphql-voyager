@@ -22,7 +22,10 @@ var initialState = {
   svgCache: [
   ],
   svgRenderingInProgress: false,
-  selectedId: null
+  selectedId: null,
+  graphView: {
+    focusedId: null,
+  }
 };
 
 export function rootReducer(previousState = initialState, action) {
@@ -84,6 +87,25 @@ export function rootReducer(previousState = initialState, action) {
       return {
         ...previousState,
         selectedId: action.payload,
+      };
+    case ActionTypes.FOCUS_ELEMENT:
+      return {
+        ...previousState,
+        graphView: {
+          ...previousState.graphView,
+          focusedId: action.payload,
+        },
+      };
+    case ActionTypes.FOCUS_ELEMENT_DONE:
+      if (previousState.graphView.focusedId !== action.payload)
+        return previousState;
+
+      return {
+        ...previousState,
+        graphView: {
+          ...previousState.graphView,
+          focusedId: null,
+        },
       };
     case ActionTypes.SHOW_INTROSPECTION_MODAL:
       return {
