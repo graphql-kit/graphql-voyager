@@ -1,6 +1,5 @@
 import { store } from '../redux';
 import * as _ from 'lodash';
-import { svgRenderingFinished, renderSvg } from './svg';
 
 export const CHANGE_ACTIVE_INTROSPECTION = 'CHANGE_ACTIVE_INTROSPECTION';
 export function changeActiveIntrospection(presetName: string) {

@@ -1,10 +1,3 @@
-import * as _ from 'lodash';
-import {
-  switchCurrentSvg,
-  svgRenderingFinished,
-  renderSvg
-} from './svg';
-
 export const CHANGE_DISPLAY_OPTIONS = 'CHANGE_DISPLAY_OPTIONS';
 export function changeDisplayOptions(options) {
   return {
