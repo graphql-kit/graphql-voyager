@@ -63,16 +63,17 @@ export class Viewport {
     this.$svg.addEventListener('mouseup', event => {
       this.$svg.removeEventListener('mousemove', moveHandler);
       if (dragged) return;
-      if (isLink(event.target as Element)) {
-        this.panAndZoomToLink(event.target as Element);
-      } else if (isNode(event.target as Element)) {
-        let $node = getParent(event.target as Element, 'node');
+
+      var target = event.target as Element;
+      if (isLink(target)) {
+        this.panAndZoomToLink(target);
+      } else if (isNode(target)) {
+        let $node = getParent(target, 'node');
         store.dispatch(Actions.selectElement($node.id));
-      } else if (isEdge(event.target as Element)) {
-        let $edge = getParent(event.target as Element, 'edge');
+      } else if (isEdge(target)) {
+        let $edge = getParent(target, 'edge');
         store.dispatch(Actions.selectElement(edgeSource($edge).id));
-      } else {
-        if (isControl(event.target as SVGElement)) return;
+      } else if (!isControl(target)) {
         store.dispatch(Actions.clearSelection());
       }
     });
@@ -282,7 +283,9 @@ function isEdgeSource(elem:Element):boolean {
   return getParent(elem, 'edge-source') != null;
 }
 
-function isControl(elem:SVGElement) {
+function isControl(elem:Element) {
+  if (!(elem instanceof SVGElement))
+    return false;
   return elem.className.baseVal.startsWith('svg-pan-zoom');
 }
 
