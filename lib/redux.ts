@@ -1,3 +1,4 @@
+import * as _ from 'lodash';
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import { rootReducer } from './reducers'
@@ -14,15 +15,22 @@ function configureStore(preloadedState?) {
 
 export const store = configureStore();
 
-//Copy-pasted from https://github.com/reactjs/redux/issues/303#issuecomment-125184409
-export function observeStore(select, onChange) {
+// Initial version was copy-pasted from
+// https://github.com/reactjs/redux/issues/303#issuecomment-125184409
+export function observeStore(...args) {
+  let onChange = args.pop();
+  let selectors = args;
   let currentState;
 
   function handleChange() {
-    let nextState = select(store.getState());
-    if (nextState !== currentState) {
+    const nextState = _.map(selectors, f => f(store.getState()));
+    const stateChanged = _(nextState)
+      .zip(currentState)
+      .some(([x, y]) => (x !== y));
+
+    if (stateChanged) {
       currentState = nextState;
-      onChange(currentState);
+      onChange(...currentState);
     }
   }
 

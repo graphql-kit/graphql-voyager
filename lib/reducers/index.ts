@@ -77,12 +77,6 @@ export function rootReducer(previousState = initialState, action) {
         }]),
         currentSvgIndex: previousState.svgCache.length
       };
-    case ActionTypes.SWITCH_CURRENT_SVG:
-      return {
-        ...previousState,
-        currentSvgIndex: action.payload,
-        svgRenderingInProgress: false
-      };
     case ActionTypes.SELECT_ELEMENT:
       return {
         ...previousState,
