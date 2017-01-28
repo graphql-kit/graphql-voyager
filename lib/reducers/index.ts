@@ -2,6 +2,8 @@ import * as ActionTypes from '../actions/'
 import { githubIntrospection, swapiIntrospection } from '../introspection';
 import * as _ from 'lodash';
 
+var debugInitialPreset = 'swapi';
+
 var initialState = {
   introspection: {
     presets: {
@@ -9,10 +11,10 @@ var initialState = {
       'swapi': swapiIntrospection,
       'custom': null
     },
-    activePreset: null,
+    activePreset: debugInitialPreset || null,
   },
   panel: {
-    showIntrospectionModal: true
+    showIntrospectionModal: debugInitialPreset ? false : true
   },
   displayOptions: {
     skipRelay: true,
@@ -21,7 +23,6 @@ var initialState = {
   currentSvgIndex: null,
   svgCache: [
   ],
-  svgRenderingInProgress: false,
   selectedId: null,
   graphView: {
     focusedId: null,
@@ -39,7 +40,6 @@ export function rootReducer(previousState = initialState, action) {
           activePreset: action.payload,
         },
         displayOptions: {...initialState.displayOptions},
-        svgRenderingInProgress: true,
         svgCache: [],
         currentSvgIndex: null,
         selectedNodeId: null,
@@ -63,14 +63,12 @@ export function rootReducer(previousState = initialState, action) {
       return {
         ...previousState,
         displayOptions,
-        svgRenderingInProgress: cacheIdx >= 0 ? false : true,
         currentSvgIndex: cacheIdx >= 0 ? cacheIdx : null,
         selectedNodeId: null,
       };
     case ActionTypes.SVG_RENDERING_FINISHED:
       return {
         ...previousState,
-        svgRenderingInProgress: false,
         svgCache: previousState.svgCache.concat([{
           displayOptions: previousState.displayOptions,
           svg: action.payload

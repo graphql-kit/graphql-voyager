@@ -25,7 +25,7 @@ interface PanelRootProps {
 
 function mapStateToProps(state) {
   return {
-    isLoading: state.svgRenderingInProgress,
+    isLoading: (state.currentSvgIndex === null),
     sortByAlphabet: state.displayOptions.sortByAlphabet,
     skipRelay: state.displayOptions.skipRelay
   };
