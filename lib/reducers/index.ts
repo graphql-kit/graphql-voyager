@@ -88,8 +88,10 @@ export function rootReducer(previousState = initialState, action) {
       let previousId = previousState.selected.currentId;
       if (previousId) {
         const previousTypeId = extractTypeId(previousId);
-        if (_.last(previousTypesIds) !== previousTypeId)
+        const currentTypeId = extractTypeId(currentId);
+        if (_.last(previousTypesIds) !== previousTypeId && previousTypeId !== currentTypeId) {
           previousTypesIds = [...previousTypesIds, previousTypeId];
+        }
       }
 
       return {
