@@ -15,7 +15,6 @@ import { typeNameToId } from '../introspection';
 export class Viewport {
   $svg: SVGElement;
   zoomer: SvgPanZoom.Instance;
-  worker: Worker;
 
   constructor(public container: HTMLElement) {
     observeStore(state => state.currentSvgIndex, svgIdx => {
@@ -26,7 +25,7 @@ export class Viewport {
       this.display(cachedSvg.svg);
     })
 
-    observeStore(state => state.selectedId, id => this.selectId(id));
+    observeStore(state => state.selected.currentId, id => this.selectId(id));
     observeStore(state => state.graphView.focusedId, id => {
       if (id === null)
         return;
@@ -157,7 +156,6 @@ export class Viewport {
   }
 
   focusElement(id:string) {
-    console.log(id);
     let bbBox = document.getElementById(id).getBoundingClientRect();
     let currentPan = this.zoomer.getPan();
     let viewPortSizes = (<any>this.zoomer).getSizes();
@@ -310,4 +308,3 @@ function edgeFrom(id:String) {
 function edgesTo(id:String) {
   return document.querySelectorAll(`.edge[data-to='${id}']`);
 }
-

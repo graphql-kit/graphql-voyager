@@ -6,10 +6,17 @@ export function selectElement(id) {
   };
 }
 
+export const SELECT_PREVIOUS_TYPE = 'SELECT_PREVIOUS_TYPE';
+export function selectPreviousType() {
+  return {
+    type: SELECT_PREVIOUS_TYPE,
+  };
+}
+
+export const CLEAR_SELECTION = 'CLEAR_SELECTION';
 export function clearSelection() {
   return {
-    type: SELECT_ELEMENT,
-    payload: null,
+    type: CLEAR_SELECTION,
   };
 }
 

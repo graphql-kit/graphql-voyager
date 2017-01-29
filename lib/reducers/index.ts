@@ -1,6 +1,7 @@
-import * as ActionTypes from '../actions/'
-import { githubIntrospection, swapiIntrospection } from '../introspection';
 import * as _ from 'lodash';
+
+import * as ActionTypes from '../actions/'
+import { githubIntrospection, swapiIntrospection, extractTypeId } from '../introspection';
 
 var debugInitialPreset = 'swapi';
 
@@ -23,7 +24,10 @@ var initialState = {
   currentSvgIndex: null,
   svgCache: [
   ],
-  selectedId: null,
+  selected: {
+    previousTypesIds: [],
+    currentId: null,
+  },
   graphView: {
     focusedId: null,
   }
@@ -39,10 +43,10 @@ export function rootReducer(previousState = initialState, action) {
           ...previousState.introspection,
           activePreset: action.payload,
         },
-        displayOptions: {...initialState.displayOptions},
+        displayOptions: initialState.displayOptions,
         svgCache: [],
         currentSvgIndex: null,
-        selectedNodeId: null,
+        selected: initialState.selected,
       };
     case ActionTypes.CHANGE_CUSTOM_INTROSPECTION:
       return {
@@ -64,7 +68,7 @@ export function rootReducer(previousState = initialState, action) {
         ...previousState,
         displayOptions,
         currentSvgIndex: cacheIdx >= 0 ? cacheIdx : null,
-        selectedNodeId: null,
+        selected: initialState.selected,
       };
     case ActionTypes.SVG_RENDERING_FINISHED:
       return {
@@ -76,9 +80,39 @@ export function rootReducer(previousState = initialState, action) {
         currentSvgIndex: previousState.svgCache.length
       };
     case ActionTypes.SELECT_ELEMENT:
+      const currentId = action.payload;
+      if (currentId === previousState.selected.currentId)
+        return previousState;
+
+      let previousTypesIds = previousState.selected.previousTypesIds;
+      let previousId = previousState.selected.currentId;
+      if (previousId) {
+        const previousTypeId = extractTypeId(previousId);
+        if (_.last(previousTypesIds) !== previousTypeId)
+          previousTypesIds = [...previousTypesIds, previousTypeId];
+      }
+
       return {
         ...previousState,
-        selectedId: action.payload,
+        selected: {
+          ...previousState.selected,
+          previousTypesIds,
+          currentId,
+        },
+      };
+    case ActionTypes.SELECT_PREVIOUS_TYPE:
+      return {
+        ...previousState,
+        selected: {
+          ...previousState.selected,
+          previousTypesIds: _.initial(previousState.selected.previousTypesIds),
+          currentId: _.last(previousState.selected.previousTypesIds),
+        },
+      };
+    case ActionTypes.CLEAR_SELECTION:
+      return {
+        ...previousState,
+        selected: initialState.selected,
       };
     case ActionTypes.FOCUS_ELEMENT:
       return {

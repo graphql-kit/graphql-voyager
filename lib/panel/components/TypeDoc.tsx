@@ -5,12 +5,12 @@ import { connect } from "react-redux"
 import { extractTypeId } from '../../introspection';
 import { getTypeGraphSelector } from '../../graph';
 import TypeList from './TypeList';
+import PreviousType from './PreviousType';
 import Markdown from './Markdown';
 import TypeLink from './TypeLink';
 import Argument from './Argument';
 
 interface TypeDocProps {
-  skipRelay: boolean;
   selectedId: string;
   typeGraph: any;
   dispatch: any;
@@ -18,8 +18,7 @@ interface TypeDocProps {
 
 function mapStateToProps(state) {
   return {
-    skipRelay: state.displayOptions.skipRelay,
-    selectedId: state.selectedId,
+    selectedId: state.selected.currentId,
     typeGraph: getTypeGraphSelector(state),
   };
 }
@@ -63,7 +62,7 @@ class TypeDoc extends React.Component<TypeDocProps, void> {
     );
   }
 
-  renderFields(type, skipRelay) {
+  renderFields(type) {
     if (_.isEmpty(type.fields))
       return null;
 
@@ -104,7 +103,6 @@ class TypeDoc extends React.Component<TypeDocProps, void> {
   render() {
     const {
       dispatch,
-      skipRelay,
       selectedId,
       typeGraph
     } = this.props;
@@ -116,13 +114,14 @@ class TypeDoc extends React.Component<TypeDocProps, void> {
 
     return (
       <div>
+        <PreviousType/>
         <h3>{type.name}</h3>
         <Markdown
           className="doc-type-description" 
           text={type.description || 'No Description'}
         />
         {this.renderTypesDef(type)}
-        {this.renderFields(type, skipRelay)}
+        {this.renderFields(type)}
       </div>
     );
   }
