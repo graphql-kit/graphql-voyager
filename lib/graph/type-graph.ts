@@ -9,11 +9,11 @@ import {
   isInputObjectType,
 } from '../introspection/';
 
-function getTypeGraph(schema) {
-  if (schema === null)
+function getTypeGraph(schema, rootTypeId) {
+  if (schema === null || rootTypeId === null)
     return null;
 
-  return buildGraph(schema.queryType);
+  return buildGraph(rootTypeId);
 
   function fieldEdges(type) {
     return _.map<any, any>(type.fields, field => ({
@@ -38,27 +38,27 @@ function getTypeGraph(schema) {
       .map('type')
       .reject(isScalarType)
       .reject(isInputObjectType)
-      .map('name')
+      .map('id')
       .value();
   }
 
-  function buildGraph(rootName) {
-    var rootType = schema.types[rootName];
-    var typeNames = [rootName];
+  function buildGraph(rootId) {
+    var typeIds = [rootId];
     var nodes = [];
+    var types = _.keyBy(schema.types, 'id');
 
-    for (var i = 0; i < typeNames.length; ++i) {
-      var name = typeNames[i];
-      if (typeNames.indexOf(name) < i)
+    for (var i = 0; i < typeIds.length; ++i) {
+      var id = typeIds[i];
+      if (typeIds.indexOf(id) < i)
         continue;
 
-      var type = schema.types[name];
+      var type = types[id];
 
       nodes.push(type);
-      typeNames.push(...getEdgeTargets(type));
+      typeIds.push(...getEdgeTargets(type));
     }
     return {
-      rootId: rootType.id,
+      rootId,
       nodes: _.keyBy(nodes, 'id'),
     };
   }
@@ -66,5 +66,6 @@ function getTypeGraph(schema) {
 
 export const getTypeGraphSelector = createSelector(
   getSchemaSelector,
+  state => state.displayOptions.rootTypeId,
   getTypeGraph
 );

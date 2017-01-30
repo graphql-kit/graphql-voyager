@@ -14,6 +14,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import Checkbox from 'material-ui/Checkbox';
 
 import IntrospectionModal from './IntrospectionModal';
+import RootSelector from './RootSelector';
 import TypeDoc from './TypeDoc';
 
 interface PanelRootProps {
@@ -47,6 +48,7 @@ class PanelRoot extends React.Component<PanelRootProps, void> {
         <RaisedButton label="Load Introspection" primary={true}
           onTouchTap={() => dispatch(showIntrospectionModal())}/>
         <p/>
+        <RootSelector/>
         <Checkbox label="Sort by Alphabet" checked={sortByAlphabet}
           onCheck={(e, val) => dispatch(changeSortByAlphabet(val))} />
         <Checkbox label="Skip Relay" checked={skipRelay}

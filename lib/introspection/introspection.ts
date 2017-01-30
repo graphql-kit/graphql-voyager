@@ -1,7 +1,8 @@
 import * as _ from 'lodash';
 import { createSelector } from 'reselect';
 
-import { store } from "../redux";
+import { store } from '../redux';
+import { typeNameToId } from './utils';
 
 function unwrapType(type, wrappers) {
   while (type.kind === 'NON_NULL' || type.kind == 'LIST') {
@@ -81,31 +82,30 @@ function simplifySchema(inSchema) {
   };
 }
 
-function markRelayTypes(types, queryType) {
-  types['Node'].isRelayType = true;
-  types['PageInfo'].isRelayType = true;
+function markRelayTypes(schema) {
+  schema.types[typeNameToId('Node')].isRelayType = true;
+  schema.types[typeNameToId('PageInfo')].isRelayType = true;
 
-  types = _.mapValues(types, type => ({
-    ...type,
-    fields: _.mapValues(type.fields, field => {
+  _.each(schema.types, type => {
+    _.each(type.fields, field => {
       if (!/.Connection$/.test(field.type.name))
-        return field;
+        return;
+
       //FIXME: additional checks
       let relayConnetion = field.type;
       relayConnetion.isRelayType = true;
       let relayEdge = relayConnetion.fields['edges'].type;
       relayEdge.isRelayType = true;
 
-      return {
-        ...field,
-        type: relayEdge.fields['node'].type,
-        typeWrappers: ['LIST'],
-        relayType: field.type,
-      };
-    }),
-  }));
+      field.relayType =  field.type;
+      field.type = relayEdge.fields['node'].type;
+      field.typeWrappers = ['LIST'];
+    });
+  });
 
-  let query = types[queryType];
+  const {queryType} = schema;
+  let query = schema.types[queryType];
+
   if (_.get(query,'fields.node.type.isRelayType'))
     delete query.fields['node'];
 
@@ -115,7 +115,8 @@ function markRelayTypes(types, queryType) {
 
   if (_.get(query,'fields.relay.type.name') == queryType)
     delete query.fields['relay'];
-  return types;
+
+  schema.types = _.omitBy(schema.types, type => type.isRelayType);
 }
 
 function sortIntrospection(value) {
@@ -133,51 +134,57 @@ function sortIntrospection(value) {
     return value;
 }
 
-function assignTypesAndIDs(types) {
-  _.each(types, type => {
-    type.id = `TYPE::${type.name}`;
+function assignTypesAndIDs(schema) {
+  schema.queryType = typeNameToId(schema.queryType);
+  schema.mutationType = typeNameToId(schema.mutationType);
+
+  _.each(schema.types, type => {
+    type.id = typeNameToId(type.name);
 
     _.each(type.fields, field => {
       field.id = `FIELD::${type.name}::${field.name}`;
-      field.type = types[field.type];
+      field.type = schema.types[field.type];
       _.each(field.args, arg => {
         arg.id = `ARGUMENT::${type.name}::${field.name}::${arg.name}`;
-        arg.type = types[arg.type];
+        arg.type = schema.types[arg.type];
       });
     });
 
     if (!_.isEmpty(type.possibleTypes)) {
       type.possibleTypes = _.map(type.possibleTypes, possibleType => ({
         id: `POSSIBLE_TYPE::${type.name}::${possibleType}`,
-        type: types[possibleType]
+        type: schema.types[possibleType]
       }));
     }
 
     if (!_.isEmpty(type.derivedTypes)) {
       type.derivedTypes = _.map(type.derivedTypes, derivedType => ({
         id: `DERIVED_TYPE::${type.name}::${derivedType}`,
-        type: types[derivedType]
+        type: schema.types[derivedType]
       }));
     }
   });
+
+  schema.types = _.keyBy(schema.types, 'id');
 }
 
 export const getSchemaSelector = createSelector(
   (state:any) => state.introspection.presets[state.introspection.activePreset],
-  (state:any) => state.displayOptions,
-  (introspection, displayOptions) => {
+  (state:any) => state.displayOptions.sortByAlphabet,
+  (state:any) => state.displayOptions.skipRelay,
+  (introspection, sortByAlphabet, skipRelay) => {
     if (!introspection || introspection === '')
       return null;
 
     var schema = simplifySchema(introspection.__schema);
 
-    if (displayOptions.sortByAlphabet)
+    if (sortByAlphabet)
       schema =  sortIntrospection(schema);
 
-    assignTypesAndIDs(schema.types);
+    assignTypesAndIDs(schema);
 
-    if (displayOptions.skipRelay)
-      schema.types = markRelayTypes(schema.types, schema.queryType);
+    if (skipRelay)
+      markRelayTypes(schema);
     return schema;
   }
 );

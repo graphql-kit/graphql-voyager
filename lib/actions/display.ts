@@ -17,3 +17,9 @@ export function changeSkipRelay(state) {
     skipRelay: state
   });
 }
+
+export function changeRootType(id: string) {
+  return changeDisplayOptions({
+    rootTypeId: id
+  });
+}

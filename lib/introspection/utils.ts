@@ -42,6 +42,10 @@ export function isScalarType(type) {
   return (type.kind === 'SCALAR' || type.kind === 'ENUM');
 }
 
+export function isObjectType(type) {
+  return (type.kind === 'OBJECT');
+}
+
 export function isInputObjectType(type) {
   return (type.kind === 'INPUT_OBJECT');
 }

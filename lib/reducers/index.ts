@@ -1,9 +1,12 @@
 import * as _ from 'lodash';
 
 import * as ActionTypes from '../actions/'
-import { githubIntrospection, swapiIntrospection, extractTypeId } from '../introspection';
-
-var debugInitialPreset = 'swapi';
+import {
+  githubIntrospection,
+  swapiIntrospection,
+  getSchemaSelector,
+  extractTypeId,
+} from '../introspection';
 
 var initialState = {
   introspection: {
@@ -12,12 +15,13 @@ var initialState = {
       'swapi': swapiIntrospection,
       'custom': null
     },
-    activePreset: debugInitialPreset || null,
+    activePreset: null,
   },
   panel: {
-    showIntrospectionModal: debugInitialPreset ? false : true
+    showIntrospectionModal: true
   },
   displayOptions: {
+    rootTypeId: null,
     skipRelay: true,
     sortByAlphabet: false
   },
@@ -37,17 +41,20 @@ export function rootReducer(previousState = initialState, action) {
   const { type, error } = action;
   switch(type) {
     case ActionTypes.CHANGE_ACTIVE_INTROSPECTION:
-      return {
+      let newState = {
         ...previousState,
         introspection: {
           ...previousState.introspection,
           activePreset: action.payload,
         },
-        displayOptions: initialState.displayOptions,
+        displayOptions: {...initialState.displayOptions},
         svgCache: [],
         currentSvgIndex: null,
         selected: initialState.selected,
       };
+
+      newState.displayOptions.rootTypeId = getSchemaSelector(newState).queryType;
+      return newState;
     case ActionTypes.CHANGE_CUSTOM_INTROSPECTION:
       return {
         ...previousState,
