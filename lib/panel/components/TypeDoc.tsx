@@ -57,6 +57,7 @@ class TypeDoc extends React.Component<TypeDocProps, void> {
         {_.map(types, type =>
           <div key={type.id} className="doc-category-item">
             <TypeName type={type.type}/>
+            <Markdown text={type.type.description} className="linked-type-description"/>
           </div>
         )}
       </div>
@@ -95,6 +96,7 @@ class TypeDoc extends React.Component<TypeDocProps, void> {
               field.isDeprecated &&
               <span className="doc-alert-text">{' (DEPRECATED)'}</span>
             }
+            <Markdown text={field.description} className="field-description"/>
           </div>)
         )}
       </div>

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { astFromValue, print } from 'graphql';
 
+import Markdown from './Markdown';
 import WrappedTypeName from './WrappedTypeName';
 
 interface ArgumentProps {
@@ -23,6 +24,7 @@ export default class Argument extends React.Component<ArgumentProps, void> {
             </span>
           </span>
         }
+        <Markdown text={arg.description} className="arg-description"/>
       </span>
     );
   }

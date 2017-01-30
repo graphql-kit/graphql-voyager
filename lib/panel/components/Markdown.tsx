@@ -15,7 +15,7 @@ export default class Markdown extends React.Component<MarkdownProps, void> {
     const {text} = this.props;
 
     if (!text)
-      return <div />;
+      return null;
 
     const html = Marked(text, { sanitize: true });
 
