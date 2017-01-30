@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { astFromValue, print } from 'graphql';
 
-import TypeLink from './TypeLink';
+import WrappedTypeName from './WrappedTypeName';
 
 interface ArgumentProps {
   arg: any;
@@ -14,7 +14,7 @@ export default class Argument extends React.Component<ArgumentProps, void> {
       <span className="arg">
         <span className="arg-name">{arg.name}</span>
         {': '}
-        <TypeLink type={arg.type} wrappers={arg.typeWrappers}/>
+        <WrappedTypeName container={arg} />
         {arg.defaultValue !== undefined &&
           <span>
             {' = '}

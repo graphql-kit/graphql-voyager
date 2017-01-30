@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 import * as React from "react";
 
-import TypeLink from './TypeLink';
+import TypeName from './TypeName';
 import Markdown from './Markdown';
 
 interface TypeListProps {
@@ -24,7 +24,7 @@ export default class TypeList extends React.Component<TypeListProps, void> {
     return (
       <div>
         <div className="doc-typelist-root-item">
-          <TypeLink type={rootType}/>
+          <TypeName type={rootType}/>
           <Markdown
             className="doc-type-description"
             text={rootType.description || 'No Description'}
@@ -32,7 +32,7 @@ export default class TypeList extends React.Component<TypeListProps, void> {
         </div>
         {_.map(types, type =>
           <div key={type.id} className="doc-typelist-item">
-            <TypeLink type={type}/>
+            <TypeName type={type}/>
             <Markdown
               className="doc-type-description"
               text={type.description || 'No Description'}

@@ -7,7 +7,8 @@ import { getTypeGraphSelector } from '../../graph';
 import TypeList from './TypeList';
 import PreviousType from './PreviousType';
 import Markdown from './Markdown';
-import TypeLink from './TypeLink';
+import TypeName from './TypeName';
+import WrappedTypeName from './WrappedTypeName';
 import Argument from './Argument';
 
 interface TypeDocProps {
@@ -55,7 +56,7 @@ class TypeDoc extends React.Component<TypeDocProps, void> {
         </div>
         {_.map(types, type =>
           <div key={type.id} className="doc-category-item">
-            <TypeLink type={type.type}/>
+            <TypeName type={type.type}/>
           </div>
         )}
       </div>
@@ -89,7 +90,7 @@ class TypeDoc extends React.Component<TypeDocProps, void> {
               ')'
             ]}
             {': '}
-            <TypeLink type={field.type} wrappers={field.typeWrappers} />
+            <WrappedTypeName container={field} />
             {
               field.isDeprecated &&
               <span className="doc-alert-text">{' (DEPRECATED)'}</span>

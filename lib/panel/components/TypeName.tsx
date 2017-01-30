@@ -2,7 +2,6 @@ import * as React from "react";
 import { connect } from "react-redux"
 
 import {
-  stringifyWrappers,
   isBuiltInScalarType,
   isScalarType,
   isInputObjectType,
@@ -10,14 +9,18 @@ import {
 
 import { selectElement, focusElement } from '../../actions/';
 
-interface TypeLinkProps {
+interface TypeNameProps {
   type: any;
-  wrappers?: string[];
   dispatch: any;
 }
 
-class TypeLink extends React.Component<TypeLinkProps, void> {
-  renderType(type, dispatch) {
+class TypeName extends React.Component<TypeNameProps, void> {
+  render() {
+    const {
+      type,
+      dispatch,
+    } = this.props;
+
     if (isBuiltInScalarType(type))
       return (<span className="built-in-type-name">{type.name}</span>);
     else if (isScalarType(type))
@@ -36,24 +39,6 @@ class TypeLink extends React.Component<TypeLinkProps, void> {
       );
     }
   }
-
-  render() {
-    const {
-      type,
-      wrappers,
-      dispatch,
-    } = this.props;
-
-    const [leftWrap, rightWrap] = stringifyWrappers(wrappers || []);
-
-    return (
-      <span>
-        {leftWrap}
-        {this.renderType(type, dispatch)}
-        {rightWrap}
-      </span>
-    );
-  }
 }
 
-export default connect()(TypeLink);
+export default connect()(TypeName);
