@@ -83,6 +83,7 @@ module.exports = {
 
     new webpack.DefinePlugin({
       'VERSION': VERSION,
+      'DEBUG_INITIAL_PRESET': '"swapi"'
     })
-  ],
+  ]
 }

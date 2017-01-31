@@ -6,15 +6,11 @@ import { SVGRender } from './graph/';
 import { Viewport } from './graph/'
 import { initPanel } from './panel/';
 
-var debugInitialPreset = 'swapi';
-
 const svgRender = new SVGRender();
 const viewport = new Viewport(document.getElementById('viewport'));
 initPanel(document.getElementById('panel_root'));
 
-if (debugInitialPreset) {
+if (DEBUG_INITIAL_PRESET) {
   store.dispatch(hideIntrospectionModal())
-  store.dispatch(changeActiveIntrospection(debugInitialPreset));
+  store.dispatch(changeActiveIntrospection(DEBUG_INITIAL_PRESET));
 }
-
-
