@@ -4,7 +4,11 @@ import { connect } from "react-redux"
 
 import { extractTypeId } from '../../introspection';
 import { getTypeGraphSelector } from '../../graph';
-import { selectPreviousType, focusElement } from '../../actions/';
+import {
+  selectPreviousType,
+  clearSelection,
+  focusElement
+} from '../../actions/';
 
 interface PreviousTypeProps {
   previousTypeId: string;
@@ -30,7 +34,14 @@ class PreviousType extends React.Component<PreviousTypeProps, void> {
 
     //TODO: add button that clear selection and return to list of types
     if (!previousTypeId)
-      return null;
+      return (
+        <div className="doc-explorer-back"
+          onClick={() => {
+            dispatch(clearSelection());
+          }}>
+          TypeList
+        </div>
+      );
 
     var previousType = typeGraph.nodes[previousTypeId];
 
