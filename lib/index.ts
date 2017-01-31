@@ -1,3 +1,4 @@
+import './style.css';
 import { hideIntrospectionModal, changeActiveIntrospection } from './actions';
 import { store } from './redux';
 

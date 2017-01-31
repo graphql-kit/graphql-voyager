@@ -29,7 +29,8 @@ module.exports = {
     contentBase: root('static'),
     watchContentBase: true,
     port: 9090,
-    stats: 'errors-only'
+    stats: 'errors-only',
+    hot: true
   },
   output: {
     path: root('dist'),
@@ -60,7 +61,7 @@ module.exports = {
     },
     {
       test: /\.css$/,
-      loaders: ['style-loader', 'css-loader?importLoaders=1', 'postcss-loader']
+      loaders: ['style-loader', 'css-loader?importLoaders=1']
     },
     {
       test: /\.json$/,
