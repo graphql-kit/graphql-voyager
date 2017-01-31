@@ -80,7 +80,7 @@ class TypeDoc extends React.Component<TypeDocProps, void> {
             </a>
             {!_.isEmpty(field.args) && [
               '(',
-              <span key="args">
+              <span className="args">
                 {_.map(field.args, arg =>
                   <Argument
                     key={arg.name}
@@ -90,7 +90,6 @@ class TypeDoc extends React.Component<TypeDocProps, void> {
               </span>,
               ')'
             ]}
-            {': '}
             <WrappedTypeName container={field} />
             {
               field.isDeprecated &&
@@ -120,7 +119,7 @@ class TypeDoc extends React.Component<TypeDocProps, void> {
         <PreviousType/>
         <h3>{type.name}</h3>
         <Markdown
-          className="doc-type-description" 
+          className="doc-type-description"
           text={type.description || 'No Description'}
         />
         {this.renderTypesDef(type)}

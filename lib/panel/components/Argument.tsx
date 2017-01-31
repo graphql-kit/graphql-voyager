@@ -14,7 +14,6 @@ export default class Argument extends React.Component<ArgumentProps, void> {
     return (
       <span className="arg">
         <span className="arg-name">{arg.name}</span>
-        {': '}
         <WrappedTypeName container={arg} />
         {arg.defaultValue !== undefined &&
           <span>

@@ -23,7 +23,7 @@ export default class TypeList extends React.Component<TypeListProps, void> {
 
     return (
       <div>
-        <div className="doc-typelist-root-item">
+        <div className="doc-typelist-root-item doc-typelist-item">
           <TypeName type={rootType}/>
           <Markdown
             className="doc-type-description"

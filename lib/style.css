@@ -12,11 +12,19 @@ body > main {
 }
 
 #panel_root {
-  min-width: 220px;
-  padding: 10px 20px;
+  width: 280px;
+  min-width: 280px;
+  height: 100%;
   background: #f2f2f2;
+  box-sizing: border-box;
+  padding: 10px 0;
 }
 
+.panel-wrap {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
 
 .panel-content {
   padding: 20px;
@@ -178,6 +186,22 @@ body > main {
   margin-top: 0;
 }
 
+.doc-type-description,
+.doc-explorer-contents h3,
+.doc-category-title,
+.title-area,
+.doc-typelist-item > .object-type-name {
+  padding: 0 15px;
+}
+
+.doc-typelist-root-item {
+  margin-top: 15px;
+}
+
+.doc-explorer-contents {
+  overflow-y: auto;
+}
+
 .doc-explorer-contents a {
   cursor: pointer;
   text-decoration: none;
@@ -204,13 +228,18 @@ body > main {
   font-weight: bold;
   letter-spacing: 1px;
   margin: 0 -15px 10px 0;
-  padding: 10px 0;
   user-select: none;
+  box-sizing: border-box;
+  width: 100%;
 }
 
 .doc-category-item {
-  margin: 12px 0;
+  padding: 8px 15px;
   color: #555;
+}
+
+.doc-category-item:nth-child(odd) {
+  background-color: #dadada;
 }
 
 .built-in-type-name,
@@ -248,4 +277,38 @@ body > main {
   color: #F00F00;
   font-family: 'Consolas', 'Inconsolata', 'Droid Sans Mono', 'Monaco', monospace;
   font-size: 13px;
+}
+
+/* args styling */
+.arg {
+  display: inline;
+}
+
+.arg > .arg-description,
+.arg > .wrapped-type-name {
+  display: none;
+}
+
+.field-description {
+  margin-top: 5px
+}
+.field-description > p {
+  margin: 0;
+}
+
+.wrapped-type-name::before {
+  content: ": ";
+}
+
+a.object-type-name {}
+
+.doc-typelist-root-item a.object-type-name:after {
+    content: "root";
+    display: inline-block;
+    vertical-align: middle;
+    background: #00bcd4;
+    color: white;
+    padding: 0 5px;
+    margin-left: 10px;
+    font-size: 0.9em;
 }

@@ -41,18 +41,20 @@ class PanelRoot extends React.Component<PanelRootProps, void> {
       dispatch
     } = this.props;
     return (
-      <div>
-        <h2>GraphQL Voyager</h2>
-        {isLoading && <div> Loading </div>}
-        <IntrospectionModal/>
-        <RaisedButton label="Load Introspection" primary={true}
-          onTouchTap={() => dispatch(showIntrospectionModal())}/>
-        <p/>
-        <RootSelector/>
-        <Checkbox label="Sort by Alphabet" checked={sortByAlphabet}
-          onCheck={(e, val) => dispatch(changeSortByAlphabet(val))} />
-        <Checkbox label="Skip Relay" checked={skipRelay}
-          onCheck={(e, val) => dispatch(changeSkipRelay(val))} />
+      <div className="panel-wrap">
+        <div className="title-area">
+          <h2>GraphQL Voyager</h2>
+          {isLoading && <div> Loading </div>}
+          <IntrospectionModal/>
+          <RaisedButton label="Load Introspection" primary={true}
+            onTouchTap={() => dispatch(showIntrospectionModal())}/>
+          <p/>
+          <RootSelector/>
+          <Checkbox label="Sort by Alphabet" checked={sortByAlphabet}
+            onCheck={(e, val) => dispatch(changeSortByAlphabet(val))} />
+          <Checkbox label="Skip Relay" checked={skipRelay}
+            onCheck={(e, val) => dispatch(changeSkipRelay(val))} />
+        </div>
         <div className="doc-explorer-contents">
           <TypeDoc/>
         </div>
