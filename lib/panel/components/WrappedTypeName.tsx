@@ -16,7 +16,8 @@ export default class WrappedTypeName extends React.Component<WrappedTypeNameProp
     const [leftWrap, rightWrap] = stringifyWrappers(wrappers);
 
     return (
-      <span className={'wrapped-type-name' + (container.relayType ? ',relay-field' : '')}>
+      <span className="wrapped-type-name">
+        { container.relayType && <span className="relay-field" />}
         {leftWrap}<TypeName type={type} />{rightWrap}
       </span>
     );
