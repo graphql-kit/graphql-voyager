@@ -100,6 +100,11 @@ function markRelayTypes(schema) {
       field.relayType =  field.type;
       field.type = relayEdge.fields['node'].type;
       field.typeWrappers = ['LIST'];
+
+      const relayArgNames = ['first', 'last', 'before', 'after'];
+      const isRelayArg = (arg => relayArgNames.includes(arg.name));
+      field.relayArgs = _.pickBy(field.args, isRelayArg);
+      field.args = _.omitBy(field.args, isRelayArg);
     });
   });
 
