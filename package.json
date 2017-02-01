@@ -41,6 +41,6 @@
     "redux-thunk": "^2.1.0",
     "reselect": "^2.5.4",
     "svg-pan-zoom": "^3.4.0",
-    "viz.js": "^1.6.0"
+    "viz.js": "^1.7.0"
   }
 }
