@@ -118,7 +118,7 @@ function markRelayTypes(schema) {
   if (_.get(query,'fields.nodes.type.isRelayType'))
     delete query.fields['nodes'];
 
-  if (_.get(query,'fields.relay.type.name') == queryType)
+  if (_.get(query,'fields.relay.type.id') == queryType)
     delete query.fields['relay'];
 
   schema.types = _.omitBy(schema.types, type => type.isRelayType);
