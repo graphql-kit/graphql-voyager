@@ -87,6 +87,12 @@ function markRelayTypes(schema) {
   schema.types[typeNameToId('PageInfo')].isRelayType = true;
 
   _.each(schema.types, type => {
+    if (!_.isEmpty(type.interfaces)) {
+      type.interfaces = _.reject(type.interfaces, baseType => baseType.type.name === 'Node');
+      if (_.isEmpty(type.interfaces))
+        delete type.interfaces;
+    }
+
     _.each(type.fields, field => {
       if (!/.Connection$/.test(field.type.name))
         return;
@@ -166,6 +172,13 @@ function assignTypesAndIDs(schema) {
       type.derivedTypes = _.map(type.derivedTypes, derivedType => ({
         id: `DERIVED_TYPE::${type.name}::${derivedType}`,
         type: schema.types[derivedType]
+      }));
+    }
+
+    if (!_.isEmpty(type.interfaces)) {
+      type.interfaces = _.map(type.interfaces, baseType => ({
+        id: `INTERFACE::${type.name}::${baseType}`,
+        type: schema.types[baseType]
       }));
     }
   });

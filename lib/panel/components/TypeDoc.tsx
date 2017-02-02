@@ -38,7 +38,7 @@ class TypeDoc extends React.Component<TypeDocProps, void> {
         typesTitle = 'implementations';
         types = type.derivedTypes;
         break;
-      case 'OBJECTS':
+      case 'OBJECT':
         typesTitle = 'implements';
         types = type.interfaces;
         break;
