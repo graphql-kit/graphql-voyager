@@ -1,6 +1,9 @@
 import * as _ from 'lodash';
 import * as React from "react";
 import { connect } from "react-redux"
+import { selectEdge } from '../../actions/';
+
+import * as classNames from 'classnames';
 
 import { extractTypeId } from '../../introspection';
 import { getTypeGraphSelector } from '../../graph';
@@ -13,13 +16,15 @@ import Argument from './Argument';
 
 interface TypeDocProps {
   selectedId: string;
+  selectedEdgeId: string;
   typeGraph: any;
   dispatch: any;
 }
 
 function mapStateToProps(state) {
   return {
-    selectedId: state.selected.currentId,
+    selectedId: state.selected.currentNodeId,
+    selectedEdgeId: state.selected.currentEdgeId,
     typeGraph: getTypeGraphSelector(state),
   };
 }
@@ -64,17 +69,24 @@ class TypeDoc extends React.Component<TypeDocProps, void> {
     );
   }
 
-  renderFields(type) {
+  renderFields(type, selectedId) {
     if (_.isEmpty(type.fields))
       return null;
 
+    let dispatch = this.props.dispatch;
     return (
       <div className="doc-category">
         <div className="doc-category-title">
-          {'fields'}
+          fields
         </div>
         {_.map(type.fields, field => (
-          <div key={field.name} className="doc-category-item">
+          <div key={field.name} className={classNames({
+            'doc-category-item': true,
+            'selected': field.id === selectedId
+          })}
+          onClick={() => {
+            dispatch(selectEdge(field.id));
+          }}>
             <a className="field-name">
               {field.name}
             </a>
@@ -91,8 +103,7 @@ class TypeDoc extends React.Component<TypeDocProps, void> {
               ')'
             ]}
             <WrappedTypeName container={field} />
-            {
-              field.isDeprecated &&
+            { field.isDeprecated &&
               <span className="doc-alert-text">{' (DEPRECATED)'}</span>
             }
             <Markdown text={field.description} className="field-description"/>
@@ -106,24 +117,34 @@ class TypeDoc extends React.Component<TypeDocProps, void> {
     const {
       dispatch,
       selectedId,
+      selectedEdgeId,
       typeGraph
     } = this.props;
 
+    let content;
     if (selectedId === null)
-      return (<TypeList typeGraph={typeGraph}/>);
-
-    var type = typeGraph.nodes[extractTypeId(selectedId)];
+      content = (<TypeList typeGraph={typeGraph}/>)
+    else {
+      let type = typeGraph.nodes[extractTypeId(selectedId)];
+      content = (
+        <div className="doc-explorer-scroll-area">
+          <h3>{type.name}</h3>
+          <Markdown
+            className="doc-type-description"
+            text={type.description || 'No Description'}
+          />
+          {this.renderTypesDef(type)}
+          {this.renderFields(type, selectedEdgeId)}
+        </div>
+      );
+    }
 
     return (
-      <div>
-        <PreviousType/>
-        <h3>{type.name}</h3>
-        <Markdown
-          className="doc-type-description"
-          text={type.description || 'No Description'}
-        />
-        {this.renderTypesDef(type)}
-        {this.renderFields(type)}
+      <div className="doc-explorer-contents">
+        <div className="previous-type-area">
+          {selectedId !== null && <PreviousType />}
+        </div>
+        {content}
       </div>
     );
   }

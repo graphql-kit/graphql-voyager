@@ -1,7 +1,15 @@
-export const SELECT_ELEMENT = 'SELECT_ELEMENT';
-export function selectElement(id) {
+export const SELECT_NODE = 'SELECT_NODE';
+export function selectNode(id) {
   return {
-    type: SELECT_ELEMENT,
+    type: SELECT_NODE,
+    payload: id,
+  };
+}
+
+export const SELECT_EDGE = 'SELECT_EDGE';
+export function selectEdge(id) {
+  return {
+    type: SELECT_EDGE,
     payload: id,
   };
 }

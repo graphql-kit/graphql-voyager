@@ -30,12 +30,27 @@ var initialState = {
   ],
   selected: {
     previousTypesIds: [],
-    currentId: null,
+    currentNodeId: null,
+    currentEdgeId: null
   },
   graphView: {
     focusedId: null,
   }
 };
+
+
+function pushHistory(nodeId: string, previousState): string[] {
+  let previousTypesIds = previousState.selected.previousTypesIds;
+  let previousId = previousState.selected.currentNodeId;
+  if (previousId) {
+    const previousTypeId = extractTypeId(previousId);
+    const currentTypeId = extractTypeId(nodeId);
+    if (_.last(previousTypesIds) !== previousTypeId && previousTypeId !== currentTypeId) {
+      previousTypesIds = [...previousTypesIds, previousTypeId];
+    }
+  }
+  return previousTypesIds;
+}
 
 export function rootReducer(previousState = initialState, action) {
   const { type, error } = action;
@@ -86,27 +101,32 @@ export function rootReducer(previousState = initialState, action) {
         }]),
         currentSvgIndex: previousState.svgCache.length
       };
-    case ActionTypes.SELECT_ELEMENT:
-      const currentId = action.payload;
-      if (currentId === previousState.selected.currentId)
+    case ActionTypes.SELECT_NODE:
+      const currentNodeId = action.payload;
+      if (currentNodeId === previousState.selected.currentNodeId)
         return previousState;
-
-      let previousTypesIds = previousState.selected.previousTypesIds;
-      let previousId = previousState.selected.currentId;
-      if (previousId) {
-        const previousTypeId = extractTypeId(previousId);
-        const currentTypeId = extractTypeId(currentId);
-        if (_.last(previousTypesIds) !== previousTypeId && previousTypeId !== currentTypeId) {
-          previousTypesIds = [...previousTypesIds, previousTypeId];
-        }
-      }
 
       return {
         ...previousState,
         selected: {
           ...previousState.selected,
-          previousTypesIds,
-          currentId,
+          previousTypesIds: pushHistory(currentNodeId, previousState),
+          currentNodeId
+        },
+      };
+    case ActionTypes.SELECT_EDGE:
+      const currentEdgeId = action.payload;
+      if (currentEdgeId === previousState.selected.currentEdgeId)
+        return previousState;
+
+      let nodeId = extractTypeId(currentEdgeId);
+      return {
+        ...previousState,
+        selected: {
+          ...previousState.selected,
+          previousTypesIds: pushHistory(nodeId, previousState),
+          currentNodeId: nodeId,
+          currentEdgeId
         },
       };
     case ActionTypes.SELECT_PREVIOUS_TYPE:
@@ -115,7 +135,7 @@ export function rootReducer(previousState = initialState, action) {
         selected: {
           ...previousState.selected,
           previousTypesIds: _.initial(previousState.selected.previousTypesIds),
-          currentId: _.last(previousState.selected.previousTypesIds),
+          currentNodeId: _.last(previousState.selected.previousTypesIds),
         },
       };
     case ActionTypes.CLEAR_SELECTION:

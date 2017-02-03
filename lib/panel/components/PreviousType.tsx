@@ -32,26 +32,23 @@ class PreviousType extends React.Component<PreviousTypeProps, void> {
     } = this.props;
 
 
-    //TODO: add button that clear selection and return to list of types
-    if (!previousTypeId)
-      return (
-        <div className="doc-explorer-back"
-          onClick={() => {
-            dispatch(clearSelection());
-          }}>
-          TypeList
-        </div>
-      );
-
-    var previousType = typeGraph.nodes[previousTypeId];
+    let clickHandler, title;
+    if (!previousTypeId) {
+      clickHandler = () => dispatch(clearSelection());
+      title = 'Type List'
+    } else {
+      let previousType = typeGraph.nodes[previousTypeId];
+      clickHandler = () => {
+        dispatch(focusElement(previousType.id));
+        dispatch(selectPreviousType());
+      }
+      title = previousType.name;
+    }
 
     return (
       <div className="doc-explorer-back"
-        onClick={() => {
-          dispatch(focusElement(previousType.id));
-          dispatch(selectPreviousType());
-        }}>
-        {previousType.name}
+        onClick={clickHandler}>
+        {title}
       </div>
     );
   }

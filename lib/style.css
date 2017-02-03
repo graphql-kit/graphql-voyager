@@ -17,7 +17,7 @@ body > main {
   height: 100%;
   background: #f2f2f2;
   box-sizing: border-box;
-  padding: 10px 0;
+  padding: 10px 0 0;
 }
 
 .panel-wrap {
@@ -91,7 +91,7 @@ body > main {
 }
 
 .edge:hover text,
-.edge.selected text,
+.edge.highlighted text,
 .edge.hovered text  {
   display: block;
 }
@@ -108,20 +108,24 @@ body > main {
 
 .selection-active .node.selected-reachable,
 .selection-active .node.selected,
-.selection-active .edge.selected {
+.selection-active .edge.highlighted {
   opacity: 1;
 }
 
 .selection-active .node.selected polygon,
-.selection-active .edge.selected path:not(.hover-path),
-.edge.selected path:not(.hover-path),
+.selection-active .edge.highlighted path:not(.hover-path),
+.edge.highlighted path:not(.hover-path),
 .edge.hovered path:not(.hover-path) {
   stroke: #000;
   stroke-width: 3;
 }
 
-.selection-active .edge.selected polygon,
-.edge.selected polygon {
+.selection-active .edge.selected path:not(.hover-path) {
+  stroke: red;
+}
+
+.selection-active .edge.highlighted polygon,
+.edge.highlighted polygon {
   opacity: 1;
   fill: #000;
   stroke: #000;
@@ -142,11 +146,17 @@ body > main {
 .doc-explorer-back {
   color: #3B5998;
   cursor: pointer;
-  margin: -7px 0 -6px -8px;
   overflow-x: hidden;
-  padding: 17px 12px 16px 16px;
   text-overflow: ellipsis;
   white-space: nowrap;
+  padding-left: 2px;
+}
+
+.previous-type-area {
+  min-height: 20px;
+  border-bottom: 1px solid #aaa;
+  padding: 10px 20px 10px 18px;
+  box-shadow: 0 4px 4px -2px rgba(0, 0, 0, 0.1);
 }
 
 .doc-explorer-back:before {
@@ -194,12 +204,18 @@ body > main {
   padding: 0 15px;
 }
 
-.doc-typelist-root-item {
-  margin-top: 15px;
+.doc-explorer-contents h3 {
+  margin: 16px 0;
+}
+
+.doc-explorer-scroll-area {
+  overflow-y: auto;
 }
 
 .doc-explorer-contents {
-  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  margin-top: 15px;
 }
 
 .doc-explorer-contents a {
@@ -216,7 +232,7 @@ body > main {
 }
 
 .doc-category {
-  margin: 20px 0;
+  margin: 20px 0 0;
 }
 
 .doc-category-title {
@@ -292,7 +308,8 @@ body > main {
 .field-description {
   margin-top: 5px
 }
-.field-description > p {
+.field-description > p,
+.linked-type-description p {
   margin: 0;
 }
 
@@ -303,12 +320,20 @@ body > main {
 a.object-type-name {}
 
 .doc-typelist-root-item a.object-type-name:after {
-    content: "root";
-    display: inline-block;
-    vertical-align: middle;
-    background: #00bcd4;
-    color: white;
-    padding: 0 5px;
-    margin-left: 10px;
-    font-size: 0.9em;
+  content: "root";
+  display: inline-block;
+  vertical-align: middle;
+  background: #00bcd4;
+  color: white;
+  padding: 0 5px;
+  margin-left: 10px;
+  font-size: 0.9em;
+}
+
+.doc-category-item.selected {
+  background-color: #b4f7ff;
+}
+
+.doc-explorer-type-list {
+  padding-top: 16px;
 }

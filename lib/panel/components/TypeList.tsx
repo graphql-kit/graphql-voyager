@@ -22,7 +22,7 @@ export default class TypeList extends React.Component<TypeListProps, void> {
       .sortBy('name').value();
 
     return (
-      <div>
+      <div className="doc-explorer-scroll-area doc-explorer-type-list">
         <div className="doc-typelist-root-item doc-typelist-item">
           <TypeName type={rootType}/>
           <Markdown

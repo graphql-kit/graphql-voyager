@@ -55,9 +55,7 @@ class PanelRoot extends React.Component<PanelRootProps, void> {
           <Checkbox label="Skip Relay" checked={skipRelay}
             onCheck={(e, val) => dispatch(changeSkipRelay(val))} />
         </div>
-        <div className="doc-explorer-contents">
-          <TypeDoc/>
-        </div>
+        <TypeDoc/>
       </div>
     );
   }

@@ -7,7 +7,7 @@ import {
   isInputObjectType,
 } from '../../introspection';
 
-import { selectElement, focusElement } from '../../actions/';
+import { selectNode, focusElement } from '../../actions/';
 
 interface TypeNameProps {
   type: any;
@@ -31,9 +31,10 @@ class TypeName extends React.Component<TypeNameProps, void> {
       return (
         <a
           className="object-type-name"
-          onClick={() => {
+          onClick={(event) => {
+            event.stopPropagation();
             dispatch(focusElement(type.id));
-            dispatch(selectElement(type.id));
+            dispatch(selectNode(type.id));
           }}
         >{type.name}</a>
       );

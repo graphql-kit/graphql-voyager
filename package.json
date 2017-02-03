@@ -27,6 +27,7 @@
   },
   "dependencies": {
     "@f/animate": "^1.0.1",
+    "classnames": "^2.2.5",
     "ejs": "^2.5.3",
     "graphql": "^0.8.2",
     "lodash": "^4.17.2",

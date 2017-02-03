@@ -25,7 +25,8 @@ export class Viewport {
       this.display(cachedSvg.svg);
     })
 
-    observeStore(state => state.selected.currentId, id => this.selectId(id));
+    observeStore(state => state.selected.currentNodeId, id => this.selectNodeById(id));
+    observeStore(state => state.selected.currentEdgeId, id => this.selectEdgeById(id));
     observeStore(state => state.graphView.focusedId, id => {
       if (id === null)
         return;
@@ -75,10 +76,10 @@ export class Viewport {
         store.dispatch(Actions.focusElement(typeId));
       } else if (isNode(target)) {
         let $node = getParent(target, 'node');
-        store.dispatch(Actions.selectElement($node.id));
+        store.dispatch(Actions.selectNode($node.id));
       } else if (isEdge(target)) {
         let $edge = getParent(target, 'edge');
-        store.dispatch(Actions.selectElement(edgeSource($edge).id));
+        store.dispatch(Actions.selectEdge(edgeSource($edge).id));
       } else if (!isControl(target)) {
         store.dispatch(Actions.clearSelection());
       }
@@ -111,12 +112,11 @@ export class Viewport {
     });
   }
 
-  selectId(id:string) {
+  selectNodeById(id:string) {
     if (!this.$svg)
       return;
 
-    this.deselectAll();
-
+    this.deselectNode();
     if (id === null) {
       this.$svg.classList.remove('selection-active');
       return;
@@ -124,34 +124,42 @@ export class Viewport {
 
     this.$svg.classList.add('selection-active');
     var $selected = document.getElementById(id);
-    if ($selected.classList.contains('node'))
-      this.selectNode($selected);
-    else if ($selected.classList.contains('edge-source'))
-      this.selectEdge($selected);
+    this.selectNode($selected);
   }
 
   selectNode(node:Element) {
+    this.deselectNode();
     node.classList.add('selected');
 
     forEachNode(node, '.edge-source', source => {
       const $edge = edgeFrom(source.id);
-      $edge.classList.add('selected');
+      $edge.classList.add('highlighted');
       edgeTarget($edge).classList.add('selected-reachable');
     });
 
     _.each(edgesTo(node.id), $edge => {
-      $edge.classList.add('selected');
+      $edge.classList.add('highlighted');
       edgeSource($edge).parentElement.classList.add('selected-reachable');
     });
+  }
+
+  selectEdgeById(id:string) {
+    if (!this.$svg)
+      return;
+
+    removeClass(this.$svg, '.edge.selected', 'selected');
+    var $selected = document.getElementById(id);
+    this.selectEdge($selected);
   }
 
   selectEdge(edgeSource:Element) {
     edgeFrom(edgeSource.id).classList.add('selected');
   }
 
-  deselectAll() {
+  deselectNode() {
     let viewport = document.getElementById('viewport');
-    removeClass(this.$svg, '.selected', 'selected');
+    removeClass(this.$svg, 'node.selected', 'selected');
+    removeClass(this.$svg, '.highlighted', 'highlighted');
     removeClass(this.$svg, '.selected-reachable', 'selected-reachable');
   }
 
@@ -230,6 +238,7 @@ export function preprocessVizSvg(svgString:string) {
   forEachNode(svg, 'g.edge path', $path => {
     let $newPath = $path.cloneNode() as HTMLElement;
     $newPath.classList.add('hover-path');
+    $newPath.removeAttribute('stroke-dasharray');
     $path.parentNode.appendChild($newPath);
   });
 
