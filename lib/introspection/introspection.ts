@@ -51,15 +51,15 @@ function convertType(inType) {
 
   switch (outType.kind) {
     case 'OBJECT':
-      outType.interfaces = _.map(inType.interfaces, 'name');
+      outType.interfaces = _(inType.interfaces).map('name').uniq().value();
       outType.fields = _(inType.fields).map(convertField).keyBy('name').value();
       break;
     case 'INTERFACE':
-      outType.derivedTypes = _.map(inType.possibleTypes, 'name');
+      outType.derivedTypes = _(inType.possibleTypes).map('name').uniq().value();
       outType.fields = _(inType.fields).map(convertField).keyBy('name').value();
       break;
     case 'UNION':
-      outType.possibleTypes = _.map(inType.possibleTypes, 'name');
+      outType.possibleTypes = _(inType.possibleTypes).map('name').uniq().value();
       break;
     case 'ENUM':
       outType.enumValues = inType.enumValues;
