@@ -123,6 +123,7 @@ export class Viewport {
 
   selectNodeById(id:string) {
     this.deselectNode();
+
     if (id === null) {
       this.$svg.classList.remove('selection-active');
       return;
@@ -134,7 +135,6 @@ export class Viewport {
   }
 
   selectNode(node:Element) {
-    this.deselectNode();
     node.classList.add('selected');
 
     forEachNode(node, '.edge-source', source => {
@@ -160,8 +160,7 @@ export class Viewport {
   }
 
   deselectNode() {
-    let viewport = document.getElementById('viewport');
-    removeClass(this.$svg, 'node.selected', 'selected');
+    removeClass(this.$svg, '.node.selected', 'selected');
     removeClass(this.$svg, '.highlighted', 'highlighted');
     removeClass(this.$svg, '.selected-reachable', 'selected-reachable');
   }
