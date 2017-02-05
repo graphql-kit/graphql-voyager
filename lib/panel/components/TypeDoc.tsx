@@ -92,7 +92,7 @@ class TypeDoc extends React.Component<TypeDocProps, void> {
             </a>
             {!_.isEmpty(field.args) && [
               '(',
-              <span className="args">
+              <span key="args" className="args">
                 {_.map(field.args, arg =>
                   <Argument
                     key={arg.name}
