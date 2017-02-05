@@ -7,7 +7,12 @@ import {
   getSchemaSelector,
   isScalarType,
   isInputObjectType,
+  isSystemType,
 } from '../introspection/';
+
+export function isNode(type) {
+  return !(isScalarType(type) || isInputObjectType(type) || isSystemType(type));
+}
 
 function getTypeGraph(schema, rootTypeId) {
   if (schema === null || rootTypeId === null)
@@ -36,8 +41,7 @@ function getTypeGraph(schema, rootTypeId) {
       ...type.possibleTypes || [],
     ])
       .map('type')
-      .reject(isScalarType)
-      .reject(isInputObjectType)
+      .filter(isNode)
       .map('id')
       .value();
   }

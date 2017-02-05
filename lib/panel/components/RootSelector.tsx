@@ -2,7 +2,8 @@ import * as _ from 'lodash';
 import * as React from "react";
 import { connect } from "react-redux"
 
-import { getSchemaSelector, isObjectType, isSystemType } from '../../introspection';
+import { getSchemaSelector } from '../../introspection';
+import { isNode } from '../../graph/';
 import { changeRootType } from '../../actions/';
 
 interface RootSelectorProps {
@@ -38,8 +39,7 @@ class RootSelector extends React.Component<RootSelectorProps, void> {
     if (mutationType)
       types = _.omit(types, mutationType.id);
 
-    types = _(types).values()
-      .filter(type => isObjectType(type) && !isSystemType(type))
+    types = _(types).values().filter(isNode)
       .sortBy('name').value();
 
     const currentRoot = schema.types[rootTypeId].id;
