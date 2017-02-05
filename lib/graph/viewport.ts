@@ -24,11 +24,11 @@ export class Viewport {
     }
 
     observeStore(state => state.currentSvgIndex, svgIdx => {
-      if (svgIdx == null) {
-        unsubscribe.forEach(Function.prototype.call);
-        unsubscribe = [];
+      unsubscribe.forEach(f => f());
+      unsubscribe = [];
+
+      if (svgIdx === null)
         return;
-      }
 
       let cachedSvg = store.getState().svgCache[svgIdx];
       this.display(cachedSvg.svg);
