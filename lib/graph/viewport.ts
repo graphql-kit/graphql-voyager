@@ -17,22 +17,30 @@ export class Viewport {
   zoomer: SvgPanZoom.Instance;
 
   constructor(public container: HTMLElement) {
+    const unsubscribe = [];
+
+    function subscribe(...args) {
+      unsubscribe.push(observeStore(...args));
+    }
+
     observeStore(state => state.currentSvgIndex, svgIdx => {
       if (svgIdx == null) {
+        unsubscribe.forEach(Function.prototype.call);
         return;
       }
+
       let cachedSvg = store.getState().svgCache[svgIdx];
       this.display(cachedSvg.svg);
-    })
 
-    observeStore(state => state.selected.currentNodeId, id => this.selectNodeById(id));
-    observeStore(state => state.selected.currentEdgeId, id => this.selectEdgeById(id));
-    observeStore(state => state.graphView.focusedId, id => {
-      if (id === null)
-        return;
+      subscribe(state => state.selected.currentNodeId, id => this.selectNodeById(id));
+      subscribe(state => state.selected.currentEdgeId, id => this.selectEdgeById(id));
+      subscribe(state => state.graphView.focusedId, id => {
+        if (id === null)
+          return;
 
-      this.focusElement(id);
-      store.dispatch(Actions.focusElementDone(id));
+        this.focusElement(id);
+        store.dispatch(Actions.focusElementDone(id));
+      });
     });
   }
 
@@ -113,9 +121,6 @@ export class Viewport {
   }
 
   selectNodeById(id:string) {
-    if (!this.$svg)
-      return;
-
     this.deselectNode();
     if (id === null) {
       this.$svg.classList.remove('selection-active');
@@ -144,16 +149,13 @@ export class Viewport {
   }
 
   selectEdgeById(id:string) {
-    if (!this.$svg)
+    removeClass(this.$svg, '.edge.selected', 'selected');
+
+    if (id === null)
       return;
 
-    removeClass(this.$svg, '.edge.selected', 'selected');
     var $selected = document.getElementById(id);
-    this.selectEdge($selected);
-  }
-
-  selectEdge(edgeSource:Element) {
-    edgeFrom(edgeSource.id).classList.add('selected');
+    edgeFrom($selected.id).classList.add('selected');
   }
 
   deselectNode() {
