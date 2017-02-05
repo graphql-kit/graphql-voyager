@@ -86,6 +86,8 @@ function markRelayTypes(schema) {
   schema.types[typeNameToId('Node')].isRelayType = true;
   schema.types[typeNameToId('PageInfo')].isRelayType = true;
 
+  const edgeTypesMap = {};
+
   _.each(schema.types, type => {
     if (!_.isEmpty(type.interfaces)) {
       type.interfaces = _.reject(type.interfaces, baseType => baseType.type.name === 'Node');
@@ -98,19 +100,32 @@ function markRelayTypes(schema) {
         return;
 
       //FIXME: additional checks
-      let relayConnetion = field.type;
+      const relayConnetion = field.type;
       relayConnetion.isRelayType = true;
-      let relayEdge = relayConnetion.fields['edges'].type;
+      const relayEdge = relayConnetion.fields['edges'].type;
       relayEdge.isRelayType = true;
+      const realType = relayEdge.fields['node'].type;
+      edgeTypesMap[relayEdge.name] = realType;
 
       field.relayType =  field.type;
-      field.type = relayEdge.fields['node'].type;
+      field.type = realType;
       field.typeWrappers = ['LIST'];
 
       const relayArgNames = ['first', 'last', 'before', 'after'];
       const isRelayArg = (arg => relayArgNames.includes(arg.name));
       field.relayArgs = _.pickBy(field.args, isRelayArg);
       field.args = _.omitBy(field.args, isRelayArg);
+    });
+  });
+
+  _.each(schema.types, type => {
+    _.each(type.fields, field => {
+      var realType = edgeTypesMap[field.type.name];
+      if (realType === undefined)
+        return;
+
+      field.relayType =  field.type;
+      field.type = realType;
     });
   });
 
@@ -126,8 +141,6 @@ function markRelayTypes(schema) {
 
   if (_.get(query,'fields.relay.type.id') == queryType)
     delete query.fields['relay'];
-
-  schema.types = _.omitBy(schema.types, type => type.isRelayType);
 }
 
 function sortIntrospection(value) {

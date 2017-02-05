@@ -17,7 +17,7 @@ export class Viewport {
   zoomer: SvgPanZoom.Instance;
 
   constructor(public container: HTMLElement) {
-    const unsubscribe = [];
+    let unsubscribe = [];
 
     function subscribe(...args) {
       unsubscribe.push(observeStore(...args));
@@ -26,6 +26,7 @@ export class Viewport {
     observeStore(state => state.currentSvgIndex, svgIdx => {
       if (svgIdx == null) {
         unsubscribe.forEach(Function.prototype.call);
+        unsubscribe = [];
         return;
       }
 

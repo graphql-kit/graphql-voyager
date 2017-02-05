@@ -11,7 +11,12 @@ import {
 } from '../introspection/';
 
 export function isNode(type) {
-  return !(isScalarType(type) || isInputObjectType(type) || isSystemType(type));
+  return !(
+    isScalarType(type) ||
+    isInputObjectType(type) ||
+    isSystemType(type) ||
+    type.isRelayType
+  );
 }
 
 function getTypeGraph(schema, rootTypeId) {
@@ -19,20 +24,6 @@ function getTypeGraph(schema, rootTypeId) {
     return null;
 
   return buildGraph(rootTypeId);
-
-  function fieldEdges(type) {
-    return _.map<any, any>(type.fields, field => ({
-      connectionType: 'field',
-      fromPort: field.name,
-      to: field.type,
-    }));
-  }
-
-  function unionEdges(type) {
-    return _.map<string, any>(type.possibleTypes, possibleType => ({
-      connectionType: 'possible_type',
-    }));
-  }
 
   function getEdgeTargets(type) {
     return _([
