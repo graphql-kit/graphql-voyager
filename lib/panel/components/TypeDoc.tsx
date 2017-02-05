@@ -30,7 +30,7 @@ function mapStateToProps(state) {
 }
 
 class TypeDoc extends React.Component<TypeDocProps, void> {
-  renderTypesDef(type) {
+  renderTypesDef(type, typeGraph) {
     let typesTitle;
     let types;
 
@@ -51,6 +51,7 @@ class TypeDoc extends React.Component<TypeDocProps, void> {
         return null;
     }
 
+    types = _.filter(types, type => (typeGraph[type.id] !== undefined));
     if (_.isEmpty(types))
       return null;
 
@@ -133,7 +134,7 @@ class TypeDoc extends React.Component<TypeDocProps, void> {
             className="doc-type-description"
             text={type.description || 'No Description'}
           />
-          {this.renderTypesDef(type)}
+          {this.renderTypesDef(type, typeGraph)}
           {this.renderFields(type, selectedEdgeId)}
         </div>
       );
