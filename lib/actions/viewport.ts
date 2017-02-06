@@ -40,6 +40,6 @@ export const FOCUS_ELEMENT_DONE = 'FOCUS_ELEMENT_DONE';
 export function focusElementDone(id) {
   return {
     type: FOCUS_ELEMENT_DONE,
-    payload: null,
+    payload: id,
   };
 }

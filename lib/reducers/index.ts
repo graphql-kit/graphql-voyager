@@ -65,6 +65,7 @@ export function rootReducer(previousState = initialState, action) {
         displayOptions: {...initialState.displayOptions},
         svgCache: [],
         currentSvgIndex: null,
+        graphView: initialState.graphView,
         selected: initialState.selected,
       };
 
@@ -90,6 +91,7 @@ export function rootReducer(previousState = initialState, action) {
         ...previousState,
         displayOptions,
         currentSvgIndex: cacheIdx >= 0 ? cacheIdx : null,
+        graphView: initialState.graphView,
         selected: initialState.selected,
       };
     case ActionTypes.SVG_RENDERING_FINISHED:
