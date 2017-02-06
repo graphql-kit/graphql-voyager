@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
-import * as React from "react";
-import { connect } from "react-redux"
+import * as React from 'react';
+import { connect } from 'react-redux'
 import { selectEdge } from '../../actions/';
 
 import * as classNames from 'classnames';
@@ -30,9 +30,10 @@ function mapStateToProps(state) {
 }
 
 class TypeDoc extends React.Component<TypeDocProps, void> {
-  renderTypesDef(type, typeGraph) {
+  renderTypesDef(type, typeGraph, selectedId) {
     let typesTitle;
     let types;
+    let dispatch = this.props.dispatch;
 
     switch (type.kind) {
       case 'UNION':
@@ -51,7 +52,7 @@ class TypeDoc extends React.Component<TypeDocProps, void> {
         return null;
     }
 
-    types = _.filter(types, type => (typeGraph[type.id] !== undefined));
+    types = _.filter(types, type => (typeGraph.nodes[type.type.id] !== undefined));
     if (_.isEmpty(types))
       return null;
 
@@ -61,7 +62,13 @@ class TypeDoc extends React.Component<TypeDocProps, void> {
           {typesTitle}
         </div>
         {_.map(types, type =>
-          <div key={type.id} className="doc-category-item">
+          <div key={type.id} className={classNames({
+            'doc-category-item': true,
+            'selected': type.id === selectedId
+          })}
+          onClick={() => {
+            dispatch(selectEdge(type.id));
+          }}>
             <TypeName type={type.type}/>
             <Markdown text={type.type.description} className="linked-type-description"/>
           </div>
@@ -134,7 +141,7 @@ class TypeDoc extends React.Component<TypeDocProps, void> {
             className="doc-type-description"
             text={type.description || 'No Description'}
           />
-          {this.renderTypesDef(type, typeGraph)}
+          {this.renderTypesDef(type, typeGraph, selectedEdgeId)}
           {this.renderFields(type, selectedEdgeId)}
         </div>
       );
