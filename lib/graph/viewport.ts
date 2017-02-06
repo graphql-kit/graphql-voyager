@@ -15,6 +15,8 @@ import { typeNameToId } from '../introspection';
 export class Viewport {
   $svg: SVGElement;
   zoomer: SvgPanZoom.Instance;
+  offsetLeft: number;
+  offsetTop: number;
 
   constructor(public container: HTMLElement) {
     let unsubscribe = [];
@@ -43,6 +45,14 @@ export class Viewport {
         store.dispatch(Actions.focusElementDone(id));
       });
     });
+
+    this.resize();
+  }
+
+  resize() {
+    let bbRect = this.container.getBoundingClientRect();
+    this.offsetLeft = bbRect.left;
+    this.offsetTop = bbRect.top;
   }
 
   display(svgString) {
@@ -177,8 +187,8 @@ export class Viewport {
     zoomUpdate *= 1.2;
 
     let newZoom = this.zoomer.getZoom() / zoomUpdate;
-    let newX = currentPan.x - bbBox.left;
-    let newY = currentPan.y - bbBox.top;
+    let newX = currentPan.x - bbBox.left + this.offsetLeft;
+    let newY = currentPan.y - bbBox.top + this.offsetTop;
     //zoomer.zoomAtPoint(newZoom, {x:newX, y:newY});
     this.animatePanAndZoom(newX , newY, newZoom);
   }
