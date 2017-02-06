@@ -30,6 +30,19 @@ function mapStateToProps(state) {
 }
 
 class TypeDoc extends React.Component<TypeDocProps, void> {
+  componentDidUpdate(prevProps:TypeDocProps) {
+    if (this.props.selectedEdgeId !== prevProps.selectedEdgeId) {
+      this.ensureActiveVisible();
+    }
+  }
+
+  ensureActiveVisible() {
+    let itemComponent = this.refs['selectedItem'] as HTMLElement
+    if (!itemComponent) return;
+
+    itemComponent.scrollIntoViewIfNeeded();
+  }
+
   renderTypesDef(type, typeGraph, selectedId) {
     let typesTitle;
     let types;
@@ -61,18 +74,23 @@ class TypeDoc extends React.Component<TypeDocProps, void> {
         <div className="doc-category-title">
           {typesTitle}
         </div>
-        {_.map(types, type =>
-          <div key={type.id} className={classNames({
-            'doc-category-item': true,
-            'selected': type.id === selectedId
-          })}
-          onClick={() => {
-            dispatch(selectEdge(type.id));
-          }}>
+        {_.map(types, type => {
+          let props:any = {
+            key: type.id,
+            className: classNames({
+              'doc-category-item': true,
+              'selected': type.id === selectedId
+            }),
+            onClick:() => {
+              dispatch(selectEdge(type.id));
+            }
+          }
+          if (type.id === selectedId) props.ref = 'selectedItem';
+          return <div {...props}>
             <TypeName type={type.type}/>
             <Markdown text={type.type.description} className="linked-type-description"/>
           </div>
-        )}
+        })}
       </div>
     );
   }
@@ -87,14 +105,19 @@ class TypeDoc extends React.Component<TypeDocProps, void> {
         <div className="doc-category-title">
           fields
         </div>
-        {_.map(type.fields, field => (
-          <div key={field.name} className={classNames({
-            'doc-category-item': true,
-            'selected': field.id === selectedId
-          })}
-          onClick={() => {
-            dispatch(selectEdge(field.id));
-          }}>
+        {_.map(type.fields, field => {
+          let props:any = {
+            key: field.name,
+            className: classNames({
+              'doc-category-item': true,
+              'selected': field.id === selectedId
+            }),
+            onClick: () => {
+              dispatch(selectEdge(field.id));
+            }
+          }
+          if (field.id === selectedId) props.ref = 'selectedItem';
+          return <div {...props}>
             <a className="field-name">
               {field.name}
             </a>
@@ -119,8 +142,8 @@ class TypeDoc extends React.Component<TypeDocProps, void> {
               <span className="doc-alert-text">{' (DEPRECATED)'}</span>
             }
             <Markdown text={field.description} className="field-description"/>
-          </div>)
-        )}
+          </div>
+        })}
       </div>
     );
   }
