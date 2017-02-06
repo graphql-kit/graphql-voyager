@@ -115,11 +115,14 @@ export function rootReducer(previousState = initialState, action) {
         },
       };
     case ActionTypes.SELECT_EDGE:
-      const currentEdgeId = action.payload;
-      if (currentEdgeId === previousState.selected.currentEdgeId)
-        return previousState;
+      let currentEdgeId = action.payload;
 
       let nodeId = extractTypeId(currentEdgeId);
+
+      // deselect if click again
+      if (currentEdgeId === previousState.selected.currentEdgeId)
+        currentEdgeId = null;
+
       return {
         ...previousState,
         selected: {
