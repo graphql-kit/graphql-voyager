@@ -207,7 +207,8 @@ export const getSchemaSelector = createSelector(
     if (!introspection || introspection === '')
       return null;
 
-    var schema = simplifySchema(introspection.__schema);
+    //TODO: Check introspection result for errors
+    var schema = simplifySchema(introspection.data.__schema);
 
     if (sortByAlphabet)
       schema =  sortIntrospection(schema);
