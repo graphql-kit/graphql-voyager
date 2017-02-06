@@ -18,6 +18,8 @@ body > main {
   background: #f2f2f2;
   box-sizing: border-box;
   box-shadow: 4px 0 5px -2px rgba(0,0,0,0.2);
+  position: relative;
+  z-index: 10;
 }
 
 .panel-wrap {
@@ -395,4 +397,29 @@ g.graph > polygon {
   content: "#";
   float: left;
   margin-right: 5px;
+}
+
+
+
+/* #####################
+  Loading animation
+*/
+.loading-box {
+  position: fixed;
+  left: 320px;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: rgba(0,0,0, 0.31);
+  z-index: 10;
+
+  align-items: center;
+  justify-content: center;
+
+  display: none;
+  color: white;
+}
+
+.loading-box.visible {
+  display: flex;
 }

@@ -2,6 +2,7 @@ import * as _ from 'lodash';
 import * as React from "react";
 import { connect } from "react-redux"
 import * as ReactModal from "react-modal";
+import * as classNames from 'classnames';
 
 import {
   changeActiveIntrospection,
@@ -44,7 +45,6 @@ class PanelRoot extends React.Component<PanelRootProps, void> {
       <div className="panel-wrap">
         <div className="title-area">
           <h2>GraphQL Voyager</h2>
-          {isLoading && <div> Loading </div>}
           <IntrospectionModal/>
           <RaisedButton label="Load Introspection" primary={true}
             onTouchTap={() => dispatch(showIntrospectionModal())}/>
@@ -56,6 +56,12 @@ class PanelRoot extends React.Component<PanelRootProps, void> {
             onCheck={(e, val) => dispatch(changeSkipRelay(val))} />
         </div>
         <TypeDoc/>
+        <div className={classNames({
+          'loading-box': true,
+          'visible': isLoading
+        })}>
+          <h1>Loading</h1>
+        </div>
       </div>
     );
   }
