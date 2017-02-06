@@ -328,6 +328,10 @@ a.object-type-name {}
   font-size: 0.9em;
 }
 
+.doc-focus-type:before {
+  content: "\01F441";
+}
+
 .doc-category-item {
   cursor: pointer;
 }

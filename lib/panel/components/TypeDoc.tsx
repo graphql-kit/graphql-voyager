@@ -1,10 +1,9 @@
 import * as _ from 'lodash';
 import * as React from 'react';
 import { connect } from 'react-redux'
-import { selectEdge } from '../../actions/';
-
 import * as classNames from 'classnames';
 
+import { selectEdge } from '../../actions/';
 import { extractTypeId } from '../../introspection';
 import { getTypeGraphSelector } from '../../graph';
 import TypeList from './TypeList';
