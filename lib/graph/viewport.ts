@@ -161,12 +161,18 @@ export class Viewport {
 
   selectEdgeById(id:string) {
     removeClass(this.$svg, '.edge.selected', 'selected');
+    removeClass(this.$svg, '.edge-source.selected', 'selected');
+    removeClass(this.$svg, '.field.selected', 'selected');
 
     if (id === null)
       return;
 
     var $selected = document.getElementById(id);
-    edgeFrom($selected.id).classList.add('selected');
+    if ($selected) {
+      let $edge = edgeFrom($selected.id);
+      if ($edge) $edge.classList.add('selected');
+      $selected.classList.add('selected');
+    }
   }
 
   deselectNode() {

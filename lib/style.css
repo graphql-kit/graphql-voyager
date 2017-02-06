@@ -139,10 +139,6 @@ body > main {
   fill: #8af;
 }
 
-.hovered polygon {
-  fill: #ffd;
-}
-
 .doc-explorer-back {
   color: #3B5998;
   cursor: pointer;
@@ -340,4 +336,8 @@ a.object-type-name {}
 
 g.graph > polygon {
   fill: transparent;
+}
+
+.edge-source.selected > polygon, .field.selected > polygon {
+  fill: #b4f7ff;
 }
