@@ -147,8 +147,7 @@ export class Viewport {
   selectNode(node:Element) {
     node.classList.add('selected');
 
-    forEachNode(node, '.edge-source', source => {
-      const $edge = edgeFrom(source.id);
+    _.each(edgesFromNode(node), $edge => {
       $edge.classList.add('highlighted');
       edgeTarget($edge).classList.add('selected-reachable');
     });
@@ -332,6 +331,15 @@ function edgeFrom(id:String) {
   return document.querySelector(`.edge[data-from='${id}']`);
 }
 
+function edgesFromNode($node) {
+  var edges = [];
+  forEachNode($node, '.edge-source', $source => {
+    const $edge = edgeFrom($source.id);
+    edges.push($edge);
+  });
+  return edges;
+}
+
 function edgesTo(id:String) {
-  return document.querySelectorAll(`.edge[data-to='${id}']`);
+  return _.toArray(document.querySelectorAll(`.edge[data-to='${id}']`));
 }
