@@ -12,12 +12,12 @@ body > main {
 }
 
 #panel_root {
-  width: 280px;
-  min-width: 280px;
+  width: 320px;
+  min-width: 320px;
   height: 100%;
   background: #f2f2f2;
   box-sizing: border-box;
-  padding: 10px 0 0;
+  box-shadow: 4px 0 5px -2px rgba(0,0,0,0.2);
 }
 
 .panel-wrap {
@@ -336,4 +336,8 @@ a.object-type-name {}
 
 .doc-explorer-type-list {
   padding-top: 16px;
+}
+
+g.graph > polygon {
+  fill: transparent;
 }
