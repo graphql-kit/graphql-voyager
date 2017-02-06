@@ -277,7 +277,7 @@ body > main {
   content: ', ';
 }
 
-.arg:last-child:after {
+.arg-wrap:last-child .arg:after {
   content: '';
 }
 
@@ -296,7 +296,7 @@ body > main {
   display: inline;
 }
 
-.arg > .arg-description,
+.arg-wrap > .arg-description,
 .arg > .wrapped-type-name {
   display: none;
 }
@@ -326,6 +326,10 @@ a.object-type-name {}
   font-size: 0.9em;
 }
 
+.doc-category-item {
+  cursor: pointer;
+}
+
 .doc-category-item.selected {
   background-color: #b4f7ff;
 }
@@ -340,4 +344,55 @@ g.graph > polygon {
 
 .edge-source.selected > polygon, .field.selected > polygon {
   fill: #b4f7ff;
+}
+
+
+.args-wrap:before {
+  content: "( ";
+  display: inline;
+}
+
+
+.args-wrap:after {
+  content: " )";
+  display: inline;
+}
+
+.selected .args-wrap:before {
+  content: " (";
+}
+
+.args-wrap.empty:before, .args-wrap.empty:after,
+.selected .args-wrap.empty:before, .selected .args-wrap.empty:after {
+  display: none;
+}
+
+.selected .args {
+  display: block;
+  padding-left: 20px;
+}
+
+.selected .arg {
+  display: block;
+  margin: 5px 0;
+}
+
+.selected .wrapped-type-name {
+  display: inline-block;
+}
+
+.selected .arg-description {
+  display: block;
+  color: #666;
+}
+
+.selected .arg-description > p {
+  margin: 0;
+}
+
+.selected .arg-description:before {
+  display: block;
+  content: "#";
+  float: left;
+  margin-right: 5px;
 }

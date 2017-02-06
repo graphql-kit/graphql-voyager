@@ -98,18 +98,22 @@ class TypeDoc extends React.Component<TypeDocProps, void> {
             <a className="field-name">
               {field.name}
             </a>
-            {!_.isEmpty(field.args) && [
-              '(',
-              <span key="args" className="args">
-                {_.map(field.args, arg =>
-                  <Argument
-                    key={arg.name}
-                    arg={arg}
-                  />
-                )}
-              </span>,
-              ')'
-            ]}
+            <span className={classNames({
+                'args-wrap': true,
+                'empty': _.isEmpty(field.args)
+              })
+            }>
+              {!_.isEmpty(field.args) &&
+                <span key="args" className="args">
+                  {_.map(field.args, arg =>
+                    <Argument
+                      key={arg.name}
+                      arg={arg}
+                    />
+                  )}
+                </span>
+              }
+            </span>
             <WrappedTypeName container={field} />
             { field.isDeprecated &&
               <span className="doc-alert-text">{' (DEPRECATED)'}</span>
