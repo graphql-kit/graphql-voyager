@@ -90,7 +90,20 @@ export class Viewport {
       if (dragged) return;
 
       var target = event.target as Element;
-      if (isLink(target)) {
+      if (target.classList.contains('folder')) {
+        const $node = getParent(target, 'node');
+
+        if ($node.classList.contains('folded')) {
+          $node.classList.remove('folded');
+          target.textContent = '- ';
+        }
+        else {
+          $node.classList.add('folded');
+          target.textContent = '+ ';
+        }
+        this.foldTree();
+      }
+      else if (isLink(target)) {
         const typeId = typeNameToId(target.textContent);
         store.dispatch(Actions.focusElement(typeId));
       } else if (isNode(target)) {
@@ -102,6 +115,34 @@ export class Viewport {
       } else if (!isControl(target)) {
         store.dispatch(Actions.clearSelection());
       }
+    });
+  }
+
+  foldTree() {
+    var nodeIds = ['TYPE::Query'];
+
+    for (var i = 0; i < nodeIds.length; ++i) {
+      var id = nodeIds[i];
+      if (nodeIds.indexOf(id) < i)
+        continue;
+
+      let $node = document.getElementById(id);
+      if ($node.classList.contains('folded'))
+        continue;
+      let connectedIds = _.map(edgesFromNode($node), $edge => edgeTarget($edge).id);
+      nodeIds.push(...connectedIds);
+    }
+
+    removeClass(this.$svg, '.folded-hide', 'folded-hide');
+    forEachNode(this.$svg, '.node', $node => {
+      if ($node.classList.contains('folded'))
+        _.each(edgesFromNode($node), $edge => $edge.classList.add('folded-hide'));
+
+      if (nodeIds.includes($node.id))
+        return;
+
+      $node.classList.add('folded-hide');
+      _.each(edgesFromNode($node), $edge => $edge.classList.add('folded-hide'));
     });
   }
 
@@ -250,6 +291,11 @@ export function preprocessVizSvg(svgString:string) {
       return;
 
     $el.classList.add(tag.toLowerCase().replace(/_/, '-'));
+  });
+
+  forEachNode(svg, '.type-title', $title => {
+    let $folder = $title.querySelector('text');
+    $folder.classList.add('folder');
   });
 
   forEachNode(svg, 'g.edge path', $path => {

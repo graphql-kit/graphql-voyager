@@ -315,6 +315,10 @@ body > main {
   content: ": ";
 }
 
+.folded-hide {
+  display:none;
+}
+
 a.object-type-name {}
 
 .doc-typelist-root-item a.object-type-name:after {
