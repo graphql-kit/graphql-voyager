@@ -201,9 +201,12 @@ body > main {
 .doc-type-description,
 .doc-explorer-contents h3,
 .doc-category-title,
-.title-area,
-.doc-typelist-item > .object-type-name {
+.title-area {
   padding: 0 15px;
+}
+
+.doc-typelist-item > .object-type-name {
+  padding-left: 15px;
 }
 
 .doc-explorer-contents h3 {
@@ -405,6 +408,13 @@ g.graph > polygon {
   content: "#";
   float: left;
   margin-right: 5px;
+}
+
+.doc-focus-type {
+  padding: 2px;
+  margin: 0 8px;
+  cursor: pointer;
+  vertical-align: middle;
 }
 
 /* ###############

@@ -12,6 +12,7 @@ import Markdown from './Markdown';
 import TypeName from './TypeName';
 import WrappedTypeName from './WrappedTypeName';
 import Argument from './Argument';
+import FocusTypeButton from './FocusTypeButton';
 
 interface TypeDocProps {
   selectedId: string;
@@ -162,7 +163,9 @@ class TypeDoc extends React.Component<TypeDocProps, void> {
       let type = typeGraph.nodes[extractTypeId(selectedId)];
       content = (
         <div className="doc-explorer-scroll-area">
-          <h3>{type.name}</h3>
+          <h3>{type.name}
+            <FocusTypeButton typeId={type.id} />
+          </h3>
           <Markdown
             className="doc-type-description"
             text={type.description || 'No Description'}
