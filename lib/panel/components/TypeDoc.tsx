@@ -176,7 +176,7 @@ class TypeDoc extends React.Component<TypeDocProps, void> {
     return (
       <div className="doc-explorer-contents">
         <div className="previous-type-area">
-          {selectedId !== null && <PreviousType />}
+          {selectedId !== null && <PreviousType /> || <header>Type List</header>}
         </div>
         {content}
       </div>

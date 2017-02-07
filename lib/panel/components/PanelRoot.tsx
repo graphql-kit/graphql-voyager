@@ -4,15 +4,21 @@ import { connect } from "react-redux"
 import * as ReactModal from "react-modal";
 import * as classNames from 'classnames';
 
+
 import {
   changeActiveIntrospection,
   changeSortByAlphabet,
   changeSkipRelay,
   showIntrospectionModal,
+  toggleMenu
 } from '../../actions/';
 
 import RaisedButton from 'material-ui/RaisedButton';
 import Checkbox from 'material-ui/Checkbox';
+import Popover from 'material-ui/Popover';
+import IconButton from 'material-ui/IconButton';
+import ActionSettings from 'material-ui/svg-icons/action/settings';
+import { cyan500 } from 'material-ui/styles/colors';
 
 import IntrospectionModal from './IntrospectionModal';
 import RootSelector from './RootSelector';
@@ -23,13 +29,15 @@ interface PanelRootProps {
   sortByAlphabet: boolean;
   skipRelay: boolean;
   dispatch: any;
+  menuOpened: boolean;
 }
 
 function mapStateToProps(state) {
   return {
     isLoading: (state.currentSvgIndex === null),
     sortByAlphabet: state.displayOptions.sortByAlphabet,
-    skipRelay: state.displayOptions.skipRelay
+    skipRelay: state.displayOptions.skipRelay,
+    menuOpened: state.menuOpened
   };
 }
 
@@ -39,21 +47,41 @@ class PanelRoot extends React.Component<PanelRootProps, void> {
       isLoading,
       sortByAlphabet,
       skipRelay,
-      dispatch
+      dispatch,
+      menuOpened
     } = this.props;
+    const $panel = this.refs['panel'];
+
     return (
       <div className="panel-wrap">
         <div className="title-area">
           <h2>GraphQL Voyager</h2>
           <IntrospectionModal/>
-          <RaisedButton label="Load Introspection" primary={true}
-            onTouchTap={() => dispatch(showIntrospectionModal())}/>
-          <p/>
-          <RootSelector/>
-          <Checkbox label="Sort by Alphabet" checked={sortByAlphabet}
-            onCheck={(e, val) => dispatch(changeSortByAlphabet(val))} />
-          <Checkbox label="Skip Relay" checked={skipRelay}
-            onCheck={(e, val) => dispatch(changeSkipRelay(val))} />
+          <div ref="panel" className="menu-buttons">
+            <RaisedButton label="Load Introspection" primary={true} style={{flex: 1}}
+              onTouchTap={() => dispatch(showIntrospectionModal())}/>
+            <IconButton onTouchTap={() => dispatch(toggleMenu())}
+              style={{height: '36px', padding: 0, width: '36px'}}>
+              <ActionSettings color={cyan500}/>
+            </IconButton>
+          </div>
+          <Popover
+            open={menuOpened}
+            anchorEl={$panel}
+            anchorOrigin={{horizontal: 'left', vertical: 'top'}}
+            targetOrigin={{horizontal: 'left', vertical: 'top'}}
+            onRequestClose={() => dispatch(toggleMenu())}
+          >
+            <div className="menu-content">
+              <h3 style={{margin: 0}}> Root Node </h3>
+              <RootSelector/>
+              <h3> Options </h3>
+              <Checkbox label="Sort by Alphabet" checked={sortByAlphabet}
+                onCheck={(e, val) => dispatch(changeSortByAlphabet(val))} />
+              <Checkbox label="Skip Relay" checked={skipRelay}
+                onCheck={(e, val) => dispatch(changeSkipRelay(val))} />
+            </div>
+          </Popover>
         </div>
         <TypeDoc/>
         <div className={classNames({

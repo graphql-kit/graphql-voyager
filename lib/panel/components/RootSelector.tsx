@@ -6,6 +6,10 @@ import { getSchemaSelector } from '../../introspection';
 import { isNode } from '../../graph/';
 import { changeRootType } from '../../actions/';
 
+import DropDownMenu from 'material-ui/DropDownMenu';
+import MenuItem from 'material-ui/MenuItem';
+import Divider from 'material-ui/Divider';
+
 interface RootSelectorProps {
   rootTypeId: string;
   schema: any;
@@ -45,19 +49,18 @@ class RootSelector extends React.Component<RootSelectorProps, void> {
     const currentRoot = schema.types[rootTypeId].id;
 
     return (
-      <select
-        onChange={({target}) => {
-          dispatch(changeRootType(target['value']));
-        }}
-        value={currentRoot}>
+      <DropDownMenu className="dropdown-root" autoWidth={false}
+        onChange={(event, index, value) => {
+          dispatch(changeRootType(value));
+        }} value={currentRoot}>
 
-        <option value={queryType.id}>{queryType.name}</option>
-        {mutationType && (<option value={mutationType.id}>{mutationType.name}</option>)}
-        <option disabled={true}>----</option>
+        <MenuItem value={queryType.id} primaryText={queryType.name} />
+        {mutationType && (<MenuItem value={mutationType.id} primaryText={mutationType.name} />)}
+        <Divider/>
         {_.map(types, type => (
-          <option key={type.id} value={type.id}>{type.name}</option>
+          <MenuItem key={type.id} value={type.id} primaryText={type.name} />
         ))}
-      </select>
+      </DropDownMenu>
     );
   }
 }

@@ -152,9 +152,13 @@ body > main {
 
 .previous-type-area {
   min-height: 20px;
-  border-bottom: 1px solid #aaa;
-  padding: 10px 20px 10px 18px;
+  padding: 5px 20px 5px 18px;
   box-shadow: 0 4px 4px -2px rgba(0, 0, 0, 0.1);
+}
+
+.previous-type-area > header {
+  color: #666;
+  font-weight: bold;
 }
 
 .doc-explorer-back:before {
@@ -403,7 +407,31 @@ g.graph > polygon {
   margin-right: 5px;
 }
 
+/* ###############
+  Menu
+*/
+.menu-content {
+  width: 290px;
+  padding: 20px;
+  box-sizing: border-box;
+}
 
+.menu-buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.dropdown-root {
+  width: 100%;
+  box-sizing: border-box;
+  /*width: calc(100% + 44px);*/
+  /*margin: 0 -22px;*/
+}
+
+.dropdown-root > div:first-child {
+  margin: 0 -22px;
+  width: calc(100% + 44px) !important;
+}
 
 /* #####################
   Loading animation

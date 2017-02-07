@@ -35,7 +35,8 @@ var initialState = {
   },
   graphView: {
     focusedId: null,
-  }
+  },
+  menuOpened: false
 };
 
 
@@ -182,6 +183,11 @@ export function rootReducer(previousState = initialState, action) {
           ...previousState.panel,
           showIntrospectionModal: false
         }
+      }
+    case ActionTypes.TOGGLE_MENU:
+      return {
+        ...previousState,
+        menuOpened: !previousState.menuOpened
       }
     default:
       return previousState;
