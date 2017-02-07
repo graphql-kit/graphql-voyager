@@ -17,6 +17,7 @@ export class Viewport {
   zoomer: SvgPanZoom.Instance;
   offsetLeft: number;
   offsetTop: number;
+  maxZoom: number;
 
   constructor(public container: HTMLElement) {
     let unsubscribe = [];
@@ -70,11 +71,21 @@ export class Viewport {
   }
 
   enableZoom() {
+    const svgHeight = this.$svg['height'].baseVal.value;
+    const svgWidth = this.$svg['width'].baseVal.value;
+    const bbRect = this.container.getBoundingClientRect();
+    this.maxZoom = Math.max(
+      svgHeight / bbRect.height,
+      svgWidth / bbRect.width
+    );
+
     this.zoomer = svgPanZoom(this.$svg, {
-      zoomScaleSensitivity: 0.3,
-      minZoom: 0.9,
+      zoomScaleSensitivity: 0.25,
+      minZoom: 0.95,
+      maxZoom: this.maxZoom,
       controlIconsEnabled: true
     });
+    this.zoomer.zoom(0.95);
   }
 
   bindClick() {
@@ -188,13 +199,17 @@ export class Viewport {
     currentPan.x += viewPortSizes.width/2 - bbBox.width/2;
     currentPan.y += viewPortSizes.height/2 - bbBox.height/2;
 
-    let zoomUpdate = Math.max(bbBox.height / viewPortSizes.height, bbBox.width / viewPortSizes.width);
-    zoomUpdate *= 1.2;
+    let zoomUpdateToFit = 1.2 * Math.max(
+      bbBox.height / viewPortSizes.height,
+      bbBox.width / viewPortSizes.width
+    );
+    let newZoom = this.zoomer.getZoom() / zoomUpdateToFit;
+    let recomendedZoom = this.maxZoom * 0.6;
+    if (newZoom > recomendedZoom)
+      newZoom = recomendedZoom;
 
-    let newZoom = this.zoomer.getZoom() / zoomUpdate;
     let newX = currentPan.x - bbBox.left + this.offsetLeft;
     let newY = currentPan.y - bbBox.top + this.offsetTop;
-    //zoomer.zoomAtPoint(newZoom, {x:newX, y:newY});
     this.animatePanAndZoom(newX , newY, newZoom);
   }
 
@@ -203,9 +218,8 @@ export class Viewport {
     let panEnd = {x, y};
     animate(pan, panEnd, (props, t) => {
       this.zoomer.pan({x: props.x, y: props.y});
-      if (props == panEnd) {
+      if (props === panEnd) {
         let zoom = this.zoomer.getZoom();
-        if (zoomEnd > zoom) return;
         animate({zoom}, {zoom: zoomEnd}, props => {
           this.zoomer.zoom(props.zoom);
         });
