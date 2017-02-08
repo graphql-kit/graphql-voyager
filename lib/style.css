@@ -1,3 +1,7 @@
+:root {
+  --badge-spacing: 5px;
+}
+
 body {
   font: 14px helvetica neue, helvetica, arial, sans-serif;
   padding: 0;
@@ -331,7 +335,7 @@ a.object-type-name {}
   background: #00bcd4;
   color: white;
   padding: 0 5px;
-  margin-left: 10px;
+  margin-left: var(--badge-spacing);
   font-size: 0.9em;
 }
 

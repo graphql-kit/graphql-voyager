@@ -17,6 +17,8 @@
     "awesome-typescript-loader": "^3.0.0-beta.9",
     "css-loader": "^0.26.0",
     "json-loader": "^0.5.4",
+    "postcss-cssnext": "^2.9.0",
+    "postcss-loader": "^1.2.2",
     "raw-loader": "^0.5.1",
     "react-svg-loader": "^2.0.0-alpha.1",
     "source-map-loader": "^0.1.5",
