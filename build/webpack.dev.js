@@ -13,7 +13,7 @@ module.exports = {
   },
 
   resolve: {
-    extensions: ['.ts', '.tsx', '.js', '.json', '.css'],
+    extensions: ['.ts', '.tsx', '.js', '.json', '.css', '.svg'],
     alias: {
       'ejs': 'ejs/ejs.min.js'
     }
@@ -43,14 +43,14 @@ module.exports = {
     {
       enforce: 'pre',
       test: /\.js$/,
-      loader: 'source-map-loader',
+      use: 'source-map-loader',
       exclude: [
         /node_modules/
       ]
     },
     {
       test: /\.tsx?$/,
-      loaders: [
+      use: [
         'awesome-typescript-loader'
       ],
       exclude: [/\.(spec|e2e)\.ts$/]
@@ -61,15 +61,26 @@ module.exports = {
     },
     {
       test: /\.css$/,
-      loaders: ['style-loader', 'css-loader?importLoaders=1']
+      use: ['style-loader', 'css-loader?importLoaders=1']
     },
     {
       test: /\.json$/,
-      loader: 'json-loader'
+      use: 'json-loader'
     },
     {
       test: /\.ejs$/,
-      loader: 'raw-loader'
+      use: 'raw-loader'
+    },
+    {
+      test: /\.svg$/,
+      use: [
+        {
+          loader: 'react-svg-loader',
+          options: {
+            jsx: false
+          }
+        }
+      ]
     }]
   },
 

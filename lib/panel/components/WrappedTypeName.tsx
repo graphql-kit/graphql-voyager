@@ -3,7 +3,8 @@ import SvgIcon from 'material-ui/SvgIcon';
 
 import { stringifyWrappers } from '../../introspection';
 import TypeName from './TypeName';
-import RelayIcon from './RelayIcon';
+
+import RelayIcon from '../icons/relay-icon.svg';
 
 interface WrappedTypeNameProps {
   container: any;
@@ -12,9 +13,7 @@ interface WrappedTypeNameProps {
 export default class WrappedTypeName extends React.Component<WrappedTypeNameProps, void> {
   renderRelayIcon() {
     return (
-      <SvgIcon viewBox="0 0 600 600">
-        <RelayIcon/>
-      </SvgIcon>
+      <RelayIcon style={{width: '20px', height: '20px', verticalAlign: 'middle', marginLeft: '5px'}} />
     );
   }
   render() {
