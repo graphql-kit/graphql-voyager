@@ -16,7 +16,8 @@ function FocusTypeButton(props:FocusTypeButtonProps) {
   return (
     <IconButton
       onTouchTap={() => props.dispatch(focusElement(props.typeId))}
-      style={{height: '36px', padding: 0, width: '36px'}}>
+      style={{height: '20px', width: '20px', padding: 0, verticalAlign: 'middle', marginLeft: '5px'}}
+      iconStyle={{height: '20px', width: '20px'}}>
       <EyeIcon color={cyan500}/>
     </IconButton>
   );
