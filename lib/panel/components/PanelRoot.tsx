@@ -17,7 +17,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import Checkbox from 'material-ui/Checkbox';
 import Popover from 'material-ui/Popover';
 import IconButton from 'material-ui/IconButton';
-import ActionSettings from 'material-ui/svg-icons/action/settings';
+import SettingsIcon from 'material-ui/svg-icons/action/settings';
 import { cyan500 } from 'material-ui/styles/colors';
 
 import IntrospectionModal from './IntrospectionModal';
@@ -62,7 +62,7 @@ class PanelRoot extends React.Component<PanelRootProps, void> {
               onTouchTap={() => dispatch(showIntrospectionModal())}/>
             <IconButton onTouchTap={() => dispatch(toggleMenu())}
               style={{height: '36px', padding: 0, width: '36px'}}>
-              <ActionSettings color={cyan500}/>
+              <SettingsIcon color={cyan500}/>
             </IconButton>
           </div>
           <Popover
