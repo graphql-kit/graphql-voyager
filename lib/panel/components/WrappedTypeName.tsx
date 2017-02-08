@@ -25,8 +25,7 @@ export default class WrappedTypeName extends React.Component<WrappedTypeNameProp
 
     return (
       <span className="wrapped-type-name">
-        { container.relayType && this.renderRelayIcon() }
-        {leftWrap}<TypeName type={type} />{rightWrap}
+        {leftWrap}<TypeName type={type} />{rightWrap}{ container.relayType && this.renderRelayIcon() }
       </span>
     );
   }
