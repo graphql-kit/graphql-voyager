@@ -262,10 +262,23 @@ body > main {
 .doc-category-item {
   padding: 8px 15px;
   color: #555;
+  position: relative;
 }
 
 .doc-category-item:nth-child(odd) {
   background-color: #dadada;
+}
+
+.doc-category-item {
+  cursor: pointer;
+}
+
+.doc-category-item.selected {
+  background-color: #b4f7ff;
+}
+
+.doc-category-item:hover {
+  background-color: color(#b4f7ff a(60%));
 }
 
 .built-in-type-name,
@@ -277,6 +290,10 @@ body > main {
 
 .field-name {
   color: #1F61A0;
+
+  &:hover {
+    text-decoration: none;
+  }
 }
 
 .value-name {
@@ -338,14 +355,6 @@ a.object-type-name {}
   padding: 0 5px;
   margin-left: var(--badge-spacing);
   font-size: 0.9em;
-}
-
-.doc-category-item {
-  cursor: pointer;
-}
-
-.doc-category-item.selected {
-  background-color: #b4f7ff;
 }
 
 .doc-explorer-type-list {
@@ -535,5 +544,13 @@ g.graph > polygon {
 
   & .selection-active .edge.selected path:not(.hover-path) {
     stroke: red;
+  }
+
+  & g .type-link {
+    fill: #00bcd4;
+  }
+
+  & .node > text {
+    fill: #ccc;
   }
 }
