@@ -61,7 +61,7 @@ module.exports = {
     },
     {
       test: /\.css$/,
-      use: ['style-loader', 'css-loader?importLoaders=1']
+      use: ['style-loader', 'css-loader?importLoaders=1', 'postcss-loader']
     },
     {
       test: /\.json$/,
@@ -94,7 +94,7 @@ module.exports = {
 
     new webpack.DefinePlugin({
       'VERSION': VERSION,
-      'DEBUG_INITIAL_PRESET': '"github"'
+      'DEBUG_INITIAL_PRESET': '"swapi"'
     })
   ]
 }

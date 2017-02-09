@@ -1,5 +1,6 @@
 :root {
   --badge-spacing: 5px;
+  --dark-bg-color: #0b2840;
 }
 
 body {
@@ -464,4 +465,75 @@ g.graph > polygon {
 
 .loading-box.visible {
   display: flex;
+}
+
+
+
+.dark-theme {
+  & #viewport {
+    background: var(--dark-bg-color);
+    /*background: radial-gradient(ellipse at center, #265358 0%, #0b2840 75%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  }
+
+  & .node polygon {
+    stroke: #eee;
+    fill: #265358;
+  }
+
+  & text.field-name {
+    fill: #eee;
+    font-weight: lighter;
+  }
+
+  & .selection-active .node.selected polygon,
+  & .selection-active .edge.highlighted path:not(.hover-path),
+  & .edge.highlighted path:not(.hover-path),
+  & .edge.hovered path:not(.hover-path) {
+    stroke: #eee;
+    stroke-width: 2;
+  }
+
+  & .field text {
+    fill: #eee;
+  }
+
+  & .field text.type-link {
+    fill: #00bcd4;
+  }
+
+  & .type-title text {
+    fill: #eee;
+  }
+
+  & .edge polygon {
+    fill: #eee;
+    stroke: #eee;
+  }
+
+  & .edge path {
+    stroke: #aaa;
+  }
+
+  & .edge path.hover-path {
+    stroke: transparent;
+  }
+
+  & .edge.selected polygon,
+  & .edge.highlighted polygon {
+    stroke: #aaa;
+    fill: #aaa;
+  }
+
+  & .edge text {
+    fill: #eee;
+  }
+
+  & .edge-source.selected > polygon,
+  & .field.selected > polygon {
+    fill: rgb(15, 156, 172);
+  }
+
+  & .selection-active .edge.selected path:not(.hover-path) {
+    stroke: red;
+  }
 }

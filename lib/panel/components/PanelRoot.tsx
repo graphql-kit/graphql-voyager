@@ -42,6 +42,12 @@ function mapStateToProps(state) {
 }
 
 class PanelRoot extends React.Component<PanelRootProps, void> {
+
+  // TODO: temp method
+  toggleDarkMode() {
+    document.querySelector('body').classList.toggle('dark-theme');
+  }
+
   render() {
     const {
       isLoading,
@@ -55,7 +61,7 @@ class PanelRoot extends React.Component<PanelRootProps, void> {
     return (
       <div className="panel-wrap">
         <div className="title-area">
-          <h2>GraphQL Voyager</h2>
+          <h2 style={{textAlign: 'center'}} onClick={() => this.toggleDarkMode()}>GraphQL Voyager</h2>
           <IntrospectionModal/>
           <div ref="panel" className="menu-buttons">
             <RaisedButton label="Load Introspection" primary={true} style={{flex: 1}}
