@@ -3,7 +3,7 @@ import * as React from "react";
 import { connect } from "react-redux"
 
 import { focusElement } from '../../actions/';
-import TypeName from './TypeName';
+import TypeLink from './TypeLink';
 import Markdown from './Markdown';
 import FocusTypeButton from './FocusTypeButton';
 
@@ -28,7 +28,7 @@ class TypeList extends React.Component<TypeListProps, void> {
     return (
       <div className="doc-explorer-scroll-area doc-explorer-type-list">
         <div className="doc-typelist-root-item doc-typelist-item">
-          <TypeName type={rootType}/>
+          <TypeLink type={rootType}/>
           <FocusTypeButton typeId={rootType.id} />
           <Markdown
             className="doc-type-description"
@@ -37,7 +37,7 @@ class TypeList extends React.Component<TypeListProps, void> {
         </div>
         {_.map(types, type =>
           <div key={type.id} className="doc-typelist-item">
-            <TypeName type={type}/>
+            <TypeLink type={type}/>
             <FocusTypeButton typeId={type.id} />
             <Markdown
               className="doc-type-description"

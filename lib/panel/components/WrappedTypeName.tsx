@@ -2,6 +2,8 @@ import * as React from "react";
 import SvgIcon from 'material-ui/SvgIcon';
 
 import { stringifyWrappers } from '../../introspection';
+import { isNode } from '../../graph';
+import TypeLink from './TypeLink';
 import TypeName from './TypeName';
 
 import RelayIcon from '../icons/relay-icon.svg';
@@ -25,7 +27,9 @@ export default class WrappedTypeName extends React.Component<WrappedTypeNameProp
 
     return (
       <span className="wrapped-type-name">
-        {leftWrap}<TypeName type={type} />{rightWrap}{ container.relayType && this.renderRelayIcon() }
+        {leftWrap}
+        { isNode(type) ? <TypeLink type={type} /> : <TypeName type={type} /> }
+        {rightWrap}{ container.relayType && this.renderRelayIcon() }
       </span>
     );
   }

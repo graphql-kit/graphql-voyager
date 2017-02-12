@@ -1,45 +1,64 @@
 import * as React from "react";
-import { connect } from "react-redux"
+import Popover from 'material-ui/Popover';
 
+import Markdown from './Markdown';
 import {
   isBuiltInScalarType,
   isScalarType,
   isInputObjectType,
 } from '../../introspection';
 
-import { selectNode, focusElement } from '../../actions/';
-
 interface TypeNameProps {
   type: any;
-  dispatch: any;
 }
 
-class TypeName extends React.Component<TypeNameProps, void> {
-  render() {
-    const {
-      type,
-      dispatch,
-    } = this.props;
+interface TypeNameState {
+  isDetailsOpen: boolean;
+}
 
+export default class TypeName extends React.Component<TypeNameProps, TypeNameState> {
+  constructor(props) {
+    super(props);
+    this.state = {isDetailsOpen: false};
+  }
+
+  render() {
+    const { type } = this.props;
+    const { isDetailsOpen } = this.state;
+
+    let className;
     if (isBuiltInScalarType(type))
-      return (<span className="built-in-type-name">{type.name}</span>);
+      className = 'built-in-type-name';
     else if (isScalarType(type))
-      return (<span className="scalar-type-name">{type.name}</span>);
+      className = 'scalar-type-name';
     else if (isInputObjectType(type))
-      return (<span className="input-obj-type-name">{type.name}</span>);
-    else {
-      return (
-        <a
-          className="object-type-name"
-          onClick={(event) => {
-            event.stopPropagation();
-            dispatch(focusElement(type.id));
-            dispatch(selectNode(type.id));
+      className = 'input-obj-type-name';
+
+    const $anchor = this.refs['popurAnchor'];
+    return (
+      <span ref="popurAnchor" className={className}
+       onClick={() => {
+         this.setState({...this.state, isDetailsOpen: true});
+       }}
+      >
+        <Popover
+          open={isDetailsOpen}
+          anchorEl={$anchor}
+          anchorOrigin={{horizontal: 'left', vertical: 'top'}}
+          targetOrigin={{horizontal: 'left', vertical: 'top'}}
+          onRequestClose={() => {
+            this.setState({...this.state, isDetailsOpen: false});
           }}
-        >{type.name}</a>
-      );
-    }
+        >
+          <h3>{type.name}</h3>
+          <Markdown
+            className="doc-type-description"
+            text={type.description || 'No Description'}
+          />
+        </Popover>
+        {type.name}
+      </span>
+    );
+
   }
 }
-
-export default connect()(TypeName);

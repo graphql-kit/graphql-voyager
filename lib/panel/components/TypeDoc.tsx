@@ -9,7 +9,7 @@ import { getTypeGraphSelector } from '../../graph';
 import TypeList from './TypeList';
 import PreviousType from './PreviousType';
 import Markdown from './Markdown';
-import TypeName from './TypeName';
+import TypeLink from './TypeLink';
 import WrappedTypeName from './WrappedTypeName';
 import Argument from './Argument';
 import FocusTypeButton from './FocusTypeButton';
@@ -87,7 +87,7 @@ class TypeDoc extends React.Component<TypeDocProps, void> {
           }
           if (type.id === selectedId) props.ref = 'selectedItem';
           return <div {...props}>
-            <TypeName type={type.type}/>
+            <TypeLink type={type.type}/>
             <Markdown text={type.type.description} className="linked-type-description"/>
           </div>
         })}
