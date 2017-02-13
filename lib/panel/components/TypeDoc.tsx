@@ -3,8 +3,8 @@ import * as React from 'react';
 import { connect } from 'react-redux'
 import * as classNames from 'classnames';
 
-import { selectEdge } from '../../actions/';
-import { extractTypeId } from '../../introspection';
+import { selectEdge } from '../../actions';
+import { getSelectedType } from '../../selectors';
 import { getTypeGraphSelector } from '../../graph';
 import TypeList from './TypeList';
 import PreviousType from './PreviousType';
@@ -12,10 +12,9 @@ import Markdown from './Markdown';
 import TypeLink from './TypeLink';
 import WrappedTypeName from './WrappedTypeName';
 import Argument from './Argument';
-import FocusTypeButton from './FocusTypeButton';
 
 interface TypeDocProps {
-  selectedId: string;
+  selectedType: any;
   selectedEdgeId: string;
   typeGraph: any;
   dispatch: any;
@@ -23,7 +22,7 @@ interface TypeDocProps {
 
 function mapStateToProps(state) {
   return {
-    selectedId: state.selected.currentNodeId,
+    selectedType: getSelectedType(state),
     selectedEdgeId: state.selected.currentEdgeId,
     typeGraph: getTypeGraphSelector(state),
   };
@@ -151,37 +150,26 @@ class TypeDoc extends React.Component<TypeDocProps, void> {
   render() {
     const {
       dispatch,
-      selectedId,
+      selectedType,
       selectedEdgeId,
       typeGraph
     } = this.props;
 
-    let content;
-    if (selectedId === null)
-      content = (<TypeList typeGraph={typeGraph}/>)
-    else {
-      let type = typeGraph.nodes[extractTypeId(selectedId)];
-      content = (
-        <div className="doc-explorer-scroll-area">
-          <h3>{type.name}
-            <FocusTypeButton typeId={type.id} />
-          </h3>
-          <Markdown
-            className="doc-type-description"
-            text={type.description || 'No Description'}
-          />
-          {this.renderTypesDef(type, typeGraph, selectedEdgeId)}
-          {this.renderFields(type, selectedEdgeId)}
-        </div>
-      );
-    }
-
     return (
       <div className="doc-explorer-contents">
-        <div className="previous-type-area">
-          {selectedId !== null && <PreviousType /> || <header>Type List</header>}
-        </div>
-        {content}
+        <PreviousType />
+        {
+          !selectedType ?
+            <TypeList typeGraph={typeGraph}/> :
+            <div className="doc-explorer-scroll-area">
+              <Markdown
+                className="doc-type-description"
+                text={selectedType.description || 'No Description'}
+              />
+              {this.renderTypesDef(selectedType, typeGraph, selectedEdgeId)}
+              {this.renderFields(selectedType, selectedEdgeId)}
+            </div>
+        }
       </div>
     );
   }

@@ -3,52 +3,55 @@ import * as React from "react";
 import { connect } from "react-redux"
 
 import { extractTypeId } from '../../introspection';
-import { getTypeGraphSelector } from '../../graph';
+import { getSelectedType, getPreviousType } from '../../selectors';
 import {
   selectPreviousType,
   clearSelection,
   focusElement
 } from '../../actions/';
+import FocusTypeButton from './FocusTypeButton';
 
 interface PreviousTypeProps {
-  previousTypeId: string;
-  typeGraph: any;
+  selectedType: any;
+  previousType: any;
   dispatch: any;
 }
 
 function mapStateToProps(state) {
   return {
-    previousTypeId: _.last(state.selected.previousTypesIds),
-    typeGraph: getTypeGraphSelector(state),
+    selectedType: getSelectedType(state),
+    previousType: getPreviousType(state),
   };
 }
 
 class PreviousType extends React.Component<PreviousTypeProps, void> {
   render() {
     const {
+      selectedType,
+      previousType,
       dispatch,
-      previousTypeId,
-      typeGraph
     } = this.props;
 
+    let clickHandler = () => {
+      if (!previousType)
+        return dispatch(clearSelection());
 
-    let clickHandler, title;
-    if (!previousTypeId) {
-      clickHandler = () => dispatch(clearSelection());
-      title = 'Type List'
-    } else {
-      let previousType = typeGraph.nodes[previousTypeId];
-      clickHandler = () => {
-        dispatch(focusElement(previousType.id));
-        dispatch(selectPreviousType());
-      }
-      title = previousType.name;
+      dispatch(focusElement(previousType.id));
+      dispatch(selectPreviousType());
     }
 
     return (
-      <div className="doc-explorer-back"
-        onClick={clickHandler}>
-        {title}
+      <div className="previous-type-area">
+        {
+          selectedType && <span className="doc-explorer-back" onClick={clickHandler}>
+            { previousType ? previousType.name : 'Type List' }
+          </span>
+        }
+        {
+          selectedType ?
+          <span>{selectedType.name}<FocusTypeButton type={selectedType} /></span> :
+          <span>Type List</span>
+        }
       </div>
     );
   }

@@ -4,7 +4,6 @@ import { connect } from "react-redux"
 import * as ReactModal from "react-modal";
 import * as classNames from 'classnames';
 
-
 import {
   changeActiveIntrospection,
   changeSortByAlphabet,

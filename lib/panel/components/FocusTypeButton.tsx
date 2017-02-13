@@ -8,14 +8,14 @@ import { focusElement } from '../../actions/';
 import { store } from '../../redux';
 
 interface FocusTypeButtonProps {
-  typeId: string;
+  type: any;
   dispatch: any;
 }
 
 function FocusTypeButton(props:FocusTypeButtonProps) {
   return (
     <IconButton
-      onTouchTap={() => props.dispatch(focusElement(props.typeId))}
+      onTouchTap={() => props.dispatch(focusElement(props.type.id))}
       style={{height: '20px', width: '20px', padding: 0, verticalAlign: 'middle', marginLeft: '5px'}}
       iconStyle={{height: '20px', width: '20px'}}>
       <EyeIcon color={cyan500}/>
