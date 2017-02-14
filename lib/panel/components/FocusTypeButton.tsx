@@ -5,10 +5,11 @@ import EyeIcon from 'material-ui/svg-icons/image/remove-red-eye';
 import { cyan500 } from 'material-ui/styles/colors';
 
 import { focusElement } from '../../actions/';
-import { store } from '../../redux';
 
 interface FocusTypeButtonProps {
-  type: any;
+  type: {
+    id: string
+  }
   dispatch: any;
 }
 

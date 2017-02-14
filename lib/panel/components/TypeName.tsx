@@ -1,5 +1,5 @@
 import * as React from "react";
-import Popover from 'material-ui/Popover';
+import Popover, { PopoverAnimationHorizontal } from 'material-ui/Popover';
 
 import Markdown from './Markdown';
 import {
@@ -43,12 +43,16 @@ export default class TypeName extends React.Component<TypeNameProps, TypeNameSta
       >
         <Popover
           open={isDetailsOpen}
-          anchorEl={$anchor}
-          anchorOrigin={{horizontal: 'left', vertical: 'top'}}
-          targetOrigin={{horizontal: 'left', vertical: 'top'}}
+          // anchorEl={$anchor}
+          // anchorOrigin={{horizontal: 'left', vertical: 'top'}}
+          // targetOrigin={{horizontal: 'left', vertical: 'top'}}
           onRequestClose={() => {
             this.setState({...this.state, isDetailsOpen: false});
           }}
+          animation={PopoverAnimationHorizontal}
+          canAutoPosition={false}
+          className="details-popover"
+          useLayerForClickAway={false}
         >
           <h3>{type.name}</h3>
           <Markdown

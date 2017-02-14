@@ -29,7 +29,7 @@ class TypeList extends React.Component<TypeListProps, void> {
       <div className="doc-explorer-scroll-area doc-explorer-type-list">
         <div className="doc-typelist-root-item doc-typelist-item">
           <TypeLink type={rootType}/>
-          <FocusTypeButton typeId={rootType.id} />
+          <FocusTypeButton type={rootType} />
           <Markdown
             className="doc-type-description"
             text={rootType.description || 'No Description'}
@@ -38,7 +38,7 @@ class TypeList extends React.Component<TypeListProps, void> {
         {_.map(types, type =>
           <div key={type.id} className="doc-typelist-item">
             <TypeLink type={type}/>
-            <FocusTypeButton typeId={type.id} />
+            <FocusTypeButton type={type} />
             <Markdown
               className="doc-type-description"
               text={type.description || 'No Description'}

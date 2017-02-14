@@ -45,12 +45,11 @@ class PreviousType extends React.Component<PreviousTypeProps, void> {
         {
           selectedType && <span className="doc-explorer-back" onClick={clickHandler}>
             { previousType ? previousType.name : 'Type List' }
-          </span>
+          </span> || <span>Type List</span>
         }
         {
-          selectedType ?
-          <span>{selectedType.name}<FocusTypeButton type={selectedType} /></span> :
-          <span>Type List</span>
+          selectedType &&
+          <span className="selected-type">{selectedType.name}<FocusTypeButton type={selectedType} /></span>
         }
       </div>
     );

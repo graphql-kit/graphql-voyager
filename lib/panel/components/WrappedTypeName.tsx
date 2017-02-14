@@ -1,5 +1,6 @@
 import * as React from "react";
 import SvgIcon from 'material-ui/SvgIcon';
+import IconButton from 'material-ui/IconButton';
 
 import { stringifyWrappers } from '../../introspection';
 import { isNode } from '../../graph';
@@ -15,7 +16,11 @@ interface WrappedTypeNameProps {
 export default class WrappedTypeName extends React.Component<WrappedTypeNameProps, void> {
   renderRelayIcon() {
     return (
-      <RelayIcon style={{width: '20px', height: '20px', verticalAlign: 'middle', marginLeft: '5px'}} />
+      <IconButton disableTouchRipple={true} tooltipPosition="top-center" tooltip="Relay Connection"
+      style={{width: '20px', height: '20px', verticalAlign: 'middle', padding: 0}}
+      tooltipStyles={{'margin-left': '-5px'}}>
+        <RelayIcon style={{width: '20px', height: '20px', verticalAlign: 'middle', marginLeft: '5px'}} />
+      </IconButton>
     );
   }
   render() {

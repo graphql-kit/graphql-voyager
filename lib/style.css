@@ -65,17 +65,27 @@ body > main {
 
 .node polygon {
   stroke: #888;
+  fill: #cff2f7;
 }
 
+.node .type-title {
+  & polygon {
+    fill: black;
+  }
+
+  & text {
+    fill: white;
+  }
+}
 
 .edge path {
-  stroke: #888;
+  stroke: #333;
   stroke-width: 2;
 }
 
 .edge polygon {
-  fill: #888;
-  stroke: #888;
+  fill: #333;
+  stroke: #333;
 }
 
 .edge text {
@@ -93,8 +103,8 @@ body > main {
 
 .edge:hover polygon,
 .edge.hovered polygon {
-  fill: #e4f2e1;
   stroke: #000;
+  fill: #000;
 }
 
 .edge:hover text,
@@ -138,6 +148,12 @@ body > main {
   stroke: #000;
 }
 
+
+.selection-active .edge.selected polygon {
+  fill: red;
+  stroke: red;
+}
+
 .type-link {
   fill: #04f;
 }
@@ -153,12 +169,24 @@ body > main {
   text-overflow: ellipsis;
   white-space: nowrap;
   padding-left: 2px;
+
+}
+
+.selected-type {
+  font-weight: bold;
 }
 
 .previous-type-area {
   min-height: 20px;
   padding: 5px 20px 5px 18px;
   box-shadow: 0 4px 4px -2px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between;
+
+  & > span {
+    display: inline-block;
+    vertical-align: middle;
+  }
 }
 
 .previous-type-area > header {
@@ -198,7 +226,6 @@ body > main {
   white-space: nowrap;
 }
 
-.doc-type-description p:first-child ,
 .doc-type-description blockquote:first-child {
   margin-top: 0;
 }
@@ -210,6 +237,10 @@ body > main {
   padding: 0 15px;
 }
 
+.doc-type-description > p:first-child {
+  margin-top: 0;
+}
+
 .doc-typelist-item > .object-type-name {
   padding-left: 15px;
 }
@@ -219,6 +250,7 @@ body > main {
 }
 
 .doc-explorer-scroll-area {
+  padding-top: 20px;
   overflow-y: auto;
 }
 
@@ -476,7 +508,15 @@ g.graph > polygon {
   display: flex;
 }
 
+.details-popover {
+  left: 320px !important;
+  top: 50% !important;
 
+  transform: translateY(-50%) !important;
+  width: 320px;
+  height: 75%;
+  padding: 10px;
+}
 
 .dark-theme {
   & #viewport {
