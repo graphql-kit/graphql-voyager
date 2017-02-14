@@ -7,10 +7,16 @@ import { store, observeStore } from '../redux';
 
 import {
   removeClass,
-  forEachNode
+  forEachNode,
+  stringToSvg,
 } from '../utils/';
 
 import { typeNameToId } from '../introspection';
+
+const RelayIconSvg =
+  require('!!svg-as-symbol-loader?id=RelayIcon!../panel/icons/relay-icon.svg');
+const  svgns = 'http://www.w3.org/2000/svg';
+const  xlinkns = 'http://www.w3.org/1999/xlink';
 
 export class Viewport {
   $svg: SVGElement;
@@ -229,9 +235,10 @@ export class Viewport {
 }
 
 export function preprocessVizSvg(svgString:string) {
-  var wrapper = document.createElement('div');
-  wrapper.innerHTML = svgString;
-  var svg = <SVGElement>wrapper.firstElementChild;
+  //Add Relay Icon
+  svgString = svgString.replace(/<svg [^>]*>/, '$&' + RelayIconSvg);
+
+  let svg = stringToSvg(svgString);
 
   forEachNode(svg, 'a', $a => {
     let $g = $a.parentNode;
@@ -280,8 +287,25 @@ export function preprocessVizSvg(svgString:string) {
     texts[1].remove();
 
     for (var i = 2; i < texts.length; ++i) {
-      texts[i].classList.add('field-type');
       var str = texts[i].innerHTML;
+      if (str === '{R}') {
+        const $iconPlaceholder = texts[i];
+        const height = 22;
+        const width = 22;
+        const $useRelayIcon = document.createElementNS(svgns, 'use');
+        $useRelayIcon.setAttributeNS(xlinkns, 'href', '#RelayIcon');
+        $useRelayIcon.setAttribute('width', `${width}px`);
+        $useRelayIcon.setAttribute('height', `${height}px`);
+
+        //FIXME: remove hardcoded ofset
+        const y = parseInt($iconPlaceholder.getAttribute('y')) - 14;
+        $useRelayIcon.setAttribute('x', $iconPlaceholder.getAttribute('x'));
+        $useRelayIcon.setAttribute('y', y.toString());
+        $field.replaceChild($useRelayIcon, $iconPlaceholder);
+        continue;
+      }
+
+      texts[i].classList.add('field-type');
       if (edgesSources[$field.id]) {
         $field.classList.add('edge-source');
         texts[i].classList.add('type-link');
@@ -299,7 +323,6 @@ export function preprocessVizSvg(svgString:string) {
     $possibleType.querySelector('text').classList.add('type-link');
   })
 
-  wrapper.removeChild(svg);
   return svg;
 }
 

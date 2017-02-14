@@ -23,6 +23,7 @@
     "react-svg-loader": "^2.0.0-alpha.1",
     "source-map-loader": "^0.1.5",
     "style-loader": "^0.13.1",
+    "svg-as-symbol-loader": "^1.1.3",
     "typescript": "^2.1.4",
     "webpack": "^2.1.0-beta.27",
     "webpack-dev-server": "^2.1.0-beta.12",

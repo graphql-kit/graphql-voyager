@@ -12,3 +12,8 @@ export function addClass(parent: Element, selector: string, className: string) {
 export function removeClass(parent: Element, selector: string, className: string) {
   forEachNode(parent, selector, node => node.classList.remove(className));
 }
+
+export function stringToSvg(svgString: string): SVGElement {
+  var svgDoc = new DOMParser().parseFromString(svgString, 'image/svg+xml');
+  return document.importNode(svgDoc.documentElement, true) as SVGElement;
+}
