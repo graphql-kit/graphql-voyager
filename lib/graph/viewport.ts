@@ -286,6 +286,9 @@ export function preprocessVizSvg(svgString:string) {
     //Remove spaces used for text alligment
     texts[1].remove();
 
+    if (edgesSources[$field.id])
+      $field.classList.add('edge-source');
+
     for (var i = 2; i < texts.length; ++i) {
       var str = texts[i].innerHTML;
       if (str === '{R}') {
@@ -306,10 +309,8 @@ export function preprocessVizSvg(svgString:string) {
       }
 
       texts[i].classList.add('field-type');
-      if (edgesSources[$field.id]) {
-        $field.classList.add('edge-source');
+      if (edgesSources[$field.id] && !/[\[\]\!]/.test(str))
         texts[i].classList.add('type-link');
-      }
     }
   })
 
