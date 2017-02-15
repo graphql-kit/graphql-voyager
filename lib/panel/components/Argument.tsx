@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { astFromValue, print } from 'graphql';
 
 import Markdown from './Markdown';
 import WrappedTypeName from './WrappedTypeName';
@@ -16,11 +15,11 @@ export default class Argument extends React.Component<ArgumentProps, void> {
         <span className="arg">
           <span className="arg-name">{arg.name}</span>
           <WrappedTypeName container={arg} />
-          {arg.defaultValue !== undefined &&
+          {arg.defaultValue !== null &&
             <span>
               {' = '}
               <span className="arg-default-value">
-                {print(astFromValue(arg.defaultValue, arg.type))}
+                {arg.defaultValue}
               </span>
             </span>
           }
