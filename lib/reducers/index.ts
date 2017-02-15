@@ -40,17 +40,15 @@ var initialState = {
 };
 
 
-function pushHistory(nodeId: string, previousState): string[] {
+function pushHistory(currentTypeId: string, previousState): string[] {
   let previousTypesIds = previousState.selected.previousTypesIds;
-  let previousId = previousState.selected.currentNodeId;
-  if (previousId) {
-    const previousTypeId = extractTypeId(previousId);
-    const currentTypeId = extractTypeId(nodeId);
-    if (_.last(previousTypesIds) !== previousTypeId && previousTypeId !== currentTypeId) {
-      previousTypesIds = [...previousTypesIds, previousTypeId];
-    }
-  }
-  return previousTypesIds;
+  let previousTypeId = previousState.selected.currentNodeId;
+
+  if (previousTypeId === null || previousTypeId === currentTypeId)
+    return previousTypesIds;
+
+  if (_.last(previousTypesIds) !== previousTypeId)
+    return [...previousTypesIds, previousTypeId];
 }
 
 export function rootReducer(previousState = initialState, action) {
@@ -114,25 +112,32 @@ export function rootReducer(previousState = initialState, action) {
         selected: {
           ...previousState.selected,
           previousTypesIds: pushHistory(currentNodeId, previousState),
-          currentNodeId
+          currentNodeId,
+          currentEdgeId: null,
         },
       };
     case ActionTypes.SELECT_EDGE:
       let currentEdgeId = action.payload;
 
-      let nodeId = extractTypeId(currentEdgeId);
-
       // deselect if click again
-      if (currentEdgeId === previousState.selected.currentEdgeId)
-        currentEdgeId = null;
+      if (currentEdgeId === previousState.selected.currentEdgeId) {
+        return {
+          ...previousState,
+          selected: {
+            ...previousState.selected,
+            currentEdgeId: null
+          }
+        };
+      }
 
+      let nodeId = extractTypeId(currentEdgeId);
       return {
         ...previousState,
         selected: {
           ...previousState.selected,
           previousTypesIds: pushHistory(nodeId, previousState),
           currentNodeId: nodeId,
-          currentEdgeId
+          currentEdgeId,
         },
       };
     case ActionTypes.SELECT_PREVIOUS_TYPE:
@@ -142,6 +147,7 @@ export function rootReducer(previousState = initialState, action) {
           ...previousState.selected,
           previousTypesIds: _.initial(previousState.selected.previousTypesIds),
           currentNodeId: _.last(previousState.selected.previousTypesIds),
+          currentEdgeId: null,
         },
       };
     case ActionTypes.CLEAR_SELECTION:
