@@ -1,7 +1,7 @@
 import * as React from "react";
 import Popover, { PopoverAnimationHorizontal } from 'material-ui/Popover';
 
-import Markdown from './Markdown';
+import Description from './Description';
 import {
   isBuiltInScalarType,
   isScalarType,
@@ -55,9 +55,9 @@ export default class TypeName extends React.Component<TypeNameProps, TypeNameSta
           useLayerForClickAway={false}
         >
           <h3>{type.name}</h3>
-          <Markdown
+          <Description
             className="doc-type-description"
-            text={type.description || 'No Description'}
+            text={type.description}
           />
         </Popover>
         {type.name}

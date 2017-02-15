@@ -12,7 +12,7 @@ export default class Markdown extends React.Component<MarkdownProps, void> {
   }
 
   render() {
-    const {text} = this.props;
+    const {text, className} = this.props;
 
     if (!text)
       return null;
@@ -21,7 +21,7 @@ export default class Markdown extends React.Component<MarkdownProps, void> {
 
     return (
       <div
-        className={this.props.className}
+        className={className}
         dangerouslySetInnerHTML={{ __html: html }}
       />
     );

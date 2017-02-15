@@ -9,6 +9,7 @@ import { getTypeGraphSelector } from '../../graph';
 import TypeList from './TypeList';
 import PreviousType from './PreviousType';
 import Markdown from './Markdown';
+import Description from './Description';
 import TypeLink from './TypeLink';
 import WrappedTypeName from './WrappedTypeName';
 import Argument from './Argument';
@@ -87,7 +88,10 @@ class TypeDoc extends React.Component<TypeDocProps, void> {
           if (type.id === selectedId) props.ref = 'selectedItem';
           return <div {...props}>
             <TypeLink type={type.type}/>
-            <Markdown text={type.type.description} className="linked-type-description"/>
+            <Description
+              text={type.type.description}
+              className="linked-type-description"
+            />
           </div>
         })}
       </div>
@@ -162,9 +166,9 @@ class TypeDoc extends React.Component<TypeDocProps, void> {
           !selectedType ?
             <TypeList typeGraph={typeGraph}/> :
             <div className="doc-explorer-scroll-area">
-              <Markdown
+              <Description
                 className="doc-type-description"
-                text={selectedType.description || 'No Description'}
+                text={selectedType.description}
               />
               {this.renderTypesDef(selectedType, typeGraph, selectedEdgeId)}
               {this.renderFields(selectedType, selectedEdgeId)}

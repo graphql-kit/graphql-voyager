@@ -4,7 +4,7 @@ import { connect } from "react-redux"
 
 import { focusElement } from '../../actions/';
 import TypeLink from './TypeLink';
-import Markdown from './Markdown';
+import Description from './Description';
 import FocusTypeButton from './FocusTypeButton';
 
 interface TypeListProps {
@@ -30,18 +30,18 @@ class TypeList extends React.Component<TypeListProps, void> {
         <div className="doc-typelist-root-item doc-typelist-item">
           <TypeLink type={rootType}/>
           <FocusTypeButton type={rootType} />
-          <Markdown
+          <Description
             className="doc-type-description"
-            text={rootType.description || 'No Description'}
+            text={rootType.description}
           />
         </div>
         {_.map(types, type =>
           <div key={type.id} className="doc-typelist-item">
             <TypeLink type={type}/>
             <FocusTypeButton type={type} />
-            <Markdown
+            <Description
               className="doc-type-description"
-              text={type.description || 'No Description'}
+              text={type.description}
             />
           </div>
         )}

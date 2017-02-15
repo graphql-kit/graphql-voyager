@@ -274,6 +274,11 @@ body > main {
   margin-top: 0;
 }
 
+.no-description {
+  font-style:italic;
+  color: #666;
+}
+
 .doc-type-description,
 .doc-explorer-contents h3,
 .doc-category-title,
