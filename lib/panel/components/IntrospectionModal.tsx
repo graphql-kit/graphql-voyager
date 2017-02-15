@@ -90,27 +90,26 @@ class IntrospectionModal extends React.Component<IntrospectionModalProps, Intros
     if (!currentPreset) currentPreset = activePreset;
 
     let customStyle = {
-      content: {
-        padding: 0, display: 'flex', flexDirection: 'column'
-      },
-      overlay: { zIndex: 10 }
+      overlay: { zIndex: 10, backgroundColor: 'rgba(0, 0, 0, 0.74902)' }
     };
 
     return (
-      <ReactModal isOpen={showIntrospectionModal}
+      <ReactModal isOpen={showIntrospectionModal} className="modal-root"
         style={customStyle}
-        contentLabel="Select Introspection"
         onRequestClose={() => this.close()}
       >
         <AppBar
-          title="Select Introspection"
+          style={{backgroundColor: 'transparent', height: 0}}
+          titleStyle={{height: '54px', lineHeight: '50px', fontSize: '18px'}}
           showMenuIconButton={false}
+          iconStyleRight={{marginTop: 0}}
           iconElementRight={<IconButton
             onTouchTap={() => this.close()}>
             <NavigationClose />
           </IconButton>}
         />
         <div className="modal-content">
+          <img src="logo.png" />
           <div className="modal-cards">
             <div className="modal-introspection-predefined">
               {_.map(_.filter(_.keys(presets), v => v !== 'custom'), (name,i) =>
@@ -135,7 +134,7 @@ class IntrospectionModal extends React.Component<IntrospectionModalProps, Intros
               </div>
             </div>
           </div>
-          <RaisedButton label="Change Introspection" primary={true}
+          <RaisedButton label="Change Introspection" backgroundColor="#265759" labelColor="white"
             onTouchTap={this.handleChange.bind(this)}/>
         </div>
       </ReactModal>

@@ -4,6 +4,10 @@
   --highlight-color: #00bcd4;
   --secondary-color: #548f9e;
   --logo-color: #27535e;
+  --link-color: #42a0dd;
+  --link-hover-color: #0262a0;
+  --field-name-color: #224d6f;
+  --builtin-color: #8e2121;
 }
 
 body {
@@ -156,11 +160,11 @@ body > main {
 }
 
 .type-link {
-  fill: #42a0dd;
+  fill: var(--link-color)
 }
 
 .type-link:hover {
-  fill: #8af;
+  fill: var(--link-hover-color);
 }
 
 .doc-explorer-back {
@@ -314,10 +318,6 @@ body > main {
   text-decoration: none;
 }
 
-.doc-explorer-contents a:hover {
-  text-decoration: underline;
-}
-
 .doc-value-description {
   padding: 4px 0 8px 12px;
 }
@@ -341,9 +341,38 @@ body > main {
 }
 
 .doc-category-item {
+
+
   padding: 8px 15px;
   color: #555;
   position: relative;
+  border-left: 3px solid transparent;
+}
+
+.doc-category-item.with-args {
+  &:before {
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid var(--field-name-color);
+    display: block;
+    content: "";
+    float: right;
+    margin-top: 6px;
+    margin-right: -8px;
+    transition: all 0.3s ease;
+    opacity: 0;
+  }
+
+
+  &:hover:before, &.selected:before {
+    opacity: 1;
+  }
+
+  &.selected:before {
+    transform: rotateZ(180deg);
+  }
 }
 
 .doc-category-item:nth-child(odd) {
@@ -363,15 +392,25 @@ body > main {
   background-color: rgba(214, 236, 238, 0.6);
 }
 
-.built-in-type-name,
 .scalar-type-name,
 .input-object-type-name,
 .object-type-name {
-  color: #52a0dd;
+  color: var(--link-color);
+
+  &:hover {
+    color: var(--link-hover-color);
+  }
+}
+.built-in-type-name {
+  color: var(--builtin-color);
+
+  &:hover {
+    color: color(var(--builtin-color) l(- 10%));
+  }
 }
 
 .field-name {
-  color: #224d6f;
+  color: var(--field-name-color)
 }
 
 .value-name {
@@ -564,11 +603,38 @@ g.graph > polygon {
   padding: 10px;
 }
 
+.modal-root {
+  display: flex;
+  flex-direction: column;
+  width: 75%;
+  height: 75%;
+  background-color: white;
+  transform: translate(-50%, -50%);
+  position: absolute;
+  background: #fff;
+  overflow: auto;
+  borderRadius: 4px;
+  outline: none;
+  top: 50%;
+  left: 50%;
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.28902);
+}
+
 .modal-content {
   padding: 0 20px 20px;
   display: flex;
   flex-direction: column;
   height: 100%;
+  background-color: #05243d;
+  color: white;
+
+  & > img {
+    margin-left: -20px;
+    margin-right: -20px;
+    border-bottom: 1px solid #255358;
+    width: 100%;
+    margin: 0 auto;
+  }
 }
 
 .modal-cards {
@@ -636,81 +702,4 @@ g.graph > polygon {
 
 .selection-active .node.selected .type-title polygon {
     fill: #00bcd4;
-}
-
-.dark-theme {
-  & #viewport {
-    background: var(--dark-bg-color);
-    /*background: radial-gradient(ellipse at center, #265358 0%, #0b2840 75%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-  }
-
-  & .node polygon {
-    stroke: #eee;
-    fill: #265358;
-  }
-
-  & text.field-name {
-    fill: #eee;
-    font-weight: lighter;
-  }
-
-  & .selection-active .node.selected polygon,
-  & .selection-active .edge.highlighted path:not(.hover-path),
-  & .edge.highlighted path:not(.hover-path),
-  & .edge.hovered path:not(.hover-path) {
-    stroke: #00bcd4;
-    stroke-width: 2;
-  }
-
-  & .field text {
-    fill: #eee;
-  }
-
-  & .field text.type-link {
-    fill: #00bcd4;
-  }
-
-  & .type-title text {
-    fill: #eee;
-  }
-
-  & .edge polygon {
-    fill: #eee;
-    stroke: #eee;
-  }
-
-  & .edge path {
-    stroke: #aaa;
-  }
-
-  & .edge path.hover-path {
-    stroke: transparent;
-  }
-
-  & .edge.selected polygon,
-  & .edge.highlighted polygon {
-    stroke: #aaa;
-    fill: #aaa;
-  }
-
-  & .edge text {
-    fill: #eee;
-  }
-
-  & .edge-source.selected > polygon,
-  & .field.selected > polygon {
-    fill: rgb(15, 156, 172);
-  }
-
-  & .selection-active .edge.selected path:not(.hover-path) {
-    stroke: red;
-  }
-
-  & g .type-link {
-    fill: #00bcd4;
-  }
-
-  & .node > text {
-    fill: #ccc;
-  }
 }

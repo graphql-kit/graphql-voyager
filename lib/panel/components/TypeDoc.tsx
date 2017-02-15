@@ -113,7 +113,8 @@ class TypeDoc extends React.Component<TypeDocProps, void> {
             key: field.name,
             className: classNames({
               'doc-category-item': true,
-              'selected': field.id === selectedId
+              'selected': field.id === selectedId,
+              'with-args': !_.isEmpty(field.args)
             }),
             onClick: () => {
               dispatch(selectEdge(field.id));
