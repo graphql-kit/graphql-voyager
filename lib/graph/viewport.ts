@@ -300,8 +300,8 @@ export function preprocessVizSvg(svgString:string) {
         $useRelayIcon.setAttribute('width', `${width}px`);
         $useRelayIcon.setAttribute('height', `${height}px`);
 
-        //FIXME: remove hardcoded ofset
-        const y = parseInt($iconPlaceholder.getAttribute('y')) - 14;
+        //FIXME: remove hardcoded offset
+        const y = parseInt($iconPlaceholder.getAttribute('y')) - 15;
         $useRelayIcon.setAttribute('x', $iconPlaceholder.getAttribute('x'));
         $useRelayIcon.setAttribute('y', y.toString());
         $field.replaceChild($useRelayIcon, $iconPlaceholder);
