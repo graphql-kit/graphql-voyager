@@ -8,6 +8,7 @@ import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import IconButton from 'material-ui/IconButton';
 import NavigationClose from 'material-ui/svg-icons/navigation/close';
+import * as classNames from 'classnames';
 
 import {
   changeActiveIntrospection,
@@ -18,13 +19,13 @@ import {
 interface IntrospectionModalProps {
   showIntrospectionModal: boolean;
   activePreset: string;
-  presetValue: string;
+  customPresetValue: string;
   presets: any[];
   dispatch: any;
 }
 
 interface IntrospectionModalState {
-  presetValue: string;
+  customPresetValue: string;
   currentPreset: string;
 }
 
@@ -45,9 +46,9 @@ class IntrospectionModal extends React.Component<IntrospectionModalProps, Intros
 
   getState(preset) {
     return {
-      presetValue: this.props.presets[preset]
-        && JSON.stringify(this.props.presets[preset], null, 2) || '',
-      currentPreset: preset || 'custom'
+      customPresetValue: this.props.presets['custom']
+        && JSON.stringify(this.props.presets['custom'], null, 2) || '',
+      currentPreset: preset || null
     }
   }
 
@@ -56,16 +57,21 @@ class IntrospectionModal extends React.Component<IntrospectionModalProps, Intros
   }
 
   handleTextChange(event) {
-   this.setState({...this.state, presetValue: event.target.value});
+   this.setState({...this.state, customPresetValue: event.target.value});
   }
 
   handleChange() {
-    let selected = (this.refs['presetGroup'] as any).state.selected;
+    let selected = this.state.currentPreset;
     if (selected === 'custom') {
-      this.props.dispatch(changeCustomIntrospection(this.state.presetValue));
+      this.props.dispatch(changeCustomIntrospection(this.state.customPresetValue));
     }
     this.props.dispatch(changeActiveIntrospection(selected));
     this.props.dispatch(hideIntrospectionModal());
+  }
+
+  close() {
+    this.switchPresetValue(null);
+    this.props.dispatch(hideIntrospectionModal())
   }
 
   render() {
@@ -73,12 +79,15 @@ class IntrospectionModal extends React.Component<IntrospectionModalProps, Intros
       showIntrospectionModal,
       presets,
       dispatch,
+      activePreset
     } = this.props;
 
-    const {
+    let {
       currentPreset,
-      presetValue,
+      customPresetValue,
     } = this.state;
+
+    if (!currentPreset) currentPreset = activePreset;
 
     let customStyle = {
       content: {
@@ -91,30 +100,41 @@ class IntrospectionModal extends React.Component<IntrospectionModalProps, Intros
       <ReactModal isOpen={showIntrospectionModal}
         style={customStyle}
         contentLabel="Select Introspection"
-        onRequestClose={
-          () => dispatch(hideIntrospectionModal())
-        }
+        onRequestClose={() => this.close()}
       >
         <AppBar
           title="Select Introspection"
           showMenuIconButton={false}
           iconElementRight={<IconButton
-            onTouchTap={() => dispatch(hideIntrospectionModal())}>
+            onTouchTap={() => this.close()}>
             <NavigationClose />
           </IconButton>}
         />
-        <div className="panel-content">
-          <RadioButtonGroup name="preset" defaultSelected={currentPreset}
-          ref="presetGroup" onChange={(e,value) => this.switchPresetValue(value)}>
-            {_.map(_.keys(presets), (name,i) => <RadioButton
-                key={i}
-                value={name}
-                label={name}
-              />
-            )}
-          </RadioButtonGroup>
-          <textarea value={presetValue} disabled={currentPreset != 'custom'}
-          onChange={this.handleTextChange.bind(this)} placeholder="Paste Introspection"/>
+        <div className="modal-content">
+          <div className="modal-cards">
+            <div className="modal-introspection-predefined">
+              {_.map(_.filter(_.keys(presets), v => v !== 'custom'), (name,i) =>
+                <div key={i} className={classNames({
+                  'introspection-card': true,
+                  'active': name === currentPreset
+                })} onClick={() => this.switchPresetValue(name)}>
+                  <h1> {name} </h1>
+                </div>
+              )}
+            </div>
+            <div className="modal-introspection-custom">
+              <div className={classNames({
+                'introspection-card': true,
+                'active': currentPreset === 'custom'
+              })} onClick={() => this.switchPresetValue('custom')}>
+                <h1> Custom </h1>
+                <div className="modal-introspection-custom-area">
+                  <textarea value={customPresetValue} disabled={currentPreset != 'custom'}
+                  onChange={this.handleTextChange.bind(this)} placeholder="Paste Introspection Here"/>
+                </div>
+              </div>
+            </div>
+          </div>
           <RaisedButton label="Change Introspection" primary={true}
             onTouchTap={this.handleChange.bind(this)}/>
         </div>

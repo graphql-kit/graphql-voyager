@@ -18,7 +18,7 @@ export default class WrappedTypeName extends React.Component<WrappedTypeNameProp
     return (
       <IconButton disableTouchRipple={true} tooltipPosition="top-center" tooltip="Relay Connection"
       style={{width: '20px', height: '20px', verticalAlign: 'middle', padding: 0}}
-      tooltipStyles={{'margin-left': '-5px'}}>
+      tooltipStyles={{'marginLeft': '-5px'}}>
         <RelayIcon style={{width: '20px', height: '20px', verticalAlign: 'middle', marginLeft: '5px'}} />
       </IconButton>
     );

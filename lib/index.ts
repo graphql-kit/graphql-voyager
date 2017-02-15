@@ -11,6 +11,6 @@ const viewport = new Viewport(document.getElementById('viewport'));
 initPanel(document.getElementById('panel_root'));
 
 if (DEBUG_INITIAL_PRESET) {
-  store.dispatch(hideIntrospectionModal())
+  //store.dispatch(hideIntrospectionModal())
   store.dispatch(changeActiveIntrospection(DEBUG_INITIAL_PRESET));
 }

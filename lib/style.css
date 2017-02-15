@@ -1,6 +1,9 @@
 :root {
   --badge-spacing: 5px;
   --dark-bg-color: #0b2840;
+  --highlight-color: #00bcd4;
+  --secondary-color: #548f9e;
+  --logo-color: #27535e;
 }
 
 body {
@@ -20,9 +23,9 @@ body > main {
   width: 320px;
   min-width: 320px;
   height: 100%;
-  background: #f2f2f2;
+  background: #fff;
   box-sizing: border-box;
-  box-shadow: 4px 0 5px -2px rgba(0,0,0,0.2);
+  box-shadow: 6px 0 10px -2px rgba(0, 0, 0, 0.09);
   position: relative;
   z-index: 10;
 }
@@ -64,13 +67,13 @@ body > main {
 }
 
 .node polygon {
-  stroke: #888;
-  fill: #cff2f7;
+  stroke: var(--secondary-color);
+  fill: #f6f8f8;
 }
 
 .node .type-title {
   & polygon {
-    fill: black;
+    fill: var(--secondary-color);
   }
 
   & text {
@@ -79,13 +82,13 @@ body > main {
 }
 
 .edge path {
-  stroke: #333;
+  stroke: color(var(--secondary-color) l(- 20%));
   stroke-width: 2;
 }
 
 .edge polygon {
-  fill: #333;
-  stroke: #333;
+  fill: color(var(--secondary-color) l(- 30%));
+  stroke: color(var(--secondary-color) l(- 30%));
 }
 
 .edge text {
@@ -96,21 +99,12 @@ body > main {
   cursor: pointer;
 }
 
-.edge:hover path {
-  stroke: #000;
-  stroke-width: 3;
-}
-
-.edge:hover polygon,
-.edge.hovered polygon {
-  stroke: #000;
-  fill: #000;
-}
-
 .edge:hover text,
 .edge.highlighted text,
 .edge.hovered text  {
   display: block;
+  font-family: Roboto;
+  fill: #00525c;
 }
 
 .edge path.hover-path {
@@ -132,9 +126,14 @@ body > main {
 .selection-active .node.selected polygon,
 .selection-active .edge.highlighted path:not(.hover-path),
 .edge.highlighted path:not(.hover-path),
-.edge.hovered path:not(.hover-path) {
-  stroke: #000;
+.edge.hovered path:not(.hover-path),
+.edge:hover path:not(.hover-path) {
+  stroke: var(--highlight-color);
   stroke-width: 3;
+}
+
+.selection-active .field.selected polygon {
+  fill: rgba(255, 0, 0, 0.18);
 }
 
 .selection-active .edge.selected path:not(.hover-path) {
@@ -142,10 +141,12 @@ body > main {
 }
 
 .selection-active .edge.highlighted polygon,
-.edge.highlighted polygon {
+.edge.highlighted polygon,
+.edge:hover polygon,
+.edge.hovered polygon {
+  stroke: color(var(--highlight-color) l(- 20%));
+  fill: color(var(--highlight-color) l(- 20%));
   opacity: 1;
-  fill: #000;
-  stroke: #000;
 }
 
 
@@ -155,7 +156,7 @@ body > main {
 }
 
 .type-link {
-  fill: #04f;
+  fill: #42a0dd;
 }
 
 .type-link:hover {
@@ -163,17 +164,57 @@ body > main {
 }
 
 .doc-explorer-back {
-  color: #3B5998;
+  color: #204d71 !important;
   cursor: pointer;
   overflow-x: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   padding-left: 2px;
-
+  font-weight: normal !important;
 }
 
 .selected-type {
   font-weight: bold;
+  color: #00bcd4;
+}
+
+.title-area .logo {
+  padding: 20px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.title-area svg {
+  width: 50px;
+  height: 50px;
+  margin-right: 10px;
+  transform: rotateZ(16deg);
+  margin-left: -10px;
+}
+
+.title-area h2 {
+  color: var(--logo-color);
+  font-family: Roboto;
+  letter-spacing: 5px;
+  font-weight: normal;
+  text-transform: uppercase;
+  margin: 0;
+  font-size: 15px;
+  margin-top: 4px;
+  line-height: 1;
+
+  & strong {
+    display: block;
+    letter-spacing: normal;
+    font-size: 1.4em;
+  }
+}
+
+.title-area svg {
+  & path {
+    fill: var(--logo-color);
+  }
 }
 
 .previous-type-area {
@@ -186,6 +227,9 @@ body > main {
   & > span {
     display: inline-block;
     vertical-align: middle;
+    color: #00bcd4;
+    color: var(--secondary-color);
+    font-weight: bold;
   }
 }
 
@@ -195,8 +239,8 @@ body > main {
 }
 
 .doc-explorer-back:before {
-  border-left: 2px solid #3B5998;
-  border-top: 2px solid #3B5998;
+  border-left: 2px solid #204d71;
+  border-top: 2px solid #204d71;
   content: '';
   display: inline-block;
   height: 9px;
@@ -298,7 +342,7 @@ body > main {
 }
 
 .doc-category-item:nth-child(odd) {
-  background-color: #dadada;
+  background-color: rgba(158, 158, 158, 0.07);
 }
 
 .doc-category-item {
@@ -306,26 +350,23 @@ body > main {
 }
 
 .doc-category-item.selected {
-  background-color: #b4f7ff;
+  background-color: rgba(214, 236, 238, 0.75);
+  border-left: 3px solid #00bcd4;
 }
 
 .doc-category-item:hover {
-  background-color: color(#b4f7ff a(60%));
+  background-color: rgba(214, 236, 238, 0.6);
 }
 
 .built-in-type-name,
 .scalar-type-name,
 .input-object-type-name,
 .object-type-name {
-  color: #CA9800;
+  color: #52a0dd;
 }
 
 .field-name {
-  color: #1F61A0;
-
-  &:hover {
-    text-decoration: none;
-  }
+  color: #224d6f;
 }
 
 .value-name {
@@ -333,7 +374,7 @@ body > main {
 }
 
 .arg-name {
-  color: #8B2BB9;
+  color: #c77f53;
 }
 
 .arg:after {
@@ -398,7 +439,7 @@ g.graph > polygon {
 }
 
 .edge-source.selected > polygon, .field.selected > polygon {
-  fill: #b4f7ff;
+  fill: rgba(180, 247, 255, 0.6);
 }
 
 
@@ -518,6 +559,80 @@ g.graph > polygon {
   padding: 10px;
 }
 
+.modal-content {
+  padding: 0 20px 20px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.modal-cards {
+  flex: 1;
+  display: flex;
+}
+
+.modal-introspection-predefined {
+  flex: 5;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  padding-right: 40px;
+
+  & > div {
+    width: calc(50% - 20px);
+
+    &:nth-child(odd) {
+      margin-left: 0;
+    }
+
+    &:nth-child(even) {
+      margin-right: 0;
+    }
+  }
+}
+
+.modal-introspection-custom {
+  flex: 3;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.modal-introspection-custom-area {
+  height: 0;
+  overflow: hidden;
+
+  transition: all 0.3s ease-out;
+
+  & > textarea {
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+  }
+}
+
+.active .modal-introspection-custom-area {
+  height: 200px;
+}
+
+.introspection-card {
+  border: 3px solid rgb(76, 76, 76);
+  cursor: pointer;
+  box-sizing: border-box;
+
+  margin: 20px;
+  padding: 20px;
+}
+
+.introspection-card.active {
+  border-color: #00bcd4;
+}
+
+.selection-active .node.selected .type-title polygon {
+    fill: #00bcd4;
+}
+
 .dark-theme {
   & #viewport {
     background: var(--dark-bg-color);
@@ -538,7 +653,7 @@ g.graph > polygon {
   & .selection-active .edge.highlighted path:not(.hover-path),
   & .edge.highlighted path:not(.hover-path),
   & .edge.hovered path:not(.hover-path) {
-    stroke: #eee;
+    stroke: #00bcd4;
     stroke-width: 2;
   }
 
