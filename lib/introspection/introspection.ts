@@ -17,26 +17,28 @@ function convertArg(inArg) {
   var outArg = <any> {
     name: inArg.name,
     description: inArg.description,
-    typeWrappers: []
+    defaultValue: inArg.defaultValue,
+    typeWrappers: [],
   };
   outArg.type = unwrapType(inArg.type, outArg.typeWrappers);
 
   return outArg;
 }
+let convertInputField = convertArg;
 
 function convertField(inField) {
   var outField = <any> {
     name: inField.name,
     description: inField.description,
     typeWrappers: [],
-    isDepreated: inField.isDepreated
+    isDeprecated: inField.isDeprecated
   };
 
   outField.type = unwrapType(inField.type, outField.typeWrappers);
 
   outField.args = _(inField.args).map(convertArg).keyBy('name').value();
 
-  if (outField.isDepreated)
+  if (outField.isDeprecated)
     outField.deprecationReason = inField.deprecationReason;
 
   return outField;
@@ -65,7 +67,8 @@ function convertType(inType) {
       outType.enumValues = inType.enumValues;
       break;
     case 'INPUT_OBJECT':
-      //FIXME
+      outType.inputFields = _(inType.inputFields)
+        .map(convertInputField).keyBy('name').value();
       break;
   }
 
