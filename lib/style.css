@@ -655,7 +655,7 @@ g.graph > polygon {
   &.opened {
     transform: translateY(-50%);
   }
-  > button {
+  & > button {
     position: absolute !important;
     right: 20px;
   }
