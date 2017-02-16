@@ -10,6 +10,10 @@ import IconButton from 'material-ui/IconButton';
 import NavigationClose from 'material-ui/svg-icons/navigation/close';
 import * as classNames from 'classnames';
 
+import * as ClipboardButton from 'react-clipboard.js';
+
+let introspectionQuery = require('graphql/utilities').introspectionQuery;
+
 import {
   changeActiveIntrospection,
   hideIntrospectionModal,
@@ -65,11 +69,14 @@ class IntrospectionModal extends React.Component<IntrospectionModalProps, Intros
     if (selected === 'custom') {
       this.props.dispatch(changeCustomIntrospection(this.state.customPresetValue));
     }
-    this.props.dispatch(changeActiveIntrospection(selected));
+    if (selected && selected != this.props.activePreset) {
+      this.props.dispatch(changeActiveIntrospection(selected));
+    }
     this.props.dispatch(hideIntrospectionModal());
   }
 
   close() {
+    if (!this.props.activePreset) return;
     this.switchPresetValue(null);
     this.props.dispatch(hideIntrospectionModal())
   }
@@ -89,13 +96,17 @@ class IntrospectionModal extends React.Component<IntrospectionModalProps, Intros
 
     if (!currentPreset) currentPreset = activePreset;
 
+    let validSelected = !!currentPreset;
+
     let customStyle = {
+      content: {maxHeight: '600px', maxWidth: '1000px'},
       overlay: { zIndex: 10, backgroundColor: 'rgba(0, 0, 0, 0.74902)' }
     };
 
     return (
       <ReactModal isOpen={showIntrospectionModal} className="modal-root"
         style={customStyle}
+        contentLabel="Select Introspection"
         onRequestClose={() => this.close()}
       >
         <AppBar
@@ -109,7 +120,9 @@ class IntrospectionModal extends React.Component<IntrospectionModalProps, Intros
           </IconButton>}
         />
         <div className="modal-content">
-          <img src="logo.png" />
+          <div className="logo">
+            <img src="logo.png" />
+          </div>
           <div className="modal-cards">
             <div className="modal-introspection-predefined">
               {_.map(_.filter(_.keys(presets), v => v !== 'custom'), (name,i) =>
@@ -126,7 +139,13 @@ class IntrospectionModal extends React.Component<IntrospectionModalProps, Intros
                 'introspection-card': true,
                 'active': currentPreset === 'custom'
               })} onClick={() => this.switchPresetValue('custom')}>
-                <h1> Custom </h1>
+                <div className="card-header">
+                  <h2> Custom Introspection </h2>
+                  <p> Run the introspection query against a GraphQL endpoint. Paste the result into the textarea below to view the model relationships.</p>
+                  <ClipboardButton component="a" data-clipboard-text={introspectionQuery}>
+                    Copy Introspection Query
+                  </ClipboardButton>
+                </div>
                 <div className="modal-introspection-custom-area">
                   <textarea value={customPresetValue} disabled={currentPreset != 'custom'}
                   onChange={this.handleTextChange.bind(this)} placeholder="Paste Introspection Here"/>
@@ -134,8 +153,10 @@ class IntrospectionModal extends React.Component<IntrospectionModalProps, Intros
               </div>
             </div>
           </div>
-          <RaisedButton label="Change Introspection" backgroundColor="#265759" labelColor="white"
-            onTouchTap={this.handleChange.bind(this)}/>
+          <RaisedButton label="Change Introspection"
+          backgroundColor="#265759" disabledBackgroundColor="#1e4651"
+          disabledLabelColor="rbga(255,255,255,0.21)" labelColor="white"
+          disabled={!validSelected} onTouchTap={this.handleChange.bind(this)}/>
         </div>
       </ReactModal>
     );

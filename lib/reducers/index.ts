@@ -11,8 +11,10 @@ import {
 var initialState = {
   introspection: {
     presets: {
-      'github': githubIntrospection,
-      'swapi': swapiIntrospection,
+      'GitHub': githubIntrospection,
+      'Star Wars API': swapiIntrospection,
+      'Helsinki Transport': swapiIntrospection,
+      'BrandLover': swapiIntrospection,
       'custom': null
     },
     activePreset: null,
