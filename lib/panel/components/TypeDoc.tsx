@@ -106,7 +106,7 @@ class TypeDoc extends React.Component<TypeDocProps, void> {
     return (
       <div className="doc-category">
         <div className="doc-category-title">
-          fields
+          {'fields'}
         </div>
         {_.map(type.fields, field => {
           let props:any = {

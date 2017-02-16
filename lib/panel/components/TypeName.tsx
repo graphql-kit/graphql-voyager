@@ -2,6 +2,7 @@ import * as React from "react";
 import Popover, { PopoverAnimationHorizontal } from 'material-ui/Popover';
 
 import Description from './Description';
+import TypeDetails from './TypeDetails';
 import {
   isBuiltInScalarType,
   isScalarType,
@@ -54,11 +55,7 @@ export default class TypeName extends React.Component<TypeNameProps, TypeNameSta
           className="details-popover"
           useLayerForClickAway={false}
         >
-          <h3>{type.name}</h3>
-          <Description
-            className="doc-type-description"
-            text={type.description}
-          />
+          <TypeDetails type={type}/>
         </Popover>
         {type.name}
       </span>
