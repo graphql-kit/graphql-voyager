@@ -38,7 +38,8 @@ var initialState = {
   graphView: {
     focusedId: null,
   },
-  menuOpened: false
+  menuOpened: false,
+  errorMessage: null,
 };
 
 
@@ -196,6 +197,16 @@ export function rootReducer(previousState = initialState, action) {
       return {
         ...previousState,
         menuOpened: !previousState.menuOpened
+      }
+    case ActionTypes.REPORT_ERROR:
+      return {
+        ...previousState,
+        errorMessage: action.payload,
+      }
+    case ActionTypes.CLEAR_ERROR:
+      return {
+        ...previousState,
+        errorMessage: initialState.errorMessage,
       }
     default:
       return previousState;

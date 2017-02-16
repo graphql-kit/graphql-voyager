@@ -1,6 +1,6 @@
 import { getDotSelector } from './dot'
 import { store, observeStore } from '../redux';
-import { svgRenderingFinished } from '../actions';
+import { svgRenderingFinished, reportError } from '../actions';
 
 const VizWorker = require('./viz-worker.worker');
 
@@ -23,12 +23,10 @@ export class SVGRender {
   _renderSvg(dot) {
     let cb = event => {
       let data = event.data;
-      if (data.result === 'success') {
+      if (data.result === 'success')
         store.dispatch(svgRenderingFinished(data.svgString));
-      } else {
-        //FIXME: error handling
-        //reject(data);
-      }
+      else
+        store.dispatch(reportError(data.msg));
       this.worker.removeEventListener('message', cb);
     }
     this.worker.postMessage({dot});
