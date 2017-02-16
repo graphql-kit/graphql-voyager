@@ -645,7 +645,7 @@ g.graph > polygon {
   display: flex;
   flex-wrap: wrap;
   align-content: center;
-  padding-right: 40px;
+  padding-right: 20px;
 
   & > div {
     width: calc(50% - 20px);

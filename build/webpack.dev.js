@@ -61,7 +61,12 @@ module.exports = {
     },
     {
       test: /\.css$/,
-      use: ['style-loader', 'css-loader?importLoaders=1', 'postcss-loader']
+      use: ['style-loader', 'css-loader?importLoaders=1', 'postcss-loader'],
+      exclude: [/node_modules/]
+    },
+    {
+      test: /node_modules.*\.css$/,
+      use: ['style-loader', 'css-loader?importLoaders=1'],
     },
     {
       test: /\.json$/,

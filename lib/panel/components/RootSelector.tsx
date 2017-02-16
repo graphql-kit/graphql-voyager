@@ -4,7 +4,6 @@ import { connect } from "react-redux"
 
 import { getSchemaSelector } from '../../introspection';
 import { isNode } from '../../graph/';
-import { changeRootType } from '../../actions/';
 
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
@@ -13,7 +12,7 @@ import Divider from 'material-ui/Divider';
 interface RootSelectorProps {
   rootTypeId: string;
   schema: any;
-  dispatch: any;
+  onChange: any;
 }
 
 function mapStateToProps(state) {
@@ -23,10 +22,10 @@ function mapStateToProps(state) {
   };
 }
 
-class RootSelector extends React.Component<RootSelectorProps, void> {
+export default class RootSelector extends React.Component<RootSelectorProps, void> {
   render() {
     const {
-      dispatch,
+      onChange,
       rootTypeId,
       schema,
     } = this.props;
@@ -51,7 +50,7 @@ class RootSelector extends React.Component<RootSelectorProps, void> {
     return (
       <DropDownMenu className="dropdown-root" autoWidth={false}
         onChange={(event, index, value) => {
-          dispatch(changeRootType(value));
+          onChange(value);
         }} value={currentRoot}>
 
         <MenuItem value={queryType.id} primaryText={queryType.name} />
@@ -64,5 +63,3 @@ class RootSelector extends React.Component<RootSelectorProps, void> {
     );
   }
 }
-
-export default connect(mapStateToProps)(RootSelector);

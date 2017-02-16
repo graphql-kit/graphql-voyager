@@ -4,16 +4,13 @@ import { connect } from "react-redux"
 import * as ReactModal from "react-modal";
 import * as classNames from 'classnames';
 
+import Settings from './Settings';
 import {
-  changeActiveIntrospection,
-  changeSortByAlphabet,
-  changeSkipRelay,
   showIntrospectionModal,
   toggleMenu
 } from '../../actions/';
 
 import RaisedButton from 'material-ui/RaisedButton';
-import Checkbox from 'material-ui/Checkbox';
 import Popover from 'material-ui/Popover';
 import IconButton from 'material-ui/IconButton';
 import SettingsIcon from 'material-ui/svg-icons/action/settings';
@@ -21,7 +18,6 @@ import { cyan500 } from 'material-ui/styles/colors';
 
 import ErrorBar from './ErrorBar';
 import IntrospectionModal from './IntrospectionModal';
-import RootSelector from './RootSelector';
 import TypeDoc from './TypeDoc';
 
 import LogoIcon from '../icons/logo-small.svg';
@@ -81,15 +77,7 @@ class PanelRoot extends React.Component<PanelRootProps, void> {
             targetOrigin={{horizontal: 'left', vertical: 'top'}}
             onRequestClose={() => dispatch(toggleMenu())}
           >
-            <div className="menu-content">
-              <h3 style={{margin: 0}}> Root Node </h3>
-              <RootSelector/>
-              <h3> Options </h3>
-              <Checkbox label="Sort by Alphabet" checked={sortByAlphabet}
-                onCheck={(e, val) => dispatch(changeSortByAlphabet(val))} />
-              <Checkbox label="Skip Relay" checked={skipRelay}
-                onCheck={(e, val) => dispatch(changeSkipRelay(val))} />
-            </div>
+            <Settings/>
           </Popover>
         </div>
         <TypeDoc/>

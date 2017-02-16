@@ -16,6 +16,7 @@
     "@types/requirejs": "^2.1.28",
     "awesome-typescript-loader": "^3.0.0-beta.9",
     "css-loader": "^0.26.0",
+    "hint.css": "^2.4.1",
     "json-loader": "^0.5.4",
     "postcss-cssnext": "^2.9.0",
     "postcss-loader": "^1.2.2",

@@ -9,6 +9,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import IconButton from 'material-ui/IconButton';
 import NavigationClose from 'material-ui/svg-icons/navigation/close';
 import * as classNames from 'classnames';
+import Settings from './Settings';
 
 import * as ClipboardButton from 'react-clipboard.js';
 
@@ -31,6 +32,7 @@ interface IntrospectionModalProps {
 interface IntrospectionModalState {
   customPresetValue: string;
   currentPreset: string;
+  recentlyCopied?: boolean;
 }
 
 function mapStateToProps(state) {
@@ -81,6 +83,13 @@ class IntrospectionModal extends React.Component<IntrospectionModalProps, Intros
     this.props.dispatch(hideIntrospectionModal())
   }
 
+  copy() {
+    this.setState({...this.state, recentlyCopied: true});
+    setTimeout(() => {
+      this.setState({...this.state, recentlyCopied: false});
+    }, 2000)
+  }
+
   render() {
     const {
       showIntrospectionModal,
@@ -92,6 +101,7 @@ class IntrospectionModal extends React.Component<IntrospectionModalProps, Intros
     let {
       currentPreset,
       customPresetValue,
+      recentlyCopied
     } = this.state;
 
     if (!currentPreset) currentPreset = activePreset;
@@ -142,7 +152,12 @@ class IntrospectionModal extends React.Component<IntrospectionModalProps, Intros
                 <div className="card-header">
                   <h2> Custom Introspection </h2>
                   <p> Run the introspection query against a GraphQL endpoint. Paste the result into the textarea below to view the model relationships.</p>
-                  <ClipboardButton component="a" data-clipboard-text={introspectionQuery}>
+                  <ClipboardButton component="a" data-clipboard-text={introspectionQuery}
+                  className={classNames({
+                    'hint--top': recentlyCopied
+                  })}
+                  data-hint='Copied to clipboard'
+                  onClick={() => this.copy()}>
                     Copy Introspection Query
                   </ClipboardButton>
                 </div>
@@ -153,6 +168,7 @@ class IntrospectionModal extends React.Component<IntrospectionModalProps, Intros
               </div>
             </div>
           </div>
+          <Settings/>
           <RaisedButton label="Change Introspection"
           backgroundColor="#265759" disabledBackgroundColor="#1e4651"
           disabledLabelColor="rbga(255,255,255,0.21)" labelColor="white"

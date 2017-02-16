@@ -1,9 +1,11 @@
 import './style.css';
+
 import {
   reportError,
   hideIntrospectionModal,
   changeActiveIntrospection
 } from './actions';
+
 import { store } from './redux';
 
 import { SVGRender } from './graph/';
