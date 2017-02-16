@@ -19,6 +19,7 @@ import IconButton from 'material-ui/IconButton';
 import SettingsIcon from 'material-ui/svg-icons/action/settings';
 import { cyan500 } from 'material-ui/styles/colors';
 
+import ErrorBar from './ErrorBar';
 import IntrospectionModal from './IntrospectionModal';
 import RootSelector from './RootSelector';
 import TypeDoc from './TypeDoc';
@@ -61,6 +62,7 @@ class PanelRoot extends React.Component<PanelRootProps, void> {
 
     return (
       <div className="panel-wrap">
+        <ErrorBar/>
         <div className="title-area">
           <div className="logo">
             <LogoIcon/>

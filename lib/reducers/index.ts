@@ -183,7 +183,8 @@ export function rootReducer(previousState = initialState, action) {
         panel: {
           ...previousState.panel,
           showIntrospectionModal: true
-        }
+        },
+        errorMessage: initialState.errorMessage,
       }
     case ActionTypes.HIDE_INTROSPECTION_MODAL:
       return {
