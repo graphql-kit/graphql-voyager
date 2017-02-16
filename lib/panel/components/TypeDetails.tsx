@@ -59,14 +59,18 @@ export default class TypeDetails extends React.Component<TypeDetailsProps, void>
     const {type} = this.props;
 
     return (
-      <div>
-        <h3>{type.name}</h3>
-        <Description
-          className="doc-type-description"
-          text={type.description}
-        />
-        {this.renderFields(type)}
-        {this.renderEnumValues(type)}
+      <div className="type-details">
+        <header>
+          <h3>{type.name}</h3>
+          <Description
+            className="doc-type-description"
+            text={type.description}
+          />
+        </header>
+        <div className="doc-categories">
+          {this.renderFields(type)}
+          {this.renderEnumValues(type)}
+        </div>
       </div>
     );
   }

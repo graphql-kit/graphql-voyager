@@ -12,6 +12,9 @@ import Divider from 'material-ui/Divider';
 interface RootSelectorProps {
   rootTypeId: string;
   schema: any;
+
+  color?: string;
+
   onChange: any;
 }
 
@@ -27,8 +30,16 @@ export default class RootSelector extends React.Component<RootSelectorProps, voi
     const {
       onChange,
       rootTypeId,
+      color,
       schema,
     } = this.props;
+
+    let labelStyle = {}, style = {}, iconStyle = {};
+    if (color) {
+      labelStyle = { color: color, height: '22px', lineHeight: '22px' };
+      style = { height: '22px' };
+      iconStyle = { top: '-2px' };
+    }
 
 
     if (!schema || !rootTypeId)
@@ -48,7 +59,8 @@ export default class RootSelector extends React.Component<RootSelectorProps, voi
     const currentRoot = schema.types[rootTypeId].id;
 
     return (
-      <DropDownMenu className="dropdown-root" autoWidth={false}
+      <DropDownMenu style={style} iconStyle={iconStyle} labelStyle={labelStyle}
+        className="dropdown-root" autoWidth={false}
         onChange={(event, index, value) => {
           onChange(value);
         }} value={currentRoot}>

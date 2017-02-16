@@ -19,7 +19,7 @@ import { cyan500 } from 'material-ui/styles/colors';
 import ErrorBar from './ErrorBar';
 import IntrospectionModal from './IntrospectionModal';
 import TypeDoc from './TypeDoc';
-
+import ExtraTypeInfo from './ExtraTypeInfo';
 import LogoIcon from '../icons/logo-small.svg';
 
 interface PanelRootProps {
@@ -58,35 +58,38 @@ class PanelRoot extends React.Component<PanelRootProps, void> {
 
     return (
       <div className="panel-wrap">
-        <ErrorBar/>
-        <div className="title-area">
-          <div className="logo">
-            <LogoIcon/>
-            <h2><strong>GraphQL</strong> Voyager</h2>
-          </div>
-          <IntrospectionModal/>
-          <div ref="panel" className="menu-buttons">
-            <RaisedButton label="Load Introspection" primary={true} style={{flex: 1}}
-              onTouchTap={() => dispatch(showIntrospectionModal())}/>
+        <div>
+          <ErrorBar/>
+          <div className="title-area">
+            <div className="logo">
+              <LogoIcon/>
+              <h2><strong>GraphQL</strong> Voyager</h2>
+            </div>
+            <IntrospectionModal/>
+            <div ref="panel" className="menu-buttons">
+              <RaisedButton label="Load Introspection" primary={true} style={{flex: 1}}
+                onTouchTap={() => dispatch(showIntrospectionModal())}/>
 
+            </div>
+            <Popover
+              open={menuOpened}
+              anchorEl={$panel}
+              anchorOrigin={{horizontal: 'left', vertical: 'top'}}
+              targetOrigin={{horizontal: 'left', vertical: 'top'}}
+              onRequestClose={() => dispatch(toggleMenu())}
+            >
+              <Settings color="white"/>
+            </Popover>
           </div>
-          <Popover
-            open={menuOpened}
-            anchorEl={$panel}
-            anchorOrigin={{horizontal: 'left', vertical: 'top'}}
-            targetOrigin={{horizontal: 'left', vertical: 'top'}}
-            onRequestClose={() => dispatch(toggleMenu())}
-          >
-            <Settings/>
-          </Popover>
+          <TypeDoc/>
+          <div className={classNames({
+            'loading-box': true,
+            'visible': isLoading
+          })}>
+            <h1>Loading</h1>
+          </div>
         </div>
-        <TypeDoc/>
-        <div className={classNames({
-          'loading-box': true,
-          'visible': isLoading
-        })}>
-          <h1>Loading</h1>
-        </div>
+        <ExtraTypeInfo/>
       </div>
     );
   }

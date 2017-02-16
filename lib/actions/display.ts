@@ -49,3 +49,12 @@ export function clearError() {
     type: CLEAR_ERROR
   }
 }
+
+export const CHANGE_EXTRA_INFO_TYPE = 'CHANGE_EXTRA_INFO_TYPE';
+
+export function changeExtraInfoType(type) {
+  return {
+    type: CHANGE_EXTRA_INFO_TYPE,
+    payload: type
+  }
+}

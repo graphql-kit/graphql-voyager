@@ -20,6 +20,8 @@ interface SettingsProps {
   onChangeSort?: any;
   onChangeSkipRelay?: any;
   onChangeRoot?: any;
+
+  color?: string;
   schema: any;
 }
 
@@ -53,20 +55,39 @@ export class Settings extends React.Component<SettingsProps, void> {
       skipRelay,
       rootTypeId,
       schema,
+      color,
 
       onChangeSort,
       onChangeSkipRelay,
       onChangeRoot
     } = this.props;
+
+    color = 'white';
+    let style = color ? {color: color, fill: color} : {};
     return (
       <div className="menu-content">
-        <h3 style={{margin: 0}}> Root Node </h3>
-        <RootSelector schema={schema} rootTypeId={rootTypeId} onChange={(root) => onChangeRoot(root) }/>
-        <h3> Options </h3>
-        <Checkbox label="Sort by Alphabet" checked={sortByAlphabet}
-          onCheck={(e, val) => onChangeSort(val)} />
-        <Checkbox label="Skip Relay" checked={skipRelay}
-          onCheck={(e, val) => onChangeSkipRelay(val)} />
+        <div className="setting-change-root">
+          <h3> Root Node </h3>
+          <RootSelector
+            color={color}
+            schema={schema}
+            rootTypeId={rootTypeId}
+            onChange={(root) => onChangeRoot(root) }
+          />
+        </div>
+        <div className="setting-other-options">
+          <h3> Options </h3>
+          <div className="checkbox-wrap">
+            <Checkbox label="Sort by Alphabet" checked={sortByAlphabet} iconStyle={style}
+              labelStyle={style}
+              onCheck={(e, val) => onChangeSort(val)} />
+          </div>
+          <div className="checkbox-wrap">
+            <Checkbox label="Skip Relay" checked={skipRelay} iconStyle={style}
+              labelStyle={style}
+              onCheck={(e, val) => onChangeSkipRelay(val)} />
+          </div>
+        </div>
       </div>
     )
   }

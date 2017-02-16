@@ -1,31 +1,25 @@
 import * as React from "react";
-import Popover, { PopoverAnimationHorizontal } from 'material-ui/Popover';
 
 import Description from './Description';
-import TypeDetails from './TypeDetails';
 import {
   isBuiltInScalarType,
   isScalarType,
   isInputObjectType,
 } from '../../introspection';
 
+import { store } from '../../redux';
+
+import {
+  changeExtraInfoType
+} from '../../actions/';
+
 interface TypeNameProps {
   type: any;
 }
 
-interface TypeNameState {
-  isDetailsOpen: boolean;
-}
-
-export default class TypeName extends React.Component<TypeNameProps, TypeNameState> {
-  constructor(props) {
-    super(props);
-    this.state = {isDetailsOpen: false};
-  }
-
+export default class TypeName extends React.Component<TypeNameProps, {}> {
   render() {
     const { type } = this.props;
-    const { isDetailsOpen } = this.state;
 
     let className;
     if (isBuiltInScalarType(type))
@@ -38,25 +32,11 @@ export default class TypeName extends React.Component<TypeNameProps, TypeNameSta
     const $anchor = this.refs['popurAnchor'];
     return (
       <span ref="popurAnchor" className={className}
-       onClick={() => {
-         this.setState({...this.state, isDetailsOpen: true});
+       onClick={(event) => {
+         store.dispatch(changeExtraInfoType(type));
+         event.stopPropagation();
        }}
       >
-        <Popover
-          open={isDetailsOpen}
-          // anchorEl={$anchor}
-          // anchorOrigin={{horizontal: 'left', vertical: 'top'}}
-          // targetOrigin={{horizontal: 'left', vertical: 'top'}}
-          onRequestClose={() => {
-            this.setState({...this.state, isDetailsOpen: false});
-          }}
-          animation={PopoverAnimationHorizontal}
-          canAutoPosition={false}
-          className="details-popover"
-          useLayerForClickAway={false}
-        >
-          <TypeDetails type={type}/>
-        </Popover>
         {type.name}
       </span>
     );

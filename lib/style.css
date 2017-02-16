@@ -30,15 +30,22 @@ body > main {
   height: 100%;
   background: #fff;
   box-sizing: border-box;
-  box-shadow: 6px 0 10px -2px rgba(0, 0, 0, 0.09);
   position: relative;
   z-index: 10;
 }
 
 .panel-wrap {
-  display: flex;
-  flex-direction: column;
   height: 100%;
+
+  & > div:first-child {
+    display: flex;
+    flex-direction: column;
+    background: white;
+    position: relative;
+    z-index: 5;
+    box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.09);
+    height: 100%;
+  }
 }
 
 .panel-content {
@@ -544,6 +551,51 @@ g.graph > polygon {
   width: 290px;
   padding: 20px;
   box-sizing: border-box;
+
+  & h3 {
+    font-weight: normal;
+  }
+}
+
+.setting-change-root > h3 {
+  margin: 0;
+}
+
+.modal-content .menu-content {
+  display: flex;
+  width: 100%;
+  padding: 10px 0;
+  color: white;
+
+  & > div {
+    flex: 1;
+  }
+
+  & .setting-change-root {
+    display: flex;
+    align-items: center;
+
+    & h3 {
+      white-space: nowrap;
+      font-size: 14px;
+      margin-right: 20px;
+    }
+  }
+
+  & .setting-other-options {
+    & h3 {
+      display: none;
+    }
+
+    & {
+      display: flex;
+    }
+
+    & .checkbox-wrap {
+      white-space: nowrap;
+      padding: 0 10px;
+    }
+  }
 }
 
 .menu-buttons {
@@ -586,14 +638,38 @@ g.graph > polygon {
   display: flex;
 }
 
-.details-popover {
-  left: 320px !important;
-  top: 50% !important;
+.extra-details-panel {
+  left: 320px;
+  top: 50%;
+  overflow-y: auto;
 
-  transform: translateY(-50%) !important;
+  transform: translateY(-50%) translateX(-110%);
   width: 320px;
   height: 75%;
-  padding: 10px;
+  padding: 10px 20px;
+  position: absolute;
+  background: white;
+  box-shadow: 0px 0 10px 3px rgba(0, 0, 0, 0.09);
+
+  transition: all 0.45s ease-out;
+  &.opened {
+    transform: translateY(-50%);
+  }
+  > button {
+    position: absolute !important;
+    right: 20px;
+  }
+}
+
+.type-details {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  & > .doc-categories {
+    flex: 1;
+    overflow-y: auto;
+  }
 }
 
 .modal-root {
@@ -631,6 +707,7 @@ g.graph > polygon {
       margin: 0 auto;
       display: block;
       width: auto;
+      user-select: none;
     }
   }
 }
@@ -750,7 +827,7 @@ g.graph > polygon {
 }
 
 .introspection-card.active {
-  border-color: #00bcd4;
+  border-color: #4fa5ae;
   box-shadow: 0px 0px 10px 2px rgba(39, 84, 89, 0.23);
 }
 
