@@ -625,7 +625,7 @@ g.graph > polygon {
   display: flex;
   flex-direction: column;
   height: 100%;
-  background-color: #05243d;
+  background-color: #0b2840;
   color: white;
 
   & > img {
