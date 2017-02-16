@@ -633,14 +633,6 @@ g.graph > polygon {
       width: auto;
     }
   }
-
-  & > div > button {
-    /*background-color: var(--logo-color);
-
-    &:hover {
-      background-color: color(var(--logo-color) l(- 3%)) !important;
-    }*/
-  }
 }
 
 .modal-cards {
@@ -687,7 +679,6 @@ g.graph > polygon {
     height: 100%;
     padding: 10px;
     box-sizing: border-box;
-    margin-top: 10px;
   }
 
   & > textarea:empty {
@@ -719,6 +710,11 @@ g.graph > polygon {
   & .card-header > p {
     font-style: italic;
     color: #eee;
+    margin: 10px 0;
+  }
+
+  & .card-header {
+    padding-bottom: 10px;
   }
 
   & a {
@@ -741,7 +737,7 @@ g.graph > polygon {
 
   vertical-align: middle;
 
-  & h1 {
+  & h2 {
     font-weight: normal;
   }
 

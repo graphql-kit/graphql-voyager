@@ -130,7 +130,7 @@ class IntrospectionModal extends React.Component<IntrospectionModalProps, Intros
                   'introspection-card': true,
                   'active': name === currentPreset
                 })} onClick={() => this.switchPresetValue(name)}>
-                  <h1> {name} </h1>
+                  <h2> {name} </h2>
                 </div>
               )}
             </div>
