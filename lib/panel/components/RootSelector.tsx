@@ -1,16 +1,14 @@
 import * as _ from 'lodash';
 import * as React from "react";
-import { connect } from "react-redux"
 
-import { getSchemaSelector } from '../../introspection';
-import { isNode } from '../../graph/';
+import { isNode, getDefaultRoot } from '../../graph/';
 
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
 import Divider from 'material-ui/Divider';
 
 interface RootSelectorProps {
-  rootTypeId: string;
+  rootTypeId?: string;
   schema: any;
 
   color?: string;
@@ -18,20 +16,13 @@ interface RootSelectorProps {
   onChange: any;
 }
 
-function mapStateToProps(state) {
-  return {
-    rootTypeId: state.displayOptions.rootTypeId,
-    schema: getSchemaSelector(state),
-  };
-}
-
 export default class RootSelector extends React.Component<RootSelectorProps, void> {
   render() {
-    const {
-      onChange,
+    let {
       rootTypeId,
       color,
       schema,
+      onChange,
     } = this.props;
 
     let labelStyle = {}, style = {}, iconStyle = {};
@@ -41,10 +32,10 @@ export default class RootSelector extends React.Component<RootSelectorProps, voi
       iconStyle = { top: '-2px' };
     }
 
-
-    if (!schema || !rootTypeId)
+    if (schema === null)
       return null;
 
+    rootTypeId = rootTypeId || getDefaultRoot(schema);
     let types = schema.types;
 
     const queryType = schema.types[schema.queryType];

@@ -19,11 +19,15 @@ export function isNode(type) {
   );
 }
 
+export function getDefaultRoot(schema) {
+  return schema.queryType;
+}
+
 function getTypeGraph(schema, rootTypeId) {
-  if (schema === null || rootTypeId === null)
+  if (schema === null)
     return null;
 
-  return buildGraph(rootTypeId);
+  return buildGraph(rootTypeId || getDefaultRoot(schema));
 
   function getEdgeTargets(type) {
     return _([

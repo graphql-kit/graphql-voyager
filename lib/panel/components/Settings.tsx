@@ -5,45 +5,29 @@ import Checkbox from 'material-ui/Checkbox';
 import RootSelector from './RootSelector';
 
 import { getSchemaSelector } from '../../introspection';
-
-import {
-  changeActiveIntrospection,
-  changeSortByAlphabet,
-  changeSkipRelay,
-  changeRootType
-} from '../../actions/';
+import { changeDisplayOptions } from '../../actions/';
 
 interface SettingsProps {
-  sortByAlphabet: boolean;
-  skipRelay: boolean;
-  rootTypeId: string;
-  onChangeSort?: any;
-  onChangeSkipRelay?: any;
-  onChangeRoot?: any;
-
-  color?: string;
   schema: any;
+  options: any;
+  disabled: boolean;
+  color?: string;
+  onChange: any;
 }
 
 function mapStateToProps(state) {
+  const schema = getSchemaSelector(state);
   return {
-    sortByAlphabet: state.displayOptions.sortByAlphabet,
-    skipRelay: state.displayOptions.skipRelay,
-    rootTypeId: state.displayOptions.rootTypeId,
-    schema: getSchemaSelector(state)
+    options: state.displayOptions,
+    schema: schema,
+    disabled: !schema,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    onChangeSort: (val) => {
-      dispatch(changeSortByAlphabet(val));
-    },
-    onChangeSkipRelay: (val) => {
-      dispatch(changeSkipRelay(val));
-    },
-    onChangeRoot: (root) => {
-      dispatch(changeRootType(root));
+    onChange: (options) => {
+      dispatch(changeDisplayOptions(options));
     }
   }
 }
@@ -51,19 +35,19 @@ function mapDispatchToProps(dispatch) {
 export class Settings extends React.Component<SettingsProps, void> {
   render() {
     let {
-      sortByAlphabet,
-      skipRelay,
-      rootTypeId,
       schema,
+      options,
       color,
-
-      onChangeSort,
-      onChangeSkipRelay,
-      onChangeRoot
+      disabled,
+      onChange,
     } = this.props;
+
+    if (disabled)
+      return null;
 
     color = 'white';
     let style = color ? {color: color, fill: color} : {};
+
     return (
       <div className="menu-content">
         <div className="setting-change-root">
@@ -71,21 +55,21 @@ export class Settings extends React.Component<SettingsProps, void> {
           <RootSelector
             color={color}
             schema={schema}
-            rootTypeId={rootTypeId}
-            onChange={(root) => onChangeRoot(root) }
+            rootTypeId={options.rootTypeId}
+            onChange={(rootTypeId) => onChange({...options, rootTypeId})}
           />
         </div>
         <div className="setting-other-options">
           <h3> Options </h3>
           <div className="checkbox-wrap">
-            <Checkbox label="Sort by Alphabet" checked={sortByAlphabet} iconStyle={style}
+            <Checkbox label="Sort by Alphabet" checked={options.sortByAlphabet} iconStyle={style}
               labelStyle={style}
-              onCheck={(e, val) => onChangeSort(val)} />
+              onCheck={(e,sortByAlphabet) => onChange({...options, sortByAlphabet})} />
           </div>
           <div className="checkbox-wrap">
-            <Checkbox label="Skip Relay" checked={skipRelay} iconStyle={style}
+            <Checkbox label="Skip Relay" checked={options.skipRelay} iconStyle={style}
               labelStyle={style}
-              onCheck={(e, val) => onChangeSkipRelay(val)} />
+              onCheck={(e,skipRelay) => onChange({...options, skipRelay})} />
           </div>
         </div>
       </div>

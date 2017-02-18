@@ -4,7 +4,6 @@ import * as ActionTypes from '../actions/'
 import {
   githubIntrospection,
   swapiIntrospection,
-  getSchemaSelector,
   extractTypeId,
 } from '../introspection';
 
@@ -20,7 +19,8 @@ var initialState = {
     activePreset: null,
   },
   panel: {
-    showIntrospectionModal: true
+    showIntrospectionModal: false,
+    notApplied: null,
   },
   displayOptions: {
     rootTypeId: null,
@@ -59,21 +59,18 @@ export function rootReducer(previousState = initialState, action) {
   const { type, error } = action;
   switch(type) {
     case ActionTypes.CHANGE_ACTIVE_INTROSPECTION:
-      let newState = {
+      return {
         ...previousState,
         introspection: {
           ...previousState.introspection,
-          activePreset: action.payload,
+          activePreset: action.payload.presetName,
         },
-        displayOptions: {...initialState.displayOptions},
+        displayOptions: action.payload.displayOptions || initialState.displayOptions,
         svgCache: [],
         currentSvgIndex: null,
         graphView: initialState.graphView,
         selected: initialState.selected,
       };
-
-      newState.displayOptions.rootTypeId = getSchemaSelector(newState).queryType;
-      return newState;
     case ActionTypes.CHANGE_CUSTOM_INTROSPECTION:
       return {
         ...previousState,
@@ -183,20 +180,70 @@ export function rootReducer(previousState = initialState, action) {
         },
       };
     case ActionTypes.SHOW_INTROSPECTION_MODAL:
+      const customPreset = previousState.introspection.presets['custom'];
+      const customPresetText = customPreset ? JSON.stringify(customPreset, null, 2) : '';
       return {
         ...previousState,
         panel: {
           ...previousState.panel,
-          showIntrospectionModal: true
+          showIntrospectionModal: true,
+          notApplied: {
+            activePreset: previousState.introspection.activePreset,
+            displayOptions: previousState.displayOptions,
+            customPresetText
+          }
         },
         errorMessage: initialState.errorMessage,
+      }
+    case ActionTypes.CHANGE_NOT_APPLIED_ACTIVE_PRESET:
+      const previousNa = previousState.panel.notApplied;
+      const naActivePreset = action.payload;
+      if (naActivePreset === previousNa.activePreset)
+        return previousState;
+
+      return {
+        ...previousState,
+        panel: {
+          ...previousState.panel,
+          notApplied: {
+            ...previousState.panel.notApplied,
+            activePreset: naActivePreset,
+            displayOptions: initialState.displayOptions,
+          }
+        },
+        errorMessage: initialState.errorMessage,
+      }
+    case ActionTypes.CHANGE_NOT_APPLIED_CUSTOM_PRESET:
+      return {
+        ...previousState,
+        panel: {
+          ...previousState.panel,
+          notApplied: {
+            ...previousState.panel.notApplied,
+            displayOptions: initialState.displayOptions,
+            customPresetText: action.payload,
+          },
+        },
+        errorMessage: initialState.errorMessage,
+      }
+    case ActionTypes.CHANGE_NOT_APPLIED_DISPLAY_OPTIONS:
+      return {
+        ...previousState,
+        panel: {
+          ...previousState.panel,
+          notApplied: {
+            ...previousState.panel.notApplied,
+            displayOptions: action.payload,
+          },
+        },
       }
     case ActionTypes.HIDE_INTROSPECTION_MODAL:
       return {
         ...previousState,
         panel: {
           ...previousState.panel,
-          showIntrospectionModal: false
+          showIntrospectionModal: false,
+          notApplied: null,
         }
       }
     case ActionTypes.TOGGLE_MENU:

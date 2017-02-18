@@ -202,24 +202,42 @@ function assignTypesAndIDs(schema) {
   schema.types = _.keyBy(schema.types, 'id');
 }
 
+function getSchema(introspection:any, sortByAlphabet:boolean, skipRelay:boolean) {
+  if (!introspection)
+    return null;
+
+  //TODO: Check introspection result for errors
+  var schema = simplifySchema(introspection.data.__schema);
+
+  if (sortByAlphabet)
+    schema =  sortIntrospection(schema);
+
+  assignTypesAndIDs(schema);
+
+  if (skipRelay)
+    markRelayTypes(schema);
+  return schema;
+}
+
 export const getSchemaSelector = createSelector(
   (state:any) => state.introspection.presets[state.introspection.activePreset],
   (state:any) => state.displayOptions.sortByAlphabet,
   (state:any) => state.displayOptions.skipRelay,
-  (introspection, sortByAlphabet, skipRelay) => {
-    if (!introspection || introspection === '')
+  getSchema
+);
+
+export const getNaSchemaSelector = createSelector(
+  (state:any) => {
+    if (state.panel.notApplied === null)
       return null;
 
-    //TODO: Check introspection result for errors
-    var schema = simplifySchema(introspection.data.__schema);
-
-    if (sortByAlphabet)
-      schema =  sortIntrospection(schema);
-
-    assignTypesAndIDs(schema);
-
-    if (skipRelay)
-      markRelayTypes(schema);
-    return schema;
-  }
+    const activePreset = state.panel.notApplied.activePreset;
+    const customPresetText = state.panel.notApplied.customPresetText;
+    if (activePreset === 'custom')
+      return JSON.parse(customPresetText);
+    return state.introspection.presets[activePreset]
+  },
+  (state:any) => _.get(state, 'panel.notApplied.displayOptions.sortByAlphabet'),
+  (state:any) => _.get(state, 'panel.notApplied.displayOptions.skipRelay'),
+  getSchema
 );

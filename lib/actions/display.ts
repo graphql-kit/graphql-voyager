@@ -7,24 +7,6 @@ export function changeDisplayOptions(options) {
   };
 }
 
-export function changeSortByAlphabet(state) {
-  return changeDisplayOptions({
-    sortByAlphabet: state
-  });
-}
-
-export function changeSkipRelay(state) {
-  return changeDisplayOptions({
-    skipRelay: state
-  });
-}
-
-export function changeRootType(id: string) {
-  return changeDisplayOptions({
-    rootTypeId: id
-  });
-}
-
 export const TOGGLE_MENU = 'TOGGLE_MENU';
 
 export function toggleMenu() {

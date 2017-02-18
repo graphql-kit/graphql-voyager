@@ -2,6 +2,7 @@ import './style.css';
 
 import {
   reportError,
+  showIntrospectionModal,
   hideIntrospectionModal,
   changeActiveIntrospection
 } from './actions';
@@ -20,6 +21,7 @@ window.onerror = (msg, url, line, col, error) => {
   store.dispatch(reportError(error.toString()));
 };
 
+store.dispatch(showIntrospectionModal())
 if (DEBUG_INITIAL_PRESET) {
   //store.dispatch(hideIntrospectionModal())
   //store.dispatch(changeActiveIntrospection(DEBUG_INITIAL_PRESET));
