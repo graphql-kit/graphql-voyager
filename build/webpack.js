@@ -25,7 +25,7 @@ module.exports = function() {
       fs: "empty"
     },
     entry: IS_PRODUCTION ? {
-      'index': ['./lib/index.ts', './lib/vendor.ts']
+      'index': ['./lib/vendor.ts', './lib/index.ts']
     } : {
       'index': './lib/index.ts',
       'vendor': './lib/vendor.ts'
@@ -109,7 +109,7 @@ module.exports = function() {
       new webpack.DefinePlugin({
         'VERSION': VERSION,
         'DEBUG': !!IS_PRODUCTION,
-        'DEBUG_INITIAL_PRESET': '"swapi"'
+        'DEBUG_INITIAL_PRESET': IS_PRODUCTION ? 'false': '"Star Wars API"'
       }),
 
       new HtmlWebpackPlugin({
@@ -128,7 +128,7 @@ module.exports = function() {
     node: {
       console: false,
       global: false,
-      process: false,
+      process: 'mock',
       Buffer: false,
       fs: true,
       global: true,
