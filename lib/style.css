@@ -751,6 +751,7 @@ g.graph > polygon {
   transition: all 0.3s ease-out;
 
   & > textarea {
+    resize: none;
     display: block;
     width: 100%;
     height: 100%;
