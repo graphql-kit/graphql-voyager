@@ -23,6 +23,9 @@ class ErrorBar extends React.Component<ErrorBarProps, void> {
       dispatch,
     } = this.props;
 
+    if (!errorMessage)
+      return null;
+
     return (
       <Snackbar
         open={errorMessage !== null}
