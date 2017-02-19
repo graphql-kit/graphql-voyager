@@ -1,5 +1,6 @@
 import * as _ from 'lodash';
 import { createSelector } from 'reselect';
+import { buildClientSchema } from 'graphql';
 
 import { store } from '../redux';
 import { typeNameToId } from './utils';
@@ -202,7 +203,7 @@ function assignTypesAndIDs(schema) {
   schema.types = _.keyBy(schema.types, 'id');
 }
 
-function getSchema(introspection:any, sortByAlphabet:boolean, skipRelay:boolean) {
+export function getSchema(introspection:any, sortByAlphabet:boolean, skipRelay:boolean) {
   if (!introspection)
     return null;
 
@@ -234,10 +235,26 @@ export const getNaSchemaSelector = createSelector(
     const activePreset = state.panel.notApplied.activePreset;
     const customPresetText = state.panel.notApplied.customPresetText;
     if (activePreset === 'custom')
-      return JSON.parse(customPresetText);
-    return state.introspection.presets[activePreset]
+      return customPresetText;
+    return state.introspection.presets[activePreset] || null;
   },
   (state:any) => _.get(state, 'panel.notApplied.displayOptions.sortByAlphabet'),
   (state:any) => _.get(state, 'panel.notApplied.displayOptions.skipRelay'),
-  getSchema
+  (introspection, sortByAlphabet, skipRelay) => {
+    if (introspection === null)
+      return {schema: null};
+
+    try {
+      if (typeof introspection === 'string')
+        introspection = JSON.parse(introspection);
+
+      //Used only to validate introspection so result is ignored
+      buildClientSchema(introspection.data);
+
+      const schema = getSchema(introspection, sortByAlphabet, skipRelay);
+      return {schema};
+    } catch (e) {
+      return {error: e.toString(), schema: null};
+    }
+  }
 );

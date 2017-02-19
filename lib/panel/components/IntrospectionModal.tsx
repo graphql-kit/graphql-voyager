@@ -55,7 +55,10 @@ class IntrospectionModal extends React.Component<IntrospectionModalProps, Intros
   }
 
   handleTextChange(event) {
-    this.props.dispatch(changeNaCustomPreset(event.target.value));
+    let text = event.target.value;
+    if (text === '')
+      text = null;
+    this.props.dispatch(changeNaCustomPreset(text));
   }
 
   handlePresetChange(name) {
@@ -77,7 +80,7 @@ class IntrospectionModal extends React.Component<IntrospectionModalProps, Intros
     } = this.props;
 
     if (activePreset === 'custom')
-      dispatch(changeCustomIntrospection(customPresetText));
+      dispatch(changeCustomIntrospection(JSON.parse(customPresetText)));
 
     dispatch(changeActiveIntrospection(activePreset, displayOptions));
     this.props.dispatch(hideIntrospectionModal());
@@ -116,7 +119,10 @@ class IntrospectionModal extends React.Component<IntrospectionModalProps, Intros
           <div key={name} className={classNames({
             'introspection-card': true,
             'active': name === activePreset
-          })} onClick={() => this.handlePresetChange(name)}>
+          })} onClick={() => {
+            if (name !== activePreset)
+              this.handlePresetChange(name)
+          }}>
             <h2> {name} </h2>
           </div>
         ).value()}
@@ -130,7 +136,7 @@ class IntrospectionModal extends React.Component<IntrospectionModalProps, Intros
         <div className={classNames({
           'introspection-card': true,
           'active': isActive
-        })} onClick={() => this.handlePresetChange('custom')}>
+        })} onClick={() => isActive || this.handlePresetChange('custom')}>
           <div className="card-header">
             <h2> Custom Introspection </h2>
             <p> Run the introspection query against a GraphQL endpoint. Paste the result into the textarea below to view the model relationships.</p>
@@ -144,7 +150,7 @@ class IntrospectionModal extends React.Component<IntrospectionModalProps, Intros
             </ClipboardButton>
           </div>
           <div className="modal-introspection-custom-area">
-            <textarea value={customPresetText} disabled={isActive}
+            <textarea value={customPresetText || ''} disabled={!isActive}
             onChange={this.handleTextChange.bind(this)} placeholder="Paste Introspection Here"/>
           </div>
         </div>
@@ -161,7 +167,8 @@ class IntrospectionModal extends React.Component<IntrospectionModalProps, Intros
       displayOptions,
       customPresetText,
     } = notApplied;
-    let validSelected = (schema !== null);
+    let validSelected = (!schema.error);
+    console.log(schema.error);
 
     return (
       <div className="modal-content">
@@ -173,7 +180,7 @@ class IntrospectionModal extends React.Component<IntrospectionModalProps, Intros
           {this.customCard(activePreset === 'custom', customPresetText)}
         </div>
         <Settings disabled={!validSelected}
-        schema={schema}
+        schema={schema.schema}
         options={displayOptions}
         onChange={(options) => this.handleDisplayOptionsChange(options)}/>
         <RaisedButton label="Change Introspection"

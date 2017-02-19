@@ -181,7 +181,7 @@ export function rootReducer(previousState = initialState, action) {
       };
     case ActionTypes.SHOW_INTROSPECTION_MODAL:
       const customPreset = previousState.introspection.presets['custom'];
-      const customPresetText = customPreset ? JSON.stringify(customPreset, null, 2) : '';
+      const customPresetText =  customPreset ? JSON.stringify(customPreset, null, 2) : null;
       return {
         ...previousState,
         panel: {
