@@ -23,6 +23,6 @@ window.onerror = (msg, url, line, col, error) => {
 
 store.dispatch(showIntrospectionModal())
 if (DEBUG_INITIAL_PRESET) {
-  //store.dispatch(hideIntrospectionModal())
-  //store.dispatch(changeActiveIntrospection(DEBUG_INITIAL_PRESET));
+  store.dispatch(hideIntrospectionModal())
+  store.dispatch(changeActiveIntrospection(DEBUG_INITIAL_PRESET));
 }
