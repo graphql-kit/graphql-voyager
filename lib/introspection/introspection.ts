@@ -87,8 +87,13 @@ function simplifySchema(inSchema) {
 }
 
 function markRelayTypes(schema) {
-  schema.types[typeNameToId('Node')].isRelayType = true;
-  schema.types[typeNameToId('PageInfo')].isRelayType = true;
+  const nodeType = schema.types[typeNameToId('Node')];
+  if (nodeType)
+    nodeType.isRelayType = true;
+
+  const pageInfoType = schema.types[typeNameToId('PageInfo')];
+  if (pageInfoType)
+    pageInfoType.isRelayType = true;
 
   const edgeTypesMap = {};
 

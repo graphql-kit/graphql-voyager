@@ -4,16 +4,18 @@ import * as ActionTypes from '../actions/'
 import {
   githubIntrospection,
   swapiIntrospection,
+  brandFolderIntrospection,
+  hslIntrospection,
   extractTypeId,
 } from '../introspection';
 
 var initialState = {
   introspection: {
     presets: {
+      'Star Wars': swapiIntrospection,
+      'BrandFolder': brandFolderIntrospection,
+      'Helsinki Transport': hslIntrospection,
       'GitHub': githubIntrospection,
-      'Star Wars API': swapiIntrospection,
-      'Helsinki Transport': swapiIntrospection,
-      'BrandLover': swapiIntrospection,
       'custom': null
     },
     activePreset: null,

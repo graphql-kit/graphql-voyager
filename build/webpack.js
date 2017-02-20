@@ -112,7 +112,7 @@ module.exports = function() {
       new webpack.DefinePlugin({
         'VERSION': VERSION,
         'DEBUG': !!IS_PRODUCTION,
-        'DEBUG_INITIAL_PRESET': IS_PRODUCTION ? 'false': '"Star Wars API"'
+        'DEBUG_INITIAL_PRESET': IS_PRODUCTION ? 'false': '"Star Wars"'
       }),
 
       new HtmlWebpackPlugin({
