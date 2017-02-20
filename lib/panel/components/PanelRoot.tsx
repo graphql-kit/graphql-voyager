@@ -20,7 +20,9 @@ import ErrorBar from './ErrorBar';
 import IntrospectionModal from './IntrospectionModal';
 import TypeDoc from './TypeDoc';
 import ExtraTypeInfo from './ExtraTypeInfo';
+import LoadingAnimation from './LoadingAnimation';
 import LogoIcon from '../icons/logo-small.svg';
+
 
 interface PanelRootProps {
   isLoading: boolean;
@@ -86,7 +88,7 @@ class PanelRoot extends React.Component<PanelRootProps, void> {
             'loading-box': true,
             'visible': isLoading
           })}>
-            <h1>Loading</h1>
+            <LoadingAnimation loading={isLoading} />
           </div>
         </div>
         <ExtraTypeInfo/>

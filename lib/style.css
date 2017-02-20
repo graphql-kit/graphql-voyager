@@ -8,7 +8,7 @@
   --link-hover-color: #0262a0;
   --field-name-color: #224d6f;
   --builtin-color: #711c1c;
-  --modal-bg-color: #0b2840;
+  --modal-bg-color: var(--dark-bg-color);
 }
 
 body {
@@ -234,6 +234,7 @@ body > main {
     color: #00bcd4;
     color: var(--secondary-color);
     font-weight: bold;
+    white-space: nowrap;
   }
 }
 
@@ -625,7 +626,7 @@ g.graph > polygon {
   right: 0;
   top: 0;
   bottom: 0;
-  background: rgba(0,0,0, 0.31);
+  background: rgba(0, 0, 0, 0.8);
   z-index: 10;
 
   align-items: center;
@@ -835,4 +836,67 @@ g.graph > polygon {
 
 .selection-active .node.selected .type-title polygon {
     fill: #00bcd4;
+}
+
+@keyframes voyager-shake {
+  0% {
+    transform: rotateZ(0deg);
+  }
+
+  50% {
+    transform: rotateZ(2deg);
+  }
+
+  100% {
+    transform: rotateZ(0deg);
+  }
+}
+
+@keyframes signal-move {
+  0 {
+    opacity: 0.1;
+    transform: translate3d(0, 0, 0);
+  }
+
+  25% {
+    opacity: 1;
+    transform: translate3d(3px, -3px, 0);
+  }
+
+  50% {
+    opacity: 0.1;
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    opacity: 0.1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.loading-animation {
+  width: 180px;
+  & svg {
+    animation: voyager-shake 2s infinite;
+  }
+  & path {
+    fill: var(--secondary-color);
+  }
+
+  & .voyager-signal1, & .voyager-signal2, & .voyager-signal3 {
+    animation: signal-move 1s infinite;
+  }
+
+  & .voyager-signal2 {
+    animation-delay: 0.2s;
+  }
+
+  & .voyager-signal3 {
+    animation-delay: 0.4s;
+  }
+
+  & h1 {
+    text-align: center;;
+    color: var(--secondary-color);
+    letter-spacing: 4px;
+  }
 }

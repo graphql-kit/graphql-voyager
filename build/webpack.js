@@ -92,6 +92,9 @@ module.exports = function() {
             loader: 'react-svg-loader',
             options: {
               jsx: false,
+              svgo: {
+                plugins: [{mergePaths: false}]
+              }
             }
           }
         ]
