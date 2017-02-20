@@ -18,7 +18,7 @@ interface TypeDetailsProps {
 
 export default class TypeDetails extends React.Component<TypeDetailsProps, void> {
   renderFields(type) {
-    if (_.isEmpty(type.fields))
+    if (_.isEmpty(type.inputFields))
       return null;
 
     return (
@@ -27,7 +27,7 @@ export default class TypeDetails extends React.Component<TypeDetailsProps, void>
           {'fields'}
         </div>
         {_.map(type.inputFields, field => {
-          return <div className="doc-category-item">
+          return <div key={field.id} className="doc-category-item">
             <a className="field-name">
               {field.name}
             </a>

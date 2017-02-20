@@ -2,7 +2,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import * as classNames from 'classnames';
 
-import Popover, { PopoverAnimationHorizontal } from 'material-ui/Popover';
+import Popover from 'material-ui/Popover';
 import NavigationClose from 'material-ui/svg-icons/navigation/close';
 import IconButton from 'material-ui/IconButton';
 
@@ -38,9 +38,14 @@ class ExtraTypeInfo extends React.Component<ExtraTypeInfoProps, ExtraTypeInfoSta
   }
   render() {
     let { type, dispatch } = this.props;
+
+    //FIXME: implement animation correctly
+    //https://facebook.github.io/react/docs/animation.html
     let { localType } = this.state;
     if (type && (!localType || type.name !== localType.name)) {
-      this.setState({ localType: type });
+      setTimeout(() => {
+        this.setState({ localType: type });
+      });
     }
     return (
       <div

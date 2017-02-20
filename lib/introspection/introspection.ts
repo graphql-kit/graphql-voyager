@@ -169,6 +169,11 @@ function assignTypesAndIDs(schema) {
   _.each(schema.types, type => {
     type.id = typeNameToId(type.name);
 
+    _.each(type.inputFields, field => {
+      field.id = `FIELD::${type.name}::${field.name}`;
+      field.type = schema.types[field.type];
+    });
+
     _.each(type.fields, field => {
       field.id = `FIELD::${type.name}::${field.name}`;
       field.type = schema.types[field.type];
