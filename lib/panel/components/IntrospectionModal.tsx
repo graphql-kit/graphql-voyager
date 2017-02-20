@@ -1,7 +1,8 @@
 import * as _ from 'lodash';
-import * as React from "react";
-import { connect } from "react-redux"
-import * as ReactModal from "react-modal";
+import * as React from 'react';
+import { connect } from 'react-redux'
+import * as ReactModal from 'react-modal';
+import * as classnames from 'classnames';
 
 import AppBar from 'material-ui/AppBar';
 import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
@@ -133,12 +134,13 @@ class IntrospectionModal extends React.Component<IntrospectionModalProps, Intros
   customCard(isActive:boolean, customPresetText:string) {
     return (
       <div className="modal-introspection-custom">
-        <div className={classNames({
-          'introspection-card': true,
+        <div className={classNames('introspection-card', {
           'active': isActive
         })} onClick={() => isActive || this.handlePresetChange('custom')}>
           <div className="card-header">
             <h2> Custom Introspection </h2>
+          </div>
+          <div className="modal-introspection-custom-area">
             <p> Run the introspection query against a GraphQL endpoint. Paste the result into the textarea below to view the model relationships.</p>
             <ClipboardButton component="a" data-clipboard-text={introspectionQuery}
             className={classNames({
@@ -148,8 +150,6 @@ class IntrospectionModal extends React.Component<IntrospectionModalProps, Intros
             onClick={() => this.copy()}>
               Copy Introspection Query
             </ClipboardButton>
-          </div>
-          <div className="modal-introspection-custom-area">
             <textarea value={customPresetText || ''} disabled={!isActive}
             onChange={this.handleTextChange.bind(this)} placeholder="Paste Introspection Here"/>
           </div>
@@ -179,20 +179,28 @@ class IntrospectionModal extends React.Component<IntrospectionModalProps, Intros
           {this.predefinedCards(presetNames, activePreset)}
           {this.customCard(activePreset === 'custom', customPresetText)}
         </div>
-        <div className="modal-info-panel">
-          {!validSelected && (errorMessage ?
-            <div className="modal-error-message">{errorMessage}</div>:
-            <div className="modal-select-message">Please select introspection</div>
-          )}
+        <div className={classnames('modal-info-panel', {
+          '-message': !validSelected,
+          '-settings': validSelected
+        })}>
+          <div className={classnames('modal-message', 'content', {
+            '-error': errorMessage,
+            '-select': !errorMessage
+          })}>
+            {errorMessage ?
+              errorMessage:
+              "Please select introspection"
+            }
+          </div>
           <Settings disabled={!validSelected}
             schema={schema.schema}
             options={displayOptions}
             onChange={(options) => this.handleDisplayOptionsChange(options)}/>
-            <RaisedButton label="Change Introspection"
-            backgroundColor="#265759" disabledBackgroundColor="#1e4651"
-            disabledLabelColor="rbga(255,255,255,0.21)" labelColor="white"
-            disabled={!validSelected} onTouchTap={this.handleChange.bind(this)}/>
         </div>
+        <RaisedButton label="Change Introspection"
+        backgroundColor="#265759" disabledBackgroundColor="#1e4651"
+        disabledLabelColor="rbga(255,255,255,0.21)" labelColor="white"
+        disabled={!validSelected} onTouchTap={this.handleChange.bind(this)}/>
       </div>
     );
   }

@@ -42,9 +42,6 @@ export class Settings extends React.Component<SettingsProps, void> {
       onChange,
     } = this.props;
 
-    if (disabled)
-      return null;
-
     color = 'white';
     let style = color ? {color: color, fill: color} : {};
 
