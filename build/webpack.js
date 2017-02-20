@@ -125,7 +125,8 @@ module.exports = function() {
       }),
 
       new CopyWebpackPlugin([
-        { from: './demo/logo.png' }
+        { from: './demo/**/*.png' },
+        { from: './demo/**/*.ico' }
       ])
     ],
     node: {
