@@ -167,8 +167,8 @@ class IntrospectionModal extends React.Component<IntrospectionModalProps, Intros
       displayOptions,
       customPresetText,
     } = notApplied;
-    let validSelected = (!schema.error);
-    console.log(schema.error);
+    const validSelected = !!(schema.schema);
+    const errorMessage = schema.error;
 
     return (
       <div className="modal-content">
@@ -179,14 +179,20 @@ class IntrospectionModal extends React.Component<IntrospectionModalProps, Intros
           {this.predefinedCards(presetNames, activePreset)}
           {this.customCard(activePreset === 'custom', customPresetText)}
         </div>
-        <Settings disabled={!validSelected}
-        schema={schema.schema}
-        options={displayOptions}
-        onChange={(options) => this.handleDisplayOptionsChange(options)}/>
-        <RaisedButton label="Change Introspection"
-        backgroundColor="#265759" disabledBackgroundColor="#1e4651"
-        disabledLabelColor="rbga(255,255,255,0.21)" labelColor="white"
-        disabled={!validSelected} onTouchTap={this.handleChange.bind(this)}/>
+        <div className="modal-info-panel">
+          {!validSelected && (errorMessage ?
+            <div className="modal-error-message">{errorMessage}</div>:
+            <div className="modal-select-message">Please select introspection</div>
+          )}
+          <Settings disabled={!validSelected}
+            schema={schema.schema}
+            options={displayOptions}
+            onChange={(options) => this.handleDisplayOptionsChange(options)}/>
+            <RaisedButton label="Change Introspection"
+            backgroundColor="#265759" disabledBackgroundColor="#1e4651"
+            disabledLabelColor="rbga(255,255,255,0.21)" labelColor="white"
+            disabled={!validSelected} onTouchTap={this.handleChange.bind(this)}/>
+        </div>
       </div>
     );
   }

@@ -71,7 +71,6 @@ class PanelRoot extends React.Component<PanelRootProps, void> {
             <div ref="panel" className="menu-buttons">
               <RaisedButton label="Load Introspection" primary={true} style={{flex: 1}}
                 onTouchTap={() => dispatch(showIntrospectionModal())}/>
-
             </div>
             <Popover
               open={menuOpened}

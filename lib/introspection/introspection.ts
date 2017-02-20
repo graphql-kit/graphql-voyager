@@ -247,7 +247,7 @@ export const getNaSchemaSelector = createSelector(
   (state:any) => _.get(state, 'panel.notApplied.displayOptions.skipRelay'),
   (introspection, sortByAlphabet, skipRelay) => {
     if (introspection === null)
-      return {schema: null};
+      return {schema: null, error: null};
 
     try {
       if (typeof introspection === 'string')
@@ -257,7 +257,7 @@ export const getNaSchemaSelector = createSelector(
       buildClientSchema(introspection.data);
 
       const schema = getSchema(introspection, sortByAlphabet, skipRelay);
-      return {schema};
+      return {schema, error: null};
     } catch (e) {
       return {error: e.toString(), schema: null};
     }
