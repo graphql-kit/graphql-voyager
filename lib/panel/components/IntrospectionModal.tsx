@@ -192,7 +192,7 @@ class IntrospectionModal extends React.Component<IntrospectionModalProps, Intros
               "Please select introspection"
             }
           </div>
-          <Settings disabled={!validSelected}
+          <Settings color="white"
             schema={schema.schema}
             options={displayOptions}
             onChange={(options) => this.handleDisplayOptionsChange(options)}/>

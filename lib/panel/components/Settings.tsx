@@ -10,7 +10,6 @@ import { changeDisplayOptions } from '../../actions/';
 interface SettingsProps {
   schema: any;
   options: any;
-  disabled: boolean;
   color?: string;
   onChange: any;
 }
@@ -20,7 +19,6 @@ function mapStateToProps(state) {
   return {
     options: state.displayOptions,
     schema: schema,
-    disabled: !schema,
   };
 }
 
@@ -38,11 +36,9 @@ export class Settings extends React.Component<SettingsProps, void> {
       schema,
       options,
       color,
-      disabled,
       onChange,
     } = this.props;
 
-    color = 'white';
     let style = color ? {color: color, fill: color} : {};
 
     return (

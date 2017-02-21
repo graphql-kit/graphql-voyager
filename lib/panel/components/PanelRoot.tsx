@@ -67,6 +67,10 @@ class PanelRoot extends React.Component<PanelRootProps, void> {
               <LogoIcon/>
               <h2><strong>GraphQL</strong> Voyager</h2>
             </div>
+            <IconButton onTouchTap={() => dispatch(toggleMenu())}
+               style={{height: '36px', padding: 0, width: '36px'}}>
+               <SettingsIcon color={cyan500}/>
+            </IconButton>
             <IntrospectionModal/>
             <div ref="panel" className="menu-buttons">
               <RaisedButton label="Load Introspection" primary={true} style={{flex: 1}}
@@ -79,7 +83,7 @@ class PanelRoot extends React.Component<PanelRootProps, void> {
               targetOrigin={{horizontal: 'left', vertical: 'top'}}
               onRequestClose={() => dispatch(toggleMenu())}
             >
-              <Settings color="white"/>
+              <Settings/>
             </Popover>
           </div>
           <TypeDoc/>
