@@ -38,19 +38,15 @@
   version "0.9.35"
   resolved "https://registry.yarnpkg.com/@types/core-js/-/core-js-0.9.35.tgz#444064e63711cdcc62ea844d27642f6efc2285f2"
 
-"@types/react-dom@^0.14.19":
+"@types/react-dom@^0.14.23":
   version "0.14.23"
   resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-0.14.23.tgz#cecfcfad754b4c2765fe5d29b81b301889ad6c2e"
   dependencies:
     "@types/react" "*"
 
-"@types/react@*":
+"@types/react@*", "@types/react@^0.14.55":
   version "0.14.57"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-0.14.57.tgz#1878a8654fafdd1d381b8457292b6433498c5b62"
-
-"@types/react@^15.0.11":
-  version "15.0.11"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-15.0.11.tgz#640d2e817dc6962cd31a1e05d8798b6604324f17"
 
 "@types/requirejs@^2.1.28":
   version "2.1.28"
