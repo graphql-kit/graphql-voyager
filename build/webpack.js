@@ -116,7 +116,7 @@ module.exports = function() {
       }),
 
       new HtmlWebpackPlugin({
-        template: './demo/index.tmpl.html'
+        template: './demo/index.html'
       }),
 
       new ExtractTextPlugin({
