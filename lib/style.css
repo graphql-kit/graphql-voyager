@@ -279,6 +279,10 @@ body > main {
   margin-top: 0;
 }
 
+.doc-type-description a {
+  word-break: break-all;
+}
+
 .no-description {
   font-style:italic;
   color: #666;
@@ -971,5 +975,12 @@ g.graph > polygon {
     text-align: center;;
     color: var(--secondary-color);
     letter-spacing: 4px;
+  }
+}
+
+#svg-pan-zoom-controls {
+  & path {
+    fill-opacity: 0.75;
+    fill: #27535e;
   }
 }
