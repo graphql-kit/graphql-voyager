@@ -59,6 +59,8 @@ body > main {
 #viewport {
   height: 100%;
   width: 100%;
+  max-width: calc(100vw - 320px);
+  max-height: 100vh;
 }
 
 #viewport > svg {
@@ -997,6 +999,7 @@ g.graph > polygon {
   #panel_root, #viewport {
     height: 50%;
     width: 100%;
+    max-width: none;
   }
 
   .loading-box {
