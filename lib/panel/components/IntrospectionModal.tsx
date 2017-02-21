@@ -182,7 +182,7 @@ class IntrospectionModal extends React.Component<IntrospectionModalProps, Intros
     }
     else if (activePreset === 'custom') {
       infoMessage = 'Please paste your introspection';
-      infoClass = '-paste';
+      infoClass = '-select';
     }
 
     return (
