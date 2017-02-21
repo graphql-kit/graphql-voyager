@@ -170,6 +170,21 @@ class IntrospectionModal extends React.Component<IntrospectionModalProps, Intros
     const validSelected = !!(schema.schema);
     const errorMessage = schema.error;
 
+    let infoMessage = null;
+    let infoClass = null;
+    if (errorMessage !== null) {
+      infoMessage = errorMessage;
+      infoClass = '-error';
+    }
+    else if (activePreset === null) {
+      infoMessage = 'Please select introspection';
+      infoClass = '-select';
+    }
+    else if (activePreset === 'custom') {
+      infoMessage = 'Please paste your introspection';
+      infoClass = '-paste';
+    }
+
     return (
       <div className="modal-content">
         <div className="logo">
@@ -183,14 +198,8 @@ class IntrospectionModal extends React.Component<IntrospectionModalProps, Intros
           '-message': !validSelected,
           '-settings': validSelected
         })}>
-          <div className={classnames('modal-message', 'content', {
-            '-error': errorMessage,
-            '-select': !errorMessage
-          })}>
-            {errorMessage ?
-              errorMessage:
-              "Please select introspection"
-            }
+          <div className={classnames('modal-message', 'content', infoClass)}>
+            {infoMessage}
           </div>
           <Settings color="white"
             schema={schema.schema}
