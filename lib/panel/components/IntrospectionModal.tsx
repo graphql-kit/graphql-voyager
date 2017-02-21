@@ -201,7 +201,7 @@ class IntrospectionModal extends React.Component<IntrospectionModalProps, Intros
           <div className={classnames('modal-message', 'content', infoClass)}>
             {infoMessage}
           </div>
-          <Settings color="white"
+          <Settings color="#ffffff"
             schema={schema.schema}
             options={displayOptions}
             onChange={(options) => this.handleDisplayOptionsChange(options)}/>

@@ -29,7 +29,7 @@ export default class RootSelector extends React.Component<RootSelectorProps, voi
     if (color) {
       labelStyle = { color: color, height: '22px', lineHeight: '22px' };
       style = { height: '22px' };
-      iconStyle = { top: '-2px' };
+      iconStyle = { top: '-2px', padding: 0, height: 24, width: 26 };
     }
 
     if (schema === null)
