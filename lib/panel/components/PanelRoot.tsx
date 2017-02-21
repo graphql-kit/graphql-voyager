@@ -69,7 +69,7 @@ class PanelRoot extends React.Component<PanelRootProps, void> {
             </div>
             <IntrospectionModal/>
             <div ref="panel" className="menu-buttons">
-              <RaisedButton label="Load Introspection" primary={true} style={{flex: 1}}
+              <RaisedButton label="Change Introspection" primary={true} style={{flex: 1}}
                 onTouchTap={() => dispatch(showIntrospectionModal())}/>
             </div>
           </div>
