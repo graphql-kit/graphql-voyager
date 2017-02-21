@@ -643,7 +643,8 @@ g.graph > polygon {
   }
 
   & > .-select {
-    background: #51491e;
+    background: #194202;
+    text-transform: uppercase;
   }
 
   &.-settings {
@@ -657,6 +658,7 @@ g.graph > polygon {
   }
 
   &.-message {
+    text-align: center;
     & > .modal-message {
       transform: rotateX(0);
     }

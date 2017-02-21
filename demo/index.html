@@ -9,10 +9,10 @@
   <meta itemprop="name" property="og:title" content="GraphQL Voyager"/>
   <meta property="og:description" content="This is an example of a meta description. This will often show up in search results."/>
   <meta itemprop="description" name="description" content="This is an example of a meta description. This will often show up in search results.">
-  <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="96x96" href="/icons/favicon-96x96.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png">
-  <meta itemprop="image" property="og:image" content="/images/cover-image.jpg"/>
+  <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="icons/favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16x16.png">
+  <meta itemprop="image" property="og:image" content="images/cover-image.jpg"/>
   <meta name="theme-color" content="#ffffff">
   <style>
     #mobile-warning {
@@ -81,10 +81,12 @@
       if (document.cookie.indexOf('skip_mobile_warning=true') > -1) {
         warning.classList.add('hidden');
       } else {
-        skipBtn.onClick = skipBtn.ontouchstart = function() {
+        var handler = function() {
           warning.classList.add('hidden');
           document.cookie = "skip_mobile_warning=true; expires=Fri, 31 Dec 9999 23:59:59 GMT";
         }
+        skipBtn.addEventListener('touchstart', handler, false);
+        skipBtn.addEventListener('click', handler, false);
       }
     })()
   </script>
