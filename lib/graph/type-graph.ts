@@ -20,7 +20,7 @@ export function isNode(type) {
 }
 
 export function getDefaultRoot(schema) {
-  return schema.queryType;
+  return schema.queryType.id;
 }
 
 function getTypeGraph(schema, rootTypeId) {

@@ -80,7 +80,8 @@ function simplifySchema(inSchema) {
   return <any> {
     types: _(inSchema.types).map(convertType).keyBy('name').value(),
     queryType: inSchema.queryType.name,
-    mutationType: inSchema.mutationType ? inSchema.mutationType.name : null,
+    mutationType: _.get(inSchema, 'mutationType.name', null),
+    subscriptionType: _.get(inSchema, 'subscriptionType.name', null),
     //FIXME:
     //directives:
   };
@@ -168,8 +169,9 @@ function sortIntrospection(value) {
 }
 
 function assignTypesAndIDs(schema) {
-  schema.queryType = typeNameToId(schema.queryType);
-  schema.mutationType = typeNameToId(schema.mutationType);
+  schema.queryType = schema.types[schema.queryType];
+  schema.mutationType = schema.types[schema.mutationType];
+  schema.subscriptionType = schema.types[schema.subscriptionType];
 
   _.each(schema.types, type => {
     type.id = typeNameToId(type.name);

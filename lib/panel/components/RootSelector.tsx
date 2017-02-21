@@ -36,28 +36,32 @@ export default class RootSelector extends React.Component<RootSelectorProps, voi
       return null;
 
     rootTypeId = rootTypeId || getDefaultRoot(schema);
-    let types = schema.types;
+    let {
+      types,
+      queryType,
+      mutationType,
+      subscriptionType,
+    } = schema;
 
-    const queryType = schema.types[schema.queryType];
     types = _.omit(types, queryType.id);
-    const mutationType = schema.types[schema.mutationType];
     if (mutationType)
       types = _.omit(types, mutationType.id);
+    if (subscriptionType)
+      types = _.omit(types, subscriptionType.id);
 
     types = _(types).values().filter(isNode)
       .sortBy('name').value();
-
-    const currentRoot = schema.types[rootTypeId].id;
 
     return (
       <DropDownMenu style={style} iconStyle={iconStyle} labelStyle={labelStyle}
         className="dropdown-root" autoWidth={false}
         onChange={(event, index, value) => {
           onChange(value);
-        }} value={currentRoot}>
+        }} value={rootTypeId}>
 
         <MenuItem value={queryType.id} primaryText={queryType.name} />
         {mutationType && (<MenuItem value={mutationType.id} primaryText={mutationType.name} />)}
+        {subscriptionType && (<MenuItem value={subscriptionType.id} primaryText={subscriptionType.name} />)}
         <Divider/>
         {_.map(types, type => (
           <MenuItem key={type.id} value={type.id} primaryText={type.name} />
