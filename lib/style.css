@@ -984,3 +984,74 @@ g.graph > polygon {
     fill: #27535e;
   }
 }
+
+@media screen and (max-width: 767px) {
+  main {
+    flex-direction: column;
+  }
+
+  #panel_root, #viewport {
+    height: 50%;
+    width: 100%;
+  }
+
+  .loading-box {
+    left: 0;
+    top: 50%;
+  }
+  .modal-introspection-predefined {
+    padding-right: 0;
+  }
+
+  .modal-introspection-predefined .introspection-card {
+    width: 100%;
+    height: 50px;
+    margin: 10px 0;
+  }
+
+  .modal-introspection-custom {
+    display: none;
+  }
+
+  .menu-content, .setting-other-options {
+    flex-wrap: wrap;
+
+    & > div {
+      width: 100%;
+      margin: 2px 0;
+      padding: 0 !important;
+    }
+  }
+
+  .logo {
+    display: none;
+  }
+
+  .modal-info-panel.-settings {
+    height: 110px;
+  }
+
+  .modal-root {
+    width: 90%;
+    height: 90%;
+  }
+
+  .title-area .logo {
+    padding: 10px 0;
+  }
+
+  .title-area svg {
+    height: 45px;
+  }
+
+  .loading-animation {
+    text-align: center;
+    & svg {
+      max-width: 40%;
+    }
+
+    & h1 {
+      font-size: 1.5em;
+    }
+  }
+}
