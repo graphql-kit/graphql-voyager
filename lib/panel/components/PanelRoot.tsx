@@ -63,10 +63,12 @@ class PanelRoot extends React.Component<PanelRootProps, void> {
         <div>
           <ErrorBar/>
           <div className="title-area">
-            <div className="logo">
-              <LogoIcon/>
-              <h2><strong>GraphQL</strong> Voyager</h2>
-            </div>
+            <a href="https://github.com/APIs-guru/graphql-voyager">
+              <div className="logo">
+                <LogoIcon/>
+                <h2><strong>GraphQL</strong> Voyager</h2>
+              </div>
+            </a>
             <IntrospectionModal/>
             <div ref="panel" className="menu-buttons">
               <RaisedButton label="Change Introspection" primary={true} style={{flex: 1}}

@@ -218,6 +218,11 @@ body > main {
   }
 }
 
+.title-area a, .title-area a:hover {
+  text-decoration: none;
+  outline: none;
+}
+
 .title-area svg {
   & path {
     fill: var(--logo-color);
