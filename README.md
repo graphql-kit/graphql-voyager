@@ -14,7 +14,7 @@ You can also explore number of public GraphQL APIs from [our list](https://githu
 ## Features
   + Quick navigation on graph
   + Left panel which provides more detailed information about every type
-  + "Skip Relay" option that simplify graph by removing Relay wrapper classes
+  + "Skip Relay" option that simplifies graph by removing Relay wrapper classes
   + Ability to choose any type to be a root of the graph
 
 ## Credits
