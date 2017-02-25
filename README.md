@@ -8,6 +8,10 @@
 Represent any GraphQL API as an interactive graph. It's time to finally see **the graph** behind GraphQL.
 You can also explore number of public GraphQL APIs from [our list](https://github.com/APIs-guru/graphql-apis).
 
+> With graphql-voyager you can visually explore your GraphQL API as an interactive graph. This is a great tool when designing or discussing your data model. It includes multiple example GraphQL schemas and also allows you to connect it to your own GraphQL endpoint. What are you waiting for, explore your API!
+
+_[GraphQL Weekly #42](https://graphqlweekly.com/issues/42)_
+
 ## [Live Demo](https://apis.guru/graphql-voyager/)
 [![voyager demo](./docs/demo-gif.gif)](https://apis.guru/graphql-voyager/)
 
