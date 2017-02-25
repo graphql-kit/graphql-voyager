@@ -14,7 +14,7 @@ var initialState = {
     presets: {
       'Star Wars': swapiIntrospection,
       'BrandFolder': brandFolderIntrospection,
-      'Helsinki Transport': hslIntrospection,
+      'OpenTripPlanner': hslIntrospection,
       'GitHub': githubIntrospection,
       'custom': null
     },
