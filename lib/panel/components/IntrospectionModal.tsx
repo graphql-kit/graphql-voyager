@@ -208,7 +208,7 @@ class IntrospectionModal extends React.Component<IntrospectionModalProps, Intros
         </div>
         <RaisedButton label="Change Introspection"
         backgroundColor="#265759" disabledBackgroundColor="#1e4651"
-        disabledLabelColor="rbga(255,255,255,0.21)" labelColor="white"
+        disabledLabelColor="rbga(255,255,255,0.21)" labelColor="#ffffff"
         disabled={!validSelected} onTouchTap={this.handleChange.bind(this)}/>
       </div>
     );
