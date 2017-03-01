@@ -10,7 +10,7 @@ import {
 import { store } from '../../redux';
 
 import {
-  changeExtraInfoType
+  changeSelectedTypeInfo
 } from '../../actions/';
 
 interface TypeNameProps {
@@ -33,7 +33,7 @@ export default class TypeName extends React.Component<TypeNameProps, {}> {
     return (
       <span ref="popurAnchor" className={className}
        onClick={(event) => {
-         store.dispatch(changeExtraInfoType(type));
+         store.dispatch(changeSelectedTypeInfo(type));
          event.stopPropagation();
        }}
       >

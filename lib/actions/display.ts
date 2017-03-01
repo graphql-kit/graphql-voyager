@@ -32,11 +32,11 @@ export function clearError() {
   }
 }
 
-export const CHANGE_EXTRA_INFO_TYPE = 'CHANGE_EXTRA_INFO_TYPE';
+export const CHANGE_SELECTED_TYPEINFO = 'CHANGE_SELECTED_TYPEINFO';
 
-export function changeExtraInfoType(type) {
+export function changeSelectedTypeInfo(type) {
   return {
-    type: CHANGE_EXTRA_INFO_TYPE,
+    type: CHANGE_SELECTED_TYPEINFO,
     payload: type
   }
 }

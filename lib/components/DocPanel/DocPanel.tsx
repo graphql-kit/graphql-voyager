@@ -4,7 +4,7 @@ import './doc-panel.css';
 
 import TitleArea from '../TitleArea/TitleArea';
 import TypeDoc from '../DocExplorer/TypeDoc';
-import ExtraTypeInfo from '../DocExplorer/ExtraTypeInfo';
+import TypeInfoPopover from './TypeInfoPopover';
 
 export default class DocPanel extends React.Component<void, void> {
 
@@ -15,7 +15,7 @@ export default class DocPanel extends React.Component<void, void> {
           <TitleArea/>
           <TypeDoc/>
         </div>
-        <ExtraTypeInfo/>
+        <TypeInfoPopover/>
       </div>
     )
   }

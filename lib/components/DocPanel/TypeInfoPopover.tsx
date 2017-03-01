@@ -2,36 +2,38 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import * as classNames from 'classnames';
 
+import './typeinfo-popover.css';
+
 import Popover from 'material-ui/Popover';
 import NavigationClose from 'material-ui/svg-icons/navigation/close';
 import IconButton from 'material-ui/IconButton';
 
-import { changeExtraInfoType } from '../../actions';
+import { changeSelectedTypeInfo } from '../../actions';
 
-import TypeDetails from './TypeDetails';
+import TypeDetails from '../DocExplorer/TypeDetails';
 
 function mapStateToProps(state) {
   return {
-    type: state.selected.extraInfoType,
+    type: state.selected.typeinfo
   };
 }
 
-interface ExtraTypeInfoProps {
+interface ScalarDetailsProps {
   type: any;
   dispatch: any;
 }
 
-interface ExtraTypeInfoState {
+interface ScalarDetailsState {
   localType: any;
 }
 
-class ExtraTypeInfo extends React.Component<ExtraTypeInfoProps, ExtraTypeInfoState> {
+class ScalarDetails extends React.Component<ScalarDetailsProps, ScalarDetailsState> {
   constructor(props) {
     super(props);
     this.state = { localType : null };
   }
   close() {
-    this.props.dispatch(changeExtraInfoType(null));
+    this.props.dispatch(changeSelectedTypeInfo(null));
     setTimeout(() => {
       this.setState({ localType: null });
     }, 450);
@@ -63,4 +65,4 @@ class ExtraTypeInfo extends React.Component<ExtraTypeInfoProps, ExtraTypeInfoSta
   }
 }
 
-export default connect(mapStateToProps)(ExtraTypeInfo);
+export default connect(mapStateToProps)(ScalarDetails);

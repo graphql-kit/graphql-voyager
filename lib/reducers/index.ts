@@ -36,7 +36,7 @@ var initialState = {
     previousTypesIds: [],
     currentNodeId: null,
     currentEdgeId: null,
-    extraInfoType: null
+    scalar: null
   },
   graphView: {
     focusedId: null,
@@ -117,7 +117,7 @@ export function rootReducer(previousState = initialState, action) {
           previousTypesIds: pushHistory(currentNodeId, previousState),
           currentNodeId,
           currentEdgeId: null,
-          extraInfoType: null
+          scalar: null
         },
       };
     case ActionTypes.SELECT_EDGE:
@@ -130,7 +130,7 @@ export function rootReducer(previousState = initialState, action) {
           selected: {
             ...previousState.selected,
             currentEdgeId: null,
-            extraInfoType: null
+            scalar: null
           }
         };
       }
@@ -143,7 +143,7 @@ export function rootReducer(previousState = initialState, action) {
           previousTypesIds: pushHistory(nodeId, previousState),
           currentNodeId: nodeId,
           currentEdgeId,
-          extraInfoType: null
+          scalar: null
         },
       };
     case ActionTypes.SELECT_PREVIOUS_TYPE:
@@ -154,7 +154,7 @@ export function rootReducer(previousState = initialState, action) {
           previousTypesIds: _.initial(previousState.selected.previousTypesIds),
           currentNodeId: _.last(previousState.selected.previousTypesIds),
           currentEdgeId: null,
-          extraInfoType: null
+          scalar: null
         },
       };
     case ActionTypes.CLEAR_SELECTION:
@@ -263,12 +263,12 @@ export function rootReducer(previousState = initialState, action) {
         ...previousState,
         errorMessage: initialState.errorMessage,
       }
-    case ActionTypes.CHANGE_EXTRA_INFO_TYPE:
+    case ActionTypes.CHANGE_SELECTED_TYPEINFO:
       return {
         ...previousState,
         selected: {
           ...previousState.selected,
-          extraInfoType: action.payload
+          typeinfo: action.payload
         }
       }
     default:
