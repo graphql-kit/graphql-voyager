@@ -31,18 +31,6 @@ body > main {
   flex-direction: column;
 }
 
-#viewport {
-  height: 100%;
-  width: 100%;
-  max-width: calc(100vw - 320px);
-  max-height: 100vh;
-}
-
-#viewport > svg {
-  width: 100%;
-  height: 100%;
-}
-
 .node {
   pointer-events: bounding-box;
   cursor: pointer;

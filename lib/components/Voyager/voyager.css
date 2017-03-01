@@ -6,7 +6,7 @@
   display: flex;
   height: 100%;
 
-  & > .panel {
+  & > .doc-panel {
     width: 320px;
     min-width: 320px;
     height: 100%;
@@ -14,14 +14,16 @@
     box-sizing: border-box;
     position: relative;
     z-index: 10;
+  }
 
-    & > div:first-child {
-      display: flex;
-      flex-direction: column;
-      background: white;
-      position: relative;
-      z-index: 5;
-      box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.09);
+  & > .viewport {
+    height: 100%;
+    width: 100%;
+    max-width: calc(100vw - 320px);
+    max-height: 100vh;
+
+    & > svg {
+      width: 100%;
       height: 100%;
     }
   }

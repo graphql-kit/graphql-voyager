@@ -8,7 +8,7 @@ import { getSelectedType } from '../../selectors';
 import { getTypeGraphSelector } from '../../graph';
 import TypeList from './TypeList';
 import PreviousType from './PreviousType';
-import Markdown from './Markdown';
+import Markdown from '../utils/Markdown';
 import Description from './Description';
 import WrappedTypeName from './WrappedTypeName';
 

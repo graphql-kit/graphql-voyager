@@ -8,7 +8,7 @@ import {
 } from './actions';
 
 import { store } from './redux';
-import { initPanel } from './panel/';
+import { initPanel } from './components/';
 
 initPanel(document.getElementById('panel_root'));
 

@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import Markdown from './Markdown';
+import Markdown from '../utils/Markdown';
 import WrappedTypeName from './WrappedTypeName';
 
 interface ArgumentProps {

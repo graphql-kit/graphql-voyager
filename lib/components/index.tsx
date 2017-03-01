@@ -4,8 +4,8 @@ import { Provider } from "react-redux";
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 
-import Voyager from "./voyager/Voyager";
-import IntrospectionModal from './components/IntrospectionModal';
+import Voyager from "./Voyager/Voyager";
+import IntrospectionModal from './IntrospectionModal';
 import { store } from "../redux";
 
 export function initPanel(container: HTMLElement) {
@@ -14,7 +14,6 @@ export function initPanel(container: HTMLElement) {
         <MuiThemeProvider>
           <div>
             <Voyager />
-            <IntrospectionModal/>
           </div>
         </MuiThemeProvider>
       </Provider>,

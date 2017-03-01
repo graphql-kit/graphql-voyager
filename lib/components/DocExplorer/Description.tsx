@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as classNames from 'classnames';
 
-import Markdown from './Markdown';
+import Markdown from '../utils/Markdown';
 
 interface DescriptionProps {
   text?: string;

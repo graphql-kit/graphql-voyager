@@ -111,6 +111,9 @@ function markRelayTypes(schema) {
 
       //FIXME: additional checks
       const relayConnetion = field.type;
+
+      if (!relayConnetion.fields.edges) return;
+
       relayConnetion.isRelayType = true;
       const relayEdge = relayConnetion.fields['edges'].type;
       relayEdge.isRelayType = true;

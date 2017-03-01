@@ -1,0 +1,11 @@
+.doc-panel {
+  & > .contents {
+    display: flex;
+    flex-direction: column;
+    background: white;
+    position: relative;
+    z-index: 5;
+    box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.09);
+    height: 100%;
+  }
+}

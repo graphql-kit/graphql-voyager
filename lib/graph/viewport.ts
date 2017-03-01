@@ -14,7 +14,7 @@ import {
 import { typeNameToId } from '../introspection';
 
 const RelayIconSvg =
-  require('!!svg-as-symbol-loader?id=RelayIcon!../panel/icons/relay-icon.svg');
+  require('!!svg-as-symbol-loader?id=RelayIcon!../components/icons/relay-icon.svg');
 const  svgns = 'http://www.w3.org/2000/svg';
 const  xlinkns = 'http://www.w3.org/1999/xlink';
 

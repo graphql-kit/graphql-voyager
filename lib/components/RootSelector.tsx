@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 import * as React from "react";
 
-import { isNode, getDefaultRoot } from '../../graph/';
+import { isNode, getDefaultRoot } from '../graph/';
 
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
