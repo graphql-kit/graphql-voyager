@@ -266,6 +266,7 @@ export const getNaSchemaSelector = createSelector(
       const schema = getSchema(introspection, sortByAlphabet, skipRelay);
       return {schema, error: null};
     } catch (e) {
+      console.error(e);
       return {error: e.toString(), schema: null};
     }
   }
