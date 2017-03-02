@@ -1,0 +1,74 @@
+
+.args-wrap {
+
+  &:before {
+    content: "( ";
+    display: inline;
+  }
+
+
+  &:after {
+    content: " )";
+    display: inline;
+  }
+
+  &.-empty {
+    &:before, &:after {
+      display: none !important;
+    }
+  }
+}
+
+.arg-wrap {
+  & > .arg {
+    display: inline;
+
+    &:after {
+      content: ', ';
+    }
+
+    & > .default-value {
+      color: #0B7FC7;
+    }
+  }
+
+  &:last-child .arg:after {
+    content: '';
+  }
+
+  & > .arg-description,
+  & .arg > .wrapped-type-name {
+    display: none;
+  }
+}
+
+.arg-wrap.-expanded {
+  &:before, &:after {
+    display: none;
+  }
+
+  & .arg {
+    display: block;
+    margin: 5px 0;
+  }
+
+  & .arg-description {
+    display: block;
+    color: #666;
+  }
+
+  & .wrapped-type-name {
+    display: inline-block;
+  }
+
+  & .arg-description > p {
+    margin: 0;
+  }
+
+  & .arg-description:before {
+    display: block;
+    content: "#";
+    float: left;
+    margin-right: 5px;
+  }
+}

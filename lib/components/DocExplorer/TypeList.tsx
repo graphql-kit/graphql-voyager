@@ -1,6 +1,9 @@
 import * as _ from 'lodash';
-import * as React from "react";
-import { connect } from "react-redux"
+import * as React from 'react';
+import { connect } from 'react-redux'
+import * as classNames from 'classnames';
+
+import './TypeList.css';
 
 import { focusElement } from '../../actions/';
 import TypeLink from './TypeLink';
@@ -13,6 +16,18 @@ interface TypeListProps {
 }
 
 class TypeList extends React.Component<TypeListProps, void> {
+  renderItem(type, className?: string) {
+    return (
+      <div key={type.id} className={classNames('typelist-item', className || '')}>
+        <TypeLink type={type}/>
+        <FocusTypeButton type={type} />
+        <Description
+          className="-doc-type"
+          text={type.description}
+        />
+      </div>
+    );
+  }
   render() {
     const { typeGraph, dispatch } = this.props;
 
@@ -26,25 +41,9 @@ class TypeList extends React.Component<TypeListProps, void> {
       .sortBy('name').value();
 
     return (
-      <div className="doc-explorer-scroll-area doc-explorer-type-list">
-        <div className="doc-typelist-root-item doc-typelist-item">
-          <TypeLink type={rootType}/>
-          <FocusTypeButton type={rootType} />
-          <Description
-            className="doc-type-description"
-            text={rootType.description}
-          />
-        </div>
-        {_.map(types, type =>
-          <div key={type.id} className="doc-typelist-item">
-            <TypeLink type={type}/>
-            <FocusTypeButton type={type} />
-            <Description
-              className="doc-type-description"
-              text={type.description}
-            />
-          </div>
-        )}
+      <div className="scroll-area doc-explorer-type-list">
+        {this.renderItem(rootType, '-root')}
+        {_.map(types, type => this.renderItem(type))}
       </div>
     );
   }

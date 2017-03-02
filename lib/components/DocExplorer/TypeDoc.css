@@ -1,0 +1,122 @@
+@import '../variables.css';
+
+/* common type doc styling */
+.field-name {
+  color: var(--field-name-color)
+}
+
+.doc-alert-text {
+  color: #F00F00;
+  font-family: 'Consolas', 'Inconsolata', 'Droid Sans Mono', 'Monaco', monospace;
+  font-size: 13px;
+}
+
+.value-name {
+  color: #0B7FC7;
+}
+
+.arg-name {
+  color: #c77f53;
+}
+
+.type-doc {
+  display: flex;
+  flex-direction: column;
+  margin-top: 15px;
+  overflow: hidden;
+
+  & a {
+    cursor: pointer;
+    text-decoration: none;
+  }
+
+  & > .scroll-area {
+    padding-top: 20px;
+    overflow-y: auto;
+
+    & .description-box.-doc-type {
+      padding: 0 var(--panel-padding);
+    }
+  }
+
+  & > .doc-navigation {
+    padding: 5px 20px 5px 18px;
+  }
+}
+
+.doc-category {
+  margin: 20px 0 0;
+  cursor: pointer;
+
+  & > .item {
+    padding: 8px 15px;
+    color: #555;
+    position: relative;
+    border-left: 3px solid transparent;
+
+    & > description-box {
+      .margin-top: 5px;
+    }
+  }
+
+  & > .title {
+    border-bottom: 1px solid #e0e0e0;
+    padding: 0 15px;
+    color: #666;
+    cursor: default;
+    font-size: 14px;
+    font-variant: small-caps;
+    font-weight: bold;
+    letter-spacing: 1px;
+    margin: 0 -15px 10px 0;
+    user-select: none;
+    box-sizing: border-box;
+    width: 100%;
+  }
+
+  & > .item {
+    &:nth-child(odd) {
+      background-color: rgba(158, 158, 158, 0.07);
+    }
+
+    &:hover {
+      background-color: rgba(214, 236, 238, 0.6);
+    }
+
+    &.-with-args {
+      &:before {
+        width: 0;
+        height: 0;
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+        border-top: 5px solid var(--field-name-color);
+        display: block;
+        content: "";
+        float: right;
+        margin-top: 6px;
+        margin-right: -8px;
+        transition: all 0.3s ease;
+        opacity: 0;
+      }
+
+
+      &:hover:before, &.-selected:before {
+        opacity: 1;
+      }
+
+      &.-selected:before {
+        transform: rotateZ(180deg);
+      }
+    }
+
+    &.-selected {
+      background-color: rgba(214, 236, 238, 0.75);
+      border-left: 3px solid #00bcd4;
+
+      & .args {
+        display: block;
+        padding-left: 20px;
+      }
+    }
+  }
+}

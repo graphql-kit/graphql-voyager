@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import './doc-panel.css';
+import './DocPanel.css';
 
 import TitleArea from '../TitleArea/TitleArea';
 import TypeDoc from '../DocExplorer/TypeDoc';

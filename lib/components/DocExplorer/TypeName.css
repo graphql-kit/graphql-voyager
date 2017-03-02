@@ -1,0 +1,21 @@
+@import '../variables.css';
+
+.type-name {
+  &.-input-obj,
+  &.-object {
+    color: var(--link-color);
+
+    &:hover {
+      color: var(--link-hover-color);
+    }
+  }
+
+  &.-scalar,
+  &.-built-in {
+    color: var(--builtin-color);
+
+    &:hover {
+      color: color(var(--builtin-color) l(- 10%));
+    }
+  }
+}

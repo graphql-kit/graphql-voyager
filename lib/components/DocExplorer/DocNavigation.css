@@ -1,0 +1,45 @@
+.doc-navigation {
+  min-height: 20px;
+  box-shadow: 0 4px 4px -2px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between;
+
+  & > span {
+    display: inline-block;
+    vertical-align: middle;
+    white-space: nowrap;
+  }
+
+  & > .back {
+    color: #204d71;
+    cursor: pointer;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding-left: 2px;
+    font-weight: normal;
+
+    &:before {
+      border-left: 2px solid #204d71;
+      border-top: 2px solid #204d71;
+      content: '';
+      display: inline-block;
+      height: 9px;
+      margin: 0 3px -1px 0;
+      position: relative;
+      transform: rotate(-45deg);
+      width: 9px;
+    }
+  }
+
+  & > .active {
+    font-weight: bold;
+    color: #00bcd4;
+    font-weight: bold;
+  }
+
+  & > .header {
+    font-weight: bold;
+    color: #666;
+  }
+}

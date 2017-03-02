@@ -1,4 +1,8 @@
 :root {
+  --font-family: Roboto, open-sans;
+  --panel-padding: 15px;
+
+
   --background-color: #fff;
   --dark-bg-color: #0b2840;
   --highlight-color: #00bcd4;
@@ -8,6 +12,7 @@
   --link-hover-color: #0262a0;
   --field-name-color: #224d6f;
   --builtin-color: #711c1c;
+
   --modal-bg-color: var(--dark-bg-color);
 
   --doc-panel-width: 320px;

@@ -2,7 +2,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import * as classNames from 'classnames';
 
-import './typeinfo-popover.css';
+import './TypeInfoPopover.css';
 
 import Popover from 'material-ui/Popover';
 import NavigationClose from 'material-ui/svg-icons/navigation/close';
@@ -51,8 +51,8 @@ class ScalarDetails extends React.Component<ScalarDetailsProps, ScalarDetailsSta
     }
     return (
       <div
-        className={classNames('extra-details-panel', {
-          'opened': !!type
+        className={classNames('type-info-popover', {
+          '-opened': !!type
         })}
       >
       <IconButton style={{float: 'right', padding: 0, height: 48, width: 24}}

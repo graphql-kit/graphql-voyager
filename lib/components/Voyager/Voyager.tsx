@@ -2,7 +2,7 @@ import * as _ from 'lodash';
 import * as React from 'react';
 import { connect } from 'react-redux'
 
-import './voyager.css';
+import './Voyager.css';
 import './viewport.css';
 
 import ErrorBar from '../utils/ErrorBar';
@@ -37,9 +37,9 @@ class Voyager extends React.Component<VoyagerProps, void> {
     return (
       <div className="graphql-voyager">
         <DocPanel/>
+        <div ref="viewport" className="viewport"></div>
         <ErrorBar/>
         <LoadingAnimation loading={isLoading} />
-        <div ref="viewport" className="viewport"></div>
       </div>
     );
   }

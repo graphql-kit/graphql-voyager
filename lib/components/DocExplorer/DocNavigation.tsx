@@ -1,8 +1,9 @@
 import * as _ from 'lodash';
-import * as React from "react";
-import { connect } from "react-redux"
+import * as React from 'react';
+import { connect } from 'react-redux'
 
-import { extractTypeId } from '../../introspection';
+import './DocNavigation.css';
+
 import { getSelectedType, getPreviousType } from '../../selectors';
 import {
   selectPreviousType,
@@ -11,7 +12,7 @@ import {
 } from '../../actions/';
 import FocusTypeButton from './FocusTypeButton';
 
-interface PreviousTypeProps {
+interface DocNavigationProps {
   selectedType: any;
   previousType: any;
   dispatch: any;
@@ -24,7 +25,7 @@ function mapStateToProps(state) {
   };
 }
 
-class PreviousType extends React.Component<PreviousTypeProps, void> {
+class DocNavigation extends React.Component<DocNavigationProps, void> {
   render() {
     const {
       selectedType,
@@ -41,19 +42,19 @@ class PreviousType extends React.Component<PreviousTypeProps, void> {
     }
 
     return (
-      <div className="previous-type-area">
+      <div className="doc-navigation">
         {
-          selectedType && <span className="doc-explorer-back" onClick={clickHandler}>
+          selectedType && <span className="back" onClick={clickHandler}>
             { previousType ? previousType.name : 'Type List' }
-          </span> || <span>Type List</span>
+          </span> || <span className="header">Type List</span>
         }
         {
           selectedType &&
-          <span className="selected-type">{selectedType.name}<FocusTypeButton type={selectedType} /></span>
+          <span className="active">{selectedType.name}<FocusTypeButton type={selectedType} /></span>
         }
       </div>
     );
   }
 }
 
-export default connect(mapStateToProps)(PreviousType);
+export default connect(mapStateToProps)(DocNavigation);

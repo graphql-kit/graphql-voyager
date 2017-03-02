@@ -1,0 +1,16 @@
+@import '../variables.css';
+
+.typelist-item > .type-name {
+  padding-left: var(--panel-padding);
+}
+
+.typelist-item.-root a.type-name:after {
+  content: "root";
+  display: inline-block;
+  vertical-align: middle;
+  background: #00bcd4;
+  color: white;
+  padding: 0 5px;
+  margin-left: var(--badge-spacing);
+  font-size: 0.9em;
+}

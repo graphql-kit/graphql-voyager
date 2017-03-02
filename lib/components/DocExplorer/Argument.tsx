@@ -1,24 +1,28 @@
 import * as React from 'react';
+import * as classNames from 'classnames';
+
+import './Argument.css';
 
 import Markdown from '../utils/Markdown';
 import WrappedTypeName from './WrappedTypeName';
 
 interface ArgumentProps {
   arg: any;
+  expanded: boolean;
 }
 
 export default class Argument extends React.Component<ArgumentProps, void> {
   render() {
-    const {arg} = this.props;
+    const {arg, expanded} = this.props;
     return (
-      <span className="arg-wrap">
+      <span className={classNames('arg-wrap', {'-expanded': expanded})}>
         <span className="arg">
           <span className="arg-name">{arg.name}</span>
           <WrappedTypeName container={arg} />
           {arg.defaultValue !== null &&
             <span>
               {' = '}
-              <span className="arg-default-value">
+              <span className="default-value">
                 {arg.defaultValue}
               </span>
             </span>

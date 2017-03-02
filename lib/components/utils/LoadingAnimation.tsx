@@ -1,6 +1,8 @@
 import * as React from 'react';
 import * as classNames from 'classnames';
 
+import './LoadingAnimation.css';
+
 import VoyagerIcon from '../icons/logo-with-signals.svg';
 
 interface LoadingAnimationProps {

@@ -1,0 +1,3 @@
+.wrapped-type-name::before {
+  content: ": ";
+}

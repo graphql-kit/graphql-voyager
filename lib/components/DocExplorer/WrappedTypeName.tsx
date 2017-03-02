@@ -2,6 +2,8 @@ import * as React from 'react';
 import SvgIcon from 'material-ui/SvgIcon';
 import IconButton from 'material-ui/IconButton';
 
+import './WrappedTypeName.css';
+
 import { stringifyWrappers } from '../../introspection/';
 import { isNode } from '../../graph/';
 import TypeLink from './TypeLink';

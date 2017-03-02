@@ -1,5 +1,7 @@
-import * as React from "react";
-import { connect } from "react-redux"
+import * as React from 'react';
+import { connect } from 'react-redux'
+
+import './TypeLink.css';
 
 import { selectNode, focusElement } from '../../actions/';
 
@@ -17,7 +19,7 @@ class TypeLink extends React.Component<TypeLinkProps, void> {
 
     return (
       <a
-        className="object-type-name"
+        className="type-name -object"
         onClick={(event) => {
           event.stopPropagation();
           dispatch(focusElement(type.id));

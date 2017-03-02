@@ -83,7 +83,7 @@ g.graph > polygon {
   }
 
   & text {
-    font-family: Roboto;
+    font-family: var(--font-family);
     fill: #00525c;
 
     display: none;

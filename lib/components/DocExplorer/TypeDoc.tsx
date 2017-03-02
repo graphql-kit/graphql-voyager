@@ -3,11 +3,13 @@ import * as React from 'react';
 import { connect } from 'react-redux'
 import * as classNames from 'classnames';
 
+import './TypeDoc.css';
+
 import { selectEdge } from '../../actions';
 import { getSelectedType } from '../../selectors';
 import { getTypeGraphSelector } from '../../graph';
 import TypeList from './TypeList';
-import PreviousType from './PreviousType';
+import DocNavigation from './DocNavigation';
 import Markdown from '../utils/Markdown';
 import Description from './Description';
 import TypeLink from './TypeLink';
@@ -71,7 +73,7 @@ class TypeDoc extends React.Component<TypeDocProps, void> {
 
     return (
       <div className="doc-category">
-        <div className="doc-category-title">
+        <div className="title">
           {typesTitle}
         </div>
         {_.map(types, type => {
@@ -90,7 +92,7 @@ class TypeDoc extends React.Component<TypeDocProps, void> {
             <TypeLink type={type.type}/>
             <Description
               text={type.type.description}
-              className="linked-type-description"
+              className="-linked-type"
             />
           </div>
         })}
@@ -105,16 +107,15 @@ class TypeDoc extends React.Component<TypeDocProps, void> {
     let dispatch = this.props.dispatch;
     return (
       <div className="doc-category">
-        <div className="doc-category-title">
+        <div className="title">
           {'fields'}
         </div>
         {_.map(type.fields, field => {
           let props:any = {
             key: field.name,
-            className: classNames({
-              'doc-category-item': true,
-              'selected': field.id === selectedId,
-              'with-args': !_.isEmpty(field.args)
+            className: classNames('item', {
+              '-selected': field.id === selectedId,
+              '-with-args': !_.isEmpty(field.args)
             }),
             onClick: () => {
               dispatch(selectEdge(field.id));
@@ -125,9 +126,8 @@ class TypeDoc extends React.Component<TypeDocProps, void> {
             <a className="field-name">
               {field.name}
             </a>
-            <span className={classNames({
-                'args-wrap': true,
-                'empty': _.isEmpty(field.args)
+            <span className={classNames('args-wrap', {
+                '-empty': _.isEmpty(field.args)
               })
             }>
               {!_.isEmpty(field.args) &&
@@ -136,6 +136,7 @@ class TypeDoc extends React.Component<TypeDocProps, void> {
                     <Argument
                       key={arg.name}
                       arg={arg}
+                      expanded={field.id === selectedId}
                     />
                   )}
                 </span>
@@ -145,7 +146,7 @@ class TypeDoc extends React.Component<TypeDocProps, void> {
             { field.isDeprecated &&
               <span className="doc-alert-text">{' (DEPRECATED)'}</span>
             }
-            <Markdown text={field.description} className="field-description"/>
+            <Markdown text={field.description} className="description-box -field"/>
           </div>
         })}
       </div>
@@ -161,14 +162,14 @@ class TypeDoc extends React.Component<TypeDocProps, void> {
     } = this.props;
 
     return (
-      <div className="doc-explorer-contents">
-        <PreviousType />
+      <div className="type-doc">
+        <DocNavigation />
         {
           !selectedType ?
             <TypeList typeGraph={typeGraph}/> :
-            <div className="doc-explorer-scroll-area">
+            <div className="scroll-area">
               <Description
-                className="doc-type-description"
+                className="-doc-type"
                 text={selectedType.description}
               />
               {this.renderTypesDef(selectedType, typeGraph, selectedEdgeId)}

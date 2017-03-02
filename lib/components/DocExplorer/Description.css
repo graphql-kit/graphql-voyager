@@ -1,0 +1,30 @@
+@import '../variables.css';
+
+.description-box {
+  & blockquote:first-child {
+    margin-top: 0;
+  }
+
+  & a {
+    word-break: break-all;
+  }
+
+  & p:first-child {
+    margin-top: 0;
+  }
+
+  &.-no-description {
+    font-style:italic;
+    color: #666;
+  }
+
+  &.-linked-type, &.-field, &.-enum-value {
+    & p {
+      margin: 0;
+    }
+  }
+
+  &.-enum-value {
+    padding: 8px 0 0 8px;
+  }
+}

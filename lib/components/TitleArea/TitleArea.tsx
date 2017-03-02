@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { connect } from 'react-redux'
 
+import './TitleArea.css';
+
 import {
   showIntrospectionModal
 } from '../../actions/';
@@ -24,13 +26,11 @@ class TitleArea extends React.Component<TitleAreaProps, void> {
         <a href="https://github.com/APIs-guru/graphql-voyager">
           <div className="logo">
             <LogoIcon/>
-            <h2><strong>GraphQL</strong> Voyager</h2>
+            <h2 className="title"><strong>GraphQL</strong> Voyager</h2>
           </div>
         </a>
-        <div ref="panel" className="menu-buttons">
-          <RaisedButton label="Change Introspection" primary={true} style={{flex: 1}}
-            onTouchTap={() => dispatch(showIntrospectionModal())}/>
-        </div>
+        <RaisedButton label="Change Introspection" primary={true} style={{width: '100%'}}
+          onTouchTap={() => dispatch(showIntrospectionModal())}/>
       </div>
     )
   }

@@ -7,7 +7,6 @@ import { selectEdge } from '../../actions';
 import { getSelectedType } from '../../selectors';
 import { getTypeGraphSelector } from '../../graph';
 import TypeList from './TypeList';
-import PreviousType from './PreviousType';
 import Markdown from '../utils/Markdown';
 import Description from './Description';
 import WrappedTypeName from './WrappedTypeName';
@@ -23,16 +22,16 @@ export default class TypeDetails extends React.Component<TypeDetailsProps, void>
 
     return (
       <div className="doc-category">
-        <div className="doc-category-title">
+        <div className="title">
           {'fields'}
         </div>
         {_.map(type.inputFields, field => {
-          return <div key={field.id} className="doc-category-item">
+          return <div key={field.id} className="item">
             <a className="field-name">
               {field.name}
             </a>
             <WrappedTypeName container={field} />
-            <Markdown text={field.description} className="field-description"/>
+            <Markdown text={field.description} className="description-box -field"/>
           </div>
         })}
       </div>
@@ -45,7 +44,7 @@ export default class TypeDetails extends React.Component<TypeDetailsProps, void>
 
     return (
       <div className="doc-category">
-        <div className="doc-category-title">
+        <div className="title">
           {'values'}
         </div>
         {_.map(type.enumValues, value =>
@@ -63,7 +62,7 @@ export default class TypeDetails extends React.Component<TypeDetailsProps, void>
         <header>
           <h3>{type.name}</h3>
           <Description
-            className="doc-type-description"
+            className="-doc-type"
             text={type.description}
           />
         </header>
@@ -84,12 +83,12 @@ class EnumValue extends React.Component<EnumValueProps, void> {
   render() {
     const {value} = this.props;
     return (
-      <div className="doc-category-item">
+      <div className="item">
         <div className="enum-value">
           {value.name}
         </div>
         <Markdown
-          className="doc-value-description"
+          className="description-box -enum-value"
           text={value.description}
         />
         {

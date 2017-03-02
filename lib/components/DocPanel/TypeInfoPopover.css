@@ -1,0 +1,22 @@
+.type-info-popover {
+  left: 320px;
+  top: 50%;
+  overflow-y: auto;
+
+  transform: translateY(-50%) translateX(-110%);
+  width: 320px;
+  height: 75%;
+  padding: 10px 20px;
+  position: absolute;
+  background: white;
+  box-shadow: 0px 0 10px 3px rgba(0, 0, 0, 0.09);
+
+  transition: all 0.45s ease-out;
+  &.-opened {
+    transform: translateY(-50%);
+  }
+  & > button {
+    position: absolute !important;
+    right: 20px;
+  }
+}
