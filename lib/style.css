@@ -23,108 +23,6 @@ body > main {
   height: 100%;
 }
 
-.panel-content {
-  padding: 20px;
-  flex: 1;
-
-  display: flex;
-  flex-direction: column;
-}
-
-.node {
-  pointer-events: bounding-box;
-  cursor: pointer;
-}
-
-.node polygon {
-  stroke: var(--secondary-color);
-  fill: #f6f8f8;
-}
-
-.node .type-title {
-  & polygon {
-    fill: var(--secondary-color);
-  }
-
-  & text {
-    fill: white;
-  }
-}
-
-.edge path {
-  stroke: color(var(--secondary-color) l(- 20%));
-  stroke-width: 2;
-}
-
-.edge polygon {
-  fill: color(var(--secondary-color) l(- 30%));
-  stroke: color(var(--secondary-color) l(- 30%));
-}
-
-.edge text {
-  display: none;
-}
-
-.edge:hover {
-  cursor: pointer;
-}
-
-.edge:hover text,
-.edge.highlighted text,
-.edge.hovered text  {
-  display: block;
-  font-family: Roboto;
-  fill: #00525c;
-}
-
-.edge path.hover-path {
-  stroke: transparent;
-  stroke-width: 15;
-}
-
-.selection-active .edge,
-.selection-active .node {
-  opacity: 0.2;
-}
-
-.selection-active .node.selected-reachable,
-.selection-active .node.selected,
-.selection-active .edge.highlighted {
-  opacity: 1;
-}
-
-.selection-active .node.selected polygon,
-.selection-active .edge.highlighted path:not(.hover-path),
-.edge.highlighted path:not(.hover-path),
-.edge.hovered path:not(.hover-path),
-.edge:hover path:not(.hover-path) {
-  stroke: var(--highlight-color);
-  stroke-width: 3;
-}
-
-.selection-active .field.selected polygon {
-  fill: rgba(255, 0, 0, 0.18);
-}
-
-.selection-active .edge.selected path:not(.hover-path) {
-  stroke: red;
-}
-
-.selection-active .edge.highlighted polygon,
-.edge.highlighted polygon,
-.edge:hover polygon,
-.edge.hovered polygon {
-  stroke: color(var(--highlight-color) l(- 20%));
-  fill: color(var(--highlight-color) l(- 20%));
-  opacity: 1;
-}
-
-
-.selection-active .edge.selected polygon {
-  fill: red;
-  stroke: red;
-}
-
 .type-link {
   fill: var(--link-color)
 }
@@ -459,15 +357,6 @@ a.object-type-name {}
 .doc-explorer-type-list {
   padding-top: 16px;
 }
-
-g.graph > polygon {
-  fill: transparent;
-}
-
-.edge-source.selected > polygon, .field.selected > polygon {
-  fill: rgba(180, 247, 255, 0.6);
-}
-
 
 .args-wrap:before {
   content: "( ";
@@ -885,10 +774,6 @@ g.graph > polygon {
   box-shadow: 0px 0px 10px 2px rgba(39, 84, 89, 0.23);
 }
 
-.selection-active .node.selected .type-title polygon {
-    fill: #00bcd4;
-}
-
 @keyframes voyager-shake {
   0% {
     transform: rotateZ(0deg);
@@ -949,13 +834,6 @@ g.graph > polygon {
     text-align: center;;
     color: var(--secondary-color);
     letter-spacing: 4px;
-  }
-}
-
-#svg-pan-zoom-controls {
-  & path {
-    fill-opacity: 0.75;
-    fill: #27535e;
   }
 }
 

@@ -3,7 +3,6 @@ import * as ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
-
 import Voyager from "./Voyager/Voyager";
 import IntrospectionModal from './IntrospectionModal';
 import { store } from "../redux";
@@ -14,6 +13,7 @@ export function initPanel(container: HTMLElement) {
         <MuiThemeProvider>
           <div>
             <Voyager />
+            <IntrospectionModal />
           </div>
         </MuiThemeProvider>
       </Provider>,

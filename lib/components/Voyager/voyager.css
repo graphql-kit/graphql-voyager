@@ -1,3 +1,6 @@
+@import '../variables.css';
+
+/* fix height of element */
 [data-reactroot] {
   height: 100%;
 }
@@ -7,10 +10,10 @@
   height: 100%;
 
   & > .doc-panel {
-    width: 320px;
-    min-width: 320px;
+    width: var(--doc-panel-width);
+    min-width: var(--doc-panel-width);
     height: 100%;
-    background: #fff;
+    background: var(--doc-panel-bg-color);
     box-sizing: border-box;
     position: relative;
     z-index: 10;
@@ -19,7 +22,7 @@
   & > .viewport {
     height: 100%;
     width: 100%;
-    max-width: calc(100vw - 320px);
+    max-width: calc(100vw - var(--doc-panel-width));
     max-height: 100vh;
 
     & > svg {
