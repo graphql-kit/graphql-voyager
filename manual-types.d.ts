@@ -9,3 +9,4 @@ declare module "*.svg" {
 }
 
 declare var DEBUG_INITIAL_PRESET: string;
+declare var DEBUG: boolean;
