@@ -8,16 +8,14 @@ import {
 } from './actions';
 
 import { store } from './redux';
-import { initPanel } from './components/';
+import { init } from './components/';
 
-initPanel(document.getElementById('panel_root'));
-
-window.onerror = (msg, url, line, col, error) => {
-  store.dispatch(reportError(error.toString()));
-};
+init(document.getElementById('panel_root'));
 
 store.dispatch(showIntrospectionModal())
 if (DEBUG_INITIAL_PRESET) {
   store.dispatch(hideIntrospectionModal())
   store.dispatch(changeActiveIntrospection(DEBUG_INITIAL_PRESET));
 }
+
+export * from './components';

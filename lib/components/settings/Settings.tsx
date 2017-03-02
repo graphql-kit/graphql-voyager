@@ -4,8 +4,8 @@ import { connect } from "react-redux"
 import Checkbox from 'material-ui/Checkbox';
 import RootSelector from './RootSelector';
 
-import { getSchemaSelector } from '../introspection';
-import { changeDisplayOptions } from '../actions/';
+import { getSchemaSelector } from '../../introspection';
+import { changeDisplayOptions } from '../../actions/';
 
 interface SettingsProps {
   schema: any;

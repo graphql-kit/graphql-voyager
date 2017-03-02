@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { connect } from 'react-redux';
 import * as classNames from 'classnames';
 
 import './LoadingAnimation.css';
@@ -9,7 +10,13 @@ interface LoadingAnimationProps {
   loading: boolean;
 }
 
-export default class LoadingAnimation extends React.Component<LoadingAnimationProps, void> {
+function mapStateToProps(state) {
+  return {
+    loading: (state.currentSvgIndex === null)
+  };
+}
+
+class LoadingAnimation extends React.Component<LoadingAnimationProps, void> {
   shouldComponentUpdate(nextProps) {
     return this.props.loading !== nextProps.loading;
   }
@@ -30,3 +37,5 @@ export default class LoadingAnimation extends React.Component<LoadingAnimationPr
     );
   }
 }
+
+export default connect(mapStateToProps)(LoadingAnimation);

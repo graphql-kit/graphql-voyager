@@ -1,4 +1,4 @@
-@import '../variables.css';
+@import './variables.css';
 
 /* fix height of element */
 [data-reactroot] {

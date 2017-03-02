@@ -23,9 +23,9 @@ import {
   changeNaActivePreset,
   changeNaCustomPreset,
   changeNaDisplayOptions,
-} from '../actions/';
+} from '../../actions/';
 import { Settings } from './Settings';
-import { getNaSchemaSelector } from '../introspection';
+import { getNaSchemaSelector } from '../../introspection';
 
 interface IntrospectionModalProps {
   showIntrospectionModal: boolean;

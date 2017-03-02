@@ -2,8 +2,8 @@ import * as React from "react";
 
 import './DocPanel.css';
 
-import TitleArea from '../TitleArea/TitleArea';
-import TypeDoc from '../DocExplorer/TypeDoc';
+import TitleArea from './TitleArea';
+import TypeDoc from '../doc-explorer/TypeDoc';
 import TypeInfoPopover from './TypeInfoPopover';
 
 export default class DocPanel extends React.Component<void, void> {

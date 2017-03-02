@@ -10,7 +10,7 @@ import IconButton from 'material-ui/IconButton';
 
 import { changeSelectedTypeInfo } from '../../actions';
 
-import TypeDetails from '../DocExplorer/TypeDetails';
+import TypeDetails from '../doc-explorer/TypeDetails';
 
 function mapStateToProps(state) {
   return {

@@ -1,22 +1,24 @@
-import * as React from "react";
-import * as ReactDOM from "react-dom";
-import { Provider } from "react-redux";
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
-import Voyager from "./Voyager/Voyager";
-import IntrospectionModal from './IntrospectionModal';
-import { store } from "../redux";
+import Voyager from './Voyager';
+import IntrospectionModal from './settings/IntrospectionModal';
+import { store } from '../redux';
 
-export function initPanel(container: HTMLElement) {
+export function init(container: HTMLElement) {
   ReactDOM.render(
+    <div>
+      <Voyager />
       <Provider store={ store }>
-        <MuiThemeProvider>
-          <div>
-            <Voyager />
-            <IntrospectionModal />
-          </div>
+          <MuiThemeProvider>
+          <IntrospectionModal />
         </MuiThemeProvider>
-      </Provider>,
-      container
+      </Provider>
+    </div>,
+    container
   );
 }
+
+export { Voyager };
