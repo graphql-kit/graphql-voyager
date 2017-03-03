@@ -2,10 +2,10 @@
   --font-family: Roboto, open-sans;
   --panel-padding: 15px;
 
-
+  --primary-color: #00bcd4;
   --background-color: #fff;
   --dark-bg-color: #0b2840;
-  --highlight-color: #00bcd4;
+  --highlight-color: var(--primary-color);
   --secondary-color: #548f9e;
   --logo-color: #27535e;
   --link-color: #42a0dd;

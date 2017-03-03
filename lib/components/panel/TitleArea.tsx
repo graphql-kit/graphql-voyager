@@ -7,9 +7,9 @@ import {
   showIntrospectionModal
 } from '../../actions/';
 
-import RaisedButton from 'material-ui/RaisedButton';
 import LogoIcon from '../icons/logo-small.svg';
 
+import { Button } from 'react-toolbox/lib/button';
 
 interface TitleAreaProps {
   dispatch: any;
@@ -29,8 +29,8 @@ class TitleArea extends React.Component<TitleAreaProps, void> {
             <h2 className="title"><strong>GraphQL</strong> Voyager</h2>
           </div>
         </a>
-        <RaisedButton label="Change Introspection" primary={true} style={{width: '100%'}}
-          onTouchTap={() => dispatch(showIntrospectionModal())}/>
+        <Button className="choosebutton" raised primary label="Change Introspection"
+          onClick={() => dispatch(showIntrospectionModal())}/>
       </div>
     )
   }

@@ -29,7 +29,7 @@
     body > main {
       height: 100%;
     }
-  
+
     #mobile-warning {
       display: none;
     }
@@ -75,6 +75,9 @@
       }
     }
   </style>
+
+  <script src="//cdn.jsdelivr.net/react/15.4.2/react.js"></script>
+  <script src="//cdn.jsdelivr.net/react/15.4.2/react-dom.js"></script>
 </head>
 <body>
   <main id="panel_root">
@@ -87,20 +90,25 @@
     <a id="skip_warning" href="#"> GOT IT </a>
   </div>
   <script>
-    (function() {
-      var skipBtn = document.getElementById('skip_warning');
-      var warning = document.getElementById('mobile-warning');
-      if (document.cookie.indexOf('skip_mobile_warning=true') > -1) {
+    var skipBtn = document.getElementById('skip_warning');
+    var warning = document.getElementById('mobile-warning');
+    if (document.cookie.indexOf('skip_mobile_warning=true') > -1) {
+      warning.classList.add('hidden');
+    } else {
+      var handler = function() {
         warning.classList.add('hidden');
-      } else {
-        var handler = function() {
-          warning.classList.add('hidden');
-          document.cookie = "skip_mobile_warning=true; expires=Fri, 31 Dec 9999 23:59:59 GMT";
-        }
-        skipBtn.addEventListener('touchstart', handler, false);
-        skipBtn.addEventListener('click', handler, false);
+        document.cookie = "skip_mobile_warning=true; expires=Fri, 31 Dec 9999 23:59:59 GMT";
       }
-    })()
+      skipBtn.addEventListener('touchstart', handler, false);
+      skipBtn.addEventListener('click', handler, false);
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      ReactDOM.render(
+        React.createElement(GraphQLVoyager.Voyager),
+        document.getElementById('panel_root')
+      );
+    })
   </script>
 
   <script>

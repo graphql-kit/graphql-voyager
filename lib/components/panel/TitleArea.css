@@ -39,6 +39,10 @@
     }
   }
 
+  & > .choosebutton {
+    width: 100%;
+  }
+
   & a, & a:hover {
     text-decoration: none;
     outline: none;

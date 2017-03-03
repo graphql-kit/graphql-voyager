@@ -1,7 +1,8 @@
-import * as React from "react";
-import { connect } from "react-redux"
+import * as React from 'react';
+import { connect } from 'react-redux'
+import * as classNames from 'classnames';
 
-import Checkbox from 'material-ui/Checkbox';
+import Checkbox from 'react-toolbox/lib/checkbox';
 import RootSelector from './RootSelector';
 
 import { getSchemaSelector } from '../../introspection';
@@ -10,7 +11,8 @@ import { changeDisplayOptions } from '../../actions/';
 interface SettingsProps {
   schema: any;
   options: any;
-  color?: string;
+  inversed?: boolean;
+  compact?: boolean;
   onChange: any;
 }
 
@@ -35,18 +37,18 @@ export class Settings extends React.Component<SettingsProps, void> {
     let {
       schema,
       options,
-      color,
+      inversed,
+      compact,
       onChange,
     } = this.props;
-
-    let style = color ? {color: color, fill: color} : {};
 
     return (
       <div className="menu-content">
         <div className="setting-change-root">
           <h3> Root Node </h3>
           <RootSelector
-            color={color}
+            inversed={inversed}
+            compact={compact}
             schema={schema}
             rootTypeId={options.rootTypeId}
             onChange={(rootTypeId) => onChange({...options, rootTypeId})}
@@ -54,15 +56,15 @@ export class Settings extends React.Component<SettingsProps, void> {
         </div>
         <div className="setting-other-options">
           <h3> Options </h3>
-          <div className="checkbox-wrap">
-            <Checkbox label="Sort by Alphabet" checked={options.sortByAlphabet} iconStyle={style}
-              labelStyle={style}
-              onCheck={(e,sortByAlphabet) => onChange({...options, sortByAlphabet})} />
+          <div className={classNames('checkbox-wrap', { '-inversed': inversed })}>
+            <Checkbox label="Sort by Alphabet" checked={!!options.sortByAlphabet}
+              onChange={sortByAlphabet => onChange({...options, sortByAlphabet})} />
           </div>
-          <div className="checkbox-wrap">
-            <Checkbox label="Skip Relay" checked={options.skipRelay} iconStyle={style}
-              labelStyle={style}
-              onCheck={(e,skipRelay) => onChange({...options, skipRelay})} />
+          <div className={classNames('checkbox-wrap', { '-inversed': inversed })}>
+            <Checkbox label="Skip Relay" checked={!!options.skipRelay}
+              onChange={skipRelay => {
+                onChange({...options, skipRelay})
+              }} />
           </div>
         </div>
       </div>

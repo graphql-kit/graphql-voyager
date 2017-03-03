@@ -1,6 +1,7 @@
 :root {
   --badge-spacing: 5px;
   --dark-bg-color: #0b2840;
+  --primary-color: #00bcd4;
   --highlight-color: #00bcd4;
   --secondary-color: #548f9e;
   --logo-color: #27535e;
@@ -56,13 +57,19 @@
   }
 }
 
-.modal-content .menu-content {
+.introspection-modal .menu-content {
   display: flex;
+  align-items: center;
   width: 100%;
   color: white;
   background: #1a3f4d;
   position: absolute;
   margin-top: -44px;
+  height: 44px;
+
+  & .dropdown-root {
+    color: #333;
+  }
 
   & > div {
     flex: 1;
@@ -152,9 +159,52 @@
   /*margin: 0 -22px;*/
 }
 
-.dropdown-root > div:first-child {
-  margin: 0 -22px;
-  width: calc(100% + 44px) !important;
+.dropdown-root > div {
+  padding: 0;
+}
+
+.dropdown-root.-inversed > div {
+  & > div {
+    color: white;
+    border-bottom-color: white;
+
+    &::after {
+      border-top-color: white;
+    }
+  }
+}
+
+.dropdown-root.-compact > div {
+  & > div {
+    min-height: 0;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 2px;
+
+    &::after {
+      margin-top: -2px;
+    }
+  }
+}
+
+.checkbox-wrap {
+  & > label {
+    margin-bottom: 0;
+  }
+
+  &.-inversed {
+    & [data-react-toolbox="label"] {
+      color: white;
+    }
+
+    & [data-react-toolbox="check"] {
+      border-color: white;
+    }
+
+    & input:checked + [data-react-toolbox="check"] {
+      border-color: var(--primary-color);
+    }
+  }
 }
 
 .modal-root {
@@ -173,7 +223,7 @@
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.28902);
 }
 
-.modal-content {
+.introspection-modal {
   padding: 0 20px 20px;
   display: flex;
   flex-direction: column;

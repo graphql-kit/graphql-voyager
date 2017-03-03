@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { connect } from "react-redux"
-import IconButton from 'material-ui/IconButton';
-import EyeIcon from 'material-ui/svg-icons/image/remove-red-eye';
-import { cyan500 } from 'material-ui/styles/colors';
+import { IconButton } from 'react-toolbox/lib/button';
+import EyeIcon from '../icons/remove-red-eye.svg';
 
+import './FocusTypeButton.css';
 import { focusElement } from '../../actions/';
 
 interface FocusTypeButtonProps {
@@ -15,11 +15,9 @@ interface FocusTypeButtonProps {
 
 function FocusTypeButton(props:FocusTypeButtonProps) {
   return (
-    <IconButton
-      onTouchTap={() => props.dispatch(focusElement(props.type.id))}
-      style={{height: '20px', width: '20px', padding: 0, verticalAlign: 'middle', marginLeft: '5px'}}
-      iconStyle={{height: '20px', width: '20px'}}>
-      <EyeIcon color={cyan500}/>
+    <IconButton className="eye-button"
+      onClick={() => props.dispatch(focusElement(props.type.id))}>
+      <EyeIcon />
     </IconButton>
   );
 }

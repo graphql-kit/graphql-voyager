@@ -8,9 +8,6 @@ import {
 } from './actions';
 
 import { store } from './redux';
-import { init } from './components/';
-
-init(document.getElementById('panel_root'));
 
 store.dispatch(showIntrospectionModal())
 if (DEBUG_INITIAL_PRESET) {

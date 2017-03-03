@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { connect } from 'react-redux'
-import {red900, grey50} from 'material-ui/styles/colors';
-import Snackbar from 'material-ui/Snackbar';
+import { Button, Snackbar } from 'react-toolbox';
+
+import './ErrorBar.css';
 
 import {clearError} from '../../actions';
 
@@ -27,22 +28,13 @@ class ErrorBar extends React.Component<ErrorBarProps, void> {
       return null;
 
     return (
-      <Snackbar
-        open={errorMessage !== null}
-        action={"Dismiss"}
-        onActionTouchTap={() => dispatch(clearError())}
-        onRequestClose={(reason) => false}
-        message={errorMessage}
-        bodyStyle={{
-          backgroundColor: red900,
-          color: grey50
-        }}
-        contentStyle={{
-          display: 'block',
-          textOverflow: 'ellipsis',
-          whiteSpace: 'nowrap',
-          overflow: 'hidden'
-        }}
+      <Snackbar className='error-bar'
+          action='Dismiss'
+          active={errorMessage !== null}
+          label={errorMessage}
+          timeout={2000}
+          onClick={() => dispatch(clearError())}
+          type='warning'
         />
     );
   }

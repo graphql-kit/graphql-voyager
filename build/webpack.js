@@ -24,6 +24,10 @@ module.exports = function() {
     node: {
       fs: "empty"
     },
+    externals: {
+      'react':'React',
+      'react-dom': 'ReactDOM'
+    },
     entry: IS_PRODUCTION ? {
       'index': ['./lib/vendor.ts', './lib/index.ts']
     } : {
@@ -41,7 +45,10 @@ module.exports = function() {
       path: root('dist'),
       filename: IS_PRODUCTION ? '[hash].[name].js' : '[name].js',
       sourceMapFilename: '[name].[id].map',
-      chunkFilename: '[id].chunk.js'
+      chunkFilename: '[id].chunk.js',
+      library: 'GraphQLVoyager',
+      libraryTarget: 'umd',
+      umdNamedDefine: true
     },
     module: {
       rules: [
@@ -60,16 +67,16 @@ module.exports = function() {
         test: /\.css$/,
         use: ExtractTextPlugin.extract({
           fallback: 'style-loader',
-          use: ['css-loader', 'postcss-loader']
+          use: ['css-loader?sourceMap&importLoaders=1', 'postcss-loader']
         }),
-        exclude: [/node_modules/]
+        exclude: [/node_modules\/react-toolbox\/*/]
       },
       {
-        test: /node_modules.*\.css$/,
+        test: /react-toolbox\/.*\.css$/,
         use: ExtractTextPlugin.extract({
           fallback: 'style-loader',
-          use: 'css-loader'
-        }),
+          use: ['css-loader?sourceMap&modules&importLoaders=1', 'postcss-loader']
+        })
       },
       {
         test: /\.json$/,

@@ -1,3 +1,17 @@
 .wrapped-type-name::before {
   content: ": ";
 }
+
+.relay-icon {
+  height: 24px;
+  line-height: 24px;
+  width: 24px;
+  margin-left: 5px;
+
+  & svg {
+    height: 24px;
+    line-height: 24px;
+    width: 24px;
+    min-height: 24px;
+  }
+}

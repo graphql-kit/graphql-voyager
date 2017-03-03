@@ -16,7 +16,7 @@
     transform: translateY(-50%);
   }
   & > button {
-    position: absolute !important;
-    right: 20px;
+    position: absolute;
+    right: 10px;
   }
 }

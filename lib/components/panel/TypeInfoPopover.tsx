@@ -4,9 +4,8 @@ import * as classNames from 'classnames';
 
 import './TypeInfoPopover.css';
 
-import Popover from 'material-ui/Popover';
-import NavigationClose from 'material-ui/svg-icons/navigation/close';
-import IconButton from 'material-ui/IconButton';
+import CloseIcon from '../icons/close-black.svg';
+import { IconButton } from 'react-toolbox/lib/button';
 
 import { changeSelectedTypeInfo } from '../../actions';
 
@@ -55,11 +54,10 @@ class ScalarDetails extends React.Component<ScalarDetailsProps, ScalarDetailsSta
           '-opened': !!type
         })}
       >
-      <IconButton style={{float: 'right', padding: 0, height: 48, width: 24}}
-        onTouchTap={() => this.close()}>
-        <NavigationClose />
-      </IconButton>
-        {(type || localType) && <TypeDetails type={type || localType}/> }
+        <IconButton className="closeButton" onClick={() => this.close()}>
+          <CloseIcon />
+        </IconButton>
+          {(type || localType) && <TypeDetails type={type || localType}/> }
       </div>
     )
   }

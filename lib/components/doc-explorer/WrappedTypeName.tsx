@@ -1,7 +1,6 @@
 import * as React from 'react';
-import SvgIcon from 'material-ui/SvgIcon';
-import IconButton from 'material-ui/IconButton';
-
+import Tooltip from 'react-toolbox/lib/tooltip';
+import { IconButton } from 'react-toolbox/lib/button';
 import './WrappedTypeName.css';
 
 import { stringifyWrappers } from '../../introspection/';
@@ -11,6 +10,8 @@ import TypeName from './TypeName';
 
 import RelayIcon from '../icons/relay-icon.svg';
 
+const TooltipIcon = Tooltip(IconButton);
+
 interface WrappedTypeNameProps {
   container: any;
 }
@@ -18,11 +19,9 @@ interface WrappedTypeNameProps {
 export default class WrappedTypeName extends React.Component<WrappedTypeNameProps, void> {
   renderRelayIcon() {
     return (
-      <IconButton disableTouchRipple={true} tooltipPosition="top-center" tooltip="Relay Connection"
-      style={{width: '20px', height: '20px', verticalAlign: 'middle', padding: 0}}
-      tooltipStyles={{'marginLeft': '-5px'}}>
-        <RelayIcon style={{width: '20px', height: '20px', verticalAlign: 'middle', marginLeft: '5px'}} />
-      </IconButton>
+      <TooltipIcon className="relay-icon" tooltipPosition="top" ripple={false} tooltip="Relay Connection">
+        <RelayIcon />
+      </TooltipIcon>
     );
   }
   render() {

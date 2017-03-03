@@ -2,14 +2,12 @@ import * as _ from 'lodash';
 import * as React from 'react';
 import { connect } from 'react-redux'
 import * as ReactModal from 'react-modal';
-import * as classnames from 'classnames';
-
-import AppBar from 'material-ui/AppBar';
-import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
-import RaisedButton from 'material-ui/RaisedButton';
-import IconButton from 'material-ui/IconButton';
-import NavigationClose from 'material-ui/svg-icons/navigation/close';
 import * as classNames from 'classnames';
+
+import './IntrospectionModal.css';
+
+import { Button, IconButton } from 'react-toolbox/lib/button';
+import CloseIcon from '../icons/close-black.svg';
 
 import * as ClipboardButton from 'react-clipboard.js';
 
@@ -49,7 +47,6 @@ function mapStateToProps(state) {
 }
 
 class IntrospectionModal extends React.Component<IntrospectionModalProps, IntrospectionModalState> {
-  presetGroup: RadioButtonGroup;
   constructor(props) {
     super(props);
     this.state = {recentlyCopied: false};
@@ -100,16 +97,9 @@ class IntrospectionModal extends React.Component<IntrospectionModalProps, Intros
 
   appBar() {
     return (
-      <AppBar
-        style={{backgroundColor: 'transparent', height: 0}}
-        titleStyle={{height: '54px', lineHeight: '50px', fontSize: '18px'}}
-        showMenuIconButton={false}
-        iconStyleRight={{marginTop: 0}}
-        iconElementRight={<IconButton
-          onTouchTap={() => this.close()}>
-          <NavigationClose />
-        </IconButton>}
-      />
+      <IconButton className="close-icon" onClick={() => this.close()}>
+          <CloseIcon color="#ffffff" />
+      </IconButton>
     );
   }
 
@@ -186,7 +176,7 @@ class IntrospectionModal extends React.Component<IntrospectionModalProps, Intros
     }
 
     return (
-      <div className="modal-content">
+      <div className="introspection-modal">
         <div className="logo">
           <img src="logo.png" />
         </div>
@@ -194,22 +184,20 @@ class IntrospectionModal extends React.Component<IntrospectionModalProps, Intros
           {this.predefinedCards(presetNames, activePreset)}
           {this.customCard(activePreset === 'custom', customPresetText)}
         </div>
-        <div className={classnames('modal-info-panel', {
+        <div className={classNames('modal-info-panel', {
           '-message': !validSelected,
           '-settings': validSelected
         })}>
-          <div className={classnames('modal-message', 'content', infoClass)}>
+          <div className={classNames('modal-message', 'content', infoClass)}>
             {infoMessage}
           </div>
-          <Settings color="#ffffff"
+          <Settings inversed={true} compact={true}
             schema={schema.schema}
             options={displayOptions}
             onChange={(options) => this.handleDisplayOptionsChange(options)}/>
         </div>
-        <RaisedButton label="Change Introspection"
-        backgroundColor="#265759" disabledBackgroundColor="#1e4651"
-        disabledLabelColor="rbga(255,255,255,0.21)" labelColor="#ffffff"
-        disabled={!validSelected} onTouchTap={this.handleChange.bind(this)}/>
+        <Button raised label="Change Introspection" className="submit-button"
+        disabled={!validSelected} onClick={this.handleChange.bind(this)}/>
       </div>
     );
   }

@@ -1,18 +1,19 @@
 import * as _ from 'lodash';
-import * as React from "react";
+import * as React from 'react';
+import * as classNames from 'classnames';
 
 import { isNode, getDefaultRoot } from '../../graph/';
 
-import DropDownMenu from 'material-ui/DropDownMenu';
-import MenuItem from 'material-ui/MenuItem';
-import Divider from 'material-ui/Divider';
+import Dropdown from 'react-toolbox/lib/dropdown';
+import { MenuItem, MenuDivider } from 'react-toolbox/lib/menu';
+
 
 interface RootSelectorProps {
   rootTypeId?: string;
   schema: any;
 
-  color?: string;
-
+  inversed?: boolean;
+  compact?: boolean;
   onChange: any;
 }
 
@@ -20,17 +21,11 @@ export default class RootSelector extends React.Component<RootSelectorProps, voi
   render() {
     let {
       rootTypeId,
-      color,
+      inversed,
+      compact,
       schema,
       onChange,
     } = this.props;
-
-    let labelStyle = {}, style = {}, iconStyle = {};
-    if (color) {
-      labelStyle = { color: color, height: '22px', lineHeight: '22px' };
-      style = { height: '22px' };
-      iconStyle = { top: '-2px', padding: 0, height: 24, width: 26 };
-    }
 
     if (schema === null)
       return null;
@@ -52,21 +47,25 @@ export default class RootSelector extends React.Component<RootSelectorProps, voi
     types = _(types).values().filter(isNode)
       .sortBy('name').value();
 
+    let typesList = _.compact([queryType, mutationType, subscriptionType]).map(type => ({
+      value: type.id,
+      label: type.name,
+      bold: true
+    }));
+    typesList = [...typesList, ...types.map(type => ({ value: type.id, label: type.name}))];
     return (
-      <DropDownMenu style={style} iconStyle={iconStyle} labelStyle={labelStyle}
-        className="dropdown-root" autoWidth={false}
-        onChange={(event, index, value) => {
+      <Dropdown
+        className={classNames('dropdown-root', {
+          '-inversed': inversed,
+          '-compact': compact
+        })}
+        source={typesList}
+        onChange={value => {
           onChange(value);
-        }} value={rootTypeId}>
-
-        <MenuItem value={queryType.id} primaryText={queryType.name} />
-        {mutationType && (<MenuItem value={mutationType.id} primaryText={mutationType.name} />)}
-        {subscriptionType && (<MenuItem value={subscriptionType.id} primaryText={subscriptionType.name} />)}
-        <Divider/>
-        {_.map(types, type => (
-          <MenuItem key={type.id} value={type.id} primaryText={type.name} />
-        ))}
-      </DropDownMenu>
+        }}
+        value={rootTypeId}
+        template={item => item.bold ? <strong> {item.label} </strong> : <span>{item.label}</span>}
+      />
     );
   }
 }
