@@ -6,14 +6,13 @@ import { isNode, getDefaultRoot } from '../../graph/';
 
 import Dropdown from 'react-toolbox/lib/dropdown';
 import { MenuItem, MenuDivider } from 'react-toolbox/lib/menu';
-
+import './RootSelector.css';
 
 interface RootSelectorProps {
   rootTypeId?: string;
   schema: any;
 
-  inversed?: boolean;
-  compact?: boolean;
+  theme: any;
   onChange: any;
 }
 
@@ -21,8 +20,7 @@ export default class RootSelector extends React.Component<RootSelectorProps, voi
   render() {
     let {
       rootTypeId,
-      inversed,
-      compact,
+      theme,
       schema,
       onChange,
     } = this.props;
@@ -55,10 +53,8 @@ export default class RootSelector extends React.Component<RootSelectorProps, voi
     typesList = [...typesList, ...types.map(type => ({ value: type.id, label: type.name}))];
     return (
       <Dropdown
-        className={classNames('dropdown-root', {
-          '-inversed': inversed,
-          '-compact': compact
-        })}
+        className='root-selector'
+        theme={theme}
         source={typesList}
         onChange={value => {
           onChange(value);

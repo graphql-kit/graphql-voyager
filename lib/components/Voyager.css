@@ -9,6 +9,10 @@
   display: flex;
   height: 100%;
 
+  @media (--small-viewport) {
+    flex-direction: column;
+  }
+
   & > .doc-panel {
     width: var(--doc-panel-width);
     min-width: var(--doc-panel-width);
@@ -28,6 +32,14 @@
     & > svg {
       width: 100%;
       height: 100%;
+    }
+  }
+
+  @media (--small-viewport) {
+    & > .doc-panel, & > .viewport {
+      height: 50%;
+      width: 100%;
+      max-width: none;
     }
   }
 }

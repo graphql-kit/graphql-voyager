@@ -4,7 +4,9 @@ import { connect } from 'react-redux'
 import * as ReactModal from 'react-modal';
 import * as classNames from 'classnames';
 
-import './IntrospectionModal.css';
+import './SchemaModal.css';
+import * as buttonDarkTheme from './button-dark.theme.css';
+import * as settingsDarkTheme from './settings-dark.theme.css';
 
 import { Button, IconButton } from 'react-toolbox/lib/button';
 import CloseIcon from '../icons/close-black.svg';
@@ -25,7 +27,7 @@ import {
 import { Settings } from './Settings';
 import { getNaSchemaSelector } from '../../introspection';
 
-interface IntrospectionModalProps {
+interface SchemaModalProps {
   showIntrospectionModal: boolean;
   notApplied: any;
   presetNames: string[];
@@ -33,7 +35,7 @@ interface IntrospectionModalProps {
   dispatch: any;
 }
 
-interface IntrospectionModalState {
+interface SchemaModalState {
   recentlyCopied: boolean;
 }
 
@@ -46,7 +48,7 @@ function mapStateToProps(state) {
   };
 }
 
-class IntrospectionModal extends React.Component<IntrospectionModalProps, IntrospectionModalState> {
+class SchemaModal extends React.Component<SchemaModalProps, SchemaModalState> {
   constructor(props) {
     super(props);
     this.state = {recentlyCopied: false};
@@ -105,11 +107,10 @@ class IntrospectionModal extends React.Component<IntrospectionModalProps, Intros
 
   predefinedCards(presetNames:string[], activePreset) {
     return (
-      <div className="modal-introspection-predefined">
+      <div className="schema-presets">
         {_(presetNames).without('custom').map(name =>
-          <div key={name} className={classNames({
-            'introspection-card': true,
-            'active': name === activePreset
+          <div key={name} className={classNames('introspection-card', {
+            '-active': name === activePreset
           })} onClick={() => {
             if (name !== activePreset)
               this.handlePresetChange(name)
@@ -123,14 +124,14 @@ class IntrospectionModal extends React.Component<IntrospectionModalProps, Intros
 
   customCard(isActive:boolean, customPresetText:string) {
     return (
-      <div className="modal-introspection-custom">
+      <div className="custom-schema-selector">
         <div className={classNames('introspection-card', {
           'active': isActive
         })} onClick={() => isActive || this.handlePresetChange('custom')}>
           <div className="card-header">
             <h2> Custom Introspection </h2>
           </div>
-          <div className="modal-introspection-custom-area">
+          <div className="card-content">
             <p> Run the introspection query against a GraphQL endpoint. Paste the result into the textarea below to view the model relationships.</p>
             <ClipboardButton component="a" data-clipboard-text={introspectionQuery}
             className={classNames({
@@ -176,7 +177,7 @@ class IntrospectionModal extends React.Component<IntrospectionModalProps, Intros
     }
 
     return (
-      <div className="introspection-modal">
+      <div className="schema-modal">
         <div className="logo">
           <img src="logo.png" />
         </div>
@@ -191,12 +192,12 @@ class IntrospectionModal extends React.Component<IntrospectionModalProps, Intros
           <div className={classNames('modal-message', 'content', infoClass)}>
             {infoMessage}
           </div>
-          <Settings inversed={true} compact={true}
+          <Settings theme={settingsDarkTheme}
             schema={schema.schema}
             options={displayOptions}
             onChange={(options) => this.handleDisplayOptionsChange(options)}/>
         </div>
-        <Button raised label="Change Introspection" className="submit-button"
+        <Button raised label="Change Introspection" theme={buttonDarkTheme}
         disabled={!validSelected} onClick={this.handleChange.bind(this)}/>
       </div>
     );
@@ -230,4 +231,4 @@ class IntrospectionModal extends React.Component<IntrospectionModalProps, Intros
 }
 
 
-export default connect(mapStateToProps)(IntrospectionModal);
+export default connect(mapStateToProps)(SchemaModal);

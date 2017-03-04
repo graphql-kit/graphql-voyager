@@ -12,7 +12,7 @@ import './viewport.css';
 import ErrorBar from './utils/ErrorBar';
 import LoadingAnimation from './utils/LoadingAnimation';
 import DocPanel from './panel/DocPanel';
-import IntrospectionModal from './settings/IntrospectionModal';
+import SchemaModal from './settings/SchemaModal';
 
 import { SVGRender } from './../graph/';
 import { Viewport } from './../graph/'
@@ -32,7 +32,7 @@ export default class Voyager extends React.Component<void, void> {
           <div ref="viewport" className="viewport"></div>
           <ErrorBar/>
           <LoadingAnimation/>
-          <IntrospectionModal />
+          <SchemaModal />
         </div>
       </Provider>
     );

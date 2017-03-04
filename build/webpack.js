@@ -67,15 +67,35 @@ module.exports = function() {
         test: /\.css$/,
         use: ExtractTextPlugin.extract({
           fallback: 'style-loader',
-          use: ['css-loader?sourceMap&importLoaders=1', 'postcss-loader']
+          use: [
+            {
+              loader: 'css-loader',
+              options: {
+                sourceMap: true
+              },
+            },
+            'postcss-loader'
+          ]
         }),
-        exclude: [/node_modules\/react-toolbox\/*/]
+        exclude: [/(react-toolbox\/.*\.css$|\.theme.css$)/]
       },
       {
-        test: /react-toolbox\/.*\.css$/,
+        test: /(react-toolbox\/.*\.css$|\.theme.css$)/,
         use: ExtractTextPlugin.extract({
           fallback: 'style-loader',
-          use: ['css-loader?sourceMap&modules&importLoaders=1', 'postcss-loader']
+          use: [
+            {
+              loader: 'css-loader',
+              query: {
+                sourceMap: true,
+                modules: true,
+                importLoaders: 1,
+                localIdentName: '[name]_[local]-[hash:base64:5]'
+              },
+            },
+            'postcss-loader'
+          ]
+          //use: ['css-loader?sourceMap&modules&importLoaders=1', 'postcss-loader']
         })
       },
       {

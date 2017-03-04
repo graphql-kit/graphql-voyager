@@ -29,3 +29,5 @@
 
   --badge-spacing: 5px;
 }
+
+@custom-media --small-viewport (max-width: 780px);

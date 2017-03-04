@@ -1,7 +1,4 @@
-import './style.css';
-
 import {
-  reportError,
   showIntrospectionModal,
   hideIntrospectionModal,
   changeActiveIntrospection

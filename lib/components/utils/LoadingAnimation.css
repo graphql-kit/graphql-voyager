@@ -49,6 +49,11 @@
 
   display: none;
   color: white;
+
+  @media (--small-viewport) {
+    left: 0;
+    top: 50%;
+  }
 }
 
 .loading-box.visible {
@@ -80,5 +85,17 @@
     text-align: center;;
     color: var(--secondary-color);
     letter-spacing: 4px;
+  }
+
+  @media (--small-viewport) {
+    text-align: center;
+
+    & svg {
+      max-width: 40%;
+    }
+
+    & h1 {
+      font-size: 1.5em;
+    }
   }
 }

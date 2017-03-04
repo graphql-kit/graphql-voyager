@@ -103,7 +103,7 @@
       skipBtn.addEventListener('click', handler, false);
     }
 
-    document.addEventListener('DOMContentLoaded', function() {
+    window.addEventListener("load", function(event) {
       ReactDOM.render(
         React.createElement(GraphQLVoyager.Voyager),
         document.getElementById('panel_root')
