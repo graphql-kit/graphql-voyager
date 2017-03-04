@@ -163,7 +163,7 @@ class TypeDoc extends React.Component<TypeDocProps, void> {
 
     return (
       <div className="type-doc">
-        <DocNavigation />
+        { typeGraph && <DocNavigation /> || <span className="loading"> Loading... </span>}
         {
           !selectedType ?
             <TypeList typeGraph={typeGraph}/> :

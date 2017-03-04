@@ -25,6 +25,12 @@
   margin-top: var(--panel-spacing);
   overflow: hidden;
 
+  & > .loading {
+    padding: 0 var(--panel-spacing);
+    font-weight: bold;
+    color: var(--text-color);
+  }
+
   & a {
     cursor: pointer;
     text-decoration: none;

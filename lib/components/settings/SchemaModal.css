@@ -136,7 +136,7 @@
   & > .-active {
     height: calc(100% - 40px);
 
-    & .modal-introspection-custom-area {
+    & .card-content {
       opacity: 1;
       max-height: 100%;
     }

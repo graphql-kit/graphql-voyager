@@ -1,28 +1,17 @@
 import * as _ from 'lodash';
 
 import * as ActionTypes from '../actions/'
+
 import {
-  githubIntrospection,
-  swapiIntrospection,
-  brandFolderIntrospection,
-  hslIntrospection,
   extractTypeId,
 } from '../introspection';
 
 var initialState = {
-  introspection: {
-    presets: {
-      'Star Wars': swapiIntrospection,
-      'BrandFolder': brandFolderIntrospection,
-      'OpenTripPlanner': hslIntrospection,
-      'GitHub': githubIntrospection,
-      'custom': null
-    },
+  schema: null,
+  schemaModal: {
+    opened: false,
     activePreset: null,
-  },
-  panel: {
-    showIntrospectionModal: false,
-    notApplied: null,
+    notApplied: null
   },
   displayOptions: {
     rootTypeId: null,
@@ -60,30 +49,16 @@ function pushHistory(currentTypeId: string, previousState): string[] {
 export function rootReducer(previousState = initialState, action) {
   const { type, error } = action;
   switch(type) {
-    case ActionTypes.CHANGE_ACTIVE_INTROSPECTION:
+    case ActionTypes.CHANGE_SCHEMA:
       return {
         ...previousState,
-        introspection: {
-          ...previousState.introspection,
-          activePreset: action.payload.presetName,
-        },
+        schema: action.payload.introspection,
         displayOptions: action.payload.displayOptions || initialState.displayOptions,
         svgCache: [],
         currentSvgIndex: null,
         graphView: initialState.graphView,
         selected: initialState.selected,
       };
-    case ActionTypes.CHANGE_CUSTOM_INTROSPECTION:
-      return {
-        ...previousState,
-        introspection: {
-          ...previousState.introspection,
-          presets: {
-            ...previousState.introspection.presets,
-            custom: action.payload
-          }
-        }
-      }
     case ActionTypes.CHANGE_DISPLAY_OPTIONS:
       let displayOptions = {...previousState.displayOptions, ...action.payload};
       let cacheIdx = _.findIndex(previousState.svgCache, cacheItem => {
@@ -181,34 +156,44 @@ export function rootReducer(previousState = initialState, action) {
           focusedId: null,
         },
       };
-    case ActionTypes.SHOW_INTROSPECTION_MODAL:
-      const customPreset = previousState.introspection.presets['custom'];
-      const customPresetText =  customPreset ? JSON.stringify(customPreset, null, 2) : null;
+    case ActionTypes.SHOW_SCHEMA_MODAL:
+      const preset = previousState.schema;
+      const customPresetText =
+        previousState.schemaModal.activePreset === 'custom' ?
+        JSON.stringify(preset, null, 2) : null;
       return {
         ...previousState,
-        panel: {
-          ...previousState.panel,
-          showIntrospectionModal: true,
+        schemaModal: {
+          ...previousState.schemaModal,
+          opened: true,
           notApplied: {
-            activePreset: previousState.introspection.activePreset,
+            activePreset: previousState.schemaModal.activePreset,
             displayOptions: previousState.displayOptions,
             customPresetText
           }
         },
         errorMessage: initialState.errorMessage,
       }
+    case ActionTypes.CHANGE_ACTIVE_PRESET:
+      return {
+        ...previousState,
+        schemaModal: {
+          ...previousState.schemaModal,
+          activePreset: action.payload,
+        }
+      }
     case ActionTypes.CHANGE_NOT_APPLIED_ACTIVE_PRESET:
-      const previousNa = previousState.panel.notApplied;
+      const previousNa = previousState.schemaModal.notApplied;
       const naActivePreset = action.payload;
-      if (naActivePreset === previousNa.activePreset)
+      if (naActivePreset === (<any>previousNa).activePreset)
         return previousState;
 
       return {
         ...previousState,
-        panel: {
-          ...previousState.panel,
+        schemaModal: {
+          ...previousState.schemaModal,
           notApplied: {
-            ...previousState.panel.notApplied,
+            ...previousState.schemaModal.notApplied,
             activePreset: naActivePreset,
             displayOptions: initialState.displayOptions,
           }
@@ -218,10 +203,10 @@ export function rootReducer(previousState = initialState, action) {
     case ActionTypes.CHANGE_NOT_APPLIED_CUSTOM_PRESET:
       return {
         ...previousState,
-        panel: {
-          ...previousState.panel,
+        schemaModal: {
+          ...previousState.schemaModal,
           notApplied: {
-            ...previousState.panel.notApplied,
+            ...previousState.schemaModal.notApplied,
             displayOptions: initialState.displayOptions,
             customPresetText: action.payload,
           },
@@ -231,21 +216,21 @@ export function rootReducer(previousState = initialState, action) {
     case ActionTypes.CHANGE_NOT_APPLIED_DISPLAY_OPTIONS:
       return {
         ...previousState,
-        panel: {
-          ...previousState.panel,
+        schemaModal: {
+          ...previousState.schemaModal,
           notApplied: {
-            ...previousState.panel.notApplied,
+            ...previousState.schemaModal.notApplied,
             displayOptions: action.payload,
           },
         },
       }
-    case ActionTypes.HIDE_INTROSPECTION_MODAL:
+    case ActionTypes.HIDE_SCHEMA_MODAL:
       return {
         ...previousState,
-        panel: {
-          ...previousState.panel,
-          showIntrospectionModal: false,
-          notApplied: null,
+        schemaModal: {
+          ...previousState.schemaModal,
+          opened: false,
+          notApplied: null
         }
       }
     case ActionTypes.TOGGLE_MENU:

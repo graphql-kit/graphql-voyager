@@ -16,10 +16,10 @@ import * as ClipboardButton from 'react-clipboard.js';
 import { introspectionQuery } from 'graphql/utilities';
 
 import {
-  changeActiveIntrospection,
-  changeCustomIntrospection,
-  changeDisplayOptions,
-  hideIntrospectionModal,
+  changeSchema,
+  hideSchemaModal,
+  showSchemaModal,
+  changeActivePreset,
   changeNaActivePreset,
   changeNaCustomPreset,
   changeNaDisplayOptions,
@@ -28,9 +28,10 @@ import { Settings } from './Settings';
 import { getNaSchemaSelector } from '../../introspection';
 
 interface SchemaModalProps {
-  showIntrospectionModal: boolean;
+  presets: any;
+
+  showSchemaModal: boolean;
   notApplied: any;
-  presetNames: string[];
   schema: any;
   dispatch: any;
 }
@@ -41,9 +42,8 @@ interface SchemaModalState {
 
 function mapStateToProps(state) {
   return {
-    showIntrospectionModal: state.panel.showIntrospectionModal,
-    notApplied: state.panel.notApplied,
-    presetNames: _.keys(state.introspection.presets),
+    showSchemaModal: state.schemaModal.opened,
+    notApplied: state.schemaModal.notApplied,
     schema: getNaSchemaSelector(state),
   };
 }
@@ -52,6 +52,15 @@ class SchemaModal extends React.Component<SchemaModalProps, SchemaModalState> {
   constructor(props) {
     super(props);
     this.state = {recentlyCopied: false};
+  }
+
+  componentDidMount() {
+    this.props.dispatch(showSchemaModal())
+    if (DEBUG_INITIAL_PRESET) {
+      this.props.dispatch(hideSchemaModal())
+      this.props.dispatch(changeActivePreset(DEBUG_INITIAL_PRESET));
+      this.props.dispatch(changeSchema(this.props.presets[DEBUG_INITIAL_PRESET]));
+    }
   }
 
   handleTextChange(event) {
@@ -79,15 +88,14 @@ class SchemaModal extends React.Component<SchemaModalProps, SchemaModalState> {
       dispatch
     } = this.props;
 
-    if (activePreset === 'custom')
-      dispatch(changeCustomIntrospection(JSON.parse(customPresetText)));
-
-    dispatch(changeActiveIntrospection(activePreset, displayOptions));
-    this.props.dispatch(hideIntrospectionModal());
+    let schema = activePreset === 'custom' ? JSON.parse(customPresetText) : this.props.presets[activePreset];
+    this.props.dispatch(hideSchemaModal());
+    this.props.dispatch(changeActivePreset(activePreset));
+    this.props.dispatch(changeSchema(schema, displayOptions));
   }
 
   close() {
-    this.props.dispatch(hideIntrospectionModal())
+    this.props.dispatch(hideSchemaModal())
   }
 
   copy() {
@@ -126,7 +134,7 @@ class SchemaModal extends React.Component<SchemaModalProps, SchemaModalState> {
     return (
       <div className="custom-schema-selector">
         <div className={classNames('introspection-card', {
-          'active': isActive
+          '-active': isActive
         })} onClick={() => isActive || this.handlePresetChange('custom')}>
           <div className="card-header">
             <h2> Custom Introspection </h2>
@@ -163,11 +171,11 @@ class SchemaModal extends React.Component<SchemaModalProps, SchemaModalState> {
 
     let infoMessage = null;
     let infoClass = null;
-    if (errorMessage !== null) {
+    if (errorMessage != null) {
       infoMessage = errorMessage;
       infoClass = '-error';
     }
-    else if (activePreset === null) {
+    else if (activePreset == null) {
       infoMessage = 'Please select introspection';
       infoClass = '-select';
     }
@@ -205,12 +213,14 @@ class SchemaModal extends React.Component<SchemaModalProps, SchemaModalState> {
 
   render() {
     const {
-      showIntrospectionModal,
-      presetNames,
+      showSchemaModal,
       notApplied,
       schema,
       dispatch,
+      presets
     } = this.props;
+
+    if (!presets) throw new Error('To use schema modal pass "_schemaPresets" property to "<Voyager>"')
 
     let customStyle = {
       content: {maxHeight: '600px', maxWidth: '1000px'},
@@ -218,13 +228,13 @@ class SchemaModal extends React.Component<SchemaModalProps, SchemaModalState> {
     };
 
     return (
-      <ReactModal isOpen={showIntrospectionModal} className="modal-root"
+      <ReactModal isOpen={showSchemaModal} className="modal-root"
         style={customStyle}
         contentLabel="Select Introspection"
         onRequestClose={() => this.close()}
       >
         {this.appBar()}
-        {this.modalContent(presetNames, notApplied, schema)}
+        {this.modalContent(Object.keys(presets), notApplied, schema)}
       </ReactModal>
     );
   }

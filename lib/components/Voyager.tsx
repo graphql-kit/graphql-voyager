@@ -17,22 +17,45 @@ import SchemaModal from './settings/SchemaModal';
 import { SVGRender } from './../graph/';
 import { Viewport } from './../graph/'
 
-export default class Voyager extends React.Component<void, void> {
+import {
+  changeSchema
+} from '../actions/';
+
+type SchemaProvider = () => Promise<any>;
+
+interface VoyagerProps {
+  _schemaPresets?: any;
+  schemaProvider: SchemaProvider
+}
+
+export default class Voyager extends React.Component<VoyagerProps, void> {
 
   componentDidMount() {
     const svgRender = new SVGRender();
     const viewport = new Viewport(this.refs['viewport'] as HTMLElement);
+
+    if (this.props.schemaProvider) {
+      this.props.schemaProvider().then(schema => {
+        store.dispatch(changeSchema(schema));
+      });
+    }
   }
 
   render() {
+    let {
+      _schemaPresets
+    } = this.props;
+
+    let showModal = !!_schemaPresets;
+
     return (
       <Provider store={ store }>
         <div className="graphql-voyager">
-          <DocPanel/>
+          <DocPanel _showChangeButton={!!_schemaPresets}/>
           <div ref="viewport" className="viewport"></div>
           <ErrorBar/>
           <LoadingAnimation/>
-          <SchemaModal />
+          { showModal && <SchemaModal presets={_schemaPresets}/> }
         </div>
       </Provider>
     );

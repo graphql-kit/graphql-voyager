@@ -105,7 +105,9 @@
 
     window.addEventListener("load", function(event) {
       ReactDOM.render(
-        React.createElement(GraphQLVoyager.Voyager),
+        React.createElement(GraphQLVoyager.Voyager, {
+          _schemaPresets: window.VOYAGER_PRESETS
+        }),
         document.getElementById('panel_root')
       );
     })

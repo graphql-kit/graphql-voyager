@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import './TitleArea.css';
 
 import {
-  showIntrospectionModal
+  showSchemaModal
 } from '../../actions/';
 
 import LogoIcon from '../icons/logo-small.svg';
@@ -12,6 +12,7 @@ import LogoIcon from '../icons/logo-small.svg';
 import { Button } from 'react-toolbox/lib/button';
 
 interface TitleAreaProps {
+  _showChangeButton: boolean;
   dispatch: any;
 }
 
@@ -20,6 +21,7 @@ class TitleArea extends React.Component<TitleAreaProps, void> {
   render() {
     const {
       dispatch,
+      _showChangeButton
     } = this.props;
     return (
       <div className="title-area">
@@ -29,8 +31,8 @@ class TitleArea extends React.Component<TitleAreaProps, void> {
             <h2 className="title"><strong>GraphQL</strong> Voyager</h2>
           </div>
         </a>
-        <Button className="choosebutton" raised primary label="Change Introspection"
-          onClick={() => dispatch(showIntrospectionModal())}/>
+        { _showChangeButton && <Button className="choosebutton" raised primary label="Change Introspection"
+          onClick={() => dispatch(showSchemaModal())}/> }
       </div>
     )
   }

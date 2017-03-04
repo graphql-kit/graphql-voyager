@@ -29,11 +29,9 @@ module.exports = function() {
       'react-dom': 'ReactDOM'
     },
     entry: IS_PRODUCTION ? {
-      'index': ['./lib/vendor.ts', './lib/index.ts']
-    } : {
-      'index': './lib/index.ts',
-      'vendor': './lib/vendor.ts'
-    },
+      'index': ['./lib/vendor.ts', './lib/index.ts'],
+      'presets': ['./lib/presets.ts']
+    } : ['./lib/presets.ts', './lib/vendor.ts', './lib/index.ts'],
     devServer: {
       contentBase: root('demo'),
       watchContentBase: true,
@@ -138,7 +136,7 @@ module.exports = function() {
 
       new webpack.DefinePlugin({
         'VERSION': VERSION,
-        'DEBUG': !!IS_PRODUCTION,
+        'DEBUG': !IS_PRODUCTION,
         'DEBUG_INITIAL_PRESET': IS_PRODUCTION ? 'false': '"Star Wars"'
       }),
 

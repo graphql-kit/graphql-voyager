@@ -5,6 +5,8 @@ import { buildClientSchema } from 'graphql';
 import { store } from '../redux';
 import { typeNameToId } from './utils';
 
+const VOYAGER_PRESETS = window.VOYAGER_PRESETS;
+
 function unwrapType(type, wrappers) {
   while (type.kind === 'NON_NULL' || type.kind == 'LIST') {
     wrappers.push(type.kind);
@@ -236,7 +238,7 @@ export function getSchema(introspection:any, sortByAlphabet:boolean, skipRelay:b
 }
 
 export const getSchemaSelector = createSelector(
-  (state:any) => state.introspection.presets[state.introspection.activePreset],
+  (state:any) => state.schema,
   (state:any) => state.displayOptions.sortByAlphabet,
   (state:any) => state.displayOptions.skipRelay,
   getSchema
@@ -244,17 +246,17 @@ export const getSchemaSelector = createSelector(
 
 export const getNaSchemaSelector = createSelector(
   (state:any) => {
-    if (state.panel.notApplied === null)
+    if (state.schemaModal.notApplied === null)
       return null;
 
-    const activePreset = state.panel.notApplied.activePreset;
-    const customPresetText = state.panel.notApplied.customPresetText;
+    const activePreset = state.schemaModal.notApplied.activePreset;
+    const customPresetText = state.schemaModal.notApplied.customPresetText;
     if (activePreset === 'custom')
       return customPresetText;
-    return state.introspection.presets[activePreset] || null;
+    return VOYAGER_PRESETS[activePreset] || null;
   },
-  (state:any) => _.get(state, 'panel.notApplied.displayOptions.sortByAlphabet'),
-  (state:any) => _.get(state, 'panel.notApplied.displayOptions.skipRelay'),
+  (state:any) => _.get(state, 'schemaModal.notApplied.displayOptions.sortByAlphabet'),
+  (state:any) => _.get(state, 'schemaModal.notApplied.displayOptions.skipRelay'),
   (introspection, sortByAlphabet, skipRelay) => {
     if (introspection === null)
       return {schema: null, error: null};
