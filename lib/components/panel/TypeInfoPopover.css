@@ -1,15 +1,17 @@
+@import '../variables.css';
+
 .type-info-popover {
-  left: 320px;
+  left: var(--doc-panel-width);
   top: 50%;
   overflow-y: auto;
 
   transform: translateY(-50%) translateX(-110%);
-  width: 320px;
+  width: var(--type-info-popover-width);
   height: 75%;
-  padding: 10px 20px;
+  padding: calc(var(--spacing-unit) * 2) var(--panel-spacing);
   position: absolute;
   background: white;
-  box-shadow: 0px 0 10px 3px rgba(0, 0, 0, 0.09);
+  box-shadow: 0px 0 10px 3px var(--shadow-color);
 
   transition: all 0.45s ease-out;
   &.-opened {
@@ -17,6 +19,6 @@
   }
   & > button {
     position: absolute;
-    right: 10px;
+    right: calc(var(--spacing-unit) * 2)
   }
 }

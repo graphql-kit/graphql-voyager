@@ -1,6 +1,8 @@
+@import '../variables.css';
+
 .doc-navigation {
   min-height: 20px;
-  box-shadow: 0 4px 4px -2px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 4px -2px var(--shadow-color);
   display: flex;
   justify-content: space-between;
 
@@ -11,7 +13,7 @@
   }
 
   & > .back {
-    color: #204d71;
+    color: var(--field-name-color);
     cursor: pointer;
     overflow-x: hidden;
     text-overflow: ellipsis;
@@ -20,8 +22,8 @@
     font-weight: normal;
 
     &:before {
-      border-left: 2px solid #204d71;
-      border-top: 2px solid #204d71;
+      border-left: 2px solid var(--field-name-color);
+      border-top: 2px solid var(--field-name-color);
       content: '';
       display: inline-block;
       height: 9px;
@@ -34,12 +36,12 @@
 
   & > .active {
     font-weight: bold;
-    color: #00bcd4;
+    color: var(--primary-color);
     font-weight: bold;
   }
 
   & > .header {
     font-weight: bold;
-    color: #666;
+    color: var(--text-color);
   }
 }

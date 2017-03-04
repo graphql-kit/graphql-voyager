@@ -1,6 +1,10 @@
 :root {
   --font-family: Roboto, open-sans;
-  --panel-padding: 15px;
+  --monospace-font-family: 'Consolas', 'Inconsolata', 'Droid Sans Mono', 'Monaco', monospace;
+  --spacing-unit: 5px;
+  --panel-items-spacing: 8px;
+  --panel-spacing: 15px;
+  --icons-size: 24px;
 
   --primary-color: #00bcd4;
   --background-color: #fff;
@@ -12,12 +16,20 @@
   --link-hover-color: #0262a0;
   --field-name-color: #224d6f;
   --builtin-color: #711c1c;
+  --text-color: #666;
+  --shadow-color: rgba(0, 0, 0, 0.1);
+  --alert-color: #b71c1c;
 
   --modal-bg-color: var(--dark-bg-color);
 
   --doc-panel-width: 320px;
+  --type-info-popover-width: 320px;
   --doc-panel-bg-color: var(--background-color);
+  --doc-panel-item-stripe-color: rgba(158, 158, 158, 0.07);
+  --doc-panel-item-hover-color: rgba(214, 236, 238, 0.6);
 
+  --arg-default-color: #0B7FC7;
+  --arg-name-color: #c77f53;
 
   --node-fill-color: #f6f8f8;
   --node-header-color: var(--secondary-color);
@@ -26,8 +38,6 @@
   --edge-color: color(var(--secondary-color) l(- 15%));
   --selected-edge-color: red;
   --selected-field-bg: rgba(255, 0, 0, 0.18);
-
-  --badge-spacing: 5px;
 }
 
 @custom-media --small-viewport (max-width: 780px);

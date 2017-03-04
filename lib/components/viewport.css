@@ -7,7 +7,7 @@ g.graph > polygon {
 #svg-pan-zoom-controls {
   & path {
     fill-opacity: 0.75;
-    fill: #27535e;
+    fill: var(--field-name-color);
   }
 }
 
@@ -84,7 +84,7 @@ g.graph > polygon {
 
   & text {
     font-family: var(--font-family);
-    fill: #00525c;
+    fill: var(--field-name-color);
 
     display: none;
   }

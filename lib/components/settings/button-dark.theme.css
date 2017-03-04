@@ -1,11 +1,13 @@
+@import '../variables.css';
+
 .button.raised {
   &:not([disabled]) {
-    background: #265759;
+    background: var(--logo-color);
     color: white;
   }
 
   &[disabled] {
-    background: #1e4651;
+    background: color(var(--logo-color) l(- 10%));
     color: rgba(255, 255, 255, 0.2);
   }
 }

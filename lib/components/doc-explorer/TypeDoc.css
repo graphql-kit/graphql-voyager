@@ -6,23 +6,23 @@
 }
 
 .doc-alert-text {
-  color: #F00F00;
-  font-family: 'Consolas', 'Inconsolata', 'Droid Sans Mono', 'Monaco', monospace;
+  color: var(--alert-color);
+  font-family: var(--monospace-font-family);
   font-size: 13px;
 }
 
 .value-name {
-  color: #0B7FC7;
+  color: var(--arg-default-color);
 }
 
 .arg-name {
-  color: #c77f53;
+  color: var(--arg-name-color);
 }
 
 .type-doc {
   display: flex;
   flex-direction: column;
-  margin-top: 15px;
+  margin-top: var(--panel-spacing);
   overflow: hidden;
 
   & a {
@@ -31,26 +31,30 @@
   }
 
   & > .scroll-area {
-    padding-top: 20px;
+    padding-top: var(--panel-spacing);
     overflow-y: auto;
 
     & .description-box.-doc-type {
-      padding: 0 var(--panel-padding);
+      padding: 0 var(--panel-spacing);
     }
   }
 
   & > .doc-navigation {
-    padding: 5px 20px 5px 18px;
+    padding:
+      var(--spacing-unit)
+      calc(var(--panel-spacing) + var(--spacing-unit))
+      var(--spacing-unit)
+      18px;
   }
 }
 
 .doc-category {
-  margin: 20px 0 0;
+  margin: var(--panel-spacing) 0 0;
   cursor: pointer;
 
   & > .item {
-    padding: 8px 15px;
-    color: #555;
+    padding: var(--panel-items-spacing) var(--panel-spacing);
+    color: var(--text-color);
     position: relative;
     border-left: 3px solid transparent;
 
@@ -62,7 +66,7 @@
   & > .title {
     border-bottom: 1px solid #e0e0e0;
     padding: 0 15px;
-    color: #666;
+    color: var(--text-color);
     cursor: default;
     font-size: 14px;
     font-variant: small-caps;
@@ -76,25 +80,25 @@
 
   & > .item {
     &:nth-child(odd) {
-      background-color: rgba(158, 158, 158, 0.07);
+      background-color: var(--doc-panel-item-stripe-color);
     }
 
     &:hover {
-      background-color: rgba(214, 236, 238, 0.6);
+      background-color: var(--doc-panel-item-hover-color);
     }
 
     &.-with-args {
       &:before {
         width: 0;
         height: 0;
-        border-left: 5px solid transparent;
-        border-right: 5px solid transparent;
-        border-top: 5px solid var(--field-name-color);
+        border-left: var(--spacing-unit) solid transparent;
+        border-right: var(--spacing-unit) solid transparent;
+        border-top: var(--spacing-unit) solid var(--field-name-color);
         display: block;
         content: "";
         float: right;
-        margin-top: 6px;
-        margin-right: -8px;
+        margin-top: var(--panel-items-spacing);
+        margin-right: calc(- var(--panel-items-spacing));
         transition: all 0.3s ease;
         opacity: 0;
       }
@@ -110,12 +114,12 @@
     }
 
     &.-selected {
-      background-color: rgba(214, 236, 238, 0.75);
-      border-left: 3px solid #00bcd4;
+      background-color: color(var(--doc-panel-item-hover-color) a(+ 0.15));
+      border-left: 3px solid var(--primary-color);
 
       & .args {
         display: block;
-        padding-left: 20px;
+        padding-left: var(--panel-spacing);
       }
     }
   }

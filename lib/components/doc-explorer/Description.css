@@ -15,7 +15,7 @@
 
   &.-no-description {
     font-style:italic;
-    color: #666;
+    color: var(--text-color);
   }
 
   &.-linked-type, &.-field, &.-enum-value {
@@ -25,6 +25,6 @@
   }
 
   &.-enum-value {
-    padding: 8px 0 0 8px;
+    padding: var(--spacing-unit) 0 0 var(--spacing-unit);
   }
 }

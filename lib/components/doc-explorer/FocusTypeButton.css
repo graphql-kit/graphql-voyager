@@ -1,16 +1,16 @@
 @import '../variables.css';
 
 .eye-button {
-  height: 24px;
-  width: 24px;
-  min-width: 24px;
+  height: var(--icons-size);
+  width: var(--icons-size);
+  min-width: var(--icons-size);
   padding: 0;
-  margin-left: 5px;
+  margin-left: var(--spacing-unit);
   vertical-align: middle;
 
   & > svg {
-    line-height: 24px;
-    height: 24px;
+    line-height: var(--icons-size);
+    height: var(--icons-size);
 
     & path:not([fill]) {
       fill: var(--primary-color);

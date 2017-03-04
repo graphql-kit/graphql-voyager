@@ -1,7 +1,7 @@
 @import '../variables.css';
 
 .title-area {
-  padding: 0 var(--panel-padding);
+  padding: 0 var(--panel-spacing);
   & > a > .logo {
     padding: 20px 0;
     display: flex;
