@@ -41,7 +41,7 @@ module.exports = function() {
     },
     output: {
       path: root('dist'),
-      filename: IS_PRODUCTION ? '[hash].[name].js' : '[name].js',
+      filename: '[name].js',
       sourceMapFilename: '[name].[id].map',
       chunkFilename: '[id].chunk.js',
       library: 'GraphQLVoyager',
@@ -127,6 +127,14 @@ module.exports = function() {
     },
 
     plugins: [
+      new webpack.LoaderOptionsPlugin({
+        worker: {
+          output: {
+            filename: "[name].worker.js"
+          }
+        }
+      }),
+
       new webpack.HotModuleReplacementPlugin(),
 
       new webpack.optimize.CommonsChunkPlugin({

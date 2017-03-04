@@ -9,7 +9,7 @@
     "clean": "rimraf dist",
     "build:prod": "npm run clean && NODE_ENV=production webpack -p --config build/webpack.js",
     "deploy": "deploy-to-gh-pages dist",
-    "toolbox": "react-toolbox-themr"
+    "stats": "NODE_ENV=production webpack --json -p --config build/webpack.js > stats.json"
   },
   "author": "",
   "license": "MIT",
@@ -35,7 +35,6 @@
     "raw-loader": "^0.5.1",
     "react-clipboard.js": "^1.0.1",
     "react-svg-loader": "^2.0.0-alpha.1",
-    "react-toolbox-themr": "^1.0.2",
     "rimraf": "^2.6.0",
     "shelljs": "^0.7.6",
     "style-loader": "^0.13.1",
