@@ -14,21 +14,16 @@ export function hideSchemaModal() {
 }
 
 export const CHANGE_NOT_APPLIED_ACTIVE_PRESET = 'CHANGE_NOT_APPLIED_ACTIVE_PRESET';
-export const CHANGE_NOT_APPLIED_CUSTOM_PRESET = 'CHANGE_NOT_APPLIED_CUSTOM_PRESET';
 export const CHANGE_NOT_APPLIED_DISPLAY_OPTIONS = 'CHANGE_NOT_APPLIED_DISPLAY_OPTIONS';
 export const CHANGE_ACTIVE_PRESET = 'CHANGE_ACTIVE_PRESET';
 
-export function changeNaActivePreset(value:string) {
+export function changeNaActivePreset(value:string, schema: any) {
   return {
     type: CHANGE_NOT_APPLIED_ACTIVE_PRESET,
-    payload: value
-  };
-}
-
-export function changeNaCustomPreset(value:string) {
-  return {
-    type: CHANGE_NOT_APPLIED_CUSTOM_PRESET,
-    payload: value
+    payload: {
+      presetName: value,
+      schema
+    }
   };
 }
 
@@ -40,6 +35,7 @@ export function changeNaDisplayOptions(options:any) {
 }
 
 export function changeActivePreset(preset: string) {
+  console.log(preset);
   return {
     type: CHANGE_ACTIVE_PRESET,
     payload: preset

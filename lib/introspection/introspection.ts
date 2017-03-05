@@ -5,8 +5,6 @@ import { buildClientSchema } from 'graphql';
 import { store } from '../redux';
 import { typeNameToId } from './utils';
 
-const VOYAGER_PRESETS = window.VOYAGER_PRESETS;
-
 function unwrapType(type, wrappers) {
   while (type.kind === 'NON_NULL' || type.kind == 'LIST') {
     wrappers.push(type.kind);
@@ -249,16 +247,13 @@ export const getNaSchemaSelector = createSelector(
     if (state.schemaModal.notApplied === null)
       return null;
 
-    const activePreset = state.schemaModal.notApplied.activePreset;
-    const customPresetText = state.schemaModal.notApplied.customPresetText;
-    if (activePreset === 'custom')
-      return customPresetText;
-    return VOYAGER_PRESETS[activePreset] || null;
+    const presetValue = state.schemaModal.notApplied.presetValue;
+    return presetValue;
   },
   (state:any) => _.get(state, 'schemaModal.notApplied.displayOptions.sortByAlphabet'),
   (state:any) => _.get(state, 'schemaModal.notApplied.displayOptions.skipRelay'),
   (introspection, sortByAlphabet, skipRelay) => {
-    if (introspection === null)
+    if (introspection == null)
       return {schema: null, error: null};
 
     try {

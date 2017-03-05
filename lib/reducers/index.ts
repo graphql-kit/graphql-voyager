@@ -157,19 +157,17 @@ export function rootReducer(previousState = initialState, action) {
         },
       };
     case ActionTypes.SHOW_SCHEMA_MODAL:
-      const preset = previousState.schema;
-      const customPresetText =
-        previousState.schemaModal.activePreset === 'custom' ?
-        JSON.stringify(preset, null, 2) : null;
+      const presetValue = previousState.schema;
       return {
         ...previousState,
         schemaModal: {
           ...previousState.schemaModal,
           opened: true,
           notApplied: {
+            //schema: schema,
             activePreset: previousState.schemaModal.activePreset,
             displayOptions: previousState.displayOptions,
-            customPresetText
+            presetValue
           }
         },
         errorMessage: initialState.errorMessage,
@@ -179,14 +177,13 @@ export function rootReducer(previousState = initialState, action) {
         ...previousState,
         schemaModal: {
           ...previousState.schemaModal,
-          activePreset: action.payload,
+          activePreset: action.payload
         }
       }
     case ActionTypes.CHANGE_NOT_APPLIED_ACTIVE_PRESET:
       const previousNa = previousState.schemaModal.notApplied;
-      const naActivePreset = action.payload;
-      if (naActivePreset === (<any>previousNa).activePreset)
-        return previousState;
+      const naActivePreset = action.payload.presetName;
+      const naSchema = action.payload.schema;
 
       return {
         ...previousState,
@@ -194,22 +191,10 @@ export function rootReducer(previousState = initialState, action) {
           ...previousState.schemaModal,
           notApplied: {
             ...previousState.schemaModal.notApplied,
+            presetValue: naSchema,
             activePreset: naActivePreset,
             displayOptions: initialState.displayOptions,
           }
-        },
-        errorMessage: initialState.errorMessage,
-      }
-    case ActionTypes.CHANGE_NOT_APPLIED_CUSTOM_PRESET:
-      return {
-        ...previousState,
-        schemaModal: {
-          ...previousState.schemaModal,
-          notApplied: {
-            ...previousState.schemaModal.notApplied,
-            displayOptions: initialState.displayOptions,
-            customPresetText: action.payload,
-          },
         },
         errorMessage: initialState.errorMessage,
       }

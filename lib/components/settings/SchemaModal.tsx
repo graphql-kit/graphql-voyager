@@ -21,7 +21,6 @@ import {
   showSchemaModal,
   changeActivePreset,
   changeNaActivePreset,
-  changeNaCustomPreset,
   changeNaDisplayOptions,
 } from '../../actions/';
 import { Settings } from './Settings';
@@ -67,11 +66,11 @@ class SchemaModal extends React.Component<SchemaModalProps, SchemaModalState> {
     let text = event.target.value;
     if (text === '')
       text = null;
-    this.props.dispatch(changeNaCustomPreset(text));
+    this.props.dispatch(changeNaActivePreset('custom', text));
   }
 
   handlePresetChange(name) {
-    this.props.dispatch(changeNaActivePreset(name));
+    this.props.dispatch(changeNaActivePreset(name, this.props.presets[name]));
   }
 
   handleDisplayOptionsChange(options) {
@@ -164,7 +163,7 @@ class SchemaModal extends React.Component<SchemaModalProps, SchemaModalState> {
     const {
       activePreset,
       displayOptions,
-      customPresetText,
+      presetValue,
     } = notApplied;
     const validSelected = !!(schema.schema);
     const errorMessage = schema.error;
@@ -191,7 +190,7 @@ class SchemaModal extends React.Component<SchemaModalProps, SchemaModalState> {
         </div>
         <div className="modal-cards">
           {this.predefinedCards(presetNames, activePreset)}
-          {this.customCard(activePreset === 'custom', customPresetText)}
+          {this.customCard(activePreset === 'custom', presetValue)}
         </div>
         <div className={classNames('modal-info-panel', {
           '-message': !validSelected,
