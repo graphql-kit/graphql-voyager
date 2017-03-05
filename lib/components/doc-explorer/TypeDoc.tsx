@@ -79,9 +79,8 @@ class TypeDoc extends React.Component<TypeDocProps, void> {
         {_.map(types, type => {
           let props:any = {
             key: type.id,
-            className: classNames({
-              'doc-category-item': true,
-              'selected': type.id === selectedId
+            className: classNames('item', {
+              '-selected': type.id === selectedId
             }),
             onClick:() => {
               dispatch(selectEdge(type.id));
