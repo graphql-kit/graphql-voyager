@@ -36,7 +36,7 @@
 }
 
 .loading-box {
-  position: fixed;
+  position: absolute;;
   left: 320px;
   right: 0;
   top: 0;
