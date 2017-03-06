@@ -2,8 +2,8 @@
 
 .description-box {
   & blockquote {
-    border-left: 2px solid var(--text-color);
-    margin: var(--spacing-unit) 0;
+    border-left: 2px solid color(var(--secondary-color) a( 50%));
+    margin: var(--spacing-unit) calc(var(--spacing-unit) * 3);
     padding-left: calc(var(--spacing-unit) * 2);
   }
 
