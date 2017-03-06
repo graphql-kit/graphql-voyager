@@ -145,7 +145,7 @@ let baseConfig = {
 
     crypto: 'empty',
     fs: 'empty',
-    path: 'empty',
+    path: true,
     clearImmediate: false,
     setImmediate: false
   }

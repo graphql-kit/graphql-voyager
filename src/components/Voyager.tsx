@@ -35,10 +35,10 @@ interface VoyagerProps {
 export default class Voyager extends React.Component<VoyagerProps, void> {
 
   static propTypes = {
-    introspection: PropTypes.oneOf([
-      PropTypes.func,
-      PropTypes.object,
-      PropTypes.bool
+    introspection: PropTypes.oneOfType([
+      PropTypes.func.isRequired,
+      PropTypes.object.isRequired,
+      PropTypes.bool.isRequired
     ]).isRequired,
     _schemaPresets: PropTypes.object
   }

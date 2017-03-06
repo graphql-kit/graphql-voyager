@@ -12,8 +12,8 @@
     "outDir": "lib",
     "pretty": true,
     "types": [
-      "requirejs",
-      "core-js"
+      "core-js",
+      "webpack"
     ],
     "jsx": "react"
   },

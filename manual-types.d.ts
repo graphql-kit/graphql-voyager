@@ -18,4 +18,5 @@ declare var DEBUG: boolean;
 
 interface Window {
   VOYAGER_PRESETS: any;
+  Worker: any;
 }

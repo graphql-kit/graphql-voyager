@@ -56,7 +56,12 @@ module.exports = function() {
       },
       {
         test: /\.worker.js$/,
-        use: 'worker-loader'
+        use: {
+          loader: 'worker-loader',
+          options: {
+            name: 'voyager.worker.js'
+          }
+        }
       },
       {
         test: /\.css$/,
@@ -169,7 +174,7 @@ module.exports = function() {
 
       crypto: 'empty',
       fs: 'empty',
-      path: 'empty',
+      path: true,
       clearImmediate: false,
       setImmediate: false
     }

@@ -2,6 +2,9 @@ import { getDotSelector } from './dot'
 import { store, observeStore } from '../redux';
 import { svgRenderingFinished, reportError } from '../actions';
 
+import { monkeyPatchWorker } from './worker.monkeypatch';
+
+monkeyPatchWorker();
 const VizWorker = require('./viz-worker.worker');
 
 export class SVGRender {
