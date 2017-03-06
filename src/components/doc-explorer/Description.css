@@ -1,8 +1,10 @@
 @import '../variables.css';
 
 .description-box {
-  & blockquote:first-child {
-    margin-top: 0;
+  & blockquote {
+    border-left: 2px solid var(--text-color);
+    margin: var(--spacing-unit) 0;
+    padding-left: calc(var(--spacing-unit) * 2);
   }
 
   & a {

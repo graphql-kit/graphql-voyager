@@ -1,6 +1,7 @@
 :root {
-  --font-family: Roboto, open-sans;
   --monospace-font-family: 'Consolas', 'Inconsolata', 'Droid Sans Mono', 'Monaco', monospace;
+  --base-font-family: 'helvetica neue', helvetica, arial, sans-serif;
+  --base-font-size: 14px;
   --spacing-unit: 5px;
   --panel-items-spacing: 8px;
   --panel-spacing: 15px;

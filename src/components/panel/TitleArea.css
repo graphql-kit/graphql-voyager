@@ -30,7 +30,7 @@
 
     & > .title {
       color: var(--logo-color);
-      font-family: var(--font-family);
+      font-family: var(--base-font-family);
       letter-spacing: 5px;
       font-weight: normal;
       text-transform: uppercase;

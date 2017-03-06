@@ -83,7 +83,7 @@ g.graph > polygon {
   }
 
   & text {
-    font-family: var(--font-family);
+    font-family: var(--base-font-family);
     fill: var(--field-name-color);
 
     display: none;
