@@ -6,12 +6,13 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack-dev-server --config build/webpack.demo.js",
-    "clean:dist": "rimraf dist",
+    "clean:release": "rimraf dist",
     "clean:demo": "rimraf demo-dist",
-    "build:prod": "npm run clean:dist && webpack --config build/webpack.js && rm dist/voyager.worker.js.map",
+    "build:release": "npm run clean:release && webpack --config build/webpack.js && rm dist/voyager.worker.js.map",
     "build:demo": "npm run clean:demo && NODE_ENV=production webpack -p --config build/webpack.demo.js",
-    "deploy": "deploy-to-gh-pages demo-dist",
-    "stats": "NODE_ENV=production webpack --json -p --config build/webpack.js > stats.json"
+    "deploy": "deploy-to-gh-pages --update --local demo-dist",
+    "stats": "NODE_ENV=production webpack --json -p --config build/webpack.js > stats.json",
+    "prepare-ghpages": "node build/prepare-ghpages.js"
   },
   "author": "",
   "license": "MIT",
