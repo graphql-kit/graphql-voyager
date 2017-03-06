@@ -1,5 +1,6 @@
-
 import * as React from 'react';
+import { PropTypes } from 'react';
+import * as _ from 'lodash';
 
 import { Provider } from 'react-redux';
 
@@ -17,27 +18,45 @@ import { SVGRender } from './../graph/';
 import { Viewport } from './../graph/'
 
 import {
-  changeSchema
+  changeSchema,
+  reportError
 } from '../actions/';
 
 type SchemaProvider = () => Promise<any>;
 
 interface VoyagerProps {
   _schemaPresets?: any;
-  schemaProvider: SchemaProvider
+  schemaProvider: SchemaProvider | Object;
 }
 
 export default class Voyager extends React.Component<VoyagerProps, void> {
+
+  static propTypes = {
+    schemaProvider: PropTypes.oneOf([
+      PropTypes.func,
+      PropTypes.object,
+      PropTypes.bool
+    ]).isRequired,
+    _schemaPresets: PropTypes.object
+  }
 
   componentDidMount() {
     // init viewport and svg-renderer
     new SVGRender();
     new Viewport(this.refs['viewport'] as HTMLElement);
 
-    if (this.props.schemaProvider) {
-      this.props.schemaProvider().then(schema => {
+    if (_.isFunction(this.props.schemaProvider)) {
+      let promise = (this.props.schemaProvider as SchemaProvider)();
+
+      if (!isPromise(promise)) {
+        store.dispatch(reportError('SchemaProvider did not return a Promise for introspection.'))
+      }
+
+      promise.then(schema => {
         store.dispatch(changeSchema(schema));
       });
+    } else if (this.props.schemaProvider) {
+      store.dispatch(changeSchema(this.props.schemaProvider));
     }
   }
 
@@ -60,4 +79,9 @@ export default class Voyager extends React.Component<VoyagerProps, void> {
       </Provider>
     );
   }
+}
+
+// Duck-type promise detection.
+function isPromise(value) {
+  return typeof value === 'object' && typeof value.then === 'function';
 }
