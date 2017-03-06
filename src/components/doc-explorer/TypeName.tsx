@@ -3,7 +3,6 @@ import * as classNames from 'classnames';
 
 import './TypeName.css';
 
-import Description from './Description';
 import {
   isBuiltInScalarType,
   isScalarType,
@@ -32,9 +31,8 @@ export default class TypeName extends React.Component<TypeNameProps, {}> {
     else if (isInputObjectType(type))
       className = '-input-obj';
 
-    const $anchor = this.refs['popurAnchor'];
     return (
-      <span ref="popurAnchor" className={classNames('type-name', className)}
+      <span className={classNames('type-name', className)}
        onClick={(event) => {
          store.dispatch(changeSelectedTypeInfo(type));
          event.stopPropagation();

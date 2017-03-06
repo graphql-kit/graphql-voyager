@@ -154,7 +154,6 @@ class TypeDoc extends React.Component<TypeDocProps, void> {
 
   render() {
     const {
-      dispatch,
       selectedType,
       selectedEdgeId,
       typeGraph

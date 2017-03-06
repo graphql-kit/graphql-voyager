@@ -2,7 +2,6 @@ import * as _ from 'lodash';
 import { createSelector } from 'reselect';
 import { buildClientSchema } from 'graphql';
 
-import { store } from '../redux';
 import { typeNameToId } from './utils';
 
 function unwrapType(type, wrappers) {

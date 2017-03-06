@@ -2,13 +2,14 @@
   "name": "graphql-voyager",
   "version": "0.0.0",
   "description": "GraphQL introspection viewer",
-  "main": "index.js",
+  "main": "dist/voyager.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack-dev-server --config build/webpack.js",
+    "start": "webpack-dev-server --config build/webpack.demo.js",
     "clean": "rimraf dist",
-    "build:prod": "npm run clean && NODE_ENV=production webpack -p --config build/webpack.js",
-    "deploy": "deploy-to-gh-pages dist",
+    "build:prod": "npm run clean && webpack --config build/webpack.js",
+    "build:demo": "npm run clean && NODE_ENV=production webpack -p --config build/webpack.demo.js",
+    "deploy": "deploy-to-gh-pages demo-dist",
     "stats": "NODE_ENV=production webpack --json -p --config build/webpack.js > stats.json"
   },
   "author": "",
@@ -40,6 +41,7 @@
     "style-loader": "^0.13.1",
     "svg-as-symbol-loader": "^1.1.3",
     "typescript": "^2.1.4",
+    "uglifyjs": "^2.4.10",
     "webpack": "^2.2.1",
     "webpack-dev-server": "^2.1.0-beta.12",
     "worker-loader": "^0.7.1"

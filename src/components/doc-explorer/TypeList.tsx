@@ -5,7 +5,6 @@ import * as classNames from 'classnames';
 
 import './TypeList.css';
 
-import { focusElement } from '../../actions/';
 import TypeLink from './TypeLink';
 import Description from './Description';
 import FocusTypeButton from './FocusTypeButton';
@@ -29,7 +28,7 @@ class TypeList extends React.Component<TypeListProps, void> {
     );
   }
   render() {
-    const { typeGraph, dispatch } = this.props;
+    const { typeGraph } = this.props;
 
     if (typeGraph === null)
       return null;

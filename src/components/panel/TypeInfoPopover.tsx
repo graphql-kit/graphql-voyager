@@ -38,7 +38,7 @@ class ScalarDetails extends React.Component<ScalarDetailsProps, ScalarDetailsSta
     }, 450);
   }
   render() {
-    let { type, dispatch } = this.props;
+    let { type } = this.props;
 
     //FIXME: implement animation correctly
     //https://facebook.github.io/react/docs/animation.html

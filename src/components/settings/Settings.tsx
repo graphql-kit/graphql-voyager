@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { connect } from 'react-redux'
-import * as classNames from 'classnames';
 
 import Checkbox from 'react-toolbox/lib/checkbox';
 import RootSelector from './RootSelector';
@@ -40,7 +39,6 @@ export class Settings extends React.Component<SettingsProps, void> {
       onChange,
     } = this.props;
 
-    let inversed = true;
     return (
       <div className="menu-content">
         <div className="setting-change-root">

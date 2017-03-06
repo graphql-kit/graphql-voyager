@@ -98,7 +98,7 @@ export class Viewport {
     let dragged = false;
 
     let moveHandler = () => dragged = true;
-    this.$svg.addEventListener('mousedown', event => {
+    this.$svg.addEventListener('mousedown', () => {
       dragged = false;
       setTimeout(() => this.$svg.addEventListener('mousemove', moveHandler));
     });
@@ -222,7 +222,7 @@ export class Viewport {
   animatePanAndZoom(x, y, zoomEnd) {
     let pan = this.zoomer.getPan();
     let panEnd = {x, y};
-    animate(pan, panEnd, (props, t) => {
+    animate(pan, panEnd, props => {
       this.zoomer.pan({x: props.x, y: props.y});
       if (props === panEnd) {
         let zoom = this.zoomer.getZoom();

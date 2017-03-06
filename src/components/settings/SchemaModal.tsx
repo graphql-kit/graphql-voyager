@@ -83,8 +83,7 @@ class SchemaModal extends React.Component<SchemaModalProps, SchemaModalState> {
         customPresetText,
         activePreset,
         displayOptions,
-      },
-      dispatch
+      }
     } = this.props;
 
     let schema = activePreset === 'custom' ? JSON.parse(customPresetText) : this.props.presets[activePreset];
@@ -215,7 +214,6 @@ class SchemaModal extends React.Component<SchemaModalProps, SchemaModalState> {
       showSchemaModal,
       notApplied,
       schema,
-      dispatch,
       presets
     } = this.props;
 

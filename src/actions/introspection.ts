@@ -1,5 +1,3 @@
-import * as _ from 'lodash';
-
 export const CHANGE_SCHEMA = 'CHANGE_SCHEMA';
 export function changeSchema(introspection: any, displayOptions?: any) {
   return {

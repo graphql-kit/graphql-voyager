@@ -1,6 +1,5 @@
-import * as _ from 'lodash';
+
 import * as React from 'react';
-import { connect } from 'react-redux'
 
 import { Provider } from 'react-redux';
 
@@ -31,8 +30,9 @@ interface VoyagerProps {
 export default class Voyager extends React.Component<VoyagerProps, void> {
 
   componentDidMount() {
-    const svgRender = new SVGRender();
-    const viewport = new Viewport(this.refs['viewport'] as HTMLElement);
+    // init viewport and svg-renderer
+    new SVGRender();
+    new Viewport(this.refs['viewport'] as HTMLElement);
 
     if (this.props.schemaProvider) {
       this.props.schemaProvider().then(schema => {

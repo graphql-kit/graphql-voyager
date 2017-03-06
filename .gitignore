@@ -1,6 +1,9 @@
 node_modules
 .tmp
 dist
+demo-dist
 
 stats.json
 npm-debug.log
+
+lib

@@ -1,8 +1,6 @@
 import * as _ from 'lodash';
 import { createSelector } from 'reselect'
 
-import { store } from '../redux';
-
 import {
   getSchemaSelector,
   isScalarType,

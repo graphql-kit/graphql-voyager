@@ -20,7 +20,7 @@ export function typeNameToId(name:string) {
 }
 
 export function extractTypeId(id:string) {
-  let [tag, type] = id.split('::');
+  let [, type] = id.split('::');
   return buildId('TYPE', type);
 }
 

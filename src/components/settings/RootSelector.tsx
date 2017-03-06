@@ -1,11 +1,10 @@
 import * as _ from 'lodash';
 import * as React from 'react';
-import * as classNames from 'classnames';
 
 import { isNode, getDefaultRoot } from '../../graph/';
 
 import Dropdown from 'react-toolbox/lib/dropdown';
-import { MenuItem, MenuDivider } from 'react-toolbox/lib/menu';
+
 import './RootSelector.css';
 
 interface RootSelectorProps {

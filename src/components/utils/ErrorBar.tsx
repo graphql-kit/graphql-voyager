@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { connect } from 'react-redux'
-import { Button } from 'react-toolbox/lib/button';
 import { Snackbar } from 'react-toolbox/lib/snackbar';
 
 import './ErrorBar.css';

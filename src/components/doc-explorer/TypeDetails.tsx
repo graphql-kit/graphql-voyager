@@ -1,12 +1,6 @@
 import * as _ from 'lodash';
 import * as React from 'react';
-import { connect } from 'react-redux'
-import * as classNames from 'classnames';
 
-import { selectEdge } from '../../actions';
-import { getSelectedType } from '../../selectors';
-import { getTypeGraphSelector } from '../../graph';
-import TypeList from './TypeList';
 import Markdown from '../utils/Markdown';
 import Description from './Description';
 import WrappedTypeName from './WrappedTypeName';

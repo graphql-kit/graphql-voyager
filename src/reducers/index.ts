@@ -47,7 +47,7 @@ function pushHistory(currentTypeId: string, previousState): string[] {
 }
 
 export function rootReducer(previousState = initialState, action) {
-  const { type, error } = action;
+  const { type } = action;
   switch(type) {
     case ActionTypes.CHANGE_SCHEMA:
       return {
@@ -181,7 +181,6 @@ export function rootReducer(previousState = initialState, action) {
         }
       }
     case ActionTypes.CHANGE_NOT_APPLIED_ACTIVE_PRESET:
-      const previousNa = previousState.schemaModal.notApplied;
       const naActivePreset = action.payload.presetName;
       const naSchema = action.payload.schema;
 
