@@ -29,7 +29,7 @@ let baseConfig = {
   output: {
     path: root('dist'),
     filename: '[name].js',
-    sourceMapFilename: '[name].map',
+    sourceMapFilename: '[file].map',
     library: 'GraphQLVoyager',
     libraryTarget: 'umd',
     umdNamedDefine: true
@@ -45,7 +45,12 @@ let baseConfig = {
     },
     {
       test: /\.worker.js$/,
-      use: 'worker-loader'
+      use: {
+        loader: 'worker-loader',
+        options: {
+          name: 'voyager.worker.js'
+        }
+      }
     },
     {
       test: /\.css$/,
@@ -59,7 +64,7 @@ let baseConfig = {
               minimize: true
             },
           },
-          'postcss-loader'
+          'postcss-loader?sourceMap'
         ]
       }),
       exclude: [/(react-toolbox\/.*\.css$|\.theme.css$)/]
@@ -79,7 +84,7 @@ let baseConfig = {
               localIdentName: '[name]_[local]-[hash:base64:5]'
             },
           },
-          'postcss-loader'
+          'postcss-loader?sourceMap'
         ]
       })
     },
@@ -115,11 +120,8 @@ let baseConfig = {
 
   plugins: [
     new webpack.LoaderOptionsPlugin({
-      worker: {
-        output: {
-          filename: "[name].worker.js"
-        }
-      }
+      minimize: true,
+      debug: false
     }),
 
     new webpack.DefinePlugin({
@@ -129,7 +131,8 @@ let baseConfig = {
     }),
 
     new ExtractTextPlugin({
-      filename: 'voyager.css'
+      filename: 'voyager.css',
+      allChunks: true
     })
   ],
   node: {
@@ -152,7 +155,7 @@ let minConfig = Object.assign({}, baseConfig);
 minConfig.output = {
   path: root('dist'),
   filename: '[name].min.js',
-  sourceMapFilename: '[name].min.map',
+  sourceMapFilename: '[file].map',
   library: 'GraphQLVoyager',
   libraryTarget: 'umd',
   umdNamedDefine: true
