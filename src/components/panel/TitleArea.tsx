@@ -31,7 +31,7 @@ class TitleArea extends React.Component<TitleAreaProps, void> {
             <h2 className="title"><strong>GraphQL</strong> Voyager</h2>
           </div>
         </a>
-        { _showChangeButton && <Button className="choosebutton" raised primary label="Change Introspection"
+        { _showChangeButton && <Button className="choosebutton" raised primary label="Change Schema"
           onClick={() => dispatch(showSchemaModal())}/> }
       </div>
     )

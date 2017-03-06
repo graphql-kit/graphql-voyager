@@ -203,7 +203,7 @@ class SchemaModal extends React.Component<SchemaModalProps, SchemaModalState> {
             options={displayOptions}
             onChange={(options) => this.handleDisplayOptionsChange(options)}/>
         </div>
-        <Button raised label="Change Introspection" theme={buttonDarkTheme}
+        <Button raised label="Change Schema" theme={buttonDarkTheme}
         disabled={!validSelected} onClick={this.handleChange.bind(this)}/>
       </div>
     );
