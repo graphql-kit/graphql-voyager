@@ -6,6 +6,9 @@ import { Provider } from 'react-redux';
 
 import { store } from '../redux';
 
+import { introspectionQuery } from 'graphql/utilities';
+
+
 import './Voyager.css';
 import './viewport.css';
 
@@ -22,17 +25,17 @@ import {
   reportError
 } from '../actions/';
 
-type SchemaProvider = () => Promise<any>;
+type IntrospectionProvider = (query: string) => Promise<any>;
 
 interface VoyagerProps {
   _schemaPresets?: any;
-  schemaProvider: SchemaProvider | Object;
+  introspection: IntrospectionProvider | Object;
 }
 
 export default class Voyager extends React.Component<VoyagerProps, void> {
 
   static propTypes = {
-    schemaProvider: PropTypes.oneOf([
+    introspection: PropTypes.oneOf([
       PropTypes.func,
       PropTypes.object,
       PropTypes.bool
@@ -45,8 +48,8 @@ export default class Voyager extends React.Component<VoyagerProps, void> {
     new SVGRender();
     new Viewport(this.refs['viewport'] as HTMLElement);
 
-    if (_.isFunction(this.props.schemaProvider)) {
-      let promise = (this.props.schemaProvider as SchemaProvider)();
+    if (_.isFunction(this.props.introspection)) {
+      let promise = (this.props.introspection as IntrospectionProvider)(introspectionQuery);
 
       if (!isPromise(promise)) {
         store.dispatch(reportError('SchemaProvider did not return a Promise for introspection.'))
@@ -55,8 +58,8 @@ export default class Voyager extends React.Component<VoyagerProps, void> {
       promise.then(schema => {
         store.dispatch(changeSchema(schema));
       });
-    } else if (this.props.schemaProvider) {
-      store.dispatch(changeSchema(this.props.schemaProvider));
+    } else if (this.props.introspection) {
+      store.dispatch(changeSchema(this.props.introspection));
     }
   }
 

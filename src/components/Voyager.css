@@ -6,6 +6,7 @@
 }
 
 .graphql-voyager {
+  font: var(--base-font-size) var(--base-font-family);
   display: flex;
   height: 100%;
 
