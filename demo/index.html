@@ -104,13 +104,10 @@
     }
 
     window.addEventListener("load", function(event) {
-      ReactDOM.render(
-        React.createElement(GraphQLVoyager.Voyager, {
-          _schemaPresets: window.VOYAGER_PRESETS,
-          introspection: false
-        }),
-        document.getElementById('panel_root')
-      );
+      GraphQLVoyager.init(document.getElementById('panel_root'), {
+        _schemaPresets: window.VOYAGER_PRESETS,
+        introspection: false
+      });
     })
   </script>
 

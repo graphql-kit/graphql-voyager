@@ -27,9 +27,9 @@ import {
 
 type IntrospectionProvider = (query: string) => Promise<any>;
 
-interface VoyagerProps {
+export interface VoyagerProps {
   _schemaPresets?: any;
-  introspection: IntrospectionProvider | Object;
+  introspection: IntrospectionProvider | Object | boolean;
 }
 
 export default class Voyager extends React.Component<VoyagerProps, void> {
