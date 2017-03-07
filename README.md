@@ -58,7 +58,7 @@ You can get GraphQL Voyager bundle from the following places:
 **Important:** for the latest two options make sure to copy `voyager.worker.js` to the same
 folder as `voyager.min.js`.
 
-The HTML with minimal setup:
+The HTML with minimal setup (see the full [example](./example))
 
 ```html
 <!DOCTYPE html>
