@@ -22,14 +22,99 @@ _[GraphQL Weekly #42](https://graphqlweekly.com/issues/42)_
   + Ability to choose any type to be a root of the graph
 
 ## Roadmap
-  + Major refactoring
-  + Publish as a library ([issue 1](https://github.com/APIs-guru/graphql-voyager/issues/1))
-  + Try to optimize graph auto-layout
-  + [ < place for your ideas > ](https://github.com/APIs-guru/graphql-voyager/issues/new)
+  [x] Major refactoring
+  [ ] Publish as a library ([issue 1](https://github.com/APIs-guru/graphql-voyager/issues/1))
+  [ ] Tests + CI + CD
+  [ ] Try to optimize graph auto-layout
+  [ ] [ < place for your ideas > ](https://github.com/APIs-guru/graphql-voyager/issues/new)
 
-## Contribution
-This is our first React-Redux app and in the best traditions of MVP we've used a lot of duct tape 💩.
-Give us a couple of days to clean up the mess before starting working on a PRs. You can follow up by subscribing to the issue [#8](https://github.com/APIs-guru/graphql-voyager/issues/8).
+## Usage
+GraphQL Voyager exports `Voyager` React component and helper `init` function. If used without
+module system it is exported as `GraphQLVoyager` global variable.
+
+### Properties
+`Voyager` component accepts the following properties:
+
++ `introspection` [`object` or function: `(query: string) => Promise`] - the server introspection response. If `function` is provided GraphQL Voyager will pass introspection query as a first function parameter. Function should return `Promise` which resolves to introspection response object.
+
+### `init` function
+The signature of the `init` function:
+
+```js
+(hostElement: HTMLElement, options: object) => void
+```
+
++ `hostElement` - parent element
++ `options` - is the JS object with [properties](#Properties) of `Voyager` component
+
+### Using pre-bundled version
+You can get GraphQL Voyager bundle from the following places:
++ our GitHub Pages-based CDN
+  + some exact version - https://apis.guru/graphql-voyager/releases/1.0.0-rc.0/voyager.min.js
+  + latest 1.x version - https://apis.guru/graphql-voyager/releases/1.x/voyager.min.js
++ download zip from [releases](https://github.com/APIs-guru/graphql-voyager/releases) page and use files from `dist` folder
++ from `dist` folder of the npm package `graphql-voyager`
+
+**Important:** for the latest two options make sure to copy `voyager.worker.js` to the same
+folder as `voyager.min.js`.
+
+The HTML with minimal setup:
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="//cdn.jsdelivr.net/react/15.4.2/react.min.js"></script>
+    <script src="//cdn.jsdelivr.net/react/15.4.2/react-dom.min.js"></script>
+
+    <link rel="stylesheet" href="./node_modules/graphql-voyager/dist/voyager.css" />
+    <script src="./node_modules/graphql-voyager/dist/voyager.min.js"></script>
+  </head>
+  <body>
+    <div id="voyager">Loading...</div>
+    <script>
+      function introspectionProvider(introspectionQuery) {
+        // ... do a call to server using introspectionQuery provided
+        // or just return pre-fetched introspection
+      }
+
+      // Render <Voyager />
+      GraphQLVoyager.init(document.getElementById('voyager'), {
+        introspection: introspectionProvider
+      })
+    </script>
+  </body>
+</html>
+```
+
+### Using as a dependency
+You can install lib using `npm` or `yarn`:
+
+    npm i --save graphql-voyager
+    yarn add graphql-voyager
+
+And then use it:
+
+```js
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
+import {Voyager} from 'graphql-voyager';
+import fetch from 'isomorphic-fetch';
+
+function introspectionProvider(query) {
+  return fetch(window.location.origin + '/graphql', {
+    method: 'post',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({query: query}),
+  }).then(response => response.json());
+}
+
+ReactDOM.render(<Voyager introspection={introspectionProvider} />, document.getElementById('voyager'));
+```
+
+Build for the web with [webpack](https://webpack.js.org/) or
+[browserify](http://browserify.org/)
+
 
 ## Credits
-This tool is inspered by [graphql-visualizer](https://github.com/NathanRSmith/graphql-visualizer) project.
+This tool is inspired by [graphql-visualizer](https://github.com/NathanRSmith/graphql-visualizer) project.
