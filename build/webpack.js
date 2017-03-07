@@ -16,15 +16,26 @@ let baseConfig = {
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.json', '.css', '.svg'],
     alias: {
-      'ejs': 'ejs/ejs.min.js'
+      'clipboard': 'clipboard/dist/clipboard.min.js'
     }
   },
+
   externals: {
-    'react':'React',
-    'react-dom': 'ReactDOM'
+    react: {
+      root: 'React',
+      commonjs2: 'react',
+      commonjs: 'react',
+      amd: 'react'
+    },
+    'react-dom': {
+      root: 'ReactDOM',
+      commonjs2: 'react-dom',
+      commonjs: 'react-dom',
+      amd: 'react-dom'
+    }
   },
   entry: {
-    'voyager': ['./src/vendor.ts', './src/index.ts']
+    'voyager': ['./src/vendor.ts', './src/index.tsx']
   },
   output: {
     path: root('dist'),
