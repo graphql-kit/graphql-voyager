@@ -16,10 +16,7 @@ module.exports = function() {
     },
 
     resolve: {
-      extensions: ['.ts', '.tsx', '.js', '.json', '.css', '.svg'],
-      alias: {
-        'ejs': 'ejs/ejs.min.js'
-      }
+      extensions: ['.ts', '.tsx', '.js', '.json', '.css', '.svg']
     },
     externals: {
       'react':'React',
@@ -104,7 +101,7 @@ module.exports = function() {
       },
       {
         test: /\.ejs$/,
-        use: 'raw-loader'
+        loader: 'ejs-compiled-loader'
       },
       {
         test: /\.svg$/,
