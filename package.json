@@ -10,7 +10,7 @@
     "clean:demo": "rimraf demo-dist",
     "build:release": "npm run clean:release && webpack --config build/webpack.js && rm dist/voyager.worker.js.map",
     "build:demo": "npm run clean:demo && NODE_ENV=production webpack -p --config build/webpack.demo.js",
-    "deploy": "deploy-to-gh-pages --update --local demo-dist",
+    "deploy": "deploy-to-gh-pages --local --update demo-dist",
     "stats": "NODE_ENV=production webpack --json -p --config build/webpack.js > stats.json",
     "prepare-ghpages": "node build/prepare-ghpages.js"
   },
@@ -28,7 +28,7 @@
     "babel-preset-es2015": "^6.22.0",
     "copy-webpack-plugin": "^4.0.1",
     "css-loader": "^0.26.0",
-    "deploy-to-gh-pages": "^1.3.2",
+    "deploy-to-gh-pages": "^1.3.3",
     "ejs-compiled-loader": "2.2.0",
     "extract-text-webpack-plugin": "^2.0.0-rc.3",
     "graphql": "^0.9.1",
