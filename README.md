@@ -22,11 +22,11 @@ _[GraphQL Weekly #42](https://graphqlweekly.com/issues/42)_
   + Ability to choose any type to be a root of the graph
 
 ## Roadmap
-  [x] Major refactoring
-  [ ] Publish as a library ([issue 1](https://github.com/APIs-guru/graphql-voyager/issues/1))
-  [ ] Tests + CI + CD
-  [ ] Try to optimize graph auto-layout
-  [ ] [ < place for your ideas > ](https://github.com/APIs-guru/graphql-voyager/issues/new)
+  - [x] Major refactoring
+  - [ ] Publish as a library ([issue 1](https://github.com/APIs-guru/graphql-voyager/issues/1))
+  - [ ] Tests + CI + CD
+  - [ ] Try to optimize graph auto-layout
+  - [ ] [ < place for your ideas > ](https://github.com/APIs-guru/graphql-voyager/issues/new)
 
 ## Usage
 GraphQL Voyager exports `Voyager` React component and helper `init` function. If used without
@@ -50,8 +50,8 @@ The signature of the `init` function:
 ### Using pre-bundled version
 You can get GraphQL Voyager bundle from the following places:
 + our GitHub Pages-based CDN
-  + some exact version - https://apis.guru/graphql-voyager/releases/1.0.0-rc.0/voyager.min.js
-  + latest 1.x version - https://apis.guru/graphql-voyager/releases/1.x/voyager.min.js
+  + some exact version - https://apis.guru/graphql-voyager/releases/v1.0.0-rc.0/voyager.min.js
+  + latest 1.x version - https://apis.guru/graphql-voyager/releases/v1.x/voyager.min.js
 + download zip from [releases](https://github.com/APIs-guru/graphql-voyager/releases) page and use files from `dist` folder
 + from `dist` folder of the npm package `graphql-voyager`
 
