@@ -1,0 +1,75 @@
+@import '../variables.css';
+
+.args-wrap {
+
+  &:before {
+    content: "( ";
+    display: inline;
+  }
+
+
+  &:after {
+    content: " )";
+    display: inline;
+  }
+
+  &.-empty {
+    &:before, &:after {
+      display: none !important;
+    }
+  }
+}
+
+.arg-wrap {
+  & > .arg {
+    display: inline;
+
+    &:after {
+      content: ', ';
+    }
+
+    & > .default-value {
+      color: var(--arg-default-color);
+    }
+  }
+
+  &:last-child .arg:after {
+    content: '';
+  }
+
+  & > .arg-description,
+  & .arg > .wrapped-type-name {
+    display: none;
+  }
+}
+
+.arg-wrap.-expanded {
+  &:before, &:after {
+    display: none;
+  }
+
+  & .arg {
+    display: block;
+    margin: var(--spacing-unit) 0;
+  }
+
+  & .arg-description {
+    display: block;
+    color: var(--text-color);
+  }
+
+  & .wrapped-type-name {
+    display: inline-block;
+  }
+
+  & .arg-description > p {
+    margin: 0;
+  }
+
+  & .arg-description:before {
+    display: block;
+    content: "#";
+    float: left;
+    margin-right: var(--spacing-unit);
+  }
+}

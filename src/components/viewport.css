@@ -1,0 +1,121 @@
+@import './variables.css';
+
+g.graph > polygon {
+  fill: transparent;
+}
+
+#svg-pan-zoom-controls {
+  & path {
+    fill-opacity: 0.75;
+    fill: var(--field-name-color);
+  }
+}
+
+/* Nodes Styling */
+.node {
+  pointer-events: bounding-box;
+  cursor: pointer;
+
+  & polygon {
+    stroke: var(--node-header-color);
+    fill: var(--node-fill-color);
+  }
+
+  & .type-title {
+    & polygon {
+      fill: var(--node-header-color);
+    }
+
+    & text {
+      fill: var(--node-header-text-color);
+    }
+  }
+
+  &.selected polygon {
+    stroke: var(--highlight-color);
+    stroke-width: 3;
+  }
+
+  &.selected .type-title polygon {
+    fill: var(--highlight-color);
+  }
+}
+
+/* field */
+.field.selected  {
+  & > polygon {
+    fill: var(--selected-field-bg);
+  }
+}
+
+/* Edges Styling */
+
+
+.edge {
+  cursor: pointer;
+
+  & path {
+    stroke: var(--edge-color);
+    stroke-width: 2;
+
+    &.hover-path {
+      stroke: transparent;
+      stroke-width: 15;
+    }
+  }
+
+  &.highlighted, &.hovered, &:hover {
+    & path:not(.hover-path) {
+      stroke: var(--highlight-color);
+      stroke-width: 3;
+    }
+
+    & polygon {
+      stroke: color(var(--highlight-color) l(- 20%));
+      fill: color(var(--highlight-color) l(- 20%));
+      opacity: 1;
+    }
+  }
+
+  & polygon {
+    fill: color(var(--edge-color) l(- 5%));
+    stroke: color(var(--edge-color) l(- 5%));
+  }
+
+  & text {
+    font-family: var(--base-font-family);
+    fill: var(--field-name-color);
+
+    display: none;
+  }
+
+  &:hover, &.highlighted, &.hovered {
+    & text {
+      display: block;
+    }
+  }
+
+  &.selected {
+    & path:not(.hover-path) {
+      stroke: var(--selected-edge-color);
+    }
+
+    & polygon {
+      stroke: color(var(--selected-edge-color) l(- 10%));
+      fill: color(var(--selected-edge-color) l(- 10%));
+    }
+  }
+}
+
+/* selection fade */
+.selection-active {
+  & .edge, & .node {
+    opacity: 0.2;
+  }
+
+  & .node.selected-reachable,
+  & .node.selected,
+  & .edge.highlighted {
+    opacity: 1;
+  }
+}

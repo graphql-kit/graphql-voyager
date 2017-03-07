@@ -5,143 +5,180 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const root = require('./helpers').root;
 const VERSION = JSON.stringify(require('../package.json').version);
-const IS_PRODUCTION = process.env.NODE_ENV === "production";
 
-module.exports = function() {
-  return {
-    devtool: IS_PRODUCTION ? false : '#inline-source-map',
+let baseConfig = {
+  devtool: 'cheap-source-map',
 
-    performance: {
-      hints: false
+  performance: {
+    hints: false
+  },
+
+  resolve: {
+    extensions: ['.ts', '.tsx', '.js', '.json', '.css', '.svg'],
+    alias: {
+      'clipboard': 'clipboard/dist/clipboard.min.js'
+    }
+  },
+
+  externals: {
+    react: {
+      root: 'React',
+      commonjs2: 'react',
+      commonjs: 'react',
+      amd: 'react'
     },
-
-    resolve: {
-      extensions: ['.ts', '.tsx', '.js', '.json', '.css', '.svg'],
-      alias: {
-        'ejs': 'ejs/ejs.min.js'
+    'react-dom': {
+      root: 'ReactDOM',
+      commonjs2: 'react-dom',
+      commonjs: 'react-dom',
+      amd: 'react-dom'
+    }
+  },
+  entry: {
+    'voyager': ['./src/vendor.ts', './src/index.tsx']
+  },
+  output: {
+    path: root('dist'),
+    filename: '[name].js',
+    sourceMapFilename: '[file].map',
+    library: 'GraphQLVoyager',
+    libraryTarget: 'umd',
+    umdNamedDefine: true
+  },
+  module: {
+    rules: [
+    {
+      test: /\.tsx?$/,
+      use: [
+        'awesome-typescript-loader'
+      ],
+      exclude: [/\.(spec|e2e)\.ts$/]
+    },
+    {
+      test: /\.worker.js$/,
+      use: {
+        loader: 'worker-loader',
+        options: {
+          name: 'voyager.worker.js'
+        }
       }
     },
-    node: {
-      fs: "empty"
-    },
-    entry: IS_PRODUCTION ? {
-      'index': ['./lib/vendor.ts', './lib/index.ts']
-    } : {
-      'index': './lib/index.ts',
-      'vendor': './lib/vendor.ts'
-    },
-    devServer: {
-      contentBase: root('demo'),
-      watchContentBase: true,
-      port: 9090,
-      stats: 'errors-only',
-      hot: true
-    },
-    output: {
-      path: root('dist'),
-      filename: IS_PRODUCTION ? '[hash].[name].js' : '[name].js',
-      sourceMapFilename: '[name].[id].map',
-      chunkFilename: '[id].chunk.js'
-    },
-    module: {
-      rules: [
-      {
-        test: /\.tsx?$/,
-        use: [
-          'awesome-typescript-loader'
-        ],
-        exclude: [/\.(spec|e2e)\.ts$/]
-      },
-      {
-        test: /\.worker.js$/,
-        use: 'worker-loader'
-      },
-      {
-        test: /\.css$/,
-        use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: ['css-loader', 'postcss-loader']
-        }),
-        exclude: [/node_modules/]
-      },
-      {
-        test: /node_modules.*\.css$/,
-        use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: 'css-loader'
-        }),
-      },
-      {
-        test: /\.json$/,
-        use: 'json-loader'
-      },
-      {
-        test: /\.ejs$/,
-        use: 'raw-loader'
-      },
-      {
-        test: /\.svg$/,
+    {
+      test: /\.css$/,
+      use: ExtractTextPlugin.extract({
+        fallback: 'style-loader',
         use: [
           {
-            loader: 'babel-loader',
+            loader: 'css-loader',
             options: {
-              plugins: ['transform-es2015-classes', 'transform-es2015-block-scoping']
-            }
+              sourceMap: true,
+              minimize: true
+            },
           },
+          'postcss-loader?sourceMap'
+        ]
+      }),
+      exclude: [/(react-toolbox\/.*\.css$|\.theme.css$)/]
+    },
+    {
+      test: /(react-toolbox\/.*\.css$|\.theme.css$)/,
+      use: ExtractTextPlugin.extract({
+        fallback: 'style-loader',
+        use: [
           {
-            loader: 'react-svg-loader',
-            options: {
-              jsx: false,
-              svgo: {
-                plugins: [{mergePaths: false}]
-              }
+            loader: 'css-loader',
+            query: {
+              sourceMap: true,
+              modules: true,
+              minimize: true,
+              importLoaders: 1,
+              localIdentName: '[name]_[local]-[hash:base64:5]'
+            },
+          },
+          'postcss-loader?sourceMap'
+        ]
+      })
+    },
+    {
+      test: /\.json$/,
+      use: 'json-loader'
+    },
+    {
+      test: /\.ejs$/,
+      loader: 'ejs-compiled-loader'
+    },
+    {
+      test: /\.svg$/,
+      use: [
+        {
+          loader: 'babel-loader',
+          options: {
+            plugins: ['transform-es2015-classes', 'transform-es2015-block-scoping']
+          }
+        },
+        {
+          loader: 'react-svg-loader',
+          options: {
+            jsx: false,
+            svgo: {
+              plugins: [{mergePaths: false}]
             }
           }
-        ]
-      }]
-    },
+        }
+      ]
+    }]
+  },
 
-    plugins: [
-      new webpack.HotModuleReplacementPlugin(),
+  plugins: [
+    new webpack.LoaderOptionsPlugin({
+      minimize: true,
+      debug: false
+    }),
 
-      new webpack.optimize.CommonsChunkPlugin({
-        name: IS_PRODUCTION ? 'index' : 'vendor',
-        minChunks: Infinity
-      }),
+    new webpack.DefinePlugin({
+      'VERSION': VERSION,
+      'DEBUG': false,
+      'DEBUG_INITIAL_PRESET': false
+    }),
 
-      new webpack.DefinePlugin({
-        'VERSION': VERSION,
-        'DEBUG': !!IS_PRODUCTION,
-        'DEBUG_INITIAL_PRESET': IS_PRODUCTION ? 'false': '"Star Wars"'
-      }),
+    new ExtractTextPlugin({
+      filename: 'voyager.css',
+      allChunks: true
+    })
+  ],
+  node: {
+    console: false,
+    global: false,
+    process: 'mock',
+    Buffer: false,
+    fs: true,
+    global: true,
 
-      new HtmlWebpackPlugin({
-        template: './demo/index.html'
-      }),
-
-      new ExtractTextPlugin({
-        disable: !IS_PRODUCTION,
-        filename: 'main.css'
-      }),
-
-      new CopyWebpackPlugin([
-        { from: '**/*.png', context: './demo' },
-        { from: '**/*.ico', context: './demo' }
-      ])
-    ],
-    node: {
-      console: false,
-      global: false,
-      process: 'mock',
-      Buffer: false,
-      fs: true,
-      global: true,
-
-      crypto: 'empty',
-      fs: 'empty',
-      path: 'empty',
-      clearImmediate: false,
-      setImmediate: false
-    }
+    crypto: 'empty',
+    fs: 'empty',
+    path: true,
+    clearImmediate: false,
+    setImmediate: false
   }
+}
+
+let minConfig = Object.assign({}, baseConfig);
+minConfig.output = {
+  path: root('dist'),
+  filename: '[name].min.js',
+  sourceMapFilename: '[file].map',
+  library: 'GraphQLVoyager',
+  libraryTarget: 'umd',
+  umdNamedDefine: true
 };
+
+minConfig.plugins = minConfig.plugins.slice();
+minConfig.plugins.push(new webpack.optimize.UglifyJsPlugin({
+  compress: {
+    warnings: false,
+    screw_ie8: true
+  },
+  sourceMap: true
+}));
+
+module.exports = [baseConfig, minConfig];

@@ -1,0 +1,9 @@
+@import '../variables.css';
+
+.type-link {
+  fill: var(--link-color)
+}
+
+.type-link:hover {
+  fill: var(--link-hover-color);
+}

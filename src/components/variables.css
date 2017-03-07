@@ -1,0 +1,44 @@
+:root {
+  --monospace-font-family: 'Consolas', 'Inconsolata', 'Droid Sans Mono', 'Monaco', monospace;
+  --base-font-family: 'helvetica neue', helvetica, arial, sans-serif;
+  --base-font-size: 14px;
+  --spacing-unit: 5px;
+  --panel-items-spacing: 8px;
+  --panel-spacing: 15px;
+  --icons-size: 24px;
+
+  --primary-color: #00bcd4;
+  --background-color: #fff;
+  --dark-bg-color: #0b2840;
+  --highlight-color: var(--primary-color);
+  --secondary-color: #548f9e;
+  --logo-color: #27535e;
+  --link-color: #42a0dd;
+  --link-hover-color: #0262a0;
+  --field-name-color: #224d6f;
+  --builtin-color: #711c1c;
+  --text-color: #666;
+  --shadow-color: rgba(0, 0, 0, 0.1);
+  --alert-color: #b71c1c;
+
+  --modal-bg-color: var(--dark-bg-color);
+
+  --doc-panel-width: 320px;
+  --type-info-popover-width: 320px;
+  --doc-panel-bg-color: var(--background-color);
+  --doc-panel-item-stripe-color: rgba(158, 158, 158, 0.07);
+  --doc-panel-item-hover-color: rgba(214, 236, 238, 0.6);
+
+  --arg-default-color: #0B7FC7;
+  --arg-name-color: #c77f53;
+
+  --node-fill-color: #f6f8f8;
+  --node-header-color: var(--secondary-color);
+  --node-header-text-color: white;
+
+  --edge-color: color(var(--secondary-color) l(- 15%));
+  --selected-edge-color: red;
+  --selected-field-bg: rgba(255, 0, 0, 0.18);
+}
+
+@custom-media --small-viewport (max-width: 780px);

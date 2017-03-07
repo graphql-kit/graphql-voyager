@@ -1,0 +1,132 @@
+@import '../variables.css';
+
+/* common type doc styling */
+.field-name {
+  color: var(--field-name-color)
+}
+
+.doc-alert-text {
+  color: var(--alert-color);
+  font-family: var(--monospace-font-family);
+  font-size: 13px;
+}
+
+.value-name {
+  color: var(--arg-default-color);
+}
+
+.arg-name {
+  color: var(--arg-name-color);
+}
+
+.type-doc {
+  display: flex;
+  flex-direction: column;
+  margin-top: var(--panel-spacing);
+  overflow: hidden;
+
+  & > .loading {
+    padding: 0 var(--panel-spacing);
+    font-weight: bold;
+    color: var(--text-color);
+  }
+
+  & a {
+    cursor: pointer;
+    text-decoration: none;
+  }
+
+  & > .scroll-area {
+    padding-top: var(--panel-spacing);
+    overflow-y: auto;
+
+    & .description-box.-doc-type {
+      padding: 0 var(--panel-spacing);
+    }
+  }
+
+  & > .doc-navigation {
+    padding:
+      var(--spacing-unit)
+      calc(var(--panel-spacing) + var(--spacing-unit))
+      var(--spacing-unit)
+      18px;
+  }
+}
+
+.doc-category {
+  margin: var(--panel-spacing) 0 0;
+  cursor: pointer;
+
+  & > .item {
+    padding: var(--panel-items-spacing) var(--panel-spacing);
+    color: var(--text-color);
+    position: relative;
+    border-left: 3px solid transparent;
+
+    & > description-box {
+      .margin-top: 5px;
+    }
+  }
+
+  & > .title {
+    border-bottom: 1px solid #e0e0e0;
+    padding: 0 15px;
+    color: var(--text-color);
+    cursor: default;
+    font-size: 14px;
+    font-variant: small-caps;
+    font-weight: bold;
+    letter-spacing: 1px;
+    margin: 0 -15px 10px 0;
+    user-select: none;
+    box-sizing: border-box;
+    width: 100%;
+  }
+
+  & > .item {
+    &:nth-child(odd) {
+      background-color: var(--doc-panel-item-stripe-color);
+    }
+
+    &:hover {
+      background-color: var(--doc-panel-item-hover-color);
+    }
+
+    &.-with-args {
+      &:before {
+        width: 0;
+        height: 0;
+        border-left: var(--spacing-unit) solid transparent;
+        border-right: var(--spacing-unit) solid transparent;
+        border-top: var(--spacing-unit) solid var(--field-name-color);
+        display: block;
+        content: "";
+        float: right;
+        margin-top: var(--panel-items-spacing);
+        margin-right: calc(- var(--panel-items-spacing));
+        transition: all 0.3s ease;
+        opacity: 0;
+      }
+
+
+      &:hover:before, &.-selected:before {
+        opacity: 1;
+      }
+
+      &.-selected:before {
+        transform: rotateZ(180deg);
+      }
+    }
+
+    &.-selected {
+      background-color: color(var(--doc-panel-item-hover-color) a(+ 0.15));
+      border-left: 3px solid var(--primary-color);
+
+      & .args {
+        display: block;
+        padding-left: var(--panel-spacing);
+      }
+    }
+  }
+}

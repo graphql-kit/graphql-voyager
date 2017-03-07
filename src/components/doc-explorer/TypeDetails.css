@@ -1,0 +1,10 @@
+.type-details {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  & > .doc-categories {
+    flex: 1;
+    overflow-y: auto;
+  }
+}

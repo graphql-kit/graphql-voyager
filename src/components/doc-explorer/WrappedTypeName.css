@@ -1,0 +1,19 @@
+@import '../variables.css';
+
+.wrapped-type-name::before {
+  content: ": ";
+}
+
+.relay-icon {
+  height: var(--icons-size);
+  line-height: var(--icons-size);
+  width: var(--icons-size);
+  margin-left: var(--spacing-unit);
+
+  & svg {
+    height: var(--icons-size);
+    line-height: var(--icons-size);
+    width: var(--icons-size);
+    min-height: var(--icons-size);
+  }
+}

@@ -1,0 +1,48 @@
+@import '../variables.css';
+
+.doc-navigation {
+  min-height: var(--icons-size);
+  box-shadow: 0 4px 4px -2px var(--shadow-color);
+  display: flex;
+  justify-content: space-between;
+
+  & > span {
+    display: inline-block;
+    vertical-align: middle;
+    white-space: nowrap;
+    line-height: var(--icons-size);
+  }
+
+  & > .back {
+    color: var(--field-name-color);
+    cursor: pointer;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding-left: 2px;
+    font-weight: normal;
+
+    &:before {
+      border-left: 2px solid var(--field-name-color);
+      border-top: 2px solid var(--field-name-color);
+      content: '';
+      display: inline-block;
+      height: 9px;
+      margin: 0 3px -1px 0;
+      position: relative;
+      transform: rotate(-45deg);
+      width: 9px;
+    }
+  }
+
+  & > .active {
+    font-weight: bold;
+    color: var(--primary-color);
+    font-weight: bold;
+  }
+
+  & > .header {
+    font-weight: bold;
+    color: var(--text-color);
+  }
+}

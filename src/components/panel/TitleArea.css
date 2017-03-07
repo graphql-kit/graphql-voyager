@@ -1,0 +1,58 @@
+@import '../variables.css';
+
+.title-area {
+  padding: 0 var(--panel-spacing);
+  & > a > .logo {
+    padding: 20px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    @media (--small-viewport) {
+      padding: 10px 0;
+    }
+
+    & > svg {
+      width: 50px;
+      height: 50px;
+      margin-right: 10px;
+      transform: rotateZ(16deg);
+      margin-left: -10px;
+
+      & path {
+        fill: var(--logo-color);
+      }
+
+      @media (--small-viewport) {
+        height: 45px;
+      }
+    }
+
+    & > .title {
+      color: var(--logo-color);
+      font-family: var(--base-font-family);
+      letter-spacing: 5px;
+      font-weight: normal;
+      text-transform: uppercase;
+      margin: 0;
+      font-size: 15px;
+      margin-top: 4px;
+      line-height: 1;
+
+      & strong {
+        display: block;
+        letter-spacing: normal;
+        font-size: 1.4em;
+      }
+    }
+  }
+
+  & > .choosebutton {
+    width: 100%;
+  }
+
+  & a, & a:hover {
+    text-decoration: none;
+    outline: none;
+  }
+}

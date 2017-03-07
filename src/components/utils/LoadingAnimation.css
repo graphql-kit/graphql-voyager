@@ -1,0 +1,101 @@
+@import '../variables.css';
+
+@keyframes voyager-shake {
+  0% {
+    transform: rotateZ(0deg);
+  }
+
+  50% {
+    transform: rotateZ(2deg);
+  }
+
+  100% {
+    transform: rotateZ(0deg);
+  }
+}
+
+@keyframes signal-move {
+  0 {
+    opacity: 0.1;
+    transform: translate3d(0, 0, 0);
+  }
+
+  25% {
+    opacity: 1;
+    transform: translate3d(3px, -3px, 0);
+  }
+
+  50% {
+    opacity: 0.1;
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    opacity: 0.1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.loading-box {
+  position: absolute;;
+  left: 320px;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 10;
+
+  align-items: center;
+  justify-content: center;
+
+  display: none;
+  color: white;
+
+  @media (--small-viewport) {
+    left: 0;
+    top: 50%;
+  }
+}
+
+.loading-box.visible {
+  display: flex;
+}
+
+.loading-animation {
+  width: 180px;
+  & svg {
+    animation: voyager-shake 2s infinite;
+  }
+  & path {
+    fill: var(--secondary-color);
+  }
+
+  & .voyager-signal1, & .voyager-signal2, & .voyager-signal3 {
+    animation: signal-move 1s infinite;
+  }
+
+  & .voyager-signal2 {
+    animation-delay: 0.2s;
+  }
+
+  & .voyager-signal3 {
+    animation-delay: 0.4s;
+  }
+
+  & h1 {
+    text-align: center;;
+    color: var(--secondary-color);
+    letter-spacing: 4px;
+  }
+
+  @media (--small-viewport) {
+    text-align: center;
+
+    & svg {
+      max-width: 40%;
+    }
+
+    & h1 {
+      font-size: 1.5em;
+    }
+  }
+}

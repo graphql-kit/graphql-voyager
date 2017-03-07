@@ -2,16 +2,18 @@
   "compilerOptions": {
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "module": "commonjs",
+    "module": "es2015",
+    "moduleResolution": "node",
     "target": "es5",
     "noImplicitAny": false,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
     "sourceMap": true,
-    "outDir": ".tmp",
+    "outDir": "lib",
     "pretty": true,
-    "moduleResolution": "node",
     "types": [
-      "requirejs",
-      "core-js"
+      "core-js",
+      "webpack"
     ],
     "jsx": "react"
   },
@@ -20,6 +22,11 @@
     "node_modules",
     ".tmp",
     "dist"
+  ],
+  "include": [
+    "./src/**/*.ts",
+    "./src/**/*.tsx",
+    "./manual-types.d.ts"
   ],
   "awesomeTypescriptLoaderOptions": {
     "resolveGlobs": true,

@@ -1,0 +1,13 @@
+.menu-content {
+  width: 290px;
+  padding: 20px;
+  box-sizing: border-box;
+
+  & h3 {
+    font-weight: normal;
+  }
+}
+
+.setting-change-root > h3 {
+  margin: 0;
+}
