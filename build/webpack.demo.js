@@ -22,10 +22,7 @@ module.exports = function() {
       'react':'React',
       'react-dom': 'ReactDOM'
     },
-    entry: IS_PRODUCTION ? {
-      'index': ['./src/vendor.ts', './src/index.tsx'],
-      'presets': ['./src/presets.ts']
-    } : ['./src/presets.ts', './src/vendor.ts', './src/index.tsx'],
+    entry: ['./src/presets.ts', './src/vendor.ts', './src/index.tsx'],
     devServer: {
       contentBase: root('demo'),
       watchContentBase: true,
