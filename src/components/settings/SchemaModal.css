@@ -37,6 +37,7 @@
 }
 
 .modal-root {
+  font: var(--base-font-size) var(--base-font-family);
   display: flex;
   flex-direction: column;
   width: 75%;
