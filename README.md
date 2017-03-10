@@ -116,8 +116,10 @@ function introspectionProvider(query) {
 ReactDOM.render(<Voyager introspection={introspectionProvider} />, document.getElementById('voyager'));
 ```
 
-Build for the web with [webpack](https://webpack.js.org/) or
+Build for the web with [webpack](https://webpack.js.org/) ([example](./example/webpack-example)) or
 [browserify](http://browserify.org/)
+
+**Important:** make sure to copy `voyager.worker.js` from `node_modules/graphql-voyager/dist` to the same folder as your main bundle.
 
 
 ## Credits
