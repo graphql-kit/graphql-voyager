@@ -72,17 +72,8 @@ export default class Voyager extends React.Component<VoyagerProps, void> {
     this.renderer.unsubscribe();
   }
 
-  normalizeDisplayOptions(opts: any) {
-    opts = opts || {};
-    return {
-      rootTypeId: opts.rootType && typeNameToId(opts.rootType),
-      skipRelay: opts.skipRelay,
-      sortByAlphabet: opts.sortByAlphabet
-    }
-  }
-
   updateIntrospection() {
-    let displayOpts = this.normalizeDisplayOptions(this.props.displayOptions);
+    let displayOpts = normalizeDisplayOptions(this.props.displayOptions);
     if (_.isFunction(this.props.introspection)) {
       let promise = (this.props.introspection as IntrospectionProvider)(introspectionQuery);
 
@@ -104,7 +95,8 @@ export default class Voyager extends React.Component<VoyagerProps, void> {
       return;
     }
     if (this.props.displayOptions !== prevProps.displayOptions) {
-      changeDisplayOptions(this.props.displayOptions);
+      let opts = normalizeDisplayOptions(this.props.displayOptions);
+      store.dispatch(changeDisplayOptions(opts));
     }
   }
 
@@ -132,4 +124,14 @@ export default class Voyager extends React.Component<VoyagerProps, void> {
 // Duck-type promise detection.
 function isPromise(value) {
   return typeof value === 'object' && typeof value.then === 'function';
+}
+
+
+function normalizeDisplayOptions(opts: any) {
+  opts = opts || {};
+  return {
+    rootTypeId: opts.rootType && typeNameToId(opts.rootType),
+    skipRelay: opts.skipRelay,
+    sortByAlphabet: opts.sortByAlphabet
+  }
 }

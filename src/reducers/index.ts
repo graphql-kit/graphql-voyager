@@ -46,6 +46,7 @@ function pushHistory(currentTypeId: string, previousState): string[] {
     return [...previousTypesIds, previousTypeId];
 }
 
+
 export function rootReducer(previousState = initialState, action) {
   const { type } = action;
   switch(type) {
@@ -53,7 +54,7 @@ export function rootReducer(previousState = initialState, action) {
       return {
         ...previousState,
         schema: action.payload.introspection,
-        displayOptions: { ...initialState.displayOptions, ...action.payload.displayOptions },
+        displayOptions: _.defaults(action.payload.displayOptions, initialState.displayOptions),
         svgCache: [],
         currentSvgIndex: null,
         graphView: initialState.graphView,

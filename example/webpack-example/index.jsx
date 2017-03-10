@@ -9,9 +9,10 @@ class Test extends React.Component {
   constructor() {
     super();
   }
+
   render() {
     return (
-      <Voyager introspection={this.introspectionProvider}/>
+      <Voyager introspection={this.introspectionProvider} displayOptions={{skipRelay: false}}/>
     )
   }
 
@@ -22,4 +23,4 @@ class Test extends React.Component {
   }
 }
 
-ReactDOM.render(<Hello/>, document.getElementById('voyager'));
+ReactDOM.render(<Test/>, document.getElementById('voyager'));
