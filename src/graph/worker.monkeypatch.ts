@@ -30,8 +30,12 @@ export function monkeyPatchWorker() {
 */
 function getJsUrl() {
   var id = +new Date + Math.random();
-  // write empty script to the document. It will get placed directly after the current script
-	document.write(`<script id="dummy${id}"><\/script>`);
-  // find appended script and return src of the previous script which is the current script
-	return (document.getElementById('dummy' + id).previousSibling as HTMLScriptElement).src;
+  try {
+    // write empty script to the document. It will get placed directly after the current script
+  	document.write(`<script id="dummy${id}"><\/script>`);
+    // find appended script and return src of the previous script which is the current script
+  	return (document.getElementById('dummy' + id).previousSibling as HTMLScriptElement).src;
+  } catch(e) {
+    return '';
+  }
 }
