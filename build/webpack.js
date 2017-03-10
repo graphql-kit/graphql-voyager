@@ -105,7 +105,7 @@ let baseConfig = {
     },
     {
       test: /\.ejs$/,
-      loader: 'ejs-compiled-loader'
+      loader: 'ejs-compiled-loader?strict=true'
     },
     {
       test: /\.svg$/,
