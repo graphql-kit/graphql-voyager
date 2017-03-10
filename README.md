@@ -36,6 +36,10 @@ module system it is exported as `GraphQLVoyager` global variable.
 `Voyager` component accepts the following properties:
 
 + `introspection` [`object` or function: `(query: string) => Promise`] - the server introspection response. If `function` is provided GraphQL Voyager will pass introspection query as a first function parameter. Function should return `Promise` which resolves to introspection response object.
++ `displayOptions`
+  + `displayOptions.skipRelay` [`boolean`, default `true`] - skip relay-related entities
+  + `displayOptions.rootType` [`string`] - name of the type to be used as a root
+  + `displayOptions.sortByAlphabet` [`boolean`, default `false`] - sort fields on graph by alphabet
 
 ### `init` function
 The signature of the `init` function:
