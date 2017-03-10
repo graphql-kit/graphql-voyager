@@ -43,10 +43,21 @@ export default class Voyager extends React.Component<VoyagerProps, void> {
     _schemaPresets: PropTypes.object
   }
 
+  viewport: Viewport;
+  renderer: SVGRender;
+
   componentDidMount() {
     // init viewport and svg-renderer
-    new SVGRender();
-    new Viewport(this.refs['viewport'] as HTMLElement);
+    this.renderer = new SVGRender();
+    this.viewport = new Viewport(this.refs['viewport'] as HTMLElement);
+
+    this.updateIntrospection();
+  }
+
+  componentWillUnmount() {
+    this.viewport.destroy();
+    this.renderer.unsubscribe();
+  }
 
     if (_.isFunction(this.props.introspection)) {
       let promise = (this.props.introspection as IntrospectionProvider)(introspectionQuery);

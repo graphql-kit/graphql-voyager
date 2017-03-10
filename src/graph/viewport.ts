@@ -25,6 +25,8 @@ export class Viewport {
   offsetTop: number;
   maxZoom: number;
 
+  _unsubscribe: any;
+
   constructor(public container: HTMLElement) {
     let unsubscribe = [];
 
@@ -32,7 +34,7 @@ export class Viewport {
       unsubscribe.push(observeStore(...args));
     }
 
-    observeStore(state => state.currentSvgIndex, svgIdx => {
+    this._unsubscribe = observeStore(state => state.currentSvgIndex, svgIdx => {
       unsubscribe.forEach(f => f());
       unsubscribe = [];
 
@@ -231,6 +233,11 @@ export class Viewport {
         });
       }
     });
+  }
+
+  destroy() {
+    this._unsubscribe();
+    this.zoomer.destroy();
   }
 }
 

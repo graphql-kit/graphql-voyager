@@ -9,11 +9,12 @@ const VizWorker = require('./viz-worker.worker');
 
 export class SVGRender {
   worker: Worker;
+  unsubscribe: any;
 
   constructor() {
     this.worker = new VizWorker();
 
-    observeStore(
+    this.unsubscribe = observeStore(
       state => state.currentSvgIndex,
       getDotSelector,
       (currentSvgIndex, dot) => {
@@ -21,6 +22,10 @@ export class SVGRender {
           this._renderSvg(dot);
       }
     );
+  }
+
+  destroy() {
+    this.unsubscribe();
   }
 
   _renderSvg(dot) {
