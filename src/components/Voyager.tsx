@@ -22,14 +22,22 @@ import { Viewport } from './../graph/'
 
 import {
   changeSchema,
-  reportError
+  reportError,
+  changeDisplayOptions
 } from '../actions/';
+
+import { typeNameToId } from '../introspection/';
 
 type IntrospectionProvider = (query: string) => Promise<any>;
 
 export interface VoyagerProps {
   _schemaPresets?: any;
   introspection: IntrospectionProvider | Object | boolean;
+  displayOptions: {
+    rootType: string;
+    skipRelay: boolean;
+    sortByAlphabet: boolean;
+  }
 }
 
 export default class Voyager extends React.Component<VoyagerProps, void> {
@@ -40,7 +48,12 @@ export default class Voyager extends React.Component<VoyagerProps, void> {
       PropTypes.object.isRequired,
       PropTypes.bool.isRequired
     ]).isRequired,
-    _schemaPresets: PropTypes.object
+    _schemaPresets: PropTypes.object,
+    displayOptions: PropTypes.shape({
+      rootType: PropTypes.string,
+      skipRelay: PropTypes.bool,
+      sortByAlphabet: PropTypes.bool
+    })
   }
 
   viewport: Viewport;
@@ -59,6 +72,17 @@ export default class Voyager extends React.Component<VoyagerProps, void> {
     this.renderer.unsubscribe();
   }
 
+  normalizeDisplayOptions(opts: any) {
+    opts = opts || {};
+    return {
+      rootTypeId: opts.rootType && typeNameToId(opts.rootType),
+      skipRelay: opts.skipRelay,
+      sortByAlphabet: opts.sortByAlphabet
+    }
+  }
+
+  updateIntrospection() {
+    let displayOpts = this.normalizeDisplayOptions(this.props.displayOptions);
     if (_.isFunction(this.props.introspection)) {
       let promise = (this.props.introspection as IntrospectionProvider)(introspectionQuery);
 
@@ -67,10 +91,20 @@ export default class Voyager extends React.Component<VoyagerProps, void> {
       }
 
       promise.then(schema => {
-        store.dispatch(changeSchema(schema));
+        store.dispatch(changeSchema(schema, displayOpts));
       });
     } else if (this.props.introspection) {
-      store.dispatch(changeSchema(this.props.introspection));
+      store.dispatch(changeSchema(this.props.introspection, displayOpts));
+    }
+  }
+
+  componentDidUpdate(prevProps:VoyagerProps) {
+    if (this.props.introspection !== prevProps.introspection) {
+      this.updateIntrospection();
+      return;
+    }
+    if (this.props.displayOptions !== prevProps.displayOptions) {
+      changeDisplayOptions(this.props.displayOptions);
     }
   }
 

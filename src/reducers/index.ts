@@ -53,7 +53,7 @@ export function rootReducer(previousState = initialState, action) {
       return {
         ...previousState,
         schema: action.payload.introspection,
-        displayOptions: action.payload.displayOptions || initialState.displayOptions,
+        displayOptions: { ...initialState.displayOptions, ...action.payload.displayOptions },
         svgCache: [],
         currentSvgIndex: null,
         graphView: initialState.graphView,
