@@ -1,5 +1,6 @@
 const reactToolboxVariables = {
-  'color-primary': 'var(--palette-cyan-500)'
+  'color-primary': 'var(--palette-cyan-500)',
+  'preferred-font': '"helvetica neue", helvetica, arial, sans-serif'
 };
 
 module.exports = {
