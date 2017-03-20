@@ -135,7 +135,7 @@ class SchemaModal extends React.Component<SchemaModalProps, SchemaModalState> {
           '-active': isActive
         })} onClick={() => isActive || this.handlePresetChange('custom')}>
           <div className="card-header">
-            <h2> Custom Introspection </h2>
+            <h2> Custom Schema </h2>
           </div>
           <div className="card-content">
             <p> Run the introspection query against a GraphQL endpoint. Paste the result into the textarea below to view the model relationships.</p>
