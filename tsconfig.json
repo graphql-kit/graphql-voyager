@@ -12,9 +12,9 @@
     "outDir": "lib",
     "pretty": true,
     "types": [
-      "core-js",
       "webpack"
     ],
+    "lib": ["es2016", "DOM"],
     "jsx": "react"
   },
   "compileOnSave": false,
