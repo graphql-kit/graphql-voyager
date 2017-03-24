@@ -88,7 +88,6 @@ export default class Voyager extends React.Component<VoyagerProps, void> {
       }
 
       promise.then(schema => {
-        debugger;
         if (schema === this.store.schema) return;
         this.store.dispatch(changeSchema(schema, displayOpts));
       });

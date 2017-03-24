@@ -5,7 +5,8 @@
   top: 50%;
   overflow-y: auto;
 
-  transform: translateY(-50%) translateX(-110%);
+  transform: translateY(-50%) translateX(-100%);
+  box-sizing: border-box;
   width: var(--type-info-popover-width);
   height: 75%;
   padding: calc(var(--spacing-unit) * 2) var(--panel-spacing);
