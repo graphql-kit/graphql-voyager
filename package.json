@@ -2,7 +2,7 @@
   "name": "graphql-voyager",
   "version": "1.0.0-rc.1",
   "description": "GraphQL introspection viewer",
-  "main": "dist/voyager.js",
+  "main": "dist/voyager.lib.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack-dev-server --config build/webpack.demo.js",
@@ -51,7 +51,8 @@
     "uglifyjs": "^2.4.10",
     "webpack": "^2.2.1",
     "webpack-dev-server": "^2.4.2",
-    "worker-loader": "^0.8.0"
+    "worker-loader": "^0.8.0",
+    "viz.js": "^1.7.1"
   },
   "peerDependencies": {
     "graphql": "^0.9.0",
@@ -71,7 +72,6 @@
     "redux": "^3.6.0",
     "redux-thunk": "^2.1.0",
     "reselect": "^2.5.4",
-    "svg-pan-zoom": "^3.5.0",
-    "viz.js": "^1.7.1"
+    "svg-pan-zoom": "^3.5.0"
   }
 }
