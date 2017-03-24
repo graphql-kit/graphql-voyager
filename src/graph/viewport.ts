@@ -68,13 +68,20 @@ export class Viewport {
     this.clear();
     this.$svg = preprocessVizSvg(svgString);
     this.container.appendChild(this.$svg);
-    this.enableZoom();
-    this.bindClick();
-    this.bindHover();
+    // run on next tick
+    setTimeout(() => {
+      this.enableZoom();
+      this.bindClick();
+      this.bindHover();
+    }, 0);
   }
 
   clear() {
-    this.zoomer && this.zoomer.destroy();
+    try {
+      this.zoomer && this.zoomer.destroy();
+    } catch(e) {
+      // skip
+    }
     this.container.innerHTML = '';
   }
 
@@ -237,7 +244,11 @@ export class Viewport {
 
   destroy() {
     this._unsubscribe();
-    this.zoomer.destroy();
+    try {
+      this.zoomer.destroy();
+    } catch(e) {
+      // skip
+    }
   }
 }
 
