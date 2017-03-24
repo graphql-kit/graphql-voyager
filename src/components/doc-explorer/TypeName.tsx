@@ -1,5 +1,6 @@
 import * as React from 'react';
 import * as classNames from 'classnames';
+import { connect } from 'react-redux'
 
 import './TypeName.css';
 
@@ -9,17 +10,16 @@ import {
   isInputObjectType,
 } from '../../introspection';
 
-import { store } from '../../redux';
-
 import {
   changeSelectedTypeInfo
 } from '../../actions/';
 
 interface TypeNameProps {
   type: any;
+  dispatch: any;
 }
 
-export default class TypeName extends React.Component<TypeNameProps, {}> {
+class TypeName extends React.Component<TypeNameProps, {}> {
   render() {
     const { type } = this.props;
 
@@ -34,7 +34,7 @@ export default class TypeName extends React.Component<TypeNameProps, {}> {
     return (
       <span className={classNames('type-name', className)}
        onClick={(event) => {
-         store.dispatch(changeSelectedTypeInfo(type));
+         this.props.dispatch(changeSelectedTypeInfo(type));
          event.stopPropagation();
        }}
       >
@@ -44,3 +44,5 @@ export default class TypeName extends React.Component<TypeNameProps, {}> {
 
   }
 }
+
+export default connect()(TypeName);

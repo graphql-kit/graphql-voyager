@@ -1,5 +1,5 @@
 import { getDotSelector } from './dot'
-import { store, observeStore } from '../redux';
+import { observeStore } from '../redux';
 import { svgRenderingFinished, reportError } from '../actions';
 
 import { monkeyPatchWorker } from './worker.monkeypatch';
@@ -11,10 +11,10 @@ export class SVGRender {
   worker: Worker;
   unsubscribe: any;
 
-  constructor() {
+  constructor(public store) {
     this.worker = new VizWorker();
 
-    this.unsubscribe = observeStore(
+    this.unsubscribe = observeStore(store,
       state => state.currentSvgIndex,
       getDotSelector,
       (currentSvgIndex, dot) => {
@@ -32,9 +32,9 @@ export class SVGRender {
     let cb = event => {
       let data = event.data;
       if (data.result === 'success')
-        store.dispatch(svgRenderingFinished(data.svgString));
+        this.store.dispatch(svgRenderingFinished(data.svgString));
       else
-        store.dispatch(reportError(data.msg));
+        this.store.dispatch(reportError(data.msg));
       this.worker.removeEventListener('message', cb);
     }
     this.worker.postMessage({dot});

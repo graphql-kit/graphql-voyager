@@ -1,9 +1,9 @@
 import * as _ from 'lodash';
-import { createStore, applyMiddleware, compose } from 'redux';
+import { createStore, applyMiddleware, compose, Store } from 'redux';
 import thunk from 'redux-thunk';
 import { rootReducer } from './reducers'
 
-function configureStore(preloadedState?) {
+export function configureStore(preloadedState?):Store<any> {
   let composeEnhancers;
   if (DEBUG) {
     composeEnhancers = window['__REDUX_DEVTOOLS_EXTENSION_COMPOSE__'] || compose;
@@ -18,11 +18,9 @@ function configureStore(preloadedState?) {
   );
 }
 
-export const store = configureStore();
-
 // Initial version was copy-pasted from
 // https://github.com/reactjs/redux/issues/303#issuecomment-125184409
-export function observeStore(...args) {
+export function observeStore(store:Store<any>, ...args) {
   let onChange = args.pop();
   let selectors = args;
   let currentState;

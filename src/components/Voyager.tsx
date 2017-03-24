@@ -2,9 +2,9 @@ import * as React from 'react';
 import { PropTypes } from 'react';
 import * as _ from 'lodash';
 
-import { Provider } from 'react-redux';
+import { Provider, Store } from 'react-redux';
 
-import { store } from '../redux';
+import { configureStore } from '../redux';
 
 import { introspectionQuery } from 'graphql/utilities';
 
@@ -41,7 +41,6 @@ export interface VoyagerProps {
 }
 
 export default class Voyager extends React.Component<VoyagerProps, void> {
-
   static propTypes = {
     introspection: PropTypes.oneOfType([
       PropTypes.func.isRequired,
@@ -58,11 +57,18 @@ export default class Voyager extends React.Component<VoyagerProps, void> {
 
   viewport: Viewport;
   renderer: SVGRender;
+  store: Store<any>;
+
+  constructor(props) {
+    super(props);
+    this.store = configureStore();
+  }
 
   componentDidMount() {
     // init viewport and svg-renderer
-    this.renderer = new SVGRender();
-    this.viewport = new Viewport(this.refs['viewport'] as HTMLElement);
+    this.renderer = new SVGRender(this.store);
+    this.viewport = new Viewport(this.store, this.refs['viewport'] as HTMLElement);
+
 
     this.updateIntrospection();
   }
@@ -78,14 +84,16 @@ export default class Voyager extends React.Component<VoyagerProps, void> {
       let promise = (this.props.introspection as IntrospectionProvider)(introspectionQuery);
 
       if (!isPromise(promise)) {
-        store.dispatch(reportError('SchemaProvider did not return a Promise for introspection.'))
+        this.store.dispatch(reportError('SchemaProvider did not return a Promise for introspection.'))
       }
 
       promise.then(schema => {
-        store.dispatch(changeSchema(schema, displayOpts));
+        debugger;
+        if (schema === this.store.schema) return;
+        this.store.dispatch(changeSchema(schema, displayOpts));
       });
     } else if (this.props.introspection) {
-      store.dispatch(changeSchema(this.props.introspection, displayOpts));
+      this.store.dispatch(changeSchema(this.props.introspection, displayOpts));
     }
   }
 
@@ -96,7 +104,7 @@ export default class Voyager extends React.Component<VoyagerProps, void> {
     }
     if (this.props.displayOptions !== prevProps.displayOptions) {
       let opts = normalizeDisplayOptions(this.props.displayOptions);
-      store.dispatch(changeDisplayOptions(opts));
+      this.store.dispatch(changeDisplayOptions(opts));
     }
   }
 
@@ -108,7 +116,7 @@ export default class Voyager extends React.Component<VoyagerProps, void> {
     let showModal = !!_schemaPresets;
 
     return (
-      <Provider store={ store }>
+      <Provider store={ this.store }>
         <div className="graphql-voyager">
           <DocPanel _showChangeButton={!!_schemaPresets}/>
           <div ref="viewport" className="viewport"></div>

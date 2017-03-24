@@ -3,7 +3,7 @@ import * as svgPanZoom from 'svg-pan-zoom';
 import * as animate from '@f/animate';
 
 import * as Actions from '../actions'
-import { store, observeStore } from '../redux';
+import { observeStore } from '../redux';
 
 import {
   removeClass,
@@ -27,14 +27,14 @@ export class Viewport {
 
   _unsubscribe: any;
 
-  constructor(public container: HTMLElement) {
+  constructor(public store, public container: HTMLElement) {
     let unsubscribe = [];
 
     function subscribe(...args) {
-      unsubscribe.push(observeStore(...args));
+      unsubscribe.push(observeStore(store, ...args));
     }
 
-    this._unsubscribe = observeStore(state => state.currentSvgIndex, svgIdx => {
+    this._unsubscribe = observeStore(store, state => state.currentSvgIndex, svgIdx => {
       unsubscribe.forEach(f => f());
       unsubscribe = [];
 
@@ -111,15 +111,15 @@ export class Viewport {
       var target = event.target as Element;
       if (isLink(target)) {
         const typeId = typeNameToId(target.textContent);
-        store.dispatch(Actions.focusElement(typeId));
+        this.store.dispatch(Actions.focusElement(typeId));
       } else if (isNode(target)) {
         let $node = getParent(target, 'node');
-        store.dispatch(Actions.selectNode($node.id));
+        this.store.dispatch(Actions.selectNode($node.id));
       } else if (isEdge(target)) {
         let $edge = getParent(target, 'edge');
-        store.dispatch(Actions.selectEdge(edgeSource($edge).id));
+        this.store.dispatch(Actions.selectEdge(edgeSource($edge).id));
       } else if (!isControl(target)) {
-        store.dispatch(Actions.clearSelection());
+        this.store.dispatch(Actions.clearSelection());
       }
     });
   }
