@@ -8,7 +8,7 @@
     "start": "webpack-dev-server --config build/webpack.demo.js",
     "clean:release": "rimraf dist",
     "clean:demo": "rimraf demo-dist",
-    "build:release": "npm run clean:release && webpack --config build/webpack.js && rm dist/voyager.worker.js.map",
+    "build:release": "npm run clean:release && NODE_ENV=production webpack -p --config build/webpack.js && rm dist/voyager.worker.js.map",
     "build:demo": "npm run clean:demo && NODE_ENV=production webpack -p --config build/webpack.demo.js",
     "deploy": "deploy-to-gh-pages --local --update demo-dist",
     "stats": "NODE_ENV=production webpack --json -p --config build/webpack.js > stats.json",
