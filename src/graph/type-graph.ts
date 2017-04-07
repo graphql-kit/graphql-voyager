@@ -18,7 +18,6 @@ export function isNode(type) {
 }
 
 export function getDefaultRoot(schema) {
-  console.log('getting default root', schema)
   return schema.queryType.id;
 }
 
