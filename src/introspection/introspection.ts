@@ -217,7 +217,7 @@ function assignTypesAndIDs(schema) {
   schema.types = _.keyBy(schema.types, 'id');
 }
 
-export function getSchema(introspection:any, sortByAlphabet:boolean, skipRelay:boolean) {
+export function getSchema(introspection:any, sortByAlphabet:boolean, skipRelay:boolean, transformSchema: Function) {
   if (!introspection)
     return null;
 
@@ -227,10 +227,14 @@ export function getSchema(introspection:any, sortByAlphabet:boolean, skipRelay:b
   if (sortByAlphabet)
     schema =  sortIntrospection(schema);
 
+  if (transformSchema)
+    schema = transformSchema(schema)
+
   assignTypesAndIDs(schema);
 
   if (skipRelay)
     markRelayTypes(schema);
+
   return schema;
 }
 
@@ -238,6 +242,7 @@ export const getSchemaSelector = createSelector(
   (state:any) => state.schema,
   (state:any) => state.displayOptions.sortByAlphabet,
   (state:any) => state.displayOptions.skipRelay,
+  (state:any) => state.displayOptions.transformSchema,
   getSchema
 );
 
@@ -251,7 +256,8 @@ export const getNaSchemaSelector = createSelector(
   },
   (state:any) => _.get(state, 'schemaModal.notApplied.displayOptions.sortByAlphabet'),
   (state:any) => _.get(state, 'schemaModal.notApplied.displayOptions.skipRelay'),
-  (introspection, sortByAlphabet, skipRelay) => {
+  (state:any) => _.get(state, 'schemaModal.notApplied.displayOptions.transformSchema'),
+  (introspection, sortByAlphabet, skipRelay, transformSchema) => {
     if (introspection == null)
       return {schema: null, error: null};
 
@@ -262,7 +268,7 @@ export const getNaSchemaSelector = createSelector(
       //Used only to validate introspection so result is ignored
       buildClientSchema(introspection.data);
 
-      const schema = getSchema(introspection, sortByAlphabet, skipRelay);
+      const schema = getSchema(introspection, sortByAlphabet, skipRelay, transformSchema);
       return {schema, error: null};
     } catch (e) {
       console.error(e);

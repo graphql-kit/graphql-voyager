@@ -37,6 +37,9 @@ export interface VoyagerProps {
     rootType: string;
     skipRelay: boolean;
     sortByAlphabet: boolean;
+    hideDocs: boolean;
+    hideRoot: boolean;
+    transformSchema: (schema: any) => any
   }
 }
 
@@ -51,7 +54,10 @@ export default class Voyager extends React.Component<VoyagerProps, void> {
     displayOptions: PropTypes.shape({
       rootType: PropTypes.string,
       skipRelay: PropTypes.bool,
-      sortByAlphabet: PropTypes.bool
+      sortByAlphabet: PropTypes.bool,
+      hideDocs: PropTypes.bool,
+      hideRoot: PropTypes.bool,
+      transformSchema: PropTypes.func,
     })
   }
 
@@ -109,15 +115,21 @@ export default class Voyager extends React.Component<VoyagerProps, void> {
 
   render() {
     let {
-      _schemaPresets
+      _schemaPresets,
+      displayOptions: {
+        hideDocs,
+      },
     } = this.props;
 
     let showModal = !!_schemaPresets;
 
+
     return (
       <Provider store={ this.store }>
         <div className="graphql-voyager">
-          <DocPanel _showChangeButton={!!_schemaPresets}/>
+          {!hideDocs && (
+            <DocPanel _showChangeButton={!!_schemaPresets}/>
+          )}
           <div ref="viewport" className="viewport"></div>
           <ErrorBar/>
           <LoadingAnimation/>
@@ -139,6 +151,9 @@ function normalizeDisplayOptions(opts: any) {
   return {
     rootTypeId: opts.rootType && typeNameToId(opts.rootType),
     skipRelay: opts.skipRelay,
-    sortByAlphabet: opts.sortByAlphabet
+    sortByAlphabet: opts.sortByAlphabet,
+    transformSchema: opts.transformSchema,
+    hideDocs: opts.hideDocs,
+    hideRoot: opts.hideRoot,
   }
 }
