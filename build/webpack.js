@@ -6,6 +6,13 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const root = require('./helpers').root;
 const VERSION = JSON.stringify(require('../package.json').version);
 
+const BANNER =
+`GraphQL Voyager - Represent any GraphQL API as an interactive graph
+-------------------------------------------------------------
+  Version: ${VERSION}
+  Repo: https://github.com/APIs-guru/graphql-voyager`;
+
+
 let baseConfig = {
   devtool: 'cheap-source-map',
 
@@ -144,7 +151,8 @@ let baseConfig = {
     new ExtractTextPlugin({
       filename: 'voyager.css',
       allChunks: true
-    })
+    }),
+    new webpack.BannerPlugin(BANNER)
   ],
   node: {
     console: false,
