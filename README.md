@@ -54,7 +54,7 @@ The signature of the `init` function:
 ### Using pre-bundled version
 You can get GraphQL Voyager bundle from the following places:
 + our GitHub Pages-based CDN
-  + some exact version - https://apis.guru/graphql-voyager/releases/v1.0.0-rc.0/voyager.min.js
+  + some exact version - https://apis.guru/graphql-voyager/releases/v1.0.0-rc.3/voyager.min.js
   + latest 1.x version - https://apis.guru/graphql-voyager/releases/v1.x/voyager.min.js
 + download zip from [releases](https://github.com/APIs-guru/graphql-voyager/releases) page and use files from `dist` folder
 + from `dist` folder of the npm package `graphql-voyager`
