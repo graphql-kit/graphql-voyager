@@ -73,5 +73,9 @@
     "redux-thunk": "^2.1.0",
     "reselect": "^2.5.4",
     "svg-pan-zoom": "^3.5.0"
+  },
+    "repository": {
+    "type": "git",
+    "url": "git+https://github.com/APIs-guru/graphql-voyager.git"
   }
 }
