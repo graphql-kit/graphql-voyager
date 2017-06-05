@@ -2,26 +2,28 @@ import { getDotSelector } from './dot'
 import { observeStore } from '../redux';
 import { svgRenderingFinished, reportError } from '../actions';
 
-import { monkeyPatchWorker } from './worker.monkeypatch';
+import { loadWorker } from '../utils/';
 
-monkeyPatchWorker();
-const VizWorker = require('./viz-worker.worker');
+// just reference it to to trigger worker loader
+require('./viz-worker.worker');
 
 export class SVGRender {
   worker: Worker;
   unsubscribe: any;
 
   constructor(public store) {
-    this.worker = new VizWorker();
+    loadWorker('voyager.worker.js').then(worker => {
+      this.worker = worker;
 
-    this.unsubscribe = observeStore(store,
-      state => state.currentSvgIndex,
-      getDotSelector,
-      (currentSvgIndex, dot) => {
-        if (currentSvgIndex === null && dot !== null)
-          this._renderSvg(dot);
-      }
-    );
+      this.unsubscribe = observeStore(store,
+        state => state.currentSvgIndex,
+        getDotSelector,
+        (currentSvgIndex, dot) => {
+          if (currentSvgIndex === null && dot !== null)
+            this._renderSvg(dot);
+        }
+      );
+    });
   }
 
   destroy() {
