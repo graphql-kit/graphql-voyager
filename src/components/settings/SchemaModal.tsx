@@ -14,6 +14,7 @@ import CloseIcon from '../icons/close-black.svg';
 import * as ClipboardButton from 'react-clipboard.js';
 
 import { introspectionQuery } from 'graphql/utilities';
+import { request } from 'graphql-request';
 
 import {
   changeSchema,
@@ -22,9 +23,11 @@ import {
   changeActivePreset,
   changeNaActivePreset,
   changeNaDisplayOptions,
+  reportError,
 } from '../../actions/';
 import { Settings } from './Settings';
 import { getNaSchemaSelector } from '../../introspection';
+import { getQueryParams } from '../../utils/';
 
 interface SchemaModalProps {
   presets: any;
@@ -54,8 +57,16 @@ class SchemaModal extends React.Component<SchemaModalProps, SchemaModalState> {
   }
 
   componentDidMount() {
-    this.props.dispatch(showSchemaModal())
-    if (DEBUG_INITIAL_PRESET) {
+    this.props.dispatch(showSchemaModal());
+    let url = getQueryParams()['url'];
+    if (url) {
+      this.props.dispatch(hideSchemaModal());
+      request(url, introspectionQuery)
+        .then(introspection => this.props.dispatch(changeSchema({data: introspection})))
+        .catch(err => {
+          this.props.dispatch(reportError(err.response.data || `Error loading: ${err.response.status}`));
+        });
+    } else if (DEBUG_INITIAL_PRESET) {
       this.props.dispatch(hideSchemaModal())
       this.props.dispatch(changeActivePreset(DEBUG_INITIAL_PRESET));
       this.props.dispatch(changeSchema(this.props.presets[DEBUG_INITIAL_PRESET]));

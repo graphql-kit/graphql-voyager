@@ -4,6 +4,20 @@ import * as path from 'path';
 export var __dirname;
 export * from './dom-helpers';
 
+export function getQueryParams(query = location.search) {
+  if (!query) {
+    return {};
+  }
+
+  return (/^[?#]/.test(query) ? query.slice(1) : query)
+    .split('&')
+    .reduce((params, param) => {
+      let [ key, value ] = param.split('=');
+      params[key] = value ? decodeURIComponent(value.replace(/\+/g, ' ')) : '';
+      return params;
+    }, {});
+};
+
 export function loadWorker(relativeUrl):Promise<Worker> {
   const url = __dirname + '/' + relativeUrl;
   return fetch(url)

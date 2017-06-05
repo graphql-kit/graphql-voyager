@@ -63,6 +63,7 @@
     "@f/animate": "^1.0.1",
     "classnames": "^2.2.5",
     "clipboard": "^1.6.1",
+    "graphql-request": "^1.1.2",
     "lodash": "^4.17.2",
     "marked": "^0.3.6",
     "react-modal": "^1.7.3",
