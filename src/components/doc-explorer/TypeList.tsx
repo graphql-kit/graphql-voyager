@@ -14,7 +14,7 @@ interface TypeListProps {
   dispatch: any;
 }
 
-class TypeList extends React.Component<TypeListProps, void> {
+class TypeList extends React.Component<TypeListProps> {
   renderItem(type, className?: string) {
     return (
       <div key={type.id} className={classNames('typelist-item', className || '')}>

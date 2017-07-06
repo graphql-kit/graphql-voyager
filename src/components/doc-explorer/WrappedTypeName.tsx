@@ -16,7 +16,7 @@ interface WrappedTypeNameProps {
   container: any;
 }
 
-export default class WrappedTypeName extends React.Component<WrappedTypeNameProps, void> {
+export default class WrappedTypeName extends React.Component<WrappedTypeNameProps> {
   renderRelayIcon() {
     return (
       <TooltipIcon className="relay-icon" tooltipPosition="top" ripple={false} tooltip="Relay Connection">

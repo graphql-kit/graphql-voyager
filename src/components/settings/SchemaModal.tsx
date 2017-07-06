@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 import * as React from 'react';
 import { connect } from 'react-redux'
-import * as ReactModal from 'react-modal';
+import ReactModal from 'react-modal';
 import * as classNames from 'classnames';
 
 import './SchemaModal.css';
@@ -214,7 +214,7 @@ class SchemaModal extends React.Component<SchemaModalProps, SchemaModalState> {
             options={displayOptions}
             onChange={(options) => this.handleDisplayOptionsChange(options)}/>
         </div>
-        <Button raised label="Change Schema" theme={buttonDarkTheme}
+        <Button raised label="Change Schema" theme={buttonDarkTheme as any}
         disabled={!validSelected} onClick={this.handleChange.bind(this)}/>
       </div>
     );

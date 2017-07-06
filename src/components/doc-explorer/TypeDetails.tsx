@@ -9,7 +9,7 @@ interface TypeDetailsProps {
   type: any;
 }
 
-export default class TypeDetails extends React.Component<TypeDetailsProps, void> {
+export default class TypeDetails extends React.Component<TypeDetailsProps> {
   renderFields(type) {
     if (_.isEmpty(type.inputFields))
       return null;
@@ -73,7 +73,7 @@ interface EnumValueProps {
   value: any;
 }
 
-class EnumValue extends React.Component<EnumValueProps, void> {
+class EnumValue extends React.Component<EnumValueProps> {
   render() {
     const {value} = this.props;
     return (

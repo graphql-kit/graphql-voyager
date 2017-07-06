@@ -10,7 +10,7 @@ interface TypeLinkProps {
   dispatch: any;
 }
 
-class TypeLink extends React.Component<TypeLinkProps, void> {
+class TypeLink extends React.Component<TypeLinkProps> {
   render() {
     const {
       type,

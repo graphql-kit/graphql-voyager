@@ -6,7 +6,7 @@ interface MarkdownProps {
   className: string;
 }
 
-export default class Markdown extends React.Component<MarkdownProps, void> {
+export default class Markdown extends React.Component<MarkdownProps> {
   shouldComponentUpdate(nextProps) {
     return this.props.text !== nextProps.text;
   }

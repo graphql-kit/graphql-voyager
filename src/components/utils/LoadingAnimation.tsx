@@ -16,7 +16,7 @@ function mapStateToProps(state) {
   };
 }
 
-class LoadingAnimation extends React.Component<LoadingAnimationProps, void> {
+class LoadingAnimation extends React.Component<LoadingAnimationProps> {
   shouldComponentUpdate(nextProps) {
     return this.props.loading !== nextProps.loading;
   }

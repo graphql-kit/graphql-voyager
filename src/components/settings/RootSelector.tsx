@@ -15,7 +15,7 @@ interface RootSelectorProps {
   onChange: any;
 }
 
-export default class RootSelector extends React.Component<RootSelectorProps, void> {
+export default class RootSelector extends React.Component<RootSelectorProps> {
   render() {
     let {
       rootTypeId,

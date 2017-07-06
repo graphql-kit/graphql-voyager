@@ -11,7 +11,7 @@ interface ArgumentProps {
   expanded: boolean;
 }
 
-export default class Argument extends React.Component<ArgumentProps, void> {
+export default class Argument extends React.Component<ArgumentProps> {
   render() {
     const {arg, expanded} = this.props;
     return (

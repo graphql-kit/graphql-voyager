@@ -17,7 +17,7 @@ interface TitleAreaProps {
 }
 
 
-class TitleArea extends React.Component<TitleAreaProps, void> {
+class TitleArea extends React.Component<TitleAreaProps> {
   render() {
     const {
       dispatch,

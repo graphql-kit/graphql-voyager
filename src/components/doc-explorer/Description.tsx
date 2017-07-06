@@ -10,7 +10,7 @@ interface DescriptionProps {
   className: string;
 }
 
-export default class Description extends React.Component<DescriptionProps, void> {
+export default class Description extends React.Component<DescriptionProps> {
   render() {
     const {text, className} = this.props;
 

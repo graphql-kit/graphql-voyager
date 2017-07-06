@@ -17,7 +17,7 @@ interface ErrorBarProps {
   dispatch: any;
 }
 
-class ErrorBar extends React.Component<ErrorBarProps, void> {
+class ErrorBar extends React.Component<ErrorBarProps> {
   render() {
     const {
       errorMessage,

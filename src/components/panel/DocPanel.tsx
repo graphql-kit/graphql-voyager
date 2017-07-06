@@ -9,7 +9,7 @@ import TypeInfoPopover from './TypeInfoPopover';
 interface DocPanelProps {
   _showChangeButton?: boolean;
 }
-export default class DocPanel extends React.Component<DocPanelProps, void> {
+export default class DocPanel extends React.Component<DocPanelProps> {
 
   render() {
     let {

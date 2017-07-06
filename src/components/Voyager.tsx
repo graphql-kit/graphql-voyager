@@ -40,7 +40,7 @@ export interface VoyagerProps {
   }
 }
 
-export default class Voyager extends React.Component<VoyagerProps, void> {
+export default class Voyager extends React.Component<VoyagerProps> {
   static propTypes = {
     introspection: PropTypes.oneOfType([
       PropTypes.func.isRequired,

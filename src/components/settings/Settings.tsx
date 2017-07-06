@@ -30,7 +30,7 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export class Settings extends React.Component<SettingsProps, void> {
+export class Settings extends React.Component<SettingsProps> {
   render() {
     let {
       schema,

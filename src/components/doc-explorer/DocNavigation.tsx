@@ -24,7 +24,7 @@ function mapStateToProps(state) {
   };
 }
 
-class DocNavigation extends React.Component<DocNavigationProps, void> {
+class DocNavigation extends React.Component<DocNavigationProps> {
   render() {
     const {
       selectedType,

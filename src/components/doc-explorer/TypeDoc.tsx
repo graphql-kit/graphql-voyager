@@ -31,7 +31,7 @@ function mapStateToProps(state) {
   };
 }
 
-class TypeDoc extends React.Component<TypeDocProps, void> {
+class TypeDoc extends React.Component<TypeDocProps> {
   componentDidUpdate(prevProps:TypeDocProps) {
     if (this.props.selectedEdgeId !== prevProps.selectedEdgeId) {
       this.ensureActiveVisible();
