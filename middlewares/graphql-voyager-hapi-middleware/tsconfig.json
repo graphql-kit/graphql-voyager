@@ -1,0 +1,19 @@
+{
+  "extends": "../../tsconfig",
+  "compilerOptions": {
+    "outDir": "./lib",
+    "types": [
+      "@types/node"
+    ]
+  },
+  "include": [
+    "../../manual-types.d.ts",
+    "./src/**/*",
+    "./example/**/*",
+    "./package.json"
+  ],
+  "exclude": [
+    "node_modules",
+    "lib"
+  ]
+}

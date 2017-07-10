@@ -35,6 +35,7 @@
     "hint.css": "^2.5.0",
     "html-webpack-plugin": "^2.29.0",
     "json-loader": "^0.5.4",
+    "lerna": "^2.0.0-rc.5",
     "postcss-cssnext": "^3.0.0",
     "postcss-import": "^10.0.0",
     "postcss-loader": "^2.0.6",

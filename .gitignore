@@ -8,3 +8,4 @@ stats.json
 npm-debug.log
 
 lib
+middlewares/**/example/server.js

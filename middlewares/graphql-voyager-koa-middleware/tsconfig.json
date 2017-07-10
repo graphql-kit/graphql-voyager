@@ -1,0 +1,18 @@
+{
+  "extends": "../../tsconfig",
+  "compilerOptions": {
+    "target": "es2017",
+    "outDir": "./lib",
+    "types": [
+      "@types/node"
+    ]
+  },
+  "include": [
+    "../../manual-types.d.ts",
+    "./src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "lib"
+  ]
+}
