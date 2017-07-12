@@ -1,7 +1,7 @@
-import * as express from 'express';
-import * as graphqlHTTP from 'express-graphql';
-import * as schema from 'graphql-voyager/example/schema';
-import voyagerMiddleware from '../src/index';
+const express = require('express');
+const graphqlHTTP = require('express-graphql');
+const { express: voyagerMiddleware } = require('graphql-voyager/middleware');
+const schema = require('../schema');
 
 const app = express();
 const PORT = 3001;

@@ -1,7 +1,7 @@
-import * as Hapi from 'hapi';
-import { graphqlHapi } from 'graphql-server-hapi';
-import * as schema from 'graphql-voyager/example/schema';
-import voyagerMiddleware from '../src/index';
+const Hapi = require('hapi');
+const { graphqlHapi } = require('graphql-server-hapi');
+const { hapi: voyagerMiddleware } = require('graphql-voyager/middleware');
+const schema = require('../schema');
 
 const server = new Hapi.Server();
 

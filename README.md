@@ -121,6 +121,86 @@ Build for the web with [webpack](https://webpack.js.org/) ([example](./example/w
 
 **Important:** make sure to copy `voyager.worker.js` from `node_modules/graphql-voyager/dist` to the same folder as your main bundle.
 
+## Middleware
+Graphql Voyager has middleware for next frameworks:
+
+### Express
+
+#### Properties
+Middleware for Express supports following properties:
+
++ `options`
+  + `endpointUrl` [`string`] - the GraphQL endpoint url.
+
+#### Usage
+```js
+import express from 'express';
+import { express as middleware } from 'graphql-voyager/middleware';
+
+const app = express();
+
+app.use('/voyager', middleware({ endpointUrl: '/graphql' }));
+
+app.listen(3000);
+```
+
+### Hapi
+
+#### Properties
+Middleware for Hapi supports following properties:
+
++ `options`
+  + `path` [`string`] - the Voyager middleware url
+  + `voyagerOptions`
+      + `endpointUrl` [`string`] - the GraphQL endpoint url.
+
+#### Usage
+```js
+import hapi from 'hapi';
+import { hapi as middleware } from 'graphql-voyager/middleware';
+
+const server = new Hapi.Server();
+
+server.connection({
+  port: 3001
+});
+
+server.register({
+  register: middleware,
+  options: {
+    path: '/voyager',
+    voyagerOptions: {
+      endpointUrl: '/graphql',
+    }
+  }
+},() => server.start());
+```
+
+### Koa
+
+#### Properties
+Middleware for Koa supports following properties:
+
++ `options`
+  + `endpointUrl` [`string`] - the GraphQL endpoint url.
+
+#### Usage
+```js
+import Koa from 'koa';
+import KoaRouter from 'koa-router';
+import { koa as middleware } from 'graphql-voyager/middleware';
+
+const app = new Koa();
+const router = new KoaRouter();
+
+router.all('/voyager', voyagerMiddleware({
+  endpointUrl: '/graphql'
+}));
+
+app.use(router.routes());
+app.use(router.allowedMethods());
+app.listen(3001);
+```
 
 ## Credits
 This tool is inspired by [graphql-visualizer](https://github.com/NathanRSmith/graphql-visualizer) project.

@@ -1,5 +1,6 @@
 export interface VoyagerMiddlewareOptions {
     endpointUrl: string;
+    version: string;
 }
 
 export default function renderVoyagerMiddlewarePage(data: VoyagerMiddlewareOptions) {
@@ -22,11 +23,11 @@ export default function renderVoyagerMiddlewarePage(data: VoyagerMiddlewareOptio
       height: 100vh;
     }
   </style>
-  <link rel="stylesheet" href="/voyager/client/voyager.css" />
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/graphql-voyager@${data.version}/dist/voyager.css" />
   <script src="//cdn.jsdelivr.net/fetch/2.0.1/fetch.min.js"></script>
   <script src="//cdn.jsdelivr.net/react/15.4.2/react.min.js"></script>
   <script src="//cdn.jsdelivr.net/react/15.4.2/react-dom.min.js"></script>
-  <script src="/voyager/client/voyager.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/graphql-voyager@${data.version}/dist/voyager.min.js"></script>
 </head>
 <body>
   <main id="voyager">

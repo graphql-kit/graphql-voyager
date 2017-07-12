@@ -14,7 +14,9 @@ declare module "*.css" {
 }
 
 declare module "*.json" {
-  const json: any;
+  const json: {
+    version: string
+  };
   export default json;
 }
 
