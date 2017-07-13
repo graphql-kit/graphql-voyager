@@ -122,12 +122,12 @@ Build for the web with [webpack](https://webpack.js.org/) ([example](./example/w
 **Important:** make sure to copy `voyager.worker.js` from `node_modules/graphql-voyager/dist` to the same folder as your main bundle.
 
 ## Middleware
-Graphql Voyager has middleware for next frameworks:
+Graphql Voyager has middleware for the next frameworks:
 
 ### Express
 
 #### Properties
-Middleware for Express supports following properties:
+Express middleware supports the following properties:
 
 + `options`
   + `endpointUrl` [`string`] - the GraphQL endpoint url.
@@ -147,7 +147,7 @@ app.listen(3000);
 ### Hapi
 
 #### Properties
-Middleware for Hapi supports following properties:
+Hapi middleware supports the following properties:
 
 + `options`
   + `path` [`string`] - the Voyager middleware url
@@ -179,7 +179,7 @@ server.register({
 ### Koa
 
 #### Properties
-Middleware for Koa supports following properties:
+Koa middleware supports the following properties:
 
 + `options`
   + `endpointUrl` [`string`] - the GraphQL endpoint url.
