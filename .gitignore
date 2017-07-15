@@ -8,4 +8,4 @@ stats.json
 npm-debug.log
 
 lib
-middleware
+/middleware/

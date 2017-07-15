@@ -26,12 +26,10 @@ server.register([
     register: voyagerMiddleware,
     options: {
       path: '/voyager',
-      voyagerOptions: {
-        endpointUrl: '/graphql',
-      },
       route: {
         cors: true
-      }
+      },
+      endpointUrl: '/graphql'
     },
   }
 ],() => {

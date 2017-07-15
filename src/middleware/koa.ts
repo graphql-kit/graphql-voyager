@@ -1,10 +1,10 @@
-import * as Koa from 'koa';
-import renderVoyagerMiddlewarePage, { VoyagerMiddlewareOptions } from './render-voyager-middleware-page';
+import { Context } from 'koa';
+import renderVoyagerPage, { MiddlewareOptions } from './render-voyager-page';
 
 const { version } = require('../package.json');
 
 interface KoaVoyagerMiddleware {
-  (ctx: Koa.Context, next: () => void): void;
+  (ctx: Context, next: () => void): void;
 }
 
 interface Register {
@@ -12,14 +12,14 @@ interface Register {
 }
 
 const koa: Register = function (options) {
-  const voyagerMiddlewareOptions: VoyagerMiddlewareOptions = {
+  const middlewareOptions: MiddlewareOptions = {
     ...options,
     version
   };
 
   return async function voyager(ctx, next) {
     try {
-      ctx.body = renderVoyagerMiddlewarePage(voyagerMiddlewareOptions);
+      ctx.body = renderVoyagerPage(middlewareOptions);
       await next();
     } catch (err) {
       ctx.body = {message: err.message};

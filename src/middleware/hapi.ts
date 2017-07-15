@@ -1,5 +1,5 @@
 import { Server } from 'hapi';
-import renderVoyagerMiddlewarePage, { VoyagerMiddlewareOptions } from './render-voyager-middleware-page';
+import renderVoyagerPage, { MiddlewareOptions } from './render-voyager-page';
 
 const pkg = require('../package.json');
 
@@ -9,25 +9,27 @@ interface Register {
 }
 
 const hapi: Register = function(server, options, next) {
-  if (!options || !options.voyagerOptions) {
-    throw new Error('Voyager middleware requires options.');
-  }
-
   if (arguments.length !== 3) {
     throw new Error(`Voyager middleware expects exactly 3 arguments, got ${arguments.length}`);
   }
 
-  const voyagerMiddlewareOptions: VoyagerMiddlewareOptions = {
-    ...options.voyagerOptions,
+  const {
+    path,
+    route: config = {},
+    ...voyagerOptions
+  } = options;
+
+  const middlewareOptions: MiddlewareOptions = {
+    ...voyagerOptions,
     version: pkg.version
   };
 
   server.route({
     method: 'GET',
-    path: options.path,
-    config: options.route || {},
+    path,
+    config,
     handler: (_request, reply) => {
-      reply(renderVoyagerMiddlewarePage(voyagerMiddlewareOptions))
+      reply(renderVoyagerPage(middlewareOptions))
         .header('Content-Type', 'text/html')
     },
   });

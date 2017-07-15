@@ -169,9 +169,7 @@ server.register({
   register: middleware,
   options: {
     path: '/voyager',
-    voyagerOptions: {
-      endpointUrl: '/graphql',
-    }
+    endpointUrl: '/graphql'
   }
 },() => server.start());
 ```

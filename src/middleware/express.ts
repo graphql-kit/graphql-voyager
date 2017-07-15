@@ -1,10 +1,10 @@
-import * as express from 'express';
-import renderVoyagerMiddlewarePage, { VoyagerMiddlewareOptions } from './render-voyager-middleware-page';
+import { Request, Response } from 'express';
+import renderVoyagerPage, { MiddlewareOptions } from './render-voyager-page';
 
 const { version } = require('../package.json');
 
 interface ExpressVoyagerMiddleware {
-  (_req: express.Request, res: express.Response, next: () => void): void;
+  (_req: Request, res: Response, next: () => void): void;
 }
 
 interface Register {
@@ -12,14 +12,14 @@ interface Register {
 }
 
 const voyagerExpress: Register = function voyagerExpress(options) {
-  const voyagerMiddlewareOptions: VoyagerMiddlewareOptions = {
+  const middlewareOptions: MiddlewareOptions = {
     ...options,
     version
   };
 
   return (_req, res, next) => {
     res.setHeader('Content-Type', 'text/html');
-    res.write(renderVoyagerMiddlewarePage(voyagerMiddlewareOptions));
+    res.write(renderVoyagerPage(middlewareOptions));
     res.end();
     next();
   }

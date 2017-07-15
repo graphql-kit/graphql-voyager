@@ -1,9 +1,9 @@
-export interface VoyagerMiddlewareOptions {
+export interface MiddlewareOptions {
     endpointUrl: string;
     version: string;
 }
 
-export default function renderVoyagerMiddlewarePage(data: VoyagerMiddlewareOptions) {
+export default function renderVoyagerPage(options: MiddlewareOptions) {
   return `
 <!DOCTYPE html>
 <html>
@@ -23,11 +23,11 @@ export default function renderVoyagerMiddlewarePage(data: VoyagerMiddlewareOptio
       height: 100vh;
     }
   </style>
-  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/graphql-voyager@${data.version}/dist/voyager.css" />
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/graphql-voyager@${options.version}/dist/voyager.css" />
   <script src="//cdn.jsdelivr.net/fetch/2.0.1/fetch.min.js"></script>
   <script src="//cdn.jsdelivr.net/react/15.4.2/react.min.js"></script>
   <script src="//cdn.jsdelivr.net/react/15.4.2/react-dom.min.js"></script>
-  <script src="//cdn.jsdelivr.net/npm/graphql-voyager@${data.version}/dist/voyager.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/graphql-voyager@${options.version}/dist/voyager.min.js"></script>
 </head>
 <body>
   <main id="voyager">
@@ -36,7 +36,7 @@ export default function renderVoyagerMiddlewarePage(data: VoyagerMiddlewareOptio
   <script>
     window.addEventListener('load', function(event) {
       function introspectionProvider(introspectionQuery) {
-        return fetch('${data.endpointUrl}', {
+        return fetch('${options.endpointUrl}', {
           method: 'post',
           headers: {
             'Accept': 'application/json',
