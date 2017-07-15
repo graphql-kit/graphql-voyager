@@ -13,6 +13,11 @@ declare module "*.css" {
   export default content;
 }
 
+declare module "*.json" {
+  const json: any;
+  export default json;
+}
+
 declare var DEBUG_INITIAL_PRESET: string;
 declare var DEBUG: boolean;
 

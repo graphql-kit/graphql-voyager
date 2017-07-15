@@ -6,8 +6,13 @@
   "dependencies": {
     "express": "^4.13.3",
     "express-graphql": "^0.6.2",
+    "graphql": "^0.9.0",
+    "graphql-server-hapi": "^1.0.0",
     "graphql-voyager": "../",
-    "graphql": "^0.9.0"
+    "hapi": "^16.4.3",
+    "koa": "^2.3.0",
+    "koa-graphql": "^0.7.1",
+    "koa-router": "^7.2.1"
   },
   "optionalDependencies": {
     "react": "^15.4.2",
