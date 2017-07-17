@@ -11,7 +11,7 @@ interface Register {
   (options): ExpressVoyagerMiddleware
 }
 
-const voyagerExpress: Register = function voyagerExpress(options) {
+const express: Register = function voyagerExpress(options) {
   const middlewareOptions: MiddlewareOptions = {
     ...options,
     version
@@ -25,4 +25,4 @@ const voyagerExpress: Register = function voyagerExpress(options) {
   }
 };
 
-export default voyagerExpress;
+export default express;
