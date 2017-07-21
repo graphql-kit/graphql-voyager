@@ -53,7 +53,7 @@
     "svg-as-symbol-loader": "^1.2.0",
     "typescript": "^2.4.2",
     "uglifyjs": "^2.4.11",
-    "viz.js": "^1.8.0",
+    "viz.js": "1.7.1",
     "webpack": "^3.0.0",
     "webpack-dev-server": "^2.5.0",
     "worker-loader": "^0.8.1"
