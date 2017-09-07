@@ -131,6 +131,7 @@ Express middleware supports the following properties:
 
 + `options`
   + `endpointUrl` [`string`] - the GraphQL endpoint url.
+  + `displayOptions` [`object`] - same as [here](#Properties)
 
 #### Usage
 ```js
@@ -153,6 +154,7 @@ Hapi middleware supports the following properties:
   + `path` [`string`] - the Voyager middleware url
   + `voyagerOptions`
       + `endpointUrl` [`string`] - the GraphQL endpoint url.
+      + `displayOptions` [`object`] - same as [here](#Properties)
 
 #### Usage
 ```js
@@ -181,6 +183,7 @@ Koa middleware supports the following properties:
 
 + `options`
   + `endpointUrl` [`string`] - the GraphQL endpoint url.
+  + `displayOptions` [`object`] - same as [here](#Properties)
 
 #### Usage
 ```js

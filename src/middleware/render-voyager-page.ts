@@ -1,9 +1,11 @@
 export interface MiddlewareOptions {
     endpointUrl: string;
     version: string;
+    displayOptions: object;
 }
 
 export default function renderVoyagerPage(options: MiddlewareOptions) {
+  const { version, endpointUrl, displayOptions } = options;
   return `
 <!DOCTYPE html>
 <html>
@@ -23,11 +25,11 @@ export default function renderVoyagerPage(options: MiddlewareOptions) {
       height: 100vh;
     }
   </style>
-  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/graphql-voyager@${options.version}/dist/voyager.css" />
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/graphql-voyager@${version}/dist/voyager.css" />
   <script src="//cdn.jsdelivr.net/fetch/2.0.1/fetch.min.js"></script>
   <script src="//cdn.jsdelivr.net/react/15.4.2/react.min.js"></script>
   <script src="//cdn.jsdelivr.net/react/15.4.2/react-dom.min.js"></script>
-  <script src="//cdn.jsdelivr.net/npm/graphql-voyager@${options.version}/dist/voyager.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/graphql-voyager@${version}/dist/voyager.min.js"></script>
 </head>
 <body>
   <main id="voyager">
@@ -36,7 +38,7 @@ export default function renderVoyagerPage(options: MiddlewareOptions) {
   <script>
     window.addEventListener('load', function(event) {
       function introspectionProvider(introspectionQuery) {
-        return fetch('${options.endpointUrl}', {
+        return fetch('${endpointUrl}', {
           method: 'post',
           headers: {
             'Accept': 'application/json',
@@ -56,7 +58,8 @@ export default function renderVoyagerPage(options: MiddlewareOptions) {
       }
 
       GraphQLVoyager.init(document.getElementById('voyager'), {
-        introspection: introspectionProvider
+        introspection: introspectionProvider,
+        displayOptions: ${JSON.stringify(displayOptions)},
       })
     })
   </script>

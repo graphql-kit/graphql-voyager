@@ -29,11 +29,14 @@ server.register([
       route: {
         cors: true
       },
-      endpointUrl: '/graphql'
+      endpointUrl: '/graphql',
+      displayOptions: {
+        sortByAlphabet: true,
+      },
     },
   }
 ],() => {
   server.start(() => {
-    console.log(`Started on ${server.info.uri}`);
+    console.log(`Started on ${server.info.uri}/voyager`);
   })
 });

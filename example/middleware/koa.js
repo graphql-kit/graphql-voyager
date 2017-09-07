@@ -10,7 +10,10 @@ const PORT = 3001;
 
 router.all('/graphql', graphqlHTTP({ schema }));
 router.all('/voyager', voyagerMiddleware({
-  endpointUrl: '/graphql'
+  endpointUrl: '/graphql',
+  displayOptions: {
+    sortByAlphabet: true,
+  },
 }));
 
 app.use(router.routes());
@@ -18,5 +21,5 @@ app.use(router.allowedMethods());
 app.listen(PORT, function() {
   const port = this.address().port;
 
-  console.log(`Started on http://localhost:${port}/`);
+  console.log(`Started on http://localhost:${port}/voyager`);
 });
