@@ -7,7 +7,6 @@ export const getSelectedType = createSelector(
   (state:any) => state.selected.currentNodeId,
   (state:any) => getTypeGraphSelector(state),
   (selectedNodeId, typeGraph) => {
-    console.log();
     return _.get(typeGraph, ['nodes', selectedNodeId], null);
   }
 );

@@ -21,7 +21,7 @@ export function getDefaultRoot(schema) {
   return schema.queryType.id;
 }
 
-function getTypeGraph(schema, rootTypeId) {
+function getTypeGraph(schema, rootTypeId, hideRoot) {
   if (schema === null)
     return null;
 
@@ -54,15 +54,18 @@ function getTypeGraph(schema, rootTypeId) {
       nodes.push(type);
       typeIds.push(...getEdgeTargets(type));
     }
-    return {
+    const graph =  {
       rootId,
       nodes: _.keyBy(nodes, 'id'),
+      hideRoot,
     };
+    return graph
   }
 }
 
 export const getTypeGraphSelector = createSelector(
   getSchemaSelector,
   state => state.displayOptions.rootTypeId,
+  state => state.displayOptions.hideRoot,
   getTypeGraph
 );
