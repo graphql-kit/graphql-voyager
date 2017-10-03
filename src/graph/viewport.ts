@@ -55,20 +55,25 @@ export class Viewport {
       });
     });
 
+    window.addEventListener('resize', this.resize);
+
     this.resize();
   }
 
-  resize() {
+  resize = () => {
     let bbRect = this.container.getBoundingClientRect();
     this.offsetLeft = bbRect.left;
     this.offsetTop = bbRect.top;
+    if (this.zoomer !== undefined) {
+      this.zoomer.resize();
+    }
   }
 
   display(svgString) {
     this.clear();
     this.$svg = preprocessVizSvg(svgString);
     this.container.appendChild(this.$svg);
-    // run on next tick
+    // run on the next tick
     setTimeout(() => {
       this.enableZoom();
       this.bindClick();
@@ -244,6 +249,7 @@ export class Viewport {
 
   destroy() {
     this._unsubscribe();
+    window.removeEventListener('resize', this.resize);
     try {
       this.zoomer.destroy();
     } catch(e) {

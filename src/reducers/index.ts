@@ -16,7 +16,8 @@ var initialState = {
   displayOptions: {
     rootTypeId: null,
     skipRelay: true,
-    sortByAlphabet: false
+    sortByAlphabet: false,
+    hideRoot: false
   },
   currentSvgIndex: null,
   svgCache: [

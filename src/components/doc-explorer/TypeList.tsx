@@ -36,12 +36,12 @@ class TypeList extends React.Component<TypeListProps> {
     const rootType = typeGraph.nodes[typeGraph.rootId];
     const types = _(typeGraph.nodes)
       .values()
-      .reject({id: rootType.id})
+      .reject({id: rootType && rootType.id})
       .sortBy('name').value();
 
     return (
       <div className="scroll-area doc-explorer-type-list">
-        {this.renderItem(rootType, '-root')}
+        {rootType && this.renderItem(rootType, '-root')}
         {_.map(types, type => this.renderItem(type))}
       </div>
     );

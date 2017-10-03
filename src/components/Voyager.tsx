@@ -30,14 +30,18 @@ import { typeNameToId } from '../introspection/';
 
 type IntrospectionProvider = (query: string) => Promise<any>;
 
+export interface VoyagerDisplayOptions {
+  rootType?: string;
+  skipRelay?: boolean;
+  sortByAlphabet?: boolean;
+  hideRoot?: boolean;
+};
+
 export interface VoyagerProps {
   _schemaPresets?: any;
   introspection: IntrospectionProvider | Object | boolean;
-  displayOptions: {
-    rootType: string;
-    skipRelay: boolean;
-    sortByAlphabet: boolean;
-  }
+  displayOptions?: VoyagerDisplayOptions,
+  hideDocs?: boolean;
 }
 
 export default class Voyager extends React.Component<VoyagerProps> {
@@ -51,8 +55,10 @@ export default class Voyager extends React.Component<VoyagerProps> {
     displayOptions: PropTypes.shape({
       rootType: PropTypes.string,
       skipRelay: PropTypes.bool,
-      sortByAlphabet: PropTypes.bool
-    })
+      sortByAlphabet: PropTypes.bool,
+      hideRoot: PropTypes.bool,
+    }),
+    hideDocs: PropTypes.bool,
   }
 
   viewport: Viewport;
@@ -105,11 +111,16 @@ export default class Voyager extends React.Component<VoyagerProps> {
       let opts = normalizeDisplayOptions(this.props.displayOptions);
       this.store.dispatch(changeDisplayOptions(opts));
     }
+
+    if (this.props.hideDocs !== prevProps.hideDocs) {
+      this.viewport.resize();
+    }
   }
 
   render() {
     let {
-      _schemaPresets
+      _schemaPresets,
+      hideDocs = false
     } = this.props;
 
     let showModal = !!_schemaPresets;
@@ -117,7 +128,9 @@ export default class Voyager extends React.Component<VoyagerProps> {
     return (
       <Provider store={ this.store }>
         <div className="graphql-voyager">
-          <DocPanel _showChangeButton={!!_schemaPresets}/>
+          {!hideDocs &&
+            <DocPanel _showChangeButton={!!_schemaPresets}/>
+          }
           <div ref="viewport" className="viewport"></div>
           <ErrorBar/>
           <LoadingAnimation/>

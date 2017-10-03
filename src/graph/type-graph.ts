@@ -21,7 +21,7 @@ export function getDefaultRoot(schema) {
   return schema.queryType.id;
 }
 
-function getTypeGraph(schema, rootTypeId) {
+function getTypeGraph(schema, rootTypeId: string, hideRoot: boolean) {
   if (schema === null)
     return null;
 
@@ -56,7 +56,9 @@ function getTypeGraph(schema, rootTypeId) {
     }
     return {
       rootId,
-      nodes: _.keyBy(nodes, 'id'),
+      nodes: hideRoot ?
+        _.keyBy(nodes, 'id') :
+        _.omit(_.keyBy(nodes, 'id'), [rootId])
     };
   }
 }
@@ -64,5 +66,6 @@ function getTypeGraph(schema, rootTypeId) {
 export const getTypeGraphSelector = createSelector(
   getSchemaSelector,
   state => state.displayOptions.rootTypeId,
+  state => state.displayOptions.hideRoot,
   getTypeGraph
 );
