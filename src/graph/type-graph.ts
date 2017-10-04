@@ -56,9 +56,9 @@ function getTypeGraph(schema, rootTypeId: string, hideRoot: boolean) {
     }
     return {
       rootId,
-      nodes: hideRoot ?
-        _.keyBy(nodes, 'id') :
-        _.omit(_.keyBy(nodes, 'id'), [rootId])
+      nodes: hideRoot
+        ? _.omit(_.keyBy(nodes, 'id'), [rootId])
+        : _.keyBy(nodes, 'id')
     };
   }
 }
