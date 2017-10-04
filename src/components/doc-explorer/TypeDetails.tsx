@@ -1,16 +1,17 @@
-import * as _ from 'lodash';
-import * as React from 'react';
+import { SimplifiedTypeWithIDs } from '../../introspection/types'
+import * as _ from 'lodash'
+import * as React from 'react'
 
 import Markdown from '../utils/Markdown';
 import Description from './Description';
 import WrappedTypeName from './WrappedTypeName';
 
 interface TypeDetailsProps {
-  type: any;
+  type: SimplifiedTypeWithIDs
 }
 
 export default class TypeDetails extends React.Component<TypeDetailsProps> {
-  renderFields(type) {
+  renderFields(type: SimplifiedTypeWithIDs) {
     if (_.isEmpty(type.inputFields))
       return null;
 
@@ -32,7 +33,7 @@ export default class TypeDetails extends React.Component<TypeDetailsProps> {
     );
   }
 
-  renderEnumValues(type) {
+  renderEnumValues(type: SimplifiedTypeWithIDs) {
     if (_.isEmpty(type.enumValues))
       return null;
 

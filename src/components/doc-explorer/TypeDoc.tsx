@@ -3,7 +3,9 @@ import * as React from 'react';
 import { connect } from 'react-redux'
 import * as classNames from 'classnames';
 
-import './TypeDoc.css';
+import './TypeDoc.css'
+
+import { SimplifiedTypeWithIDs } from '../../introspection/types'
 
 import { selectEdge } from '../../actions';
 import { getSelectedType } from '../../selectors';
@@ -45,9 +47,12 @@ class TypeDoc extends React.Component<TypeDocProps> {
     itemComponent.scrollIntoViewIfNeeded();
   }
 
-  renderTypesDef(type, typeGraph, selectedId) {
+  renderTypesDef(type: SimplifiedTypeWithIDs, typeGraph, selectedId) {
     let typesTitle;
-    let types;
+    let types: {
+      id: string;
+      type: SimplifiedTypeWithIDs
+    }[];
     let dispatch = this.props.dispatch;
 
     switch (type.kind) {
@@ -99,7 +104,7 @@ class TypeDoc extends React.Component<TypeDocProps> {
     );
   }
 
-  renderFields(type, selectedId) {
+  renderFields(type:SimplifiedTypeWithIDs, selectedId: string) {
     if (_.isEmpty(type.fields))
       return null;
 

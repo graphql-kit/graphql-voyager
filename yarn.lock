@@ -48,6 +48,18 @@
   dependencies:
     "@types/boom" "*"
 
+"@types/classnames@^2.2.3":
+  version "2.2.3"
+  resolved "https://registry.yarnpkg.com/@types/classnames/-/classnames-2.2.3.tgz#3f0ff6873da793870e20a260cada55982f38a9e5"
+
+"@types/clean-css@*":
+  version "3.4.30"
+  resolved "https://registry.yarnpkg.com/@types/clean-css/-/clean-css-3.4.30.tgz#0052c136f5248002428e3638b37de4a39818641d"
+
+"@types/clipboard@^1.5.34":
+  version "1.5.34"
+  resolved "https://registry.yarnpkg.com/@types/clipboard/-/clipboard-1.5.34.tgz#ee56c752a233dbf539656c22a54d06dfabaaf7ee"
+
 "@types/connect@*":
   version "3.4.31"
   resolved "https://registry.yarnpkg.com/@types/connect/-/connect-3.4.31.tgz#1f92d6b117ecc05076c49ecd024f7976e528bad9"
@@ -62,6 +74,13 @@
     "@types/express" "*"
     "@types/keygrip" "*"
     "@types/node" "*"
+
+"@types/copy-webpack-plugin@^4.0.1":
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/@types/copy-webpack-plugin/-/copy-webpack-plugin-4.0.1.tgz#9395c210c7017306adffc63f5431c80526878ec4"
+  dependencies:
+    "@types/minimatch" "*"
+    "@types/webpack" "*"
 
 "@types/core-js@^0.9.43":
   version "0.9.43"
@@ -80,6 +99,23 @@
     "@types/express-serve-static-core" "*"
     "@types/serve-static" "*"
 
+"@types/extract-text-webpack-plugin@^3.0.0":
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/@types/extract-text-webpack-plugin/-/extract-text-webpack-plugin-3.0.0.tgz#103ab0e0e6ccd21edfee1e434d59d30b92ea26ab"
+  dependencies:
+    "@types/webpack" "*"
+
+"@types/glob@*":
+  version "5.0.32"
+  resolved "https://registry.yarnpkg.com/@types/glob/-/glob-5.0.32.tgz#aec5cfe987c72f099fdb1184452986aa506d5e8f"
+  dependencies:
+    "@types/minimatch" "*"
+    "@types/node" "*"
+
+"@types/graphql@^0.11.4":
+  version "0.11.4"
+  resolved "https://registry.yarnpkg.com/@types/graphql/-/graphql-0.11.4.tgz#6e067838246ec741be3950211323726a77147472"
+
 "@types/hapi@^16.1.10":
   version "16.1.10"
   resolved "https://registry.yarnpkg.com/@types/hapi/-/hapi-16.1.10.tgz#7fab660b199aeebc5f5393b4aeb1b6e926162734"
@@ -91,6 +127,21 @@
     "@types/node" "*"
     "@types/podium" "*"
     "@types/shot" "*"
+
+"@types/html-minifier@*":
+  version "1.1.30"
+  resolved "https://registry.yarnpkg.com/@types/html-minifier/-/html-minifier-1.1.30.tgz#3b3817c27df23922f7b5aa87eff45b3ab934aec9"
+  dependencies:
+    "@types/clean-css" "*"
+    "@types/relateurl" "*"
+    "@types/uglify-js" "*"
+
+"@types/html-webpack-plugin@^2.28.0":
+  version "2.28.0"
+  resolved "https://registry.yarnpkg.com/@types/html-webpack-plugin/-/html-webpack-plugin-2.28.0.tgz#554b61b6e883a9425577da04e8e8cc53ec7a4f53"
+  dependencies:
+    "@types/html-minifier" "*"
+    "@types/webpack" "*"
 
 "@types/http-assert@*":
   version "1.2.0"
@@ -119,6 +170,14 @@
     "@types/koa-compose" "*"
     "@types/node" "*"
 
+"@types/lodash@^4.14.77":
+  version "4.14.77"
+  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.77.tgz#0bc699413e84d6ed5d927ca30ea0f0a890b42d75"
+
+"@types/marked@^0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@types/marked/-/marked-0.3.0.tgz#583c223dd33385a1dda01aaf77b0cd0411c4b524"
+
 "@types/mime-db@*":
   version "1.27.0"
   resolved "https://registry.yarnpkg.com/@types/mime-db/-/mime-db-1.27.0.tgz#9bc014a1fd1fdf47649c1a54c6dd7966b8284792"
@@ -133,6 +192,10 @@
   dependencies:
     "@types/mime-db" "*"
 
+"@types/minimatch@*":
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/@types/minimatch/-/minimatch-3.0.1.tgz#b683eb60be358304ef146f5775db4c0e3696a550"
+
 "@types/node@*":
   version "8.0.32"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-8.0.32.tgz#869a716538b6eec65ab3893f183d557be3cda206"
@@ -141,6 +204,10 @@
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@types/podium/-/podium-1.0.0.tgz#bfaa2151be2b1d6109cc69f7faa9dac2cba3bb20"
 
+"@types/prop-types@^15.5.2":
+  version "15.5.2"
+  resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.5.2.tgz#3c6b8dceb2906cc87fe4358e809f9d20c8d59be1"
+
 "@types/react-dom@^16.0.0":
   version "16.0.0"
   resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-16.0.0.tgz#7fac396cbd1cf44e112b957c8ef9c7ef401a90b3"
@@ -148,9 +215,33 @@
     "@types/node" "*"
     "@types/react" "*"
 
+"@types/react-modal@^2.2.1":
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/@types/react-modal/-/react-modal-2.2.1.tgz#bd820a3aecec7f5556b681538e19c7f940278dcf"
+  dependencies:
+    "@types/react" "*"
+
+"@types/react-redux@^5.0.10":
+  version "5.0.10"
+  resolved "https://registry.yarnpkg.com/@types/react-redux/-/react-redux-5.0.10.tgz#f5c45a349f759d87d6b1f2aa096a756561a6d5c9"
+  dependencies:
+    "@types/react" "*"
+    redux "^3.6.0"
+
 "@types/react@*", "@types/react@^16.0.8":
   version "16.0.9"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-16.0.9.tgz#2ad952abbb22617620927694f9a4bce292d7fb2b"
+
+"@types/relateurl@*":
+  version "0.2.28"
+  resolved "https://registry.yarnpkg.com/@types/relateurl/-/relateurl-0.2.28.tgz#6bda7db8653fa62643f5ee69e9f69c11a392e3a6"
+
+"@types/rimraf@^2.0.2":
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/@types/rimraf/-/rimraf-2.0.2.tgz#7f0fc3cf0ff0ad2a99bb723ae1764f30acaf8b6e"
+  dependencies:
+    "@types/glob" "*"
+    "@types/node" "*"
 
 "@types/serve-static@*":
   version "1.7.32"
@@ -158,6 +249,13 @@
   dependencies:
     "@types/express-serve-static-core" "*"
     "@types/mime" "*"
+
+"@types/shelljs@^0.7.4":
+  version "0.7.4"
+  resolved "https://registry.yarnpkg.com/@types/shelljs/-/shelljs-0.7.4.tgz#137b5f31306eaff4de120ffe5b9d74b297809cfc"
+  dependencies:
+    "@types/glob" "*"
+    "@types/node" "*"
 
 "@types/shot@*":
   version "3.4.0"
@@ -169,6 +267,16 @@
   version "0.5.1"
   resolved "https://registry.yarnpkg.com/@types/source-map/-/source-map-0.5.1.tgz#7e74db5d06ab373a712356eebfaea2fad0ea2367"
 
+"@types/spdy@*":
+  version "3.4.3"
+  resolved "https://registry.yarnpkg.com/@types/spdy/-/spdy-3.4.3.tgz#b60dce7174687df28066e5da4e4e211bc84b41f1"
+  dependencies:
+    "@types/node" "*"
+
+"@types/svg-pan-zoom@^3.3.0":
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/@types/svg-pan-zoom/-/svg-pan-zoom-3.3.0.tgz#96a2356634b893f2ef4de5baca388d124933e7d9"
+
 "@types/tapable@*":
   version "0.2.4"
   resolved "https://registry.yarnpkg.com/@types/tapable/-/tapable-0.2.4.tgz#8181a228da46185439300e600c5ae3b3b3982585"
@@ -179,7 +287,16 @@
   dependencies:
     "@types/source-map" "*"
 
-"@types/webpack@^3.0.13":
+"@types/webpack-dev-server@^2.4.2":
+  version "2.4.2"
+  resolved "https://registry.yarnpkg.com/@types/webpack-dev-server/-/webpack-dev-server-2.4.2.tgz#1ad59b4c9b3dbd60437cc72b93d45df180248ed4"
+  dependencies:
+    "@types/express-serve-static-core" "*"
+    "@types/serve-static" "*"
+    "@types/spdy" "*"
+    "@types/webpack" "*"
+
+"@types/webpack@*", "@types/webpack@^3.0.13":
   version "3.0.13"
   resolved "https://registry.yarnpkg.com/@types/webpack/-/webpack-3.0.13.tgz#5a49ae51e784e73bc46830a6a20656e85b8af0e6"
   dependencies:
@@ -4796,7 +4913,7 @@ redux-thunk@^2.1.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/redux-thunk/-/redux-thunk-2.2.0.tgz#e615a16e16b47a19a515766133d1e3e99b7852e5"
 
-redux@^3.7.1:
+redux@^3.6.0, redux@^3.7.1:
   version "3.7.2"
   resolved "https://registry.yarnpkg.com/redux/-/redux-3.7.2.tgz#06b73123215901d25d065be342eb026bc1c8537b"
   dependencies:

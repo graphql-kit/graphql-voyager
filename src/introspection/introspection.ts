@@ -1,6 +1,12 @@
-import * as _ from 'lodash';
+import { StateInterface } from '../reducers'
+import * as _ from 'lodash'
 import { createSelector } from 'reselect';
-import { buildClientSchema } from 'graphql';
+import {
+  buildClientSchema,
+  IntrospectionSchema,
+  IntrospectionType,
+} from 'graphql';
+import { SimplifiedIntrospection, SimplifiedIntrospectionWithIds, SimplifiedType } from './types'
 
 import { typeNameToId } from './utils';
 
@@ -44,14 +50,14 @@ function convertField(inField) {
   return outField;
 }
 
-function convertType(inType) {
-  var outType = <any> {
+function convertType(inType: IntrospectionType): SimplifiedType {
+  const outType: SimplifiedType = {
     kind: inType.kind,
     name: inType.name,
     description: inType.description,
   };
 
-  switch (outType.kind) {
+  switch (inType.kind) {
     case 'OBJECT':
       outType.interfaces = _(inType.interfaces).map('name').uniq().value();
       outType.fields = _(inType.fields).map(convertField).keyBy('name').value();
@@ -75,8 +81,8 @@ function convertType(inType) {
   return outType;
 }
 
-function simplifySchema(inSchema) {
-  return <any> {
+function simplifySchema(inSchema: IntrospectionSchema): SimplifiedIntrospection {
+  return {
     types: _(inSchema.types).map(convertType).keyBy('name').value(),
     queryType: inSchema.queryType.name,
     mutationType: _.get(inSchema, 'mutationType.name', null),
@@ -86,7 +92,7 @@ function simplifySchema(inSchema) {
   };
 }
 
-function markRelayTypes(schema) {
+function markRelayTypes(schema: SimplifiedIntrospectionWithIds): void {
   const nodeType = schema.types[typeNameToId('Node')];
   if (nodeType)
     nodeType.isRelayType = true;
@@ -142,7 +148,7 @@ function markRelayTypes(schema) {
   });
 
   const {queryType} = schema;
-  let query = schema.types[queryType];
+  let query = schema.types[queryType.id];
 
   if (_.get(query,'fields.node.type.isRelayType'))
     delete query.fields['node'];
@@ -170,44 +176,44 @@ function sortIntrospection(value) {
     return value;
 }
 
-function assignTypesAndIDs(schema) {
-  schema.queryType = schema.types[schema.queryType];
-  schema.mutationType = schema.types[schema.mutationType];
-  schema.subscriptionType = schema.types[schema.subscriptionType];
+function assignTypesAndIDs(schema: SimplifiedIntrospection) {
+  (<any>schema).queryType = schema.types[schema.queryType];
+  (<any>schema).mutationType = schema.types[schema.mutationType];
+  (<any>schema).subscriptionType = schema.types[schema.subscriptionType];
 
-  _.each(schema.types, type => {
+  _.each(schema.types, (type:any) => {
     type.id = typeNameToId(type.name);
 
-    _.each(type.inputFields, field => {
+    _.each(type.inputFields, (field:any) => {
       field.id = `FIELD::${type.name}::${field.name}`;
       field.type = schema.types[field.type];
     });
 
-    _.each(type.fields, field => {
+    _.each(type.fields, (field:any) => {
       field.id = `FIELD::${type.name}::${field.name}`;
       field.type = schema.types[field.type];
-      _.each(field.args, arg => {
+      _.each(field.args, (arg:any) => {
         arg.id = `ARGUMENT::${type.name}::${field.name}::${arg.name}`;
         arg.type = schema.types[arg.type];
       });
     });
 
     if (!_.isEmpty(type.possibleTypes)) {
-      type.possibleTypes = _.map(type.possibleTypes, possibleType => ({
+      type.possibleTypes = _.map(type.possibleTypes, (possibleType:string) => ({
         id: `POSSIBLE_TYPE::${type.name}::${possibleType}`,
         type: schema.types[possibleType]
       }));
     }
 
     if (!_.isEmpty(type.derivedTypes)) {
-      type.derivedTypes = _.map(type.derivedTypes, derivedType => ({
+      type.derivedTypes = _.map(type.derivedTypes, (derivedType: string) => ({
         id: `DERIVED_TYPE::${type.name}::${derivedType}`,
         type: schema.types[derivedType]
       }));
     }
 
     if (!_.isEmpty(type.interfaces)) {
-      type.interfaces = _.map(type.interfaces, baseType => ({
+      type.interfaces = _.map(type.interfaces, (baseType: string) => ({
         id: `INTERFACE::${type.name}::${baseType}`,
         type: schema.types[baseType]
       }));
@@ -230,7 +236,7 @@ export function getSchema(introspection:any, sortByAlphabet:boolean, skipRelay:b
   assignTypesAndIDs(schema);
 
   if (skipRelay)
-    markRelayTypes(schema);
+    markRelayTypes((<any>schema) as SimplifiedIntrospectionWithIds);
   return schema;
 }
 
@@ -242,15 +248,15 @@ export const getSchemaSelector = createSelector(
 );
 
 export const getNaSchemaSelector = createSelector(
-  (state:any) => {
+  (state:StateInterface) => {
     if (state.schemaModal.notApplied === null)
       return null;
 
     const presetValue = state.schemaModal.notApplied.presetValue;
     return presetValue;
   },
-  (state:any) => _.get(state, 'schemaModal.notApplied.displayOptions.sortByAlphabet'),
-  (state:any) => _.get(state, 'schemaModal.notApplied.displayOptions.skipRelay'),
+  (state:StateInterface) => _.get<boolean>(state, 'schemaModal.notApplied.displayOptions.sortByAlphabet'),
+  (state:StateInterface) => _.get<boolean>(state, 'schemaModal.notApplied.displayOptions.skipRelay'),
   (introspection, sortByAlphabet, skipRelay) => {
     if (introspection == null)
       return {schema: null, error: null};

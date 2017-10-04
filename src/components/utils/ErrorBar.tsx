@@ -40,4 +40,4 @@ class ErrorBar extends React.Component<ErrorBarProps> {
   }
 }
 
-export default connect(mapStateToProps)(ErrorBar);
+export default connect(mapStateToProps)(ErrorBar as any);

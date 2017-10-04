@@ -1,5 +1,5 @@
 import * as React from 'react';
-import PropTypes from 'prop-types';
+import * as PropTypes from 'prop-types';
 import * as _ from 'lodash';
 
 import { Provider, Store } from 'react-redux';
@@ -7,7 +7,6 @@ import { Provider, Store } from 'react-redux';
 import { configureStore } from '../redux';
 
 import { introspectionQuery } from 'graphql/utilities';
-
 
 import './Voyager.css';
 import './viewport.css';
@@ -27,6 +26,7 @@ import {
 } from '../actions/';
 
 import { typeNameToId } from '../introspection/';
+import { StateInterface } from '../reducers';
 
 type IntrospectionProvider = (query: string) => Promise<any>;
 
@@ -59,11 +59,11 @@ export default class Voyager extends React.Component<VoyagerProps> {
       hideRoot: PropTypes.bool,
     }),
     hideDocs: PropTypes.bool,
-  }
+  };
 
   viewport: Viewport;
   renderer: SVGRender;
-  store: Store<any>;
+  store: Store<StateInterface>;
 
   constructor(props) {
     super(props);
@@ -94,7 +94,7 @@ export default class Voyager extends React.Component<VoyagerProps> {
       }
 
       promise.then(schema => {
-        if (schema === this.store.schema) return;
+        if (schema === this.store.getState().schema) return;
         this.store.dispatch(changeSchema(schema, displayOpts));
       });
     } else if (this.props.introspection) {
@@ -146,12 +146,9 @@ function isPromise(value) {
   return typeof value === 'object' && typeof value.then === 'function';
 }
 
-
-function normalizeDisplayOptions(opts: any) {
-  opts = opts || {};
+function normalizeDisplayOptions(opts: VoyagerDisplayOptions = {}) {
   return {
+    ...opts,
     rootTypeId: opts.rootType && typeNameToId(opts.rootType),
-    skipRelay: opts.skipRelay,
-    sortByAlphabet: opts.sortByAlphabet
-  }
+  };
 }

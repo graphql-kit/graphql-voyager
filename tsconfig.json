@@ -11,10 +11,8 @@
     "sourceMap": true,
     "outDir": "lib",
     "pretty": true,
-    "types": [
-      "webpack"
-    ],
-    "lib": ["es2016", "DOM"],
+    "types": ["webpack"],
+    "lib": ["es2016", "dom", "esnext.asynciterable"],
     "jsx": "react"
   },
   "compileOnSave": false,

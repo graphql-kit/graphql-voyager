@@ -10,6 +10,7 @@ import * as settingsDarkTheme from './settings-dark.theme.css';
 
 import { Button, IconButton } from 'react-toolbox/lib/button';
 import CloseIcon from '../icons/close-black.svg';
+import { StateInterface } from '../../reducers';
 
 import * as ClipboardButton from 'react-clipboard.js';
 
@@ -30,7 +31,7 @@ import { getNaSchemaSelector } from '../../introspection';
 import { getQueryParams } from '../../utils/';
 
 interface SchemaModalProps {
-  presets: any;
+  presets?: any;
 
   showSchemaModal: boolean;
   notApplied: any;
@@ -42,7 +43,7 @@ interface SchemaModalState {
   recentlyCopied: boolean;
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state: StateInterface) {
   return {
     showSchemaModal: state.schemaModal.opened,
     notApplied: state.schemaModal.notApplied,
@@ -248,5 +249,4 @@ class SchemaModal extends React.Component<SchemaModalProps, SchemaModalState> {
   }
 }
 
-
-export default connect(mapStateToProps)(SchemaModal);
+export default connect<{}, {}, {presets: any}>(mapStateToProps)(SchemaModal);

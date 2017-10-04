@@ -6,15 +6,52 @@ import {
   extractTypeId,
 } from '../introspection';
 
-var initialState = {
+export type DisplayOptions = {
+  rootTypeId?: string;
+  skipRelay: boolean;
+  sortByAlphabet: boolean;
+  hideRoot: boolean;
+};
+
+export type StateInterface = {
+  schema: any;
+  schemaModal: {
+    opened: boolean;
+    activePreset: string | null;
+    notApplied: {
+      displayOptions: DisplayOptions;
+      presetValue: any;
+      activePreset: string;
+    } | null;
+  };
+  displayOptions: DisplayOptions;
+  currentSvgIndex: number | null;
+  svgCache: {
+    displayOptions: DisplayOptions;
+    svg: string;
+  }[];
+  selected: {
+    previousTypesIds: string[];
+    currentNodeId: string | null;
+    currentEdgeId: string | null;
+    scalar: string | null;
+  };
+  graphView: {
+    focusedId: string | null;
+  };
+  menuOpened: boolean;
+  errorMessage: string | null;
+};
+
+const initialState: StateInterface = {
   schema: null,
   schemaModal: {
     opened: false,
     activePreset: null,
-    notApplied: null
+    notApplied: null,
   },
   displayOptions: {
-    rootTypeId: null,
+    rootTypeId: undefined,
     skipRelay: true,
     sortByAlphabet: false,
     hideRoot: false
