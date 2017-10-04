@@ -8,13 +8,13 @@ interface ExpressVoyagerMiddleware {
 }
 
 interface Register {
-  (options): ExpressVoyagerMiddleware
+  (options): ExpressVoyagerMiddleware;
 }
 
 const express: Register = function voyagerExpress(options) {
   const middlewareOptions: MiddlewareOptions = {
     ...options,
-    version
+    version,
   };
 
   return (_req, res, next) => {
@@ -22,7 +22,7 @@ const express: Register = function voyagerExpress(options) {
     res.write(renderVoyagerPage(middlewareOptions));
     res.end();
     next();
-  }
+  };
 };
 
 export default express;

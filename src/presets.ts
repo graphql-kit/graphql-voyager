@@ -5,7 +5,7 @@ const shopifyIntrospection = require('./introspection/presets/shopify_introspect
 
 window.VOYAGER_PRESETS = {
   'Star Wars': swapiIntrospection,
-  'Yelp': yelpIntrospection,
+  Yelp: yelpIntrospection,
   'Shopify Storefront': shopifyIntrospection,
-  'GitHub': githubIntrospection
-}
+  GitHub: githubIntrospection,
+};

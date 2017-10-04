@@ -1,4 +1,4 @@
-import { getDotSelector } from './dot'
+import { getDotSelector } from './dot';
 import { observeStore } from '../redux';
 import { svgRenderingFinished, reportError } from '../actions';
 
@@ -15,13 +15,13 @@ export class SVGRender {
     loadWorker('voyager.worker.js').then(worker => {
       this.worker = worker;
 
-      this.unsubscribe = observeStore(store,
+      this.unsubscribe = observeStore(
+        store,
         state => state.currentSvgIndex,
         getDotSelector,
         (currentSvgIndex, dot) => {
-          if (currentSvgIndex === null && dot !== null)
-            this._renderSvg(dot);
-        }
+          if (currentSvgIndex === null && dot !== null) this._renderSvg(dot);
+        },
       );
     });
   }
@@ -33,13 +33,11 @@ export class SVGRender {
   _renderSvg(dot) {
     let cb = event => {
       let data = event.data;
-      if (data.result === 'success')
-        this.store.dispatch(svgRenderingFinished(data.svgString));
-      else
-        this.store.dispatch(reportError(data.msg));
+      if (data.result === 'success') this.store.dispatch(svgRenderingFinished(data.svgString));
+      else this.store.dispatch(reportError(data.msg));
       this.worker.removeEventListener('message', cb);
-    }
-    this.worker.postMessage({dot});
+    };
+    this.worker.postMessage({ dot });
     this.worker.addEventListener('message', cb);
   }
-};
+}

@@ -8,13 +8,13 @@ interface KoaVoyagerMiddleware {
 }
 
 interface Register {
-  (options): KoaVoyagerMiddleware
+  (options): KoaVoyagerMiddleware;
 }
 
-const koa: Register = function (options) {
+const koa: Register = function(options) {
   const middlewareOptions: MiddlewareOptions = {
     ...options,
-    version
+    version,
   };
 
   return async function voyager(ctx, next) {
@@ -22,10 +22,10 @@ const koa: Register = function (options) {
       ctx.body = renderVoyagerPage(middlewareOptions);
       await next();
     } catch (err) {
-      ctx.body = {message: err.message};
-      ctx.status = err.status || 500
+      ctx.body = { message: err.message };
+      ctx.status = err.status || 500;
     }
-  }
+  };
 };
 
 export default koa;

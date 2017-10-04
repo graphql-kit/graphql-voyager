@@ -9,11 +9,14 @@
     "clean:release": "rimraf dist middleware",
     "clean:demo": "rimraf demo-dist",
     "build:middleware": "tsc src/middleware/index.ts --outDir middleware --lib ES6,DOM",
-    "build:release": "npm run clean:release && NODE_ENV=production webpack --config build/webpack.js && rimraf dist/voyager.worker.js.map && npm run build:middleware",
-    "build:demo": "npm run clean:demo && NODE_ENV=production webpack -p --config build/webpack.demo.js",
+    "build:release":
+      "npm run clean:release && NODE_ENV=production webpack --config build/webpack.js && rimraf dist/voyager.worker.js.map && npm run build:middleware",
+    "build:demo":
+      "npm run clean:demo && NODE_ENV=production webpack -p --config build/webpack.demo.js",
     "deploy": "deploy-to-gh-pages --local --update demo-dist",
     "stats": "NODE_ENV=production webpack --json -p --config build/webpack.js > stats.json",
-    "prepare-ghpages": "node build/prepare-ghpages.js"
+    "prepare-ghpages": "node build/prepare-ghpages.js",
+    "prettier": "prettier --write \"{,!(node_modules)/**/}*.{ts,tsx}\""
   },
   "author": "",
   "license": "MIT",
@@ -57,6 +60,7 @@
     "postcss-cssnext": "^3.0.0",
     "postcss-import": "^11.0.0",
     "postcss-loader": "^2.0.6",
+    "prettier": "^1.7.4",
     "raw-loader": "^1.0.0-beta.0",
     "react": "^16.0.0",
     "react-clipboard.js": "^1.1.2",

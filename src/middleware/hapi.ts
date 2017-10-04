@@ -13,15 +13,11 @@ const hapi: Register = function(server, options, next) {
     throw new Error(`Voyager middleware expects exactly 3 arguments, got ${arguments.length}`);
   }
 
-  const {
-    path,
-    route: config = {},
-    ...voyagerOptions
-  } = options;
+  const { path, route: config = {}, ...voyagerOptions } = options;
 
   const middlewareOptions: MiddlewareOptions = {
     ...voyagerOptions,
-    version: pkg.version
+    version: pkg.version,
   };
 
   server.route({
@@ -29,8 +25,7 @@ const hapi: Register = function(server, options, next) {
     path,
     config,
     handler: (_request, reply) => {
-      reply(renderVoyagerPage(middlewareOptions))
-        .header('Content-Type', 'text/html')
+      reply(renderVoyagerPage(middlewareOptions)).header('Content-Type', 'text/html');
     },
   });
 
@@ -39,7 +34,7 @@ const hapi: Register = function(server, options, next) {
 
 hapi.attributes = {
   pkg,
-  multiple: false
+  multiple: false,
 };
 
 export default hapi;

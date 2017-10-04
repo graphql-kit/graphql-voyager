@@ -12,18 +12,12 @@ export default class Markdown extends React.Component<MarkdownProps> {
   }
 
   render() {
-    const {text, className} = this.props;
+    const { text, className } = this.props;
 
-    if (!text)
-      return null;
+    if (!text) return null;
 
     const html = Marked(text, { sanitize: true });
 
-    return (
-      <div
-        className={className}
-        dangerouslySetInnerHTML={{ __html: html }}
-      />
-    );
+    return <div className={className} dangerouslySetInnerHTML={{ __html: html }} />;
   }
 }

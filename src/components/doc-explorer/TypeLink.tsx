@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
 
 import './TypeLink.css';
 
@@ -12,20 +12,19 @@ interface TypeLinkProps {
 
 class TypeLink extends React.Component<TypeLinkProps> {
   render() {
-    const {
-      type,
-      dispatch,
-    } = this.props;
+    const { type, dispatch } = this.props;
 
     return (
       <a
         className="type-name -object"
-        onClick={(event) => {
+        onClick={event => {
           event.stopPropagation();
           dispatch(focusElement(type.id));
           dispatch(selectNode(type.id));
         }}
-      >{type.name}</a>
+      >
+        {type.name}
+      </a>
     );
   }
 }

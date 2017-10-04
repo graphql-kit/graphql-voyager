@@ -13,22 +13,20 @@ interface ArgumentProps {
 
 export default class Argument extends React.Component<ArgumentProps> {
   render() {
-    const {arg, expanded} = this.props;
+    const { arg, expanded } = this.props;
     return (
-      <span className={classNames('arg-wrap', {'-expanded': expanded})}>
+      <span className={classNames('arg-wrap', { '-expanded': expanded })}>
         <span className="arg">
           <span className="arg-name">{arg.name}</span>
           <WrappedTypeName container={arg} />
-          {arg.defaultValue !== null &&
+          {arg.defaultValue !== null && (
             <span>
               {' = '}
-              <span className="default-value">
-                {arg.defaultValue}
-              </span>
+              <span className="default-value">{arg.defaultValue}</span>
             </span>
-          }
+          )}
         </span>
-        <Markdown text={arg.description} className="arg-description"/>
+        <Markdown text={arg.description} className="arg-description" />
       </span>
     );
   }

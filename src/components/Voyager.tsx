@@ -17,13 +17,9 @@ import DocPanel from './panel/DocPanel';
 import SchemaModal from './settings/SchemaModal';
 
 import { SVGRender } from './../graph/';
-import { Viewport } from './../graph/'
+import { Viewport } from './../graph/';
 
-import {
-  changeSchema,
-  reportError,
-  changeDisplayOptions
-} from '../actions/';
+import { changeSchema, reportError, changeDisplayOptions } from '../actions/';
 
 import { typeNameToId } from '../introspection/';
 import { StateInterface } from '../reducers';
@@ -35,12 +31,12 @@ export interface VoyagerDisplayOptions {
   skipRelay?: boolean;
   sortByAlphabet?: boolean;
   hideRoot?: boolean;
-};
+}
 
 export interface VoyagerProps {
   _schemaPresets?: any;
   introspection: IntrospectionProvider | Object | boolean;
-  displayOptions?: VoyagerDisplayOptions,
+  displayOptions?: VoyagerDisplayOptions;
   hideDocs?: boolean;
 }
 
@@ -49,7 +45,7 @@ export default class Voyager extends React.Component<VoyagerProps> {
     introspection: PropTypes.oneOfType([
       PropTypes.func.isRequired,
       PropTypes.object.isRequired,
-      PropTypes.bool.isRequired
+      PropTypes.bool.isRequired,
     ]).isRequired,
     _schemaPresets: PropTypes.object,
     displayOptions: PropTypes.shape({
@@ -75,7 +71,6 @@ export default class Voyager extends React.Component<VoyagerProps> {
     this.renderer = new SVGRender(this.store);
     this.viewport = new Viewport(this.store, this.refs['viewport'] as HTMLElement);
 
-
     this.updateIntrospection();
   }
 
@@ -90,7 +85,9 @@ export default class Voyager extends React.Component<VoyagerProps> {
       let promise = (this.props.introspection as IntrospectionProvider)(introspectionQuery);
 
       if (!isPromise(promise)) {
-        this.store.dispatch(reportError('SchemaProvider did not return a Promise for introspection.'))
+        this.store.dispatch(
+          reportError('SchemaProvider did not return a Promise for introspection.'),
+        );
       }
 
       promise.then(schema => {
@@ -102,7 +99,7 @@ export default class Voyager extends React.Component<VoyagerProps> {
     }
   }
 
-  componentDidUpdate(prevProps:VoyagerProps) {
+  componentDidUpdate(prevProps: VoyagerProps) {
     if (this.props.introspection !== prevProps.introspection) {
       this.updateIntrospection();
       return;
@@ -118,23 +115,18 @@ export default class Voyager extends React.Component<VoyagerProps> {
   }
 
   render() {
-    let {
-      _schemaPresets,
-      hideDocs = false
-    } = this.props;
+    let { _schemaPresets, hideDocs = false } = this.props;
 
     let showModal = !!_schemaPresets;
 
     return (
-      <Provider store={ this.store }>
+      <Provider store={this.store}>
         <div className="graphql-voyager">
-          {!hideDocs &&
-            <DocPanel _showChangeButton={!!_schemaPresets}/>
-          }
-          <div ref="viewport" className="viewport"></div>
-          <ErrorBar/>
-          <LoadingAnimation/>
-          { showModal && <SchemaModal presets={_schemaPresets}/> }
+          {!hideDocs && <DocPanel _showChangeButton={!!_schemaPresets} />}
+          <div ref="viewport" className="viewport" />
+          <ErrorBar />
+          <LoadingAnimation />
+          {showModal && <SchemaModal presets={_schemaPresets} />}
         </div>
       </Provider>
     );

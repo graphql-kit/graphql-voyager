@@ -1,6 +1,6 @@
 export function forEachNode(parent: Element, selector: string, fn) {
   let $nodes = parent.querySelectorAll(selector);
-  for(let i = 0; i < $nodes.length; i++) {
+  for (let i = 0; i < $nodes.length; i++) {
     fn($nodes[i]);
   }
 }

@@ -1,19 +1,19 @@
-declare module "*.ejs" {
+declare module '*.ejs' {
   const content: string;
   export default content;
 }
 
-declare module "*.svg" {
+declare module '*.svg' {
   const content: string;
   export default content;
 }
 
-declare module "*.css" {
+declare module '*.css' {
   const content: string;
   export default content;
 }
 
-declare module "*.json" {
+declare module '*.json' {
   const json: any;
   export default json;
 }

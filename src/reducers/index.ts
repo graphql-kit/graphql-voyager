@@ -1,10 +1,8 @@
 import * as _ from 'lodash';
 
-import * as ActionTypes from '../actions/'
+import * as ActionTypes from '../actions/';
 
-import {
-  extractTypeId,
-} from '../introspection';
+import { extractTypeId } from '../introspection';
 
 export type DisplayOptions = {
   rootTypeId?: string;
@@ -54,16 +52,15 @@ const initialState: StateInterface = {
     rootTypeId: undefined,
     skipRelay: true,
     sortByAlphabet: false,
-    hideRoot: false
+    hideRoot: false,
   },
   currentSvgIndex: null,
-  svgCache: [
-  ],
+  svgCache: [],
   selected: {
     previousTypesIds: [],
     currentNodeId: null,
     currentEdgeId: null,
-    scalar: null
+    scalar: null,
   },
   graphView: {
     focusedId: null,
@@ -72,22 +69,18 @@ const initialState: StateInterface = {
   errorMessage: null,
 };
 
-
 function pushHistory(currentTypeId: string, previousState): string[] {
   let previousTypesIds = previousState.selected.previousTypesIds;
   let previousTypeId = previousState.selected.currentNodeId;
 
-  if (previousTypeId === null || previousTypeId === currentTypeId)
-    return previousTypesIds;
+  if (previousTypeId === null || previousTypeId === currentTypeId) return previousTypesIds;
 
-  if (_.last(previousTypesIds) !== previousTypeId)
-    return [...previousTypesIds, previousTypeId];
+  if (_.last(previousTypesIds) !== previousTypeId) return [...previousTypesIds, previousTypeId];
 }
-
 
 export function rootReducer(previousState = initialState, action) {
   const { type } = action;
-  switch(type) {
+  switch (type) {
     case ActionTypes.CHANGE_SCHEMA:
       return {
         ...previousState,
@@ -99,9 +92,12 @@ export function rootReducer(previousState = initialState, action) {
         selected: initialState.selected,
       };
     case ActionTypes.CHANGE_DISPLAY_OPTIONS:
-      let displayOptions = {...previousState.displayOptions, ...action.payload};
+      let displayOptions = {
+        ...previousState.displayOptions,
+        ...action.payload,
+      };
       let cacheIdx = _.findIndex(previousState.svgCache, cacheItem => {
-        return _.isEqual(cacheItem.displayOptions, displayOptions)
+        return _.isEqual(cacheItem.displayOptions, displayOptions);
       });
       return {
         ...previousState,
@@ -113,16 +109,17 @@ export function rootReducer(previousState = initialState, action) {
     case ActionTypes.SVG_RENDERING_FINISHED:
       return {
         ...previousState,
-        svgCache: previousState.svgCache.concat([{
-          displayOptions: previousState.displayOptions,
-          svg: action.payload
-        }]),
-        currentSvgIndex: previousState.svgCache.length
+        svgCache: previousState.svgCache.concat([
+          {
+            displayOptions: previousState.displayOptions,
+            svg: action.payload,
+          },
+        ]),
+        currentSvgIndex: previousState.svgCache.length,
       };
     case ActionTypes.SELECT_NODE:
       const currentNodeId = action.payload;
-      if (currentNodeId === previousState.selected.currentNodeId)
-        return previousState;
+      if (currentNodeId === previousState.selected.currentNodeId) return previousState;
 
       return {
         ...previousState,
@@ -131,7 +128,7 @@ export function rootReducer(previousState = initialState, action) {
           previousTypesIds: pushHistory(currentNodeId, previousState),
           currentNodeId,
           currentEdgeId: null,
-          scalar: null
+          scalar: null,
         },
       };
     case ActionTypes.SELECT_EDGE:
@@ -144,8 +141,8 @@ export function rootReducer(previousState = initialState, action) {
           selected: {
             ...previousState.selected,
             currentEdgeId: null,
-            scalar: null
-          }
+            scalar: null,
+          },
         };
       }
 
@@ -157,7 +154,7 @@ export function rootReducer(previousState = initialState, action) {
           previousTypesIds: pushHistory(nodeId, previousState),
           currentNodeId: nodeId,
           currentEdgeId,
-          scalar: null
+          scalar: null,
         },
       };
     case ActionTypes.SELECT_PREVIOUS_TYPE:
@@ -168,7 +165,7 @@ export function rootReducer(previousState = initialState, action) {
           previousTypesIds: _.initial(previousState.selected.previousTypesIds),
           currentNodeId: _.last(previousState.selected.previousTypesIds),
           currentEdgeId: null,
-          scalar: null
+          scalar: null,
         },
       };
     case ActionTypes.CLEAR_SELECTION:
@@ -185,8 +182,7 @@ export function rootReducer(previousState = initialState, action) {
         },
       };
     case ActionTypes.FOCUS_ELEMENT_DONE:
-      if (previousState.graphView.focusedId !== action.payload)
-        return previousState;
+      if (previousState.graphView.focusedId !== action.payload) return previousState;
 
       return {
         ...previousState,
@@ -206,19 +202,19 @@ export function rootReducer(previousState = initialState, action) {
             //schema: schema,
             activePreset: previousState.schemaModal.activePreset,
             displayOptions: previousState.displayOptions,
-            presetValue
-          }
+            presetValue,
+          },
         },
         errorMessage: initialState.errorMessage,
-      }
+      };
     case ActionTypes.CHANGE_ACTIVE_PRESET:
       return {
         ...previousState,
         schemaModal: {
           ...previousState.schemaModal,
-          activePreset: action.payload
-        }
-      }
+          activePreset: action.payload,
+        },
+      };
     case ActionTypes.CHANGE_NOT_APPLIED_ACTIVE_PRESET:
       const naActivePreset = action.payload.presetName;
       const naSchema = action.payload.schema;
@@ -232,10 +228,10 @@ export function rootReducer(previousState = initialState, action) {
             presetValue: naSchema,
             activePreset: naActivePreset,
             displayOptions: initialState.displayOptions,
-          }
+          },
         },
         errorMessage: initialState.errorMessage,
-      }
+      };
     case ActionTypes.CHANGE_NOT_APPLIED_DISPLAY_OPTIONS:
       return {
         ...previousState,
@@ -246,39 +242,39 @@ export function rootReducer(previousState = initialState, action) {
             displayOptions: action.payload,
           },
         },
-      }
+      };
     case ActionTypes.HIDE_SCHEMA_MODAL:
       return {
         ...previousState,
         schemaModal: {
           ...previousState.schemaModal,
           opened: false,
-          notApplied: null
-        }
-      }
+          notApplied: null,
+        },
+      };
     case ActionTypes.TOGGLE_MENU:
       return {
         ...previousState,
-        menuOpened: !previousState.menuOpened
-      }
+        menuOpened: !previousState.menuOpened,
+      };
     case ActionTypes.REPORT_ERROR:
       return {
         ...previousState,
         errorMessage: action.payload,
-      }
+      };
     case ActionTypes.CLEAR_ERROR:
       return {
         ...previousState,
         errorMessage: initialState.errorMessage,
-      }
+      };
     case ActionTypes.CHANGE_SELECTED_TYPEINFO:
       return {
         ...previousState,
         selected: {
           ...previousState.selected,
-          typeinfo: action.payload
-        }
-      }
+          typeinfo: action.payload,
+        },
+      };
     default:
       return previousState;
   }

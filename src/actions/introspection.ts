@@ -4,7 +4,7 @@ export function changeSchema(introspection: any, displayOptions?: any) {
     type: CHANGE_SCHEMA,
     payload: {
       introspection,
-      displayOptions
-    }
+      displayOptions,
+    },
   };
 }

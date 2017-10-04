@@ -1,7 +1,7 @@
 export interface MiddlewareOptions {
-    endpointUrl: string;
-    version: string;
-    displayOptions: object;
+  endpointUrl: string;
+  version: string;
+  displayOptions: object;
 }
 
 export default function renderVoyagerPage(options: MiddlewareOptions) {

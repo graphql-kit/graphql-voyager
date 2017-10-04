@@ -2,21 +2,16 @@ import * as _ from 'lodash';
 import * as svgPanZoom from 'svg-pan-zoom';
 import * as animate from '@f/animate';
 
-import * as Actions from '../actions'
+import * as Actions from '../actions';
 import { observeStore } from '../redux';
 
-import {
-  removeClass,
-  forEachNode,
-  stringToSvg,
-} from '../utils/';
+import { removeClass, forEachNode, stringToSvg } from '../utils/';
 
 import { typeNameToId } from '../introspection';
 
-const RelayIconSvg =
-  require('!!svg-as-symbol-loader?id=RelayIcon!../components/icons/relay-icon.svg');
-const  svgns = 'http://www.w3.org/2000/svg';
-const  xlinkns = 'http://www.w3.org/1999/xlink';
+const RelayIconSvg = require('!!svg-as-symbol-loader?id=RelayIcon!../components/icons/relay-icon.svg');
+const svgns = 'http://www.w3.org/2000/svg';
+const xlinkns = 'http://www.w3.org/1999/xlink';
 
 export class Viewport {
   $svg: SVGElement;
@@ -34,26 +29,31 @@ export class Viewport {
       unsubscribe.push(observeStore(store, ...args));
     }
 
-    this._unsubscribe = observeStore(store, state => state.currentSvgIndex, svgIdx => {
-      unsubscribe.forEach(f => f());
-      unsubscribe = [];
+    this._unsubscribe = observeStore(
+      store,
+      state => state.currentSvgIndex,
+      svgIdx => {
+        unsubscribe.forEach(f => f());
+        unsubscribe = [];
 
-      if (svgIdx === null)
-        return;
+        if (svgIdx === null) return;
 
-      let cachedSvg = store.getState().svgCache[svgIdx];
-      this.display(cachedSvg.svg);
+        let cachedSvg = store.getState().svgCache[svgIdx];
+        this.display(cachedSvg.svg);
 
-      subscribe(state => state.selected.currentNodeId, id => this.selectNodeById(id));
-      subscribe(state => state.selected.currentEdgeId, id => this.selectEdgeById(id));
-      subscribe(state => state.graphView.focusedId, id => {
-        if (id === null)
-          return;
+        subscribe(state => state.selected.currentNodeId, id => this.selectNodeById(id));
+        subscribe(state => state.selected.currentEdgeId, id => this.selectEdgeById(id));
+        subscribe(
+          state => state.graphView.focusedId,
+          id => {
+            if (id === null) return;
 
-        this.focusElement(id);
-        store.dispatch(Actions.focusElementDone(id));
-      });
-    });
+            this.focusElement(id);
+            store.dispatch(Actions.focusElementDone(id));
+          },
+        );
+      },
+    );
 
     window.addEventListener('resize', this.resize);
 
@@ -67,7 +67,7 @@ export class Viewport {
     if (this.zoomer !== undefined) {
       this.zoomer.resize();
     }
-  }
+  };
 
   display(svgString) {
     this.clear();
@@ -84,7 +84,7 @@ export class Viewport {
   clear() {
     try {
       this.zoomer && this.zoomer.destroy();
-    } catch(e) {
+    } catch (e) {
       // skip
     }
     this.container.innerHTML = '';
@@ -94,16 +94,13 @@ export class Viewport {
     const svgHeight = this.$svg['height'].baseVal.value;
     const svgWidth = this.$svg['width'].baseVal.value;
     const bbRect = this.container.getBoundingClientRect();
-    this.maxZoom = Math.max(
-      svgHeight / bbRect.height,
-      svgWidth / bbRect.width
-    );
+    this.maxZoom = Math.max(svgHeight / bbRect.height, svgWidth / bbRect.width);
 
     this.zoomer = svgPanZoom(this.$svg, {
       zoomScaleSensitivity: 0.25,
       minZoom: 0.95,
       maxZoom: this.maxZoom,
-      controlIconsEnabled: true
+      controlIconsEnabled: true,
     });
     this.zoomer.zoom(0.95);
   }
@@ -111,7 +108,7 @@ export class Viewport {
   bindClick() {
     let dragged = false;
 
-    let moveHandler = () => dragged = true;
+    let moveHandler = () => (dragged = true);
     this.$svg.addEventListener('mousedown', () => {
       dragged = false;
       setTimeout(() => this.$svg.addEventListener('mousemove', moveHandler));
@@ -162,7 +159,7 @@ export class Viewport {
     });
   }
 
-  selectNodeById(id:string) {
+  selectNodeById(id: string) {
     this.deselectNode();
 
     if (id === null) {
@@ -175,7 +172,7 @@ export class Viewport {
     this.selectNode($selected);
   }
 
-  selectNode(node:Element) {
+  selectNode(node: Element) {
     node.classList.add('selected');
 
     _.each(edgesFromNode(node), $edge => {
@@ -189,13 +186,12 @@ export class Viewport {
     });
   }
 
-  selectEdgeById(id:string) {
+  selectEdgeById(id: string) {
     removeClass(this.$svg, '.edge.selected', 'selected');
     removeClass(this.$svg, '.edge-source.selected', 'selected');
     removeClass(this.$svg, '.field.selected', 'selected');
 
-    if (id === null)
-      return;
+    if (id === null) return;
 
     var $selected = document.getElementById(id);
     if ($selected) {
@@ -211,36 +207,33 @@ export class Viewport {
     removeClass(this.$svg, '.selected-reachable', 'selected-reachable');
   }
 
-  focusElement(id:string) {
+  focusElement(id: string) {
     let bbBox = document.getElementById(id).getBoundingClientRect();
     let currentPan = this.zoomer.getPan();
     let viewPortSizes = (<any>this.zoomer).getSizes();
 
-    currentPan.x += viewPortSizes.width/2 - bbBox.width/2;
-    currentPan.y += viewPortSizes.height/2 - bbBox.height/2;
+    currentPan.x += viewPortSizes.width / 2 - bbBox.width / 2;
+    currentPan.y += viewPortSizes.height / 2 - bbBox.height / 2;
 
-    let zoomUpdateToFit = 1.2 * Math.max(
-      bbBox.height / viewPortSizes.height,
-      bbBox.width / viewPortSizes.width
-    );
+    let zoomUpdateToFit =
+      1.2 * Math.max(bbBox.height / viewPortSizes.height, bbBox.width / viewPortSizes.width);
     let newZoom = this.zoomer.getZoom() / zoomUpdateToFit;
     let recomendedZoom = this.maxZoom * 0.6;
-    if (newZoom > recomendedZoom)
-      newZoom = recomendedZoom;
+    if (newZoom > recomendedZoom) newZoom = recomendedZoom;
 
     let newX = currentPan.x - bbBox.left + this.offsetLeft;
     let newY = currentPan.y - bbBox.top + this.offsetTop;
-    this.animatePanAndZoom(newX , newY, newZoom);
+    this.animatePanAndZoom(newX, newY, newZoom);
   }
 
   animatePanAndZoom(x, y, zoomEnd) {
     let pan = this.zoomer.getPan();
-    let panEnd = {x, y};
+    let panEnd = { x, y };
     animate(pan, panEnd, props => {
-      this.zoomer.pan({x: props.x, y: props.y});
+      this.zoomer.pan({ x: props.x, y: props.y });
       if (props === panEnd) {
         let zoom = this.zoomer.getZoom();
-        animate({zoom}, {zoom: zoomEnd}, props => {
+        animate({ zoom }, { zoom: zoomEnd }, props => {
           this.zoomer.zoom(props.zoom);
         });
       }
@@ -252,13 +245,13 @@ export class Viewport {
     window.removeEventListener('resize', this.resize);
     try {
       this.zoomer.destroy();
-    } catch(e) {
+    } catch (e) {
       // skip
     }
   }
 }
 
-export function preprocessVizSvg(svgString:string) {
+export function preprocessVizSvg(svgString: string) {
   //Add Relay Icon
   svgString = svgString.replace(/<svg [^>]*>/, '$&' + RelayIconSvg);
 
@@ -269,8 +262,8 @@ export function preprocessVizSvg(svgString:string) {
 
     var $docFrag = document.createDocumentFragment();
     while ($a.firstChild) {
-        let $child = $a.firstChild;
-        $docFrag.appendChild($child);
+      let $child = $a.firstChild;
+      $docFrag.appendChild($child);
     }
 
     $g.replaceChild($docFrag, $a);
@@ -291,8 +284,7 @@ export function preprocessVizSvg(svgString:string) {
 
   forEachNode(svg, '[id]', $el => {
     let [tag, ...restOfId] = $el.id.split('::');
-    if (_.size(restOfId) < 1)
-      return;
+    if (_.size(restOfId) < 1) return;
 
     $el.classList.add(tag.toLowerCase().replace(/_/, '-'));
   });
@@ -310,8 +302,7 @@ export function preprocessVizSvg(svgString:string) {
     //Remove spaces used for text alligment
     texts[1].remove();
 
-    if (edgesSources[$field.id])
-      $field.classList.add('edge-source');
+    if (edgesSources[$field.id]) $field.classList.add('edge-source');
 
     for (var i = 2; i < texts.length; ++i) {
       var str = texts[i].innerHTML;
@@ -333,25 +324,24 @@ export function preprocessVizSvg(svgString:string) {
       }
 
       texts[i].classList.add('field-type');
-      if (edgesSources[$field.id] && !/[\[\]\!]/.test(str))
-        texts[i].classList.add('type-link');
+      if (edgesSources[$field.id] && !/[\[\]\!]/.test(str)) texts[i].classList.add('type-link');
     }
-  })
+  });
 
   forEachNode(svg, '.derived-type', $derivedType => {
     $derivedType.classList.add('edge-source');
     $derivedType.querySelector('text').classList.add('type-link');
-  })
+  });
 
   forEachNode(svg, '.possible-type', $possibleType => {
     $possibleType.classList.add('edge-source');
     $possibleType.querySelector('text').classList.add('type-link');
-  })
+  });
 
   return svg;
 }
 
-function getParent(elem:Element, className:string): Element | null {
+function getParent(elem: Element, className: string): Element | null {
   while (elem && elem.tagName !== 'svg') {
     if (elem.classList.contains(className)) return elem;
     elem = elem.parentNode as Element;
@@ -359,37 +349,36 @@ function getParent(elem:Element, className:string): Element | null {
   return null;
 }
 
-function isNode(elem:Element):boolean {
+function isNode(elem: Element): boolean {
   return getParent(elem, 'node') != null;
 }
 
-function isEdge(elem:Element):boolean {
+function isEdge(elem: Element): boolean {
   return getParent(elem, 'edge') != null;
 }
 
-function isLink(elem:Element):boolean {
+function isLink(elem: Element): boolean {
   return elem.classList.contains('type-link');
 }
 
-function isEdgeSource(elem:Element):boolean {
+function isEdgeSource(elem: Element): boolean {
   return getParent(elem, 'edge-source') != null;
 }
 
-function isControl(elem:Element) {
-  if (!(elem instanceof SVGElement))
-    return false;
+function isControl(elem: Element) {
+  if (!(elem instanceof SVGElement)) return false;
   return elem.className.baseVal.startsWith('svg-pan-zoom');
 }
 
-function edgeSource(edge:Element) {
+function edgeSource(edge: Element) {
   return document.getElementById(edge['dataset']['from']);
 }
 
-function edgeTarget(edge:Element) {
+function edgeTarget(edge: Element) {
   return document.getElementById(edge['dataset']['to']);
 }
 
-function edgeFrom(id:String) {
+function edgeFrom(id: String) {
   return document.querySelector(`.edge[data-from='${id}']`);
 }
 
@@ -402,6 +391,6 @@ function edgesFromNode($node) {
   return edges;
 }
 
-function edgesTo(id:String) {
+function edgesTo(id: String) {
   return _.toArray(document.querySelectorAll(`.edge[data-to='${id}']`));
 }

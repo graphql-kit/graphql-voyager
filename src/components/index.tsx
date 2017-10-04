@@ -1,1 +1,1 @@
-export {default as Voyager, VoyagerProps} from './Voyager';
+export { default as Voyager, VoyagerProps } from './Voyager';

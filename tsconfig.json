@@ -16,16 +16,8 @@
     "jsx": "react"
   },
   "compileOnSave": false,
-  "exclude": [
-    "node_modules",
-    ".tmp",
-    "dist"
-  ],
-  "include": [
-    "./src/**/*.ts",
-    "./src/**/*.tsx",
-    "./manual-types.d.ts"
-  ],
+  "exclude": ["node_modules", ".tmp", "dist"],
+  "include": ["./src/**/*.ts", "./src/**/*.tsx", "./manual-types.d.ts"],
   "awesomeTypescriptLoaderOptions": {
     "resolveGlobs": true,
     "useWebpackText": true

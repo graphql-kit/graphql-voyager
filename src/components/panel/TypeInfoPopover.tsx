@@ -13,7 +13,7 @@ import TypeDetails from '../doc-explorer/TypeDetails';
 
 function mapStateToProps(state) {
   return {
-    type: state.selected.typeinfo
+    type: state.selected.typeinfo,
   };
 }
 
@@ -29,7 +29,7 @@ interface ScalarDetailsState {
 class ScalarDetails extends React.Component<ScalarDetailsProps, ScalarDetailsState> {
   constructor(props) {
     super(props);
-    this.state = { localType : null };
+    this.state = { localType: null };
   }
   close() {
     this.props.dispatch(changeSelectedTypeInfo(null));
@@ -51,15 +51,15 @@ class ScalarDetails extends React.Component<ScalarDetailsProps, ScalarDetailsSta
     return (
       <div
         className={classNames('type-info-popover', {
-          '-opened': !!type
+          '-opened': !!type,
         })}
       >
         <IconButton className="closeButton" onClick={() => this.close()}>
           <CloseIcon />
         </IconButton>
-          {(type || localType) && <TypeDetails type={type || localType}/> }
+        {(type || localType) && <TypeDetails type={type || localType} />}
       </div>
-    )
+    );
   }
 }
 

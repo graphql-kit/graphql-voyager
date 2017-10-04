@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
 import * as React from 'react';
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
 import ReactModal from 'react-modal';
 import * as classNames from 'classnames';
 
@@ -54,7 +54,7 @@ function mapStateToProps(state: StateInterface) {
 class SchemaModal extends React.Component<SchemaModalProps, SchemaModalState> {
   constructor(props) {
     super(props);
-    this.state = {recentlyCopied: false};
+    this.state = { recentlyCopied: false };
   }
 
   componentDidMount() {
@@ -63,12 +63,14 @@ class SchemaModal extends React.Component<SchemaModalProps, SchemaModalState> {
     if (url) {
       this.props.dispatch(hideSchemaModal());
       request(url, introspectionQuery)
-        .then(introspection => this.props.dispatch(changeSchema({data: introspection})))
+        .then(introspection => this.props.dispatch(changeSchema({ data: introspection })))
         .catch(err => {
-          this.props.dispatch(reportError(err.response.data || `Error loading: ${err.response.status}`));
+          this.props.dispatch(
+            reportError(err.response.data || `Error loading: ${err.response.status}`),
+          );
         });
     } else if (DEBUG_INITIAL_PRESET) {
-      this.props.dispatch(hideSchemaModal())
+      this.props.dispatch(hideSchemaModal());
       this.props.dispatch(changeActivePreset(DEBUG_INITIAL_PRESET));
       this.props.dispatch(changeSchema(this.props.presets[DEBUG_INITIAL_PRESET]));
     }
@@ -76,8 +78,7 @@ class SchemaModal extends React.Component<SchemaModalProps, SchemaModalState> {
 
   handleTextChange(event) {
     let text = event.target.value;
-    if (text === '')
-      text = null;
+    if (text === '') text = null;
     this.props.dispatch(changeNaActivePreset('custom', text));
   }
 
@@ -90,77 +91,91 @@ class SchemaModal extends React.Component<SchemaModalProps, SchemaModalState> {
   }
 
   handleChange() {
-    const {
-      notApplied: {
-        activePreset,
-        displayOptions,
-        presetValue
-      }
-    } = this.props;
+    const { notApplied: { activePreset, displayOptions, presetValue } } = this.props;
 
     let schema = activePreset === 'custom' ? JSON.parse(presetValue) : presetValue;
     this.props.dispatch(changeActivePreset(activePreset));
     this.props.dispatch(changeSchema(schema, displayOptions));
-    this.props.dispatch(hideSchemaModal())
+    this.props.dispatch(hideSchemaModal());
   }
 
   close() {
-    this.props.dispatch(hideSchemaModal())
+    this.props.dispatch(hideSchemaModal());
   }
 
   copy() {
-    this.setState({...this.state, recentlyCopied: true});
+    this.setState({ ...this.state, recentlyCopied: true });
     setTimeout(() => {
-      this.setState({...this.state, recentlyCopied: false});
-    }, 2000)
+      this.setState({ ...this.state, recentlyCopied: false });
+    }, 2000);
   }
 
   appBar() {
     return (
       <IconButton className="close-icon" onClick={() => this.close()}>
-          <CloseIcon color="#ffffff" />
+        <CloseIcon color="#ffffff" />
       </IconButton>
     );
   }
 
-  predefinedCards(presetNames:string[], activePreset) {
+  predefinedCards(presetNames: string[], activePreset) {
     return (
       <div className="schema-presets">
-        {_(presetNames).without('custom').map(name =>
-          <div key={name} className={classNames('introspection-card', {
-            '-active': name === activePreset
-          })} onClick={() => {
-            if (name !== activePreset)
-              this.handlePresetChange(name)
-          }}>
-            <h2> {name} </h2>
-          </div>
-        ).value()}
+        {_(presetNames)
+          .without('custom')
+          .map(name => (
+            <div
+              key={name}
+              className={classNames('introspection-card', {
+                '-active': name === activePreset,
+              })}
+              onClick={() => {
+                if (name !== activePreset) this.handlePresetChange(name);
+              }}
+            >
+              <h2> {name} </h2>
+            </div>
+          ))
+          .value()}
       </div>
     );
   }
 
-  customCard(isActive:boolean, customPresetText:string) {
+  customCard(isActive: boolean, customPresetText: string) {
     return (
       <div className="custom-schema-selector">
-        <div className={classNames('introspection-card', {
-          '-active': isActive
-        })} onClick={() => isActive || this.handlePresetChange('custom')}>
+        <div
+          className={classNames('introspection-card', {
+            '-active': isActive,
+          })}
+          onClick={() => isActive || this.handlePresetChange('custom')}
+        >
           <div className="card-header">
             <h2> Custom Schema </h2>
           </div>
           <div className="card-content">
-            <p> Run the introspection query against a GraphQL endpoint. Paste the result into the textarea below to view the model relationships.</p>
-            <ClipboardButton component="a" data-clipboard-text={introspectionQuery}
-            className={classNames({
-              'hint--top': this.state.recentlyCopied
-            })}
-            data-hint='Copied to clipboard'
-            onClick={() => this.copy()}>
+            <p>
+              {' '}
+              Run the introspection query against a GraphQL endpoint. Paste the result into the
+              textarea below to view the model relationships.
+            </p>
+            <ClipboardButton
+              component="a"
+              data-clipboard-text={introspectionQuery}
+              className={classNames({
+                'hint--top': this.state.recentlyCopied,
+              })}
+              data-hint="Copied to clipboard"
+              onClick={() => this.copy()}
+            >
               Copy Introspection Query
             </ClipboardButton>
-            <textarea value={customPresetText || ''} disabled={!isActive}
-            onChange={this.handleTextChange.bind(this)} placeholder="Paste Introspection Here"/>
+            <textarea
+              value={customPresetText || ''}
+              disabled={!isActive}
+              onChange={this.handleTextChange.bind(this)}
+              placeholder="Paste Introspection Here"
+            />
           </div>
         </div>
       </div>
@@ -168,15 +183,10 @@ class SchemaModal extends React.Component<SchemaModalProps, SchemaModalState> {
   }
 
   modalContent(presetNames, notApplied, schema) {
-    if (notApplied === null)
-      return null;
+    if (notApplied === null) return null;
 
-    const {
-      activePreset,
-      displayOptions,
-      presetValue,
-    } = notApplied;
-    const validSelected = !!(schema.schema);
+    const { activePreset, displayOptions, presetValue } = notApplied;
+    const validSelected = !!schema.schema;
     const errorMessage = schema.error;
 
     let infoMessage = null;
@@ -184,12 +194,10 @@ class SchemaModal extends React.Component<SchemaModalProps, SchemaModalState> {
     if (errorMessage != null) {
       infoMessage = errorMessage;
       infoClass = '-error';
-    }
-    else if (activePreset == null) {
+    } else if (activePreset == null) {
       infoMessage = 'Please select introspection';
       infoClass = '-select';
-    }
-    else if (activePreset === 'custom') {
+    } else if (activePreset === 'custom') {
       infoMessage = 'Please paste your introspection';
       infoClass = '-select';
     }
@@ -203,41 +211,46 @@ class SchemaModal extends React.Component<SchemaModalProps, SchemaModalState> {
           {this.predefinedCards(presetNames, activePreset)}
           {this.customCard(activePreset === 'custom', presetValue)}
         </div>
-        <div className={classNames('modal-info-panel', {
-          '-message': !validSelected,
-          '-settings': validSelected
-        })}>
-          <div className={classNames('modal-message', 'content', infoClass)}>
-            {infoMessage}
-          </div>
-          <Settings theme={settingsDarkTheme}
+        <div
+          className={classNames('modal-info-panel', {
+            '-message': !validSelected,
+            '-settings': validSelected,
+          })}
+        >
+          <div className={classNames('modal-message', 'content', infoClass)}>{infoMessage}</div>
+          <Settings
+            theme={settingsDarkTheme}
             schema={schema.schema}
             options={displayOptions}
-            onChange={(options) => this.handleDisplayOptionsChange(options)}/>
+            onChange={options => this.handleDisplayOptionsChange(options)}
+          />
         </div>
-        <Button raised label="Change Schema" theme={buttonDarkTheme as any}
-        disabled={!validSelected} onClick={this.handleChange.bind(this)}/>
+        <Button
+          raised
+          label="Change Schema"
+          theme={buttonDarkTheme as any}
+          disabled={!validSelected}
+          onClick={this.handleChange.bind(this)}
+        />
       </div>
     );
   }
 
   render() {
-    const {
-      showSchemaModal,
-      notApplied,
-      schema,
-      presets
-    } = this.props;
+    const { showSchemaModal, notApplied, schema, presets } = this.props;
 
-    if (!presets) throw new Error('To use schema modal pass "_schemaPresets" property to "<Voyager>"')
+    if (!presets)
+      throw new Error('To use schema modal pass "_schemaPresets" property to "<Voyager>"');
 
     let customStyle = {
-      content: {maxHeight: '600px', maxWidth: '1000px'},
-      overlay: { zIndex: 10, backgroundColor: 'rgba(0, 0, 0, 0.74902)' }
+      content: { maxHeight: '600px', maxWidth: '1000px' },
+      overlay: { zIndex: 10, backgroundColor: 'rgba(0, 0, 0, 0.74902)' },
     };
 
     return (
-      <ReactModal isOpen={showSchemaModal} className="modal-root"
+      <ReactModal
+        isOpen={showSchemaModal}
+        className="modal-root"
         style={customStyle}
         contentLabel="Select Introspection"
         onRequestClose={() => this.close()}
@@ -249,4 +262,4 @@ class SchemaModal extends React.Component<SchemaModalProps, SchemaModalState> {
   }
 }
 
-export default connect<{}, {}, {presets: any}>(mapStateToProps)(SchemaModal);
+export default connect<{}, {}, { presets: any }>(mapStateToProps)(SchemaModal);

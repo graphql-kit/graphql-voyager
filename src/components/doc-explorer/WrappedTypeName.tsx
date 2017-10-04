@@ -19,7 +19,12 @@ interface WrappedTypeNameProps {
 export default class WrappedTypeName extends React.Component<WrappedTypeNameProps> {
   renderRelayIcon() {
     return (
-      <TooltipIcon className="relay-icon" tooltipPosition="top" ripple={false} tooltip="Relay Connection">
+      <TooltipIcon
+        className="relay-icon"
+        tooltipPosition="top"
+        ripple={false}
+        tooltip="Relay Connection"
+      >
         <RelayIcon />
       </TooltipIcon>
     );
@@ -34,8 +39,9 @@ export default class WrappedTypeName extends React.Component<WrappedTypeNameProp
     return (
       <span className="wrapped-type-name">
         {leftWrap}
-        { isNode(type) ? <TypeLink type={type} /> : <TypeName type={type} /> }
-        {rightWrap}{ container.relayType && this.renderRelayIcon() }
+        {isNode(type) ? <TypeLink type={type} /> : <TypeName type={type} />}
+        {rightWrap}
+        {container.relayType && this.renderRelayIcon()}
       </span>
     );
   }

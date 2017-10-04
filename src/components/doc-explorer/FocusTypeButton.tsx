@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { connect } from "react-redux"
+import { connect } from 'react-redux';
 import { IconButton } from 'react-toolbox/lib/button';
 import EyeIcon from '../icons/remove-red-eye.svg';
 
@@ -8,15 +8,14 @@ import { focusElement } from '../../actions/';
 
 interface FocusTypeButtonProps {
   type: {
-    id: string
-  }
+    id: string;
+  };
   dispatch: any;
 }
 
-function FocusTypeButton(props:FocusTypeButtonProps) {
+function FocusTypeButton(props: FocusTypeButtonProps) {
   return (
-    <IconButton className="eye-button"
-      onClick={() => props.dispatch(focusElement(props.type.id))}>
+    <IconButton className="eye-button" onClick={() => props.dispatch(focusElement(props.type.id))}>
       <EyeIcon />
     </IconButton>
   );
