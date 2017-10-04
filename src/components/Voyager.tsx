@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { PropTypes } from 'react';
+import PropTypes from 'prop-types';
 import * as _ from 'lodash';
 
 import { Provider, Store } from 'react-redux';
