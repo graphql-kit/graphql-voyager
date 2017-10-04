@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as Marked from 'marked';
+import { HtmlRenderer, Parser } from 'commonmark';
 
 interface MarkdownProps {
   text: string;
@@ -7,6 +7,14 @@ interface MarkdownProps {
 }
 
 export default class Markdown extends React.Component<MarkdownProps> {
+  renderer: HtmlRenderer;
+  parser: Parser;
+
+  constructor(props) {
+    super(props);
+    this.renderer = new HtmlRenderer({ safe: true });
+    this.parser = new Parser();
+  }
   shouldComponentUpdate(nextProps) {
     return this.props.text !== nextProps.text;
   }
@@ -16,7 +24,8 @@ export default class Markdown extends React.Component<MarkdownProps> {
 
     if (!text) return null;
 
-    const html = Marked(text, { sanitize: true });
+    const parsed = this.parser.parse(text);
+    const html = this.renderer.render(parsed);
 
     return <div className={className} dangerouslySetInnerHTML={{ __html: html }} />;
   }
