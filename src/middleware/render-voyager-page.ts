@@ -2,10 +2,12 @@ export interface MiddlewareOptions {
   endpointUrl: string;
   version: string;
   displayOptions: object;
+  headersJS?: string;
 }
 
 export default function renderVoyagerPage(options: MiddlewareOptions) {
   const { version, endpointUrl, displayOptions } = options;
+  const headersJS = options.headersJS ? options.headersJS : '{}';
   return `
 <!DOCTYPE html>
 <html>
@@ -40,10 +42,10 @@ export default function renderVoyagerPage(options: MiddlewareOptions) {
       function introspectionProvider(introspectionQuery) {
         return fetch('${endpointUrl}', {
           method: 'post',
-          headers: {
+          headers: Object.assign({}, {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
-          },
+          }, ${headersJS}),
           body: JSON.stringify({query: introspectionQuery }),
           credentials: 'include',
         }).then(function (response) {
