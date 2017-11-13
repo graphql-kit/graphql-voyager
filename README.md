@@ -134,6 +134,8 @@ Express middleware supports the following properties:
 + `options`
   + `endpointUrl` [`string`] - the GraphQL endpoint url.
   + `displayOptions` [`object`] - same as [here](#Properties)
+  + `headersJS` [`string`, default `"{}"`] - object of headers serialized in string to be used on endpoint url
+	+ You can also use any JS expression which results in an object with header names as keys and strings as values e.g. `{ Authorization: localStorage['Meteor.loginToken'] }`
 
 #### Usage
 ```js
@@ -157,6 +159,8 @@ Hapi middleware supports the following properties:
   + `voyagerOptions`
       + `endpointUrl` [`string`] - the GraphQL endpoint url.
       + `displayOptions` [`object`] - same as [here](#Properties)
+	  + `headersJS` [`string`, default `"{}"`] - object of headers serialized in string to be used on endpoint url
+	    + You can also use any JS expression which results in an object with header names as keys and strings as values e.g. `{ Authorization: localStorage['Meteor.loginToken'] }`
 
 #### Usage
 ```js
@@ -186,6 +190,8 @@ Koa middleware supports the following properties:
 + `options`
   + `endpointUrl` [`string`] - the GraphQL endpoint url.
   + `displayOptions` [`object`] - same as [here](#Properties)
+  + `headersJS` [`string`, default `"{}"`] - object of headers serialized in string to be used on endpoint url
+	+ You can also use any JS expression which results in an object with header names as keys and strings as values e.g. `{ Authorization: localStorage['Meteor.loginToken'] }`
 
 #### Usage
 ```js
