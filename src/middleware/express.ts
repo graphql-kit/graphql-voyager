@@ -17,11 +17,10 @@ const express: Register = function voyagerExpress(options) {
     version,
   };
 
-  return (_req, res, next) => {
+  return (_req, res) => {
     res.setHeader('Content-Type', 'text/html');
     res.write(renderVoyagerPage(middlewareOptions));
     res.end();
-    next();
   };
 };
 
