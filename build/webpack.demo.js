@@ -106,7 +106,12 @@ module.exports = function() {
           {
             loader: 'babel-loader',
             options: {
-              plugins: ['transform-es2015-classes', 'transform-es2015-block-scoping']
+              plugins: [
+                'transform-es2015-classes',
+                'transform-es2015-block-scoping',
+                'transform-es2015-arrow-functions',
+                'transform-es2015-destructuring'
+              ]
             }
           },
           {

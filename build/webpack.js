@@ -121,11 +121,12 @@ let baseConfig = {
           loader: 'babel-loader',
           options: {
             plugins: [
-            'transform-es2015-classes',
-            'transform-es2015-block-scoping',
-            'transform-es2015-arrow-functions',
-            'transform-es2015-destructuring'
-          ]}
+              'transform-es2015-classes',
+              'transform-es2015-block-scoping',
+              'transform-es2015-arrow-functions',
+              'transform-es2015-destructuring'
+            ]
+          }
         },
         {
           loader: 'react-svg-loader',
