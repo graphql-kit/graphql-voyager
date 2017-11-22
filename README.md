@@ -36,12 +36,13 @@ module system it is exported as `GraphQLVoyager` global variable.
 `Voyager` component accepts the following properties:
 
 + `introspection` [`object` or function: `(query: string) => Promise`] - the server introspection response. If `function` is provided GraphQL Voyager will pass introspection query as a first function parameter. Function should return `Promise` which resolves to introspection response object.
-+ `displayOptions`
++ `displayOptions` _(optional)_
   + `displayOptions.skipRelay` [`boolean`, default `true`] - skip relay-related entities
   + `displayOptions.rootType` [`string`] - name of the type to be used as a root
   + `displayOptions.sortByAlphabet` [`boolean`, default `false`] - sort fields on graph by alphabet
   + `displayOptions.hideDocs` [`boolean`, default `false`] - hide the docs sidebar
   + `displayOptions.hideRoot` [`boolean`, default `false`] - hide the root type
++ `workerURI` [`string`] _(optional)_ - absolute or relative path to Voyager web worker. By default it will try to load it from `voyager.worker.js`.
 
 ### `init` function
 The signature of the `init` function:
@@ -121,7 +122,17 @@ ReactDOM.render(<Voyager introspection={introspectionProvider} />, document.getE
 Build for the web with [webpack](https://webpack.js.org/) ([example](./example/webpack-example)) or
 [browserify](http://browserify.org/)
 
-**Important:** make sure to copy `voyager.worker.js` from `node_modules/graphql-voyager/dist` to the same folder as your main bundle.
+**Important:** make sure to copy `voyager.worker.js` from `node_modules/graphql-voyager/dist` to the same folder as your main bundle or use [`workerURI`](#properties) property to specify other path.
+
+**NOTE** if you use it with `create-react-app`, copy worker file to `public` folder and use `workerURI` property like this:
+
+```jsx
+  <Voyager
+      // ...
+      workerURI={process.env.PUBLIC_URL + '/voyager.worker.js'}
+      // ...
+  />
+```
 
 ## Middleware
 Graphql Voyager has middleware for the next frameworks:

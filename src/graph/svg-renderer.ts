@@ -11,8 +11,8 @@ export class SVGRender {
   worker: Worker;
   unsubscribe: any;
 
-  constructor(public store) {
-    loadWorker('voyager.worker.js').then(worker => {
+  constructor(public store, workerURI?: string) {
+    loadWorker(workerURI || 'voyager.worker.js', !workerURI).then(worker => {
       this.worker = worker;
 
       this.unsubscribe = observeStore(

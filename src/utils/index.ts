@@ -16,8 +16,8 @@ export function getQueryParams(query = location.search) {
   }, {});
 }
 
-export function loadWorker(relativeUrl): Promise<Worker> {
-  const url = __dirname + '/' + relativeUrl;
+export function loadWorker(path: string, relative: boolean): Promise<Worker> {
+  const url = relative ? __dirname + '/' + path : path;
   return fetch(url)
     .then(response => response.blob())
     .then(script => {

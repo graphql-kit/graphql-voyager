@@ -38,6 +38,7 @@ export interface VoyagerProps {
   introspection: IntrospectionProvider | Object | boolean;
   displayOptions?: VoyagerDisplayOptions;
   hideDocs?: boolean;
+  workerURI?: string;
 }
 
 export default class Voyager extends React.Component<VoyagerProps> {
@@ -55,6 +56,7 @@ export default class Voyager extends React.Component<VoyagerProps> {
       hideRoot: PropTypes.bool,
     }),
     hideDocs: PropTypes.bool,
+    workerURI: PropTypes.string
   };
 
   viewport: Viewport;
@@ -68,7 +70,7 @@ export default class Voyager extends React.Component<VoyagerProps> {
 
   componentDidMount() {
     // init viewport and svg-renderer
-    this.renderer = new SVGRender(this.store);
+    this.renderer = new SVGRender(this.store, this.props.workerURI);
     this.viewport = new Viewport(this.store, this.refs['viewport'] as HTMLElement);
 
     this.updateIntrospection();
