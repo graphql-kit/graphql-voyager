@@ -179,7 +179,7 @@ function sortIntrospection(value) {
   } else if (_.isPlainObject(value))
     return _(value)
       .toPairs()
-      .sortBy(0)
+      .sortBy('0')
       .fromPairs()
       .mapValues(sortIntrospection)
       .value();
@@ -262,9 +262,9 @@ export const getNaSchemaSelector = createSelector(
     return presetValue;
   },
   (state: StateInterface) =>
-    _.get<boolean>(state, 'schemaModal.notApplied.displayOptions.sortByAlphabet'),
+    _.get(state, 'schemaModal.notApplied.displayOptions.sortByAlphabet'),
   (state: StateInterface) =>
-    _.get<boolean>(state, 'schemaModal.notApplied.displayOptions.skipRelay'),
+    _.get(state, 'schemaModal.notApplied.displayOptions.skipRelay'),
   (introspection, sortByAlphabet, skipRelay) => {
     if (introspection == null) return { schema: null, error: null };
 

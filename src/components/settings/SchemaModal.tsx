@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 import * as React from 'react';
 import { connect } from 'react-redux';
-import ReactModal from 'react-modal';
+import * as ReactModal from 'react-modal';
 import * as classNames from 'classnames';
 
 import './SchemaModal.css';
@@ -12,7 +12,7 @@ import { Button, IconButton } from 'react-toolbox/lib/button';
 import CloseIcon from '../icons/close-black.svg';
 import { StateInterface } from '../../reducers';
 
-import * as ClipboardButton from 'react-clipboard.js';
+import ClipboardButton from 'react-clipboard.js';
 
 import { introspectionQuery } from 'graphql/utilities';
 import { request } from 'graphql-request';

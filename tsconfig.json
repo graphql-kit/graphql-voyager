@@ -16,7 +16,7 @@
     "jsx": "react"
   },
   "compileOnSave": false,
-  "exclude": ["node_modules", ".tmp", "dist"],
+  "exclude": ["node_modules", ".tmp", "dist", "demo-dist", "**/**/voyager.worker.js"],
   "include": ["./src/**/*.ts", "./src/**/*.tsx", "./manual-types.d.ts"],
   "awesomeTypescriptLoaderOptions": {
     "resolveGlobs": true,

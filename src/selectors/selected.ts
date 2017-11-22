@@ -15,7 +15,7 @@ export const getSelectedType = createSelector(
 export const getPreviousType = createSelector(
   (state: any) => _.last(state.selected.previousTypesIds),
   (state: any) => getTypeGraphSelector(state),
-  (previousNodeId, typeGraph) => {
+  (previousNodeId: string, typeGraph) => {
     return _.get(typeGraph, ['nodes', previousNodeId], null);
   },
 );
