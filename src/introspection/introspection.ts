@@ -164,26 +164,36 @@ function markRelayTypes(schema: SimplifiedIntrospectionWithIds): void {
   const { queryType } = schema;
   let query = schema.types[queryType.id];
 
-  if (_.get(query, 'fields.node.type.isRelayType')) delete query.fields['node'];
+  if (_.get(query, 'fields.node.type.isRelayType')) {
+    delete query.fields['node'];
+  }
 
   //GitHub use `nodes` instead of `node`.
-  if (_.get(query, 'fields.nodes.type.isRelayType')) delete query.fields['nodes'];
+  if (_.get(query, 'fields.nodes.type.isRelayType')) {
+    delete query.fields['nodes'];
+  }
 
-  if (_.get(query, 'fields.relay.type.id') == queryType) delete query.fields['relay'];
+  if (_.get(query, 'fields.relay.type') === queryType) {
+    delete query.fields['relay'];
+  }
 }
 
 function sortIntrospection(value) {
-  if (_.isArray(value)) {
-    if (_.isString(value[0])) return value.sort();
-    else return _.map(value, sortIntrospection);
-  } else if (_.isPlainObject(value))
-    return _(value)
-      .toPairs()
-      .sortBy('0')
-      .fromPairs()
-      .mapValues(sortIntrospection)
-      .value();
-  else return value;
+  if (Array.isArray(value)) {
+    if (typeof value[0] === 'string') {
+      return value.sort();
+    } else {
+      return value.map(sortIntrospection);
+    }
+  } else if (typeof value === 'object' && value !== null) {
+    var sortedObj = Object.create(null);
+    for (const key of Object.keys(value).sort()) {
+      sortedObj[key] = sortIntrospection(value[key]);
+    }
+    return sortedObj;
+  } else {
+    return value;
+  }
 }
 
 function assignTypesAndIDs(schema: SimplifiedIntrospection) {
@@ -243,14 +253,16 @@ export function getSchema(introspection: any, sortByAlphabet: boolean, skipRelay
 
   assignTypesAndIDs(schema);
 
-  if (skipRelay) markRelayTypes((<any>schema) as SimplifiedIntrospectionWithIds);
+  if (skipRelay) {
+    markRelayTypes((<any>schema) as SimplifiedIntrospectionWithIds);
+  }
   return schema;
 }
 
 export const getSchemaSelector = createSelector(
-  (state: any) => state.schema,
-  (state: any) => state.displayOptions.sortByAlphabet,
-  (state: any) => state.displayOptions.skipRelay,
+  (state: StateInterface) => state.schema,
+  (state: StateInterface) => state.displayOptions.sortByAlphabet,
+  (state: StateInterface) => state.displayOptions.skipRelay,
   getSchema,
 );
 
@@ -261,15 +273,15 @@ export const getNaSchemaSelector = createSelector(
     const presetValue = state.schemaModal.notApplied.presetValue;
     return presetValue;
   },
-  (state: StateInterface) =>
-    _.get(state, 'schemaModal.notApplied.displayOptions.sortByAlphabet'),
-  (state: StateInterface) =>
-    _.get(state, 'schemaModal.notApplied.displayOptions.skipRelay'),
+  (state: StateInterface) => _.get(state, 'schemaModal.notApplied.displayOptions.sortByAlphabet'),
+  (state: StateInterface) => _.get(state, 'schemaModal.notApplied.displayOptions.skipRelay'),
   (introspection, sortByAlphabet, skipRelay) => {
     if (introspection == null) return { schema: null, error: null };
 
     try {
-      if (typeof introspection === 'string') introspection = JSON.parse(introspection);
+      if (typeof introspection === 'string') {
+        introspection = JSON.parse(introspection);
+      }
 
       //Used only to validate introspection so result is ignored
       buildClientSchema(introspection.data);

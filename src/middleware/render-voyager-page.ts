@@ -27,7 +27,9 @@ export default function renderVoyagerPage(options: MiddlewareOptions) {
       height: 100vh;
     }
   </style>
-  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/graphql-voyager@${version}/dist/voyager.css" />
+  <link rel="stylesheet"
+    href="//cdn.jsdelivr.net/npm/graphql-voyager@${version}/dist/voyager.css"
+  />
   <script src="//cdn.jsdelivr.net/fetch/2.0.1/fetch.min.js"></script>
   <script src="//cdn.jsdelivr.net/react/15.4.2/react.min.js"></script>
   <script src="//cdn.jsdelivr.net/react/15.4.2/react-dom.min.js"></script>
