@@ -1,25 +1,12 @@
 import { Context } from 'koa';
 import renderVoyagerPage, { MiddlewareOptions } from './render-voyager-page';
 
-const { version } = require('../package.json');
-
-interface KoaVoyagerMiddleware {
-  (ctx: Context, next: () => void): void;
-}
-
-interface Register {
-  (options): KoaVoyagerMiddleware;
-}
-
-const koa: Register = function(options) {
-  const middlewareOptions: MiddlewareOptions = {
-    ...options,
-    version,
-  };
-
+export default function koaMiddleware(
+  options: MiddlewareOptions
+): (ctx: Context, next: () => void) => void {
   return async function voyager(ctx, next) {
     try {
-      ctx.body = renderVoyagerPage(middlewareOptions);
+      ctx.body = renderVoyagerPage(options);
       await next();
     } catch (err) {
       ctx.body = { message: err.message };
@@ -27,5 +14,3 @@ const koa: Register = function(options) {
     }
   };
 };
-
-export default koa;

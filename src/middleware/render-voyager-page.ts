@@ -1,12 +1,13 @@
+const { version } = require('../package.json');
+
 export interface MiddlewareOptions {
   endpointUrl: string;
-  version: string;
   displayOptions: object;
   headersJS?: string;
 }
 
 export default function renderVoyagerPage(options: MiddlewareOptions) {
-  const { version, endpointUrl, displayOptions } = options;
+  const { endpointUrl, displayOptions } = options;
   const headersJS = options.headersJS ? options.headersJS : '{}';
   return `
 <!DOCTYPE html>

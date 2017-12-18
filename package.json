@@ -8,7 +8,7 @@
     "start": "webpack-dev-server --config build/webpack.demo.js",
     "clean:release": "rimraf dist middleware",
     "clean:demo": "rimraf demo-dist",
-    "build:middleware": "tsc src/middleware/index.ts --outDir middleware --lib ES6,DOM,esnext.asynciterable",
+    "build:middleware": "tsc -d src/middleware/index.ts --outDir middleware --lib ES6,DOM,esnext.asynciterable",
     "build:release": "npm run clean:release && NODE_ENV=production webpack --config build/webpack.js && rimraf dist/voyager.worker.js.map && npm run build:middleware",
     "build:demo": "npm run clean:demo && NODE_ENV=production webpack -p --config build/webpack.demo.js",
     "deploy": "deploy-to-gh-pages --local --update demo-dist",

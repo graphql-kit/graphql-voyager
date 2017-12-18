@@ -3,8 +3,8 @@ import renderVoyagerPage, { MiddlewareOptions } from './render-voyager-page';
 
 const pkg = require('../package.json');
 
-interface Register {
-  (server: Server, options: any, next: any): void;
+export interface Register {
+  (server: Server, options, next: any): void;
   attributes?: any;
 }
 
@@ -13,20 +13,17 @@ const hapi: Register = function(server, options, next) {
     throw new Error(`Voyager middleware expects exactly 3 arguments, got ${arguments.length}`);
   }
 
-  const { path, route: config = {}, ...voyagerOptions } = options;
-
-  const middlewareOptions: MiddlewareOptions = {
-    ...voyagerOptions,
-    version: pkg.version,
-  };
+  const { path, route: config = {}, ...middlewareOptions } = options;
 
   server.route({
     method: 'GET',
     path,
     config,
     handler: (_request, reply) => {
-      reply(renderVoyagerPage(middlewareOptions)).header('Content-Type', 'text/html');
-    },
+      reply(
+        renderVoyagerPage(<MiddlewareOptions>middlewareOptions),
+      ).header('Content-Type', 'text/html');
+    }
   });
 
   return next();
