@@ -2,7 +2,7 @@ import * as _ from 'lodash';
 
 export function stringifyWrappers(wrappers) {
   return _.reduce(
-    wrappers,
+    wrappers.reverse(),
     ([left, right], wrapper) => {
       switch (wrapper) {
         case 'NON_NULL':
