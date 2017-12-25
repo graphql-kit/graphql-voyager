@@ -2,7 +2,7 @@ const { version } = require('../package.json');
 
 export interface MiddlewareOptions {
   endpointUrl: string;
-  displayOptions: object;
+  displayOptions?: object;
   headersJS?: string;
 }
 
