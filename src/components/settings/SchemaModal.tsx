@@ -15,7 +15,7 @@ import { StateInterface } from '../../reducers';
 import ClipboardButton from 'react-clipboard.js';
 
 import { introspectionQuery } from 'graphql/utilities';
-import { request } from 'graphql-request';
+import { GraphQLClient } from 'graphql-request';
 
 import {
   changeSchema,
@@ -62,7 +62,11 @@ class SchemaModal extends React.Component<SchemaModalProps, SchemaModalState> {
     let url = getQueryParams()['url'];
     if (url) {
       this.props.dispatch(hideSchemaModal());
-      request(url, introspectionQuery)
+      const includeCredentials = getQueryParams()['includeCredentials'] === 'true';
+      const clientOptions = includeCredentials ? { credentials: 'include', mode: 'cors' } : {};
+      const client = new GraphQLClient(url, clientOptions);
+      client
+        .request(introspectionQuery)
         .then(introspection => this.props.dispatch(changeSchema({ data: introspection })))
         .catch(err => {
           this.props.dispatch(
