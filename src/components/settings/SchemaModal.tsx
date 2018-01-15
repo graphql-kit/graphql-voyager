@@ -62,8 +62,8 @@ class SchemaModal extends React.Component<SchemaModalProps, SchemaModalState> {
     let url = getQueryParams()['url'];
     if (url) {
       this.props.dispatch(hideSchemaModal());
-      const includeCredentials = getQueryParams()['includeCredentials'] === 'true';
-      const clientOptions = includeCredentials ? { credentials: 'include', mode: 'cors' } : {};
+      const withCredentials = getQueryParams()['withCredentials'] === 'true';
+      const clientOptions = withCredentials ? { credentials: 'include', mode: 'cors' } : {};
       const client = new GraphQLClient(url, clientOptions);
       client
         .request(introspectionQuery)
