@@ -43,7 +43,7 @@ module system it is exported as `GraphQLVoyager` global variable.
   + `displayOptions.hideDocs` [`boolean`, default `false`] - hide the docs sidebar
   + `displayOptions.hideRoot` [`boolean`, default `false`] - hide the root type
 + `workerURI` [`string`] _(optional)_ - absolute or relative path to Voyager web worker. By default it will try to load it from `voyager.worker.js`.
-+ `loadWorker` [function: `(path: string, relative: boolean) => Promise<Worker>`] - If provided GraphQL Voyager will use this function to load the worker. By default it will use the internal callback in `utils/index.ts`
++ `loadWorker` [function: `(path: string, relative: boolean) => Promise<Worker>`] _(optional)_ - If provided GraphQL Voyager will use this function to load the worker. By default it will use the internal callback in `utils/index.ts`
 
 ### `init` function
 The signature of the `init` function:
