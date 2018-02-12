@@ -2,7 +2,8 @@ import { getDotSelector } from './dot';
 import { observeStore } from '../redux';
 import { svgRenderingFinished, reportError } from '../actions';
 
-import { loadWorker } from '../utils/';
+import { loadWorker as internalLoadWorker } from '../utils/';
+import { WorkerCallback } from '../utils/types';
 
 // just reference it to to trigger worker loader
 require('./viz-worker.worker');
@@ -11,7 +12,7 @@ export class SVGRender {
   worker: Worker;
   unsubscribe: any;
 
-  constructor(public store, workerURI?: string) {
+  constructor(public store, workerURI?: string, loadWorker: WorkerCallback = internalLoadWorker) {
     loadWorker(workerURI || 'voyager.worker.js', !workerURI).then(worker => {
       this.worker = worker;
 

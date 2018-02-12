@@ -24,7 +24,10 @@ import { changeSchema, reportError, changeDisplayOptions } from '../actions/';
 import { typeNameToId } from '../introspection/';
 import { StateInterface } from '../reducers';
 
+import { WorkerCallback } from '../utils/types';
+
 type IntrospectionProvider = (query: string) => Promise<any>;
+
 
 export interface VoyagerDisplayOptions {
   rootType?: string;
@@ -39,6 +42,7 @@ export interface VoyagerProps {
   displayOptions?: VoyagerDisplayOptions;
   hideDocs?: boolean;
   workerURI?: string;
+  loadWorker?: WorkerCallback;
 }
 
 export default class Voyager extends React.Component<VoyagerProps> {
@@ -56,7 +60,8 @@ export default class Voyager extends React.Component<VoyagerProps> {
       hideRoot: PropTypes.bool,
     }),
     hideDocs: PropTypes.bool,
-    workerURI: PropTypes.string
+    workerURI: PropTypes.string,
+    loadWorker: PropTypes.func,
   };
 
   viewport: Viewport;
@@ -70,7 +75,7 @@ export default class Voyager extends React.Component<VoyagerProps> {
 
   componentDidMount() {
     // init viewport and svg-renderer
-    this.renderer = new SVGRender(this.store, this.props.workerURI);
+    this.renderer = new SVGRender(this.store, this.props.workerURI, this.props.loadWorker);
     this.viewport = new Viewport(this.store, this.refs['viewport'] as HTMLElement);
 
     this.updateIntrospection();
