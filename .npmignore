@@ -1,4 +1,5 @@
 node_modules
+.ghpages-tmp
 .tmp
 demo-dist
 
