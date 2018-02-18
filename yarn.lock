@@ -5985,9 +5985,9 @@ viewport-dimensions@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/viewport-dimensions/-/viewport-dimensions-0.2.0.tgz#de740747db5387fd1725f5175e91bac76afdf36c"
 
-viz.js@1.7.1:
-  version "1.7.1"
-  resolved "https://registry.yarnpkg.com/viz.js/-/viz.js-1.7.1.tgz#55bb93650b0504e746ccbcd32f43ac94522008b1"
+viz.js@1.8.0:
+  version "1.8.0"
+  resolved "https://registry.yarnpkg.com/viz.js/-/viz.js-1.8.0.tgz#e0cb5ad241368e35b1a6e960691eba454c24951f"
 
 vm-browserify@0.0.4:
   version "0.0.4"
