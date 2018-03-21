@@ -57,16 +57,15 @@ The signature of the `init` function:
 
 ### Using pre-bundled version
 You can get GraphQL Voyager bundle from the following places:
-+ our GitHub Pages-based CDN
-  + some exact version - https://apis.guru/graphql-voyager/releases/v1.0.0-rc.3/voyager.min.js
-  + latest 1.x version - https://apis.guru/graphql-voyager/releases/v1.x/voyager.min.js
-+ download zip from [releases](https://github.com/APIs-guru/graphql-voyager/releases) page and use files from `dist` folder
++ jsDelivr CDN
+  + some exact version - https://cdn.jsdelivr.net/npm/graphql-voyager/v1.0.0-rc.15/voyager.min.js
+  + latest version - https://cdn.jsdelivr.net/npm/graphql-voyager/dist/voyager.min.js
 + from `dist` folder of the npm package `graphql-voyager`
 
 **Important:** for the latest two options make sure to copy `voyager.worker.js` to the same
 folder as `voyager.min.js`.
 
-The HTML with minimal setup (see the full [example](./example))
+**The HTML with minimal setup** (see the full [example](./example))
 
 ```html
 <!DOCTYPE html>
@@ -75,8 +74,8 @@ The HTML with minimal setup (see the full [example](./example))
     <script src="//cdn.jsdelivr.net/react/15.4.2/react.min.js"></script>
     <script src="//cdn.jsdelivr.net/react/15.4.2/react-dom.min.js"></script>
 
-    <link rel="stylesheet" href="./node_modules/graphql-voyager/dist/voyager.css" />
-    <script src="./node_modules/graphql-voyager/dist/voyager.min.js"></script>
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/graphql-voyager/dist/voyager.css" />
+    <script src="//cdn.jsdelivr.net/npm/graphql-voyager/dist/voyager.min.js"></script>
   </head>
   <body>
     <div id="voyager">Loading...</div>
