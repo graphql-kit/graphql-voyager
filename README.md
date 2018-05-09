@@ -137,46 +137,32 @@ Build for the web with [webpack](https://webpack.js.org/) ([example](./example/w
 ## Middleware
 Graphql Voyager has middleware for the next frameworks:
 
+### Properties
+Middleware supports the following properties:
+
+ + `endpointUrl` [`string`] - the GraphQL endpoint url.
+ + `displayOptions` [`object`] - same as [here](#Properties)
+ + `headersJS` [`string`, default `"{}"`] - object of headers serialized in string to be used on endpoint url<BR>
+ **Note:** You can also use any JS expression which results in an object with header names as keys and strings as values e.g. `{ Authorization: localStorage['Meteor.loginToken'] }`
+
 ### Express
 
-#### Properties
-Express middleware supports the following properties:
-
-+ `options`
-  + `endpointUrl` [`string`] - the GraphQL endpoint url.
-  + `displayOptions` [`object`] - same as [here](#Properties)
-  + `headersJS` [`string`, default `"{}"`] - object of headers serialized in string to be used on endpoint url
-	+ You can also use any JS expression which results in an object with header names as keys and strings as values e.g. `{ Authorization: localStorage['Meteor.loginToken'] }`
-
-#### Usage
 ```js
 import express from 'express';
-import { express as middleware } from 'graphql-voyager/middleware';
+import { express as voyagerMiddleware } from 'graphql-voyager/middleware';
 
 const app = express();
 
-app.use('/voyager', middleware({ endpointUrl: '/graphql' }));
+app.use('/voyager', voyagerMiddleware({ endpointUrl: '/graphql' }));
 
-app.listen(3000);
+app.listen(3001);
 ```
 
 ### Hapi
 
-#### Properties
-Hapi middleware supports the following properties:
-
-+ `options`
-  + `path` [`string`] - the Voyager middleware url
-  + `voyagerOptions`
-      + `endpointUrl` [`string`] - the GraphQL endpoint url.
-      + `displayOptions` [`object`] - same as [here](#Properties)
-	  + `headersJS` [`string`, default `"{}"`] - object of headers serialized in string to be used on endpoint url
-	    + You can also use any JS expression which results in an object with header names as keys and strings as values e.g. `{ Authorization: localStorage['Meteor.loginToken'] }`
-
-#### Usage
 ```js
 import hapi from 'hapi';
-import { hapi as middleware } from 'graphql-voyager/middleware';
+import { hapi as voyagerMiddleware } from 'graphql-voyager/middleware';
 
 const server = new Hapi.Server();
 
@@ -185,7 +171,7 @@ server.connection({
 });
 
 server.register({
-  register: middleware,
+  register: voyagerMiddleware,
   options: {
     path: '/voyager',
     endpointUrl: '/graphql'
@@ -195,20 +181,10 @@ server.register({
 
 ### Koa
 
-#### Properties
-Koa middleware supports the following properties:
-
-+ `options`
-  + `endpointUrl` [`string`] - the GraphQL endpoint url.
-  + `displayOptions` [`object`] - same as [here](#Properties)
-  + `headersJS` [`string`, default `"{}"`] - object of headers serialized in string to be used on endpoint url
-	+ You can also use any JS expression which results in an object with header names as keys and strings as values e.g. `{ Authorization: localStorage['Meteor.loginToken'] }`
-
-#### Usage
 ```js
 import Koa from 'koa';
 import KoaRouter from 'koa-router';
-import { koa as middleware } from 'graphql-voyager/middleware';
+import { koa as voyagerMiddleware } from 'graphql-voyager/middleware';
 
 const app = new Koa();
 const router = new KoaRouter();
