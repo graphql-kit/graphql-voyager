@@ -161,9 +161,34 @@ app.listen(3001);
 
 ### Hapi
 
+#### Version 17+
 ```js
 import hapi from 'hapi';
 import { hapi as voyagerMiddleware } from 'graphql-voyager/middleware';
+
+const server = new Hapi.Server({
+  port: 3001
+});
+
+const init = async () => {
+  await server.register({
+    plugin: voyagerMiddleware,
+    options: {
+      path: '/voyager',
+      endpointUrl: '/graphql'
+    }
+  });
+
+  await server.start();
+};
+
+init();
+```
+
+#### Legacy Versions
+```js
+import hapi from 'hapi';
+import { hapiLegacy as voyagerMiddleware } from 'graphql-voyager/middleware';
 
 const server = new Hapi.Server();
 
