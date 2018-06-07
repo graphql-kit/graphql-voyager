@@ -2,7 +2,7 @@
 
 .title-area {
   padding: 0 var(--panel-spacing);
-  & > .logo {
+  & > a > .logo {
     padding: 20px 0;
     display: flex;
     align-items: center;
@@ -49,5 +49,10 @@
 
   & > .choosebutton {
     width: 100%;
+  }
+
+  & a, & a:hover {
+    text-decoration: none;
+    outline: none;
   }
 }

@@ -19,12 +19,14 @@ class TitleArea extends React.Component<TitleAreaProps> {
     const { dispatch, _showChangeButton } = this.props;
     return (
       <div className="title-area">
-        <div className="logo">
-          <LogoIcon />
-          <h2 className="title">
-            <strong>GraphQL</strong> Voyager
-          </h2>
-        </div>
+        <a href="https://github.com/APIs-guru/graphql-voyager">
+          <div className="logo">
+            <LogoIcon />
+            <h2 className="title">
+              <strong>GraphQL</strong> Voyager
+            </h2>
+          </div>
+        </a>
         {_showChangeButton && (
           <Button
             className="choosebutton"
