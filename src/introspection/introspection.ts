@@ -84,7 +84,7 @@ function convertType(inType: IntrospectionType): SimplifiedType {
         .value();
       break;
     case 'ENUM':
-      outType.enumValues = inType.enumValues;
+      outType.enumValues = inType.enumValues.slice();
       break;
     case 'INPUT_OBJECT':
       outType.inputFields = _(inType.inputFields)
