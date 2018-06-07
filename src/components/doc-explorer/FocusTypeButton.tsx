@@ -13,7 +13,7 @@ interface FocusTypeButtonProps {
   dispatch: any;
 }
 
-function FocusTypeButton(props: FocusTypeButtonProps) {
+const FocusTypeButton: React.SFC<FocusTypeButtonProps> = (props) => {
   return (
     <IconButton className="eye-button" onClick={() => props.dispatch(focusElement(props.type.id))}>
       <EyeIcon />
