@@ -7,5 +7,5 @@ demo-dist
 stats.json
 npm-debug.log
 
-lib
+/lib
 /middleware
