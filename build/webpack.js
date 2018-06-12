@@ -148,6 +148,7 @@ let baseConfig = {
     }),
 
     new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
       'VERSION': VERSION,
       'DEBUG': false,
       'DEBUG_INITIAL_PRESET': false

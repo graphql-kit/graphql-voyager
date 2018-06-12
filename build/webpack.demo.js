@@ -144,6 +144,7 @@ module.exports = function() {
       }),
 
       new webpack.DefinePlugin({
+        'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
         'VERSION': VERSION,
         'DEBUG': !IS_PRODUCTION,
         'DEBUG_INITIAL_PRESET': IS_PRODUCTION ? 'false': '"Star Wars"'
