@@ -6,7 +6,6 @@ import * as classNames from 'classnames';
 
 import './SchemaModal.css';
 import * as buttonDarkTheme from './button-dark.theme.css';
-import * as settingsDarkTheme from './settings-dark.theme.css';
 
 import { Button, IconButton } from 'react-toolbox/lib/button';
 import CloseIcon from '../icons/close-black.svg';
@@ -23,10 +22,8 @@ import {
   showSchemaModal,
   changeActivePreset,
   changeNaActivePreset,
-  changeNaDisplayOptions,
   reportError,
 } from '../../actions/';
-import { Settings } from './Settings';
 import { getNaSchemaSelector } from '../../introspection';
 import { getQueryParams } from '../../utils/';
 
@@ -92,16 +89,12 @@ class SchemaModal extends React.Component<SchemaModalProps, SchemaModalState> {
     this.props.dispatch(changeNaActivePreset(name, this.props.presets[name]));
   }
 
-  handleDisplayOptionsChange(options) {
-    this.props.dispatch(changeNaDisplayOptions(options));
-  }
-
   handleChange() {
-    const { notApplied: { activePreset, displayOptions, presetValue } } = this.props;
+    const { notApplied: { activePreset, presetValue } } = this.props;
 
     let schema = activePreset === 'custom' ? JSON.parse(presetValue) : presetValue;
     this.props.dispatch(changeActivePreset(activePreset));
-    this.props.dispatch(changeSchema(schema, displayOptions));
+    this.props.dispatch(changeSchema(schema));
     this.props.dispatch(hideSchemaModal());
   }
 
@@ -191,7 +184,7 @@ class SchemaModal extends React.Component<SchemaModalProps, SchemaModalState> {
   modalContent(presetNames, notApplied, schema) {
     if (notApplied === null) return null;
 
-    const { activePreset, displayOptions, presetValue } = notApplied;
+    const { activePreset, presetValue } = notApplied;
     const validSelected = !!schema.schema;
     const errorMessage = schema.error;
 
@@ -224,12 +217,6 @@ class SchemaModal extends React.Component<SchemaModalProps, SchemaModalState> {
           })}
         >
           <div className={classNames('modal-message', 'content', infoClass)}>{infoMessage}</div>
-          <Settings
-            theme={settingsDarkTheme}
-            schema={schema.schema}
-            options={displayOptions}
-            onChange={options => this.handleDisplayOptionsChange(options)}
-          />
         </div>
         <Button
           raised

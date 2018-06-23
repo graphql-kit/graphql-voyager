@@ -25,6 +25,8 @@ import { typeNameToId } from '../introspection/';
 import { StateInterface } from '../reducers';
 
 import { WorkerCallback } from '../utils/types';
+import Settings from './settings/Settings';
+import * as settingsFloatingTheme from './settings/settings-floating.theme.css';
 
 type IntrospectionProvider = (query: string) => Promise<any>;
 
@@ -41,6 +43,7 @@ export interface VoyagerProps {
   introspection: IntrospectionProvider | Object | boolean;
   displayOptions?: VoyagerDisplayOptions;
   hideDocs?: boolean;
+  hideSettings?: boolean;
   workerURI?: string;
   loadWorker?: WorkerCallback;
 }
@@ -60,6 +63,7 @@ export default class Voyager extends React.Component<VoyagerProps> {
       hideRoot: PropTypes.bool,
     }),
     hideDocs: PropTypes.bool,
+    hideSettings: PropTypes.bool,
     workerURI: PropTypes.string,
     loadWorker: PropTypes.func,
   };
@@ -122,7 +126,7 @@ export default class Voyager extends React.Component<VoyagerProps> {
   }
 
   render() {
-    let { _schemaPresets, hideDocs = false } = this.props;
+    let { _schemaPresets, hideDocs = false, hideSettings } = this.props;
 
     let showModal = !!_schemaPresets;
 
@@ -130,6 +134,9 @@ export default class Voyager extends React.Component<VoyagerProps> {
       <Provider store={this.store}>
         <div className="graphql-voyager">
           {!hideDocs && <DocPanel _showChangeButton={!!_schemaPresets} />}
+          {!hideSettings && <Settings
+            theme={settingsFloatingTheme}
+          />}
           <div ref="viewport" className="viewport" />
           <ErrorBar />
           <LoadingAnimation />

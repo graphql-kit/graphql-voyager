@@ -17,7 +17,6 @@ export type StateInterface = {
     opened: boolean;
     activePreset: string | null;
     notApplied: {
-      displayOptions: DisplayOptions;
       presetValue: any;
       activePreset: string;
     } | null;
@@ -201,7 +200,6 @@ export function rootReducer(previousState = initialState, action) {
           notApplied: {
             //schema: schema,
             activePreset: previousState.schemaModal.activePreset,
-            displayOptions: previousState.displayOptions,
             presetValue,
           },
         },
@@ -227,21 +225,9 @@ export function rootReducer(previousState = initialState, action) {
             ...previousState.schemaModal.notApplied,
             presetValue: naSchema,
             activePreset: naActivePreset,
-            displayOptions: initialState.displayOptions,
           },
         },
         errorMessage: initialState.errorMessage,
-      };
-    case ActionTypes.CHANGE_NOT_APPLIED_DISPLAY_OPTIONS:
-      return {
-        ...previousState,
-        schemaModal: {
-          ...previousState.schemaModal,
-          notApplied: {
-            ...previousState.schemaModal.notApplied,
-            displayOptions: action.payload,
-          },
-        },
       };
     case ActionTypes.HIDE_SCHEMA_MODAL:
       return {
