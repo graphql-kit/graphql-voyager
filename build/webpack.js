@@ -62,13 +62,15 @@ let baseConfig = {
       exclude: [/\.(spec|e2e)\.ts$/]
     },
     {
-      test: /\.worker.js$/,
-      use: {
-        loader: 'worker-loader',
-        options: {
-          name: 'voyager.worker.js'
-        }
-      }
+      test: /\.render\.js$/,
+      use: [
+        {
+          loader: 'file-loader',
+          options: {
+            name: 'voyager.worker.js',
+          },
+        },
+      ],
     },
     {
       test: /\.css$/,

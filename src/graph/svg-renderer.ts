@@ -5,16 +5,20 @@ import { svgRenderingFinished, reportError } from '../actions';
 import { loadWorker as defaultLoadWorker } from '../utils/';
 import { WorkerCallback } from '../utils/types';
 
-// just reference it to to trigger worker loader
-require('./viz-worker.worker');
+import Viz from 'viz.js';
+import defaultWorkerURI from 'viz.js/full.render.js';
 
 export class SVGRender {
-  worker: Worker;
   unsubscribe: any;
+  viz: any;
 
-  constructor(public store, workerURI?: string, loadWorker: WorkerCallback = defaultLoadWorker) {
-    loadWorker(workerURI || 'voyager.worker.js', !workerURI).then(worker => {
-      this.worker = worker;
+  constructor(
+    public store,
+    workerURI: string = defaultWorkerURI,
+    loadWorker: WorkerCallback = defaultLoadWorker,
+  ) {
+    loadWorker(workerURI || defaultWorkerURI, !workerURI).then(worker => {
+      this.viz = new Viz({ worker });
 
       this.unsubscribe = observeStore(
         store,
@@ -32,13 +36,11 @@ export class SVGRender {
   }
 
   _renderSvg(dot) {
-    let cb = event => {
-      let data = event.data;
-      if (data.result === 'success') this.store.dispatch(svgRenderingFinished(data.svgString));
-      else this.store.dispatch(reportError(data.msg));
-      this.worker.removeEventListener('message', cb);
-    };
-    this.worker.postMessage({ dot });
-    this.worker.addEventListener('message', cb);
+    this.viz.renderString(dot)
+      .then(svg => this.store.dispatch(svgRenderingFinished(svg)))
+      .catch(error => {
+        const msg = error.message || 'Unknown error';
+        this.store.dispatch(reportError(msg));
+      });
   }
 }
