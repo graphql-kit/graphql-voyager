@@ -41,8 +41,8 @@ module system it is exported as `GraphQLVoyager` global variable.
   + `displayOptions.skipRelay` [`boolean`, default `true`] - skip relay-related entities
   + `displayOptions.rootType` [`string`] - name of the type to be used as a root
   + `displayOptions.sortByAlphabet` [`boolean`, default `false`] - sort fields on graph by alphabet
-  + `displayOptions.hideDocs` [`boolean`, default `false`] - hide the docs sidebar
   + `displayOptions.hideRoot` [`boolean`, default `false`] - hide the root type
++ `hideDocs` [`boolean`, default `false`] - hide the docs sidebar
 + `hideSettings` [`boolean`, default `false`] - hide settings panel
 + `workerURI` [`string`] _(optional)_ - absolute or relative path to Voyager web worker. By default it will try to load it from `voyager.worker.js`.
 + `loadWorker` [function: `(path: string, relative: boolean) => Promise<Worker>`] _(optional)_ - If provided GraphQL Voyager will use this function to load the worker. By default it will use the internal callback in `utils/index.ts`
