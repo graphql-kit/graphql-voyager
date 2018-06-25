@@ -36,8 +36,12 @@ export class SVGRender {
   }
 
   _renderSvg(dot) {
+    console.time('Rendering Graph');
     this.viz.renderString(dot)
-      .then(svg => this.store.dispatch(svgRenderingFinished(svg)))
+      .then(svg => {
+        this.store.dispatch(svgRenderingFinished(svg));
+        console.timeEnd('Rendering Graph');
+      })
       .catch(error => {
         const msg = error.message || 'Unknown error';
         this.store.dispatch(reportError(msg));
