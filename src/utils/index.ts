@@ -19,9 +19,16 @@ export function getQueryParams(query = location.search) {
 export function loadWorker(path: string, relative: boolean): Promise<Worker> {
   const url = relative ? __dirname + '/' + path : path;
   return fetch(url)
-    .then(response => response.blob())
-    .then(script => {
-      var url = URL.createObjectURL(script);
+    .then(response => response.text())
+    .then(payload => {
+      // HACK: to increase viz.js memory size from 16mb to 128mb
+      // should use response.blob()
+      payload = payload.replace(
+        '||16777216;',
+        '||134217728;'
+      );
+      const script = new Blob([payload], { type: 'application/javascript' });
+      const url = URL.createObjectURL(script);
       return new Worker(url);
     });
 }
