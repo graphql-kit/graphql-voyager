@@ -4,7 +4,7 @@ import { createSelector } from 'reselect';
 import { buildClientSchema, IntrospectionSchema, IntrospectionType } from 'graphql';
 import { SimplifiedIntrospection, SimplifiedIntrospectionWithIds, SimplifiedType } from './types';
 
-import { typeNameToId } from './utils';
+import { typeNameToId, parseTextToIntrospection } from './utils';
 
 function unwrapType(type, wrappers) {
   while (type.kind === 'NON_NULL' || type.kind == 'LIST') {
@@ -280,7 +280,7 @@ export const getNaSchemaSelector = createSelector(
 
     try {
       if (typeof introspection === 'string') {
-        introspection = JSON.parse(introspection);
+        introspection = parseTextToIntrospection(introspection);
       }
 
       //Used only to validate introspection so result is ignored

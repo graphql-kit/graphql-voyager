@@ -1,4 +1,21 @@
 import * as _ from 'lodash';
+import { buildSchema, introspectionFromSchema } from 'graphql/utilities';
+
+export function parseTextToIntrospection(text) {
+  try {
+    return JSON.parse(text);
+  } catch(jsonError) {
+    try {
+      const schema = buildSchema(text);
+      return {
+        data: introspectionFromSchema(schema, { descriptions: true }),
+      };
+    } catch(sdlError) {
+      throw new Error(jsonError.message + '\n' + sdlError);
+    }
+  }
+}
+
 
 export function stringifyWrappers(wrappers) {
   return _.reduce(

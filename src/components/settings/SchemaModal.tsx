@@ -24,7 +24,10 @@ import {
   changeNaActivePreset,
   reportError,
 } from '../../actions/';
-import { getNaSchemaSelector } from '../../introspection';
+import {
+  getNaSchemaSelector,
+  parseTextToIntrospection,
+} from '../../introspection';
 import { getQueryParams } from '../../utils/';
 
 interface SchemaModalProps {
@@ -92,7 +95,9 @@ class SchemaModal extends React.Component<SchemaModalProps, SchemaModalState> {
   handleChange() {
     const { notApplied: { activePreset, presetValue } } = this.props;
 
-    let schema = activePreset === 'custom' ? JSON.parse(presetValue) : presetValue;
+    let schema = activePreset === 'custom'
+      ? parseTextToIntrospection(presetValue)
+      : presetValue;
     this.props.dispatch(changeActivePreset(activePreset));
     this.props.dispatch(changeSchema(schema));
     this.props.dispatch(hideSchemaModal());
@@ -155,8 +160,7 @@ class SchemaModal extends React.Component<SchemaModalProps, SchemaModalState> {
           <div className="card-content">
             <p>
               {' '}
-              Run the introspection query against a GraphQL endpoint. Paste the result into the
-              textarea below to view the model relationships.
+              Paste the SDL or introspection result into the textarea below to view the model relationships.
             </p>
             <ClipboardButton
               component="a"
@@ -173,7 +177,7 @@ class SchemaModal extends React.Component<SchemaModalProps, SchemaModalState> {
               value={customPresetText || ''}
               disabled={!isActive}
               onChange={this.handleTextChange.bind(this)}
-              placeholder="Paste Introspection Here"
+              placeholder="Paste SDL/Introspection Here"
             />
           </div>
         </div>
