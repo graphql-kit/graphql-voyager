@@ -31,15 +31,14 @@ export class Viewport {
 
     this._unsubscribe = observeStore(
       store,
-      state => state.currentSvgIndex,
-      svgIdx => {
+      state => state.graphView.svg,
+      svg => {
         unsubscribe.forEach(f => f());
         unsubscribe = [];
 
-        if (svgIdx === null) return;
+        if (svg === null) return;
 
-        let cachedSvg = store.getState().svgCache[svgIdx];
-        this.display(cachedSvg.svg);
+        this.display(svg);
 
         subscribe(state => state.selected.currentNodeId, id => this.selectNodeById(id));
         subscribe(state => state.selected.currentEdgeId, id => this.selectEdgeById(id));

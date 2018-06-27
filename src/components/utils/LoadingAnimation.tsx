@@ -12,7 +12,7 @@ interface LoadingAnimationProps {
 
 function mapStateToProps(state) {
   return {
-    loading: state.currentSvgIndex === null,
+    loading: state.graphView.svg === null,
   };
 }
 

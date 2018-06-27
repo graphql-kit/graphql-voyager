@@ -22,11 +22,6 @@ export type StateInterface = {
     } | null;
   };
   displayOptions: DisplayOptions;
-  currentSvgIndex: number | null;
-  svgCache: {
-    displayOptions: DisplayOptions;
-    svg: string;
-  }[];
   selected: {
     previousTypesIds: string[];
     currentNodeId: string | null;
@@ -34,6 +29,7 @@ export type StateInterface = {
     scalar: string | null;
   };
   graphView: {
+    svg: string;
     focusedId: string | null;
   };
   menuOpened: boolean;
@@ -53,8 +49,6 @@ const initialState: StateInterface = {
     sortByAlphabet: false,
     hideRoot: false,
   },
-  currentSvgIndex: null,
-  svgCache: [],
   selected: {
     previousTypesIds: [],
     currentNodeId: null,
@@ -62,6 +56,7 @@ const initialState: StateInterface = {
     scalar: null,
   },
   graphView: {
+    svg: null,
     focusedId: null,
   },
   menuOpened: false,
@@ -85,8 +80,6 @@ export function rootReducer(previousState = initialState, action) {
         ...previousState,
         schema: action.payload.introspection,
         displayOptions: _.defaults(action.payload.displayOptions, initialState.displayOptions),
-        svgCache: [],
-        currentSvgIndex: null,
         graphView: initialState.graphView,
         selected: initialState.selected,
       };
@@ -95,26 +88,19 @@ export function rootReducer(previousState = initialState, action) {
         ...previousState.displayOptions,
         ...action.payload,
       };
-      let cacheIdx = _.findIndex(previousState.svgCache, cacheItem => {
-        return _.isEqual(cacheItem.displayOptions, displayOptions);
-      });
       return {
         ...previousState,
         displayOptions,
-        currentSvgIndex: cacheIdx >= 0 ? cacheIdx : null,
         graphView: initialState.graphView,
         selected: initialState.selected,
       };
     case ActionTypes.SVG_RENDERING_FINISHED:
       return {
         ...previousState,
-        svgCache: previousState.svgCache.concat([
-          {
-            displayOptions: previousState.displayOptions,
-            svg: action.payload,
-          },
-        ]),
-        currentSvgIndex: previousState.svgCache.length,
+        graphView: {
+          ...previousState.graphView,
+          svg: action.payload,
+        },
       };
     case ActionTypes.SELECT_NODE:
       const currentNodeId = action.payload;

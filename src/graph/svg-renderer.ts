@@ -22,10 +22,9 @@ export class SVGRender {
 
       this.unsubscribe = observeStore(
         store,
-        state => state.currentSvgIndex,
         getDotSelector,
-        (currentSvgIndex, dot) => {
-          if (currentSvgIndex === null && dot !== null) this._renderSvg(dot);
+        dot => {
+          if (dot !== null) this._renderSvg(dot);
         },
       );
     });
