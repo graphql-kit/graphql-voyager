@@ -99,10 +99,6 @@ module.exports = function() {
         use: 'json-loader'
       },
       {
-        test: /\.ejs$/,
-        loader: 'ejs-compiled-loader'
-      },
-      {
         test: /\.svg$/,
         use: [
           {

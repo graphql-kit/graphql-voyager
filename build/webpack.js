@@ -113,10 +113,6 @@ let baseConfig = {
       use: 'json-loader'
     },
     {
-      test: /\.ejs$/,
-      loader: 'ejs-compiled-loader?strict=true'
-    },
-    {
       test: /\.svg$/,
       use: [
         {
