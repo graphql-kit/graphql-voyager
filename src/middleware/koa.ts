@@ -2,7 +2,7 @@ import { Context } from 'koa';
 import renderVoyagerPage, { MiddlewareOptions } from './render-voyager-page';
 
 export default function koaMiddleware(
-  options: MiddlewareOptions
+  options: MiddlewareOptions,
 ): (ctx: Context, next: () => void) => void {
   return async function voyager(ctx, next) {
     try {
@@ -13,4 +13,4 @@ export default function koaMiddleware(
       ctx.status = err.status || 500;
     }
   };
-};
+}

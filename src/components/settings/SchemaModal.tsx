@@ -90,7 +90,9 @@ class SchemaModal extends React.Component<SchemaModalProps, SchemaModalState> {
   }
 
   handleChange() {
-    const { notApplied: { activePreset, presetValue } } = this.props;
+    const {
+      notApplied: { activePreset, presetValue },
+    } = this.props;
 
     this.props.dispatch(changeActivePreset(activePreset));
     this.props.dispatch(changeSchema(presetValue));
@@ -154,7 +156,8 @@ class SchemaModal extends React.Component<SchemaModalProps, SchemaModalState> {
           <div className="card-content">
             <p>
               {' '}
-              Paste the SDL or introspection result into the textarea below to view the model relationships.
+              Paste the SDL or introspection result into the textarea below to view the model
+              relationships.
             </p>
             <ClipboardButton
               component="a"

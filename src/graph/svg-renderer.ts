@@ -20,13 +20,9 @@ export class SVGRender {
     loadWorker(workerURI || defaultWorkerURI, !workerURI).then(worker => {
       this.viz = new Viz({ worker });
 
-      this.unsubscribe = observeStore(
-        store,
-        getDotSelector,
-        dot => {
-          if (dot !== null) this._renderSvg(dot);
-        },
-      );
+      this.unsubscribe = observeStore(store, getDotSelector, dot => {
+        if (dot !== null) this._renderSvg(dot);
+      });
     });
   }
 
@@ -36,7 +32,8 @@ export class SVGRender {
 
   _renderSvg(dot) {
     console.time('Rendering Graph');
-    this.viz.renderString(dot)
+    this.viz
+      .renderString(dot)
       .then(svg => {
         this.store.dispatch(svgRenderingFinished(svg));
         console.timeEnd('Rendering Graph');

@@ -23,10 +23,7 @@ export function loadWorker(path: string, relative: boolean): Promise<Worker> {
     .then(payload => {
       // HACK: to increase viz.js memory size from 16mb to 128mb
       // should use response.blob()
-      payload = payload.replace(
-        '||16777216;',
-        '||134217728;'
-      );
+      payload = payload.replace('||16777216;', '||134217728;');
       const script = new Blob([payload], { type: 'application/javascript' });
       const url = URL.createObjectURL(script);
       return new Worker(url);

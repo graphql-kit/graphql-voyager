@@ -20,10 +20,11 @@ const hapi: Register = function(server, options, next) {
     path,
     config,
     handler: (_request, reply) => {
-      reply(
-        renderVoyagerPage(<MiddlewareOptions>middlewareOptions),
-      ).header('Content-Type', 'text/html');
-    }
+      reply(renderVoyagerPage(<MiddlewareOptions>middlewareOptions)).header(
+        'Content-Type',
+        'text/html',
+      );
+    },
   });
 
   return next();

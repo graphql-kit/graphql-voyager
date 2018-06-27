@@ -30,7 +30,6 @@ import * as settingsFloatingTheme from './settings/settings-floating.theme.css';
 
 type IntrospectionProvider = (query: string) => Promise<any>;
 
-
 export interface VoyagerDisplayOptions {
   rootType?: string;
   skipRelay?: boolean;
@@ -134,9 +133,7 @@ export default class Voyager extends React.Component<VoyagerProps> {
       <Provider store={this.store}>
         <div className="graphql-voyager">
           {!hideDocs && <DocPanel _showChangeButton={!!_schemaPresets} />}
-          {!hideSettings && <Settings
-            theme={settingsFloatingTheme}
-          />}
+          {!hideSettings && <Settings theme={settingsFloatingTheme} />}
           <div ref="viewport" className="viewport" />
           <ErrorBar />
           <LoadingAnimation />

@@ -65,4 +65,7 @@ export class Settings extends React.Component<SettingsProps> {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Settings);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Settings);
