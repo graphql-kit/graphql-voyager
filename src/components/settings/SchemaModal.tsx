@@ -24,10 +24,7 @@ import {
   changeNaActivePreset,
   reportError,
 } from '../../actions/';
-import {
-  getNaSchemaSelector,
-  parseTextToIntrospection,
-} from '../../introspection';
+import { getNaSchemaSelector } from '../../introspection';
 import { getQueryParams } from '../../utils/';
 
 interface SchemaModalProps {
@@ -95,11 +92,8 @@ class SchemaModal extends React.Component<SchemaModalProps, SchemaModalState> {
   handleChange() {
     const { notApplied: { activePreset, presetValue } } = this.props;
 
-    let schema = activePreset === 'custom'
-      ? parseTextToIntrospection(presetValue)
-      : presetValue;
     this.props.dispatch(changeActivePreset(activePreset));
-    this.props.dispatch(changeSchema(schema));
+    this.props.dispatch(changeSchema(presetValue));
     this.props.dispatch(hideSchemaModal());
   }
 

@@ -246,6 +246,10 @@ function assignTypesAndIDs(schema: SimplifiedIntrospection) {
 export function getSchema(introspection: any, sortByAlphabet: boolean, skipRelay: boolean) {
   if (!introspection) return null;
 
+  if (typeof introspection === 'string') {
+    introspection = parseTextToIntrospection(introspection);
+  }
+
   //TODO: Check introspection result for errors
   var schema = simplifySchema(introspection.data.__schema);
 

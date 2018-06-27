@@ -191,7 +191,6 @@ export function rootReducer(previousState = initialState, action) {
         },
       };
     case ActionTypes.SHOW_SCHEMA_MODAL:
-      const presetValue = JSON.stringify(previousState.schema);
       return {
         ...previousState,
         schemaModal: {
@@ -200,7 +199,7 @@ export function rootReducer(previousState = initialState, action) {
           notApplied: {
             //schema: schema,
             activePreset: previousState.schemaModal.activePreset,
-            presetValue,
+            presetValue: previousState.schema,
           },
         },
         errorMessage: initialState.errorMessage,
