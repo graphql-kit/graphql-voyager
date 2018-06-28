@@ -1,10 +1,34 @@
 import { StateInterface } from '../reducers';
 import * as _ from 'lodash';
 import { createSelector } from 'reselect';
-import { buildClientSchema, IntrospectionSchema, IntrospectionType } from 'graphql';
+import {
+  parse,
+  buildASTSchema,
+  buildClientSchema,
+  introspectionFromSchema,
+  IntrospectionSchema,
+  IntrospectionType,
+} from 'graphql';
 import { SimplifiedIntrospection, SimplifiedIntrospectionWithIds, SimplifiedType } from './types';
+import { typeNameToId } from './utils';
 
-import { typeNameToId, parseTextToIntrospection } from './utils';
+function parseTextToIntrospection(text) {
+  try {
+    return JSON.parse(text);
+  } catch(jsonError) {
+    let ast;
+    try {
+      ast = parse(text);
+    } catch(sdlError) {
+      throw new Error(jsonError.message + '\n' + sdlError);
+    }
+
+    const schema = buildASTSchema(ast);
+    return {
+      data: introspectionFromSchema(schema, { descriptions: true }),
+    };
+  }
+}
 
 function unwrapType(type, wrappers) {
   while (type.kind === 'NON_NULL' || type.kind == 'LIST') {
