@@ -6,28 +6,33 @@ import {
   buildASTSchema,
   buildClientSchema,
   introspectionFromSchema,
+  lexicographicSortSchema,
   IntrospectionSchema,
   IntrospectionType,
+  GraphQLSchema,
 } from 'graphql';
 import { SimplifiedIntrospection, SimplifiedIntrospectionWithIds, SimplifiedType } from './types';
 import { typeNameToId } from './utils';
 
-function parseTextToIntrospection(text) {
-  try {
-    return JSON.parse(text);
-  } catch (jsonError) {
-    let ast;
-    try {
-      ast = parse(text);
-    } catch (sdlError) {
-      throw new Error(jsonError.message + '\n' + sdlError);
-    }
+function inputToSchema(input: any): GraphQLSchema {
+  let ast;
+  let json;
 
-    const schema = buildASTSchema(ast);
-    return {
-      data: introspectionFromSchema(schema, { descriptions: true }),
-    };
+  if (typeof input === 'string') {
+    try {
+      json = JSON.parse(input);
+    } catch(jsonError) {
+      try {
+        ast = parse(input);
+      } catch(sdlError) {
+        throw new Error(jsonError.message + '\n' + sdlError);
+      }
+    }
+  } else {
+    json = input;
   }
+
+  return json ? buildClientSchema(json.data) : buildASTSchema(ast);
 }
 
 function unwrapType(type, wrappers) {
@@ -202,24 +207,6 @@ function markRelayTypes(schema: SimplifiedIntrospectionWithIds): void {
   }
 }
 
-function sortIntrospection(value) {
-  if (Array.isArray(value)) {
-    if (typeof value[0] === 'string') {
-      return value.sort();
-    } else {
-      return value.map(sortIntrospection);
-    }
-  } else if (typeof value === 'object' && value !== null) {
-    var sortedObj = Object.create(null);
-    for (const key of Object.keys(value).sort()) {
-      sortedObj[key] = sortIntrospection(value[key]);
-    }
-    return sortedObj;
-  } else {
-    return value;
-  }
-}
-
 function assignTypesAndIDs(schema: SimplifiedIntrospection) {
   (<any>schema).queryType = schema.types[schema.queryType];
   (<any>schema).mutationType = schema.types[schema.mutationType];
@@ -267,24 +254,23 @@ function assignTypesAndIDs(schema: SimplifiedIntrospection) {
   schema.types = _.keyBy(schema.types, 'id');
 }
 
-export function getSchema(introspection: any, sortByAlphabet: boolean, skipRelay: boolean) {
-  if (!introspection) return null;
+export function getSchema(schemaValue: any, sortByAlphabet: boolean, skipRelay: boolean) {
+  if (!schemaValue) return null;
 
-  if (typeof introspection === 'string') {
-    introspection = parseTextToIntrospection(introspection);
+  let schema = inputToSchema(schemaValue);
+  if (sortByAlphabet) {
+    schema = lexicographicSortSchema(schema);
   }
 
-  //TODO: Check introspection result for errors
-  var schema = simplifySchema(introspection.data.__schema);
+  const introspection = introspectionFromSchema(schema, { descriptions: true });
+  let simpleSchema = simplifySchema(introspection.__schema);
 
-  if (sortByAlphabet) schema = sortIntrospection(schema);
-
-  assignTypesAndIDs(schema);
+  assignTypesAndIDs(simpleSchema);
 
   if (skipRelay) {
-    markRelayTypes((<any>schema) as SimplifiedIntrospectionWithIds);
+    markRelayTypes((<any>simpleSchema) as SimplifiedIntrospectionWithIds);
   }
-  return schema;
+  return simpleSchema;
 }
 
 export const getSchemaSelector = createSelector(
@@ -303,18 +289,11 @@ export const getNaSchemaSelector = createSelector(
   },
   (state: StateInterface) => _.get(state, 'schemaModal.notApplied.displayOptions.sortByAlphabet'),
   (state: StateInterface) => _.get(state, 'schemaModal.notApplied.displayOptions.skipRelay'),
-  (introspection, sortByAlphabet, skipRelay) => {
-    if (introspection == null) return { schema: null, error: null };
+  (schemaValue, sortByAlphabet, skipRelay) => {
+    if (schemaValue == null) return { schema: null, error: null };
 
     try {
-      if (typeof introspection === 'string') {
-        introspection = parseTextToIntrospection(introspection);
-      }
-
-      //Used only to validate introspection so result is ignored
-      buildClientSchema(introspection.data);
-
-      const schema = getSchema(introspection, sortByAlphabet, skipRelay);
+      const schema = getSchema(schemaValue, sortByAlphabet, skipRelay);
       return { schema, error: null };
     } catch (e) {
       console.error(e);
