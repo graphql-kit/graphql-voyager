@@ -55,7 +55,7 @@ function getDot(typeGraph): string {
 function nodeLabel(node) {
   const htmlID = HtmlId('TYPE_TITLE::' + node.name);
   const kindLabel = node.kind !== 'OBJECT'
-    ? '<<' + node.kind.toLowerCase() + '>>'
+    ? '&lt;&lt;' + node.kind.toLowerCase() + '&gt;&gt;'
     : '';
 
   return `
