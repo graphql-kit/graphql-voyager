@@ -176,53 +176,6 @@ export function rootReducer(previousState = initialState, action) {
           focusedId: null,
         },
       };
-    case ActionTypes.SHOW_SCHEMA_MODAL:
-      return {
-        ...previousState,
-        schemaModal: {
-          ...previousState.schemaModal,
-          opened: true,
-          notApplied: {
-            //schema: schema,
-            activePreset: previousState.schemaModal.activePreset,
-            presetValue: previousState.schema,
-          },
-        },
-        errorMessage: initialState.errorMessage,
-      };
-    case ActionTypes.CHANGE_ACTIVE_PRESET:
-      return {
-        ...previousState,
-        schemaModal: {
-          ...previousState.schemaModal,
-          activePreset: action.payload,
-        },
-      };
-    case ActionTypes.CHANGE_NOT_APPLIED_ACTIVE_PRESET:
-      const naActivePreset = action.payload.presetName;
-      const naSchema = action.payload.schema;
-
-      return {
-        ...previousState,
-        schemaModal: {
-          ...previousState.schemaModal,
-          notApplied: {
-            ...previousState.schemaModal.notApplied,
-            presetValue: naSchema,
-            activePreset: naActivePreset,
-          },
-        },
-        errorMessage: initialState.errorMessage,
-      };
-    case ActionTypes.HIDE_SCHEMA_MODAL:
-      return {
-        ...previousState,
-        schemaModal: {
-          ...previousState.schemaModal,
-          opened: false,
-          notApplied: null,
-        },
-      };
     case ActionTypes.TOGGLE_MENU:
       return {
         ...previousState,

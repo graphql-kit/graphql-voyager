@@ -4,7 +4,6 @@ import { createSelector } from 'reselect';
 import {
   parse,
   buildASTSchema,
-  buildClientSchema,
   introspectionFromSchema,
   lexicographicSortSchema,
   IntrospectionSchema,
