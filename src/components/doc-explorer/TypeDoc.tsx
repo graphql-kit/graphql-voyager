@@ -148,9 +148,15 @@ class TypeDoc extends React.Component<TypeDocProps> {
   render() {
     const { selectedType, selectedEdgeId, typeGraph } = this.props;
 
+    if (!typeGraph) {
+      return (<div className="type-doc">
+        <span className="loading"> Loading... </span>;
+      </div>);
+    }
+
     return (
       <div className="type-doc">
-        {(typeGraph && <DocNavigation />) || <span className="loading"> Loading... </span>}
+        <DocNavigation />
         {!selectedType ? (
           <TypeList typeGraph={typeGraph} />
         ) : (
