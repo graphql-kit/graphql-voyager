@@ -1,7 +1,12 @@
 @import '../src/components/variables.css';
 
-.title-area {
+.voyager-panel {
   padding: 0 var(--panel-spacing);
+  display: flex;
+  flex-direction: column
+}
+
+.voyager-logo {
   & > a > .logo {
     padding: 20px 0;
     display: flex;

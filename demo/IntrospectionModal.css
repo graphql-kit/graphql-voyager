@@ -1,0 +1,59 @@
+@import '../src/components/variables.css';
+
+.modal-paper {
+  position: absolute;
+  z-index: 10;
+
+  width: 75%;
+  height: 75%;
+  min-height: 500px;
+  transform: translate(-50%, -50%);
+  overflow: hidden;
+  border-radius: 4px;
+  outline: none;
+  top: 50%;
+  left: 50%;
+  box-shadow: 0px 0px 10px 0px var(--shadow-color);
+  background: white;
+
+  display: flex;
+  flex-direction: column;
+
+  padding: var(--panel-spacing);
+
+  @media (--small-viewport) {
+    width: 90%;
+    height: 90%;
+  }
+}
+
+.tab-container {
+  flex: 1;
+  padding: 10px 0;
+  display: flex;
+  flex-direction: column;
+
+  & > textarea {
+    width: 100%;
+    box-sizing: border-box;
+    flex: 1;
+    outline: none;
+    padding: 10px;
+    font-size: 14px;
+  }
+}
+
+.copy-button {
+  user-select: none;
+  cursor: pointer;
+  margin: 5px 0;
+  text-align: center;
+}
+
+.model-footer {
+  text-align: right;
+
+  & > button {
+    margin-left: 20px;
+  }
+}

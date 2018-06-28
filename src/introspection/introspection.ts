@@ -20,10 +20,10 @@ function inputToSchema(input: any): GraphQLSchema {
   if (typeof input === 'string') {
     try {
       json = JSON.parse(input);
-    } catch(jsonError) {
+    } catch (jsonError) {
       try {
         ast = parse(input);
-      } catch(sdlError) {
+      } catch (sdlError) {
         throw new Error(jsonError.message + '\n' + sdlError);
       }
     }

@@ -131,13 +131,15 @@ export default class Voyager extends React.Component<VoyagerProps> {
 
     const children = React.Children.toArray(this.props.children);
 
-    const panelHeader = children.find((child:React.ReactElement<any>) => child.type === Voyager.PanelHeader)
+    const panelHeader = children.find(
+      (child: React.ReactElement<any>) => child.type === Voyager.PanelHeader,
+    );
 
     return (
       <Provider store={this.store}>
         <MuiThemeProvider theme={theme}>
           <div className="graphql-voyager">
-            {!hideDocs && <DocPanel header={panelHeader}/>}
+            {!hideDocs && <DocPanel header={panelHeader} />}
             {!hideSettings && <Settings />}
             <div ref="viewport" className="viewport" />
             <ErrorBar />
@@ -150,7 +152,7 @@ export default class Voyager extends React.Component<VoyagerProps> {
 
   static PanelHeader = props => {
     return props.children || null;
-  }
+  };
 }
 
 // Duck-type promise detection.
