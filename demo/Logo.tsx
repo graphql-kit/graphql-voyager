@@ -1,14 +1,9 @@
 import * as React from 'react';
-import { connect } from 'react-redux';
 
-import './TitleArea.css';
-import LogoIcon from '../icons/logo-small.svg';
+import './Logo.css';
+import LogoIcon from './icons/logo-small.svg';
 
-interface TitleAreaProps {
-  _showChangeButton: boolean;
-}
-
-class TitleArea extends React.Component<TitleAreaProps> {
+export default class TitleArea extends React.Component {
   render() {
     return (
       <div className="title-area">
@@ -24,5 +19,3 @@ class TitleArea extends React.Component<TitleAreaProps> {
     );
   }
 }
-
-export default connect()(TitleArea);

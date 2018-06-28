@@ -1,4 +1,4 @@
-@import '../variables.css';
+@import '../src/components/variables.css';
 
 .title-area {
   padding: 0 var(--panel-spacing);
@@ -45,10 +45,6 @@
         font-size: 1.4em;
       }
     }
-  }
-
-  & > .choosebutton {
-    width: 100%;
   }
 
   & a, & a:hover {

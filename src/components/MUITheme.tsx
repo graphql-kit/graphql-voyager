@@ -4,8 +4,6 @@ import yellow from '@material-ui/core/colors/yellow';
 
 import variables from './variables.css';
 
-console.log(variables);
-
 export const theme = createMuiTheme({
   palette: {
     primary: cyan,

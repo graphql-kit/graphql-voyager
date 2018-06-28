@@ -45,6 +45,8 @@ export interface VoyagerProps {
   hideSettings?: boolean;
   workerURI?: string;
   loadWorker?: WorkerCallback;
+
+  children?: React.ReactNode;
 }
 
 export default class Voyager extends React.Component<VoyagerProps> {
@@ -125,13 +127,17 @@ export default class Voyager extends React.Component<VoyagerProps> {
   }
 
   render() {
-    let { _schemaPresets, hideDocs = false, hideSettings } = this.props;
+    let { hideDocs = false, hideSettings } = this.props;
+
+    const children = React.Children.toArray(this.props.children);
+
+    const panelHeader = children.find((child:React.ReactElement<any>) => child.type === Voyager.PanelHeader)
 
     return (
       <Provider store={this.store}>
         <MuiThemeProvider theme={theme}>
           <div className="graphql-voyager">
-            {!hideDocs && <DocPanel _showChangeButton={!!_schemaPresets} />}
+            {!hideDocs && <DocPanel header={panelHeader}/>}
             {!hideSettings && <Settings />}
             <div ref="viewport" className="viewport" />
             <ErrorBar />
@@ -140,6 +146,10 @@ export default class Voyager extends React.Component<VoyagerProps> {
         </MuiThemeProvider>
       </Provider>
     );
+  }
+
+  static PanelHeader = props => {
+    return props.children || null;
   }
 }
 
