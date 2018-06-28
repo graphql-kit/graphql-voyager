@@ -157,15 +157,15 @@ class TypeDoc extends React.Component<TypeDocProps> {
     return (
       <div className="type-doc">
         <DocNavigation />
-        {!selectedType ? (
-          <TypeList typeGraph={typeGraph} />
-        ) : (
           <div className="scroll-area">
-            <Description className="-doc-type" text={selectedType.description} />
-            {this.renderTypesDef(selectedType, typeGraph, selectedEdgeId)}
-            {this.renderFields(selectedType, selectedEdgeId)}
+            {!selectedType ? (
+              <TypeList typeGraph={typeGraph} />
+            ) : (<>
+              <Description className="-doc-type" text={selectedType.description} />
+              {this.renderTypesDef(selectedType, typeGraph, selectedEdgeId)}
+              {this.renderFields(selectedType, selectedEdgeId)}
+            </>)}
           </div>
-        )}
       </div>
     );
   }

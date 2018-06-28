@@ -36,7 +36,7 @@ class TypeList extends React.Component<TypeListProps> {
       .value();
 
     return (
-      <div className="scroll-area doc-explorer-type-list">
+      <div className="doc-explorer-type-list">
         {rootType && this.renderItem(rootType, '-root')}
         {_.map(types, type => this.renderItem(type))}
       </div>
