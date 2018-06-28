@@ -5,12 +5,12 @@
   width: var(--icons-size);
   min-width: var(--icons-size);
   padding: 0;
-  margin-left: var(--spacing-unit);
   vertical-align: middle;
 
-  & > svg {
+  & svg {
     line-height: var(--icons-size);
     height: var(--icons-size);
+    width: 20px;
 
     & path:not([fill]) {
       fill: var(--primary-color);

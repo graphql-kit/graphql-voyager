@@ -5,7 +5,7 @@ import * as classNames from 'classnames';
 import './TypeInfoPopover.css';
 
 import CloseIcon from '../icons/close-black.svg';
-import { IconButton } from 'react-toolbox/lib/button';
+import IconButton from '@material-ui/core/IconButton';
 
 import { changeSelectedTypeInfo } from '../../actions';
 

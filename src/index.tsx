@@ -6,4 +6,4 @@ function init(element: HTMLElement, options: VoyagerProps) {
   ReactDOM.render(<Voyager {...options} />, element);
 }
 
-export { Voyager, init };
+export { Voyager as GraphQLVoyager, Voyager, init };

@@ -87,31 +87,12 @@ let baseConfig = {
           'postcss-loader?sourceMap'
         ]
       }),
-      exclude: [/(react-toolbox\/.*\.css$|\.theme.css$)/]
+      exclude: /variables\.css$/, 
     },
     {
-      test: /(react-toolbox\/.*\.css$|\.theme.css$)/,
-      use: ExtractTextPlugin.extract({
-        fallback: 'style-loader',
-        use: [
-          {
-            loader: 'css-loader',
-            query: {
-              sourceMap: true,
-              modules: true,
-              minimize: true,
-              importLoaders: 1,
-              localIdentName: '[name]_[local]-[hash:base64:5]'
-            },
-          },
-          'postcss-loader?sourceMap'
-        ]
-      })
-    },
-    {
-      test: /\.json$/,
-      use: 'json-loader'
-    },
+      test: /variables\.css$/,
+      loader: 'postcss-variables-loader?es5=1'
+    },  
     {
       test: /\.svg$/,
       use: [
@@ -147,9 +128,7 @@ let baseConfig = {
 
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
-      'VERSION': VERSION,
-      'DEBUG': false,
-      'DEBUG_INITIAL_PRESET': false
+      'VERSION': VERSION
     }),
 
     new ExtractTextPlugin({

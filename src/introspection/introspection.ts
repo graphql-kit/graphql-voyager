@@ -15,11 +15,11 @@ import { typeNameToId } from './utils';
 function parseTextToIntrospection(text) {
   try {
     return JSON.parse(text);
-  } catch(jsonError) {
+  } catch (jsonError) {
     let ast;
     try {
       ast = parse(text);
-    } catch(sdlError) {
+    } catch (sdlError) {
       throw new Error(jsonError.message + '\n' + sdlError);
     }
 

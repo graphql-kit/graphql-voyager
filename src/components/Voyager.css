@@ -17,7 +17,6 @@
   & > .doc-panel {
     width: var(--doc-panel-width);
     min-width: var(--doc-panel-width);
-    height: 100%;
     background: var(--doc-panel-bg-color);
     box-sizing: border-box;
     position: relative;
@@ -25,7 +24,6 @@
   }
 
   & > .viewport {
-    height: 100%;
     flex: 1;
     max-height: 100vh;
 

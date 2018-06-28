@@ -5,7 +5,7 @@ import { rootReducer } from './reducers';
 
 export function configureStore(preloadedState?): Store<any> {
   let composeEnhancers;
-  if (DEBUG) {
+  if (process.env.NODE_ENV === 'development') {
     composeEnhancers = window['__REDUX_DEVTOOLS_EXTENSION_COMPOSE__'] || compose;
   } else {
     composeEnhancers = compose;

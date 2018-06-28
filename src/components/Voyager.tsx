@@ -2,11 +2,12 @@ import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import * as _ from 'lodash';
 
-import { Provider, Store } from 'react-redux';
+import { introspectionQuery } from 'graphql/utilities';
+import { Provider } from 'react-redux';
+import { Store } from 'redux';
+import { MuiThemeProvider } from '@material-ui/core/styles';
 
 import { configureStore } from '../redux';
-
-import { introspectionQuery } from 'graphql/utilities';
 
 import './Voyager.css';
 import './viewport.css';
@@ -14,7 +15,6 @@ import './viewport.css';
 import ErrorBar from './utils/ErrorBar';
 import LoadingAnimation from './utils/LoadingAnimation';
 import DocPanel from './panel/DocPanel';
-import SchemaModal from './settings/SchemaModal';
 
 import { SVGRender } from './../graph/';
 import { Viewport } from './../graph/';
@@ -26,7 +26,7 @@ import { StateInterface } from '../reducers';
 
 import { WorkerCallback } from '../utils/types';
 import Settings from './settings/Settings';
-import * as settingsFloatingTheme from './settings/settings-floating.theme.css';
+import { theme } from './MUITheme';
 
 type IntrospectionProvider = (query: string) => Promise<any>;
 
@@ -127,18 +127,17 @@ export default class Voyager extends React.Component<VoyagerProps> {
   render() {
     let { _schemaPresets, hideDocs = false, hideSettings } = this.props;
 
-    let showModal = !!_schemaPresets;
-
     return (
       <Provider store={this.store}>
-        <div className="graphql-voyager">
-          {!hideDocs && <DocPanel _showChangeButton={!!_schemaPresets} />}
-          {!hideSettings && <Settings theme={settingsFloatingTheme} />}
-          <div ref="viewport" className="viewport" />
-          <ErrorBar />
-          <LoadingAnimation />
-          {showModal && <SchemaModal presets={_schemaPresets} />}
-        </div>
+        <MuiThemeProvider theme={theme}>
+          <div className="graphql-voyager">
+            {!hideDocs && <DocPanel _showChangeButton={!!_schemaPresets} />}
+            {!hideSettings && <Settings />}
+            <div ref="viewport" className="viewport" />
+            <ErrorBar />
+            <LoadingAnimation />
+          </div>
+        </MuiThemeProvider>
       </Provider>
     );
   }

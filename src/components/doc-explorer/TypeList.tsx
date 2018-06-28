@@ -18,8 +18,7 @@ class TypeList extends React.Component<TypeListProps> {
   renderItem(type, className?: string) {
     return (
       <div key={type.id} className={classNames('typelist-item', className || '')}>
-        <TypeLink type={type} />
-        <FocusTypeButton type={type} />
+        <TypeLink type={type} /> <FocusTypeButton type={type} />
         <Description className="-doc-type" text={type.description} />
       </div>
     );

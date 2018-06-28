@@ -3,21 +3,20 @@ import * as React from 'react';
 
 import { isNode, getDefaultRoot } from '../../graph/';
 
-import Dropdown from 'react-toolbox/lib/dropdown';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
 
 import './RootSelector.css';
 
 interface RootSelectorProps {
   rootTypeId?: string;
   schema: any;
-
-  theme: any;
   onChange: any;
 }
 
 export default class RootSelector extends React.Component<RootSelectorProps> {
   render() {
-    let { rootTypeId, theme, schema, onChange } = this.props;
+    let { rootTypeId, schema, onChange } = this.props;
 
     if (schema === null) return null;
 
@@ -41,16 +40,17 @@ export default class RootSelector extends React.Component<RootSelectorProps> {
     }));
     typesList = [...typesList, ...types.map(type => ({ value: type.id, label: type.name }))];
     return (
-      <Dropdown
+      <Select
         className="root-selector"
-        theme={theme}
-        source={typesList}
-        onChange={value => {
-          onChange(value);
-        }}
+        onChange={event => onChange(event.target.value)}
         value={rootTypeId}
-        template={item => (item.bold ? <strong> {item.label} </strong> : <span>{item.label}</span>)}
-      />
+      >
+        {typesList.map(item => (
+          <MenuItem value={item.value} key={item.value}>
+            {item.bold ? <strong> {item.label} </strong> : <span>{item.label}</span>}
+          </MenuItem>
+        ))}
+      </Select>
     );
   }
 }

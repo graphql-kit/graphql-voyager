@@ -40,8 +40,7 @@ class DocNavigation extends React.Component<DocNavigationProps> {
         )) || <span className="header">Type List</span>}
         {selectedType && (
           <span className="active">
-            {selectedType.name}
-            <FocusTypeButton type={selectedType} />
+            {selectedType.name} <FocusTypeButton type={selectedType} />
           </span>
         )}
       </div>

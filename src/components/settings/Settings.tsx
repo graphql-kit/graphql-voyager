@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 
-import Checkbox from 'react-toolbox/lib/checkbox';
+import Checkbox from '@material-ui/core/Checkbox';
+
 import RootSelector from './RootSelector';
 
 import { getSchemaSelector } from '../../introspection';
@@ -10,7 +11,6 @@ import { changeDisplayOptions } from '../../actions/';
 interface SettingsProps {
   schema: any;
   options: any;
-  theme: any;
   onChange: any;
 }
 
@@ -32,33 +32,32 @@ function mapDispatchToProps(dispatch) {
 
 export class Settings extends React.Component<SettingsProps> {
   render() {
-    let { schema, options, theme, onChange } = this.props;
+    let { schema, options, onChange } = this.props;
 
     return (
       <div className="menu-content">
         <div className="setting-change-root">
-          <h3> Root Node </h3>
           <RootSelector
-            theme={theme}
             schema={schema}
             rootTypeId={options.rootTypeId}
             onChange={rootTypeId => onChange({ ...options, rootTypeId })}
           />
         </div>
         <div className="setting-other-options">
-          <h3> Options </h3>
           <Checkbox
-            label="Sort by Alphabet"
-            theme={theme}
+            id="sort"
+            color="primary"
             checked={!!options.sortByAlphabet}
-            onChange={sortByAlphabet => onChange({ ...options, sortByAlphabet })}
+            onChange={event => onChange({ ...options, sortByAlphabet: event.target.checked })}
           />
+          <label htmlFor="sort">Sort by Alphabet</label>
           <Checkbox
-            label="Skip Relay"
-            theme={theme}
+            id="skip"
+            color="primary"
             checked={!!options.skipRelay}
-            onChange={skipRelay => onChange({ ...options, skipRelay })}
+            onChange={event => onChange({ ...options, skipRelay: event.target.checked })}
           />
+          <label htmlFor="skip">Skip Relay</label>
         </div>
       </div>
     );

@@ -1,8 +1,7 @@
-import * as _ from 'lodash';
-
 import { createSelector } from 'reselect';
-import { stringifyWrappers } from '../introspection/';
 import { getTypeGraphSelector } from './type-graph';
+import { stringifyWrappers } from '../introspection/';
+import * as _ from 'lodash';
 
 export const getDotSelector = createSelector(getTypeGraphSelector, getDot);
 
@@ -11,7 +10,9 @@ function getDot(typeGraph): string {
     return typeGraph.nodes[type.id] !== undefined;
   }
 
-  return typeGraph && `
+  return (
+    typeGraph &&
+    `
     digraph {
       graph [
         rankdir = "LR"
@@ -24,44 +25,60 @@ function getDot(typeGraph): string {
       edge [
       ];
       ranksep = 2.0
-      ${objectValues(typeGraph.nodes, node => `
+      ${objectValues(
+        typeGraph.nodes,
+        node => `
         "${node.name}" [
           id = "${node.id}"
           label = ${nodeLabel(node)}
         ]
-        ${objectValues(node.fields, field => isNode(field.type) ? `
+        ${objectValues(
+          node.fields,
+          field =>
+            isNode(field.type)
+              ? `
           "${node.name}":"${field.name}" -> "${field.type.name}" [
             id = "${field.id} => ${field.type.id}"
             label = "${node.name}:${field.name}"
           ]
-        ` : '')};
-        ${array(node.possibleTypes, ({id, type}) => `
+        `
+              : '',
+        )};
+        ${array(
+          node.possibleTypes,
+          ({ id, type }) => `
           "${node.name}":"${type.name}" -> "${type.name}" [
             id = "${id} => ${type.id}"
             style = "dashed"
           ]
-        `)}
-        ${array(node.derivedTypes, ({id, type}) => `
+        `,
+        )}
+        ${array(
+          node.derivedTypes,
+          ({ id, type }) => `
           "${node.name}":"${type.name}" -> "${type.name}" [
             id = "${id} => ${type.id}"
             style = "dotted"
           ]
-        `)}
-      `)}
+        `,
+        )}
+      `,
+      )}
     }
-  `;
+  `
+  );
 }
 
 function nodeLabel(node) {
   const htmlID = HtmlId('TYPE_TITLE::' + node.name);
-  const kindLabel = node.kind !== 'OBJECT'
-    ? '&lt;&lt;' + node.kind.toLowerCase() + '&gt;&gt;'
-    : '';
+  const kindLabel = node.kind !== 'OBJECT' ? '&lt;&lt;' + node.kind.toLowerCase() + '&gt;&gt;' : '';
 
   return `
     <<TABLE ALIGN="LEFT" BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5">
       <TR>
-        <TD CELLPADDING="4" ${htmlID}><FONT POINT-SIZE="18">${node.name}</FONT><BR/>${kindLabel}</TD>
+        <TD CELLPADDING="4" ${htmlID}><FONT POINT-SIZE="18">${
+    node.name
+  }</FONT><BR/>${kindLabel}</TD>
       </TR>
       ${objectValues(node.fields, nodeField)}
       ${possibleTypes(node)}
@@ -96,11 +113,14 @@ function possibleTypes(node) {
     <TR>
       <TD>possible types</TD>
     </TR>
-    ${array(possibleTypes, ({id, type}) => `
+    ${array(
+      possibleTypes,
+      ({ id, type }) => `
       <TR>
         <TD ${HtmlId(id)} ALIGN="LEFT" PORT="${type.name}">${type.name}</TD>
       </TR>
-    `)}
+    `,
+    )}
   `;
 }
 
@@ -113,25 +133,24 @@ function derivedTypes(node) {
     <TR>
       <TD>implementations</TD>
     </TR>
-    ${array(derivedTypes, ({id, type}) => `
+    ${array(
+      derivedTypes,
+      ({ id, type }) => `
       <TR>
         <TD ${HtmlId(id)} ALIGN="LEFT" PORT="${type.name}">${type.name}</TD>
       </TR>
-    `)}
+    `,
+    )}
   `;
 }
 
-function objectValues<X>(
-  object: {[key: string]: X},
-  stringify: (X) => string,
-): string {
-  return _.values(object).map(stringify).join('\n');
+function objectValues<X>(object: { [key: string]: X }, stringify: (X) => string): string {
+  return _.values(object)
+    .map(stringify)
+    .join('\n');
 }
 
-function array<X>(
-  array: [X],
-  stringify: (X) => string,
-): string {
+function array<X>(array: [X], stringify: (X) => string): string {
   return array ? array.map(stringify).join('\n') : '';
 }
 
@@ -140,8 +159,7 @@ function HtmlId(id) {
 }
 
 function TEXT(str) {
-  if (str === '')
-    return '';
+  if (str === '') return '';
   str = str.replace(/]/, '&#93;');
   return '<FONT>' + str + '</FONT>';
 }

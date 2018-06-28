@@ -1,6 +1,0 @@
-@import '../variables.css';
-
-.error-bar {
-  width: 50%;
-  background: var(--alert-color);
-}

@@ -42,3 +42,4 @@
 }
 
 @custom-media --small-viewport (max-width: 780px);
+@custom-media --big-viewport (min-width: 781px);
