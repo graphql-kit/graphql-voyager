@@ -1,9 +1,4 @@
-node_modules
-.ghpages-tmp
-.tmp
-demo-dist
-
-stats.json
-npm-debug.log
-
-build
+*
+!dist/*
+!typings
+!package.json
