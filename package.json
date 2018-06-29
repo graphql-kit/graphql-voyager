@@ -16,7 +16,6 @@
     "build:demo": "npm run clean:demo && NODE_ENV=production webpack -p --config build/webpack.demo.js",
     "deploy": "deploy-to-gh-pages --local --update demo-dist",
     "stats": "NODE_ENV=production webpack --json --mode=production --config build/webpack.js > stats.json",
-    "prepare-ghpages": "node build/prepare-ghpages.js",
     "prettier": "prettier --write \"{,!(node_modules)/**/}*.{ts,tsx}\""
   },
   "author": "",
