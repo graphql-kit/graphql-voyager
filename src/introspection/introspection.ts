@@ -2,37 +2,14 @@ import { StateInterface } from '../reducers';
 import * as _ from 'lodash';
 import { createSelector } from 'reselect';
 import {
-  parse,
-  buildASTSchema,
+  buildClientSchema,
   introspectionFromSchema,
   lexicographicSortSchema,
   IntrospectionSchema,
   IntrospectionType,
-  GraphQLSchema,
 } from 'graphql';
 import { SimplifiedIntrospection, SimplifiedIntrospectionWithIds, SimplifiedType } from './types';
 import { typeNameToId } from './utils';
-
-function inputToSchema(input: any): GraphQLSchema {
-  let ast;
-  let json;
-
-  if (typeof input === 'string') {
-    try {
-      json = JSON.parse(input);
-    } catch (jsonError) {
-      try {
-        ast = parse(input);
-      } catch (sdlError) {
-        throw new Error(jsonError.message + '\n' + sdlError);
-      }
-    }
-  } else {
-    json = input;
-  }
-
-  return json ? buildClientSchema(json.data) : buildASTSchema(ast);
-}
 
 function unwrapType(type, wrappers) {
   while (type.kind === 'NON_NULL' || type.kind == 'LIST') {
@@ -253,15 +230,15 @@ function assignTypesAndIDs(schema: SimplifiedIntrospection) {
   schema.types = _.keyBy(schema.types, 'id');
 }
 
-export function getSchema(schemaValue: any, sortByAlphabet: boolean, skipRelay: boolean) {
-  if (!schemaValue) return null;
+function getSchema(introspection: any, sortByAlphabet: boolean, skipRelay: boolean) {
+  if (!introspection) return null;
 
-  let schema = inputToSchema(schemaValue);
+  let schema = buildClientSchema(introspection.data);
   if (sortByAlphabet) {
     schema = lexicographicSortSchema(schema);
   }
 
-  const introspection = introspectionFromSchema(schema, { descriptions: true });
+  introspection = introspectionFromSchema(schema, { descriptions: true });
   let simpleSchema = simplifySchema(introspection.__schema);
 
   assignTypesAndIDs(simpleSchema);
@@ -277,26 +254,4 @@ export const getSchemaSelector = createSelector(
   (state: StateInterface) => state.displayOptions.sortByAlphabet,
   (state: StateInterface) => state.displayOptions.skipRelay,
   getSchema,
-);
-
-export const getNaSchemaSelector = createSelector(
-  (state: StateInterface) => {
-    if (state.schemaModal.notApplied === null) return null;
-
-    const presetValue = state.schemaModal.notApplied.presetValue;
-    return presetValue;
-  },
-  (state: StateInterface) => _.get(state, 'schemaModal.notApplied.displayOptions.sortByAlphabet'),
-  (state: StateInterface) => _.get(state, 'schemaModal.notApplied.displayOptions.skipRelay'),
-  (schemaValue, sortByAlphabet, skipRelay) => {
-    if (schemaValue == null) return { schema: null, error: null };
-
-    try {
-      const schema = getSchema(schemaValue, sortByAlphabet, skipRelay);
-      return { schema, error: null };
-    } catch (e) {
-      console.error(e);
-      return { error: e.toString(), schema: null };
-    }
-  },
 );

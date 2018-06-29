@@ -15,7 +15,7 @@ export default class Demo extends React.Component {
 
   state = {
     activePreset: this.presetNames[0],
-    customPresetModalOpen: true,
+    customPresetModalOpen: false,
     customPresetValue: null,
   };
 
