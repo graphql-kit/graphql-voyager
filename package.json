@@ -3,6 +3,7 @@
   "version": "1.0.0-rc.19",
   "description": "GraphQL introspection viewer",
   "main": "dist/voyager.lib.js",
+  "types": "typings/index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack-dev-server --config build/webpack.demo.js --hot --inline --mode=development",
@@ -12,11 +13,12 @@
     "bundle:lib": "webpack --env.lib --mode=production --config build/webpack.js",
     "bundle": "npm run bundle:lib && npm run bundle:standalone",
     "compile:middleware": "tsc -d src/middleware/index.ts --outDir middleware --lib ES6,DOM,esnext.asynciterable",
-    "build:release": "npm run bundle && npm run compile:middleware",
+    "build:release": "npm run bundle && npm run compile:middleware && npm run declarations",
     "build:demo": "npm run clean:demo && NODE_ENV=production webpack -p --config build/webpack.demo.js",
     "deploy": "deploy-to-gh-pages --local --update demo-dist",
     "stats": "NODE_ENV=production webpack --json --mode=production --config build/webpack.js > stats.json",
-    "prettier": "prettier --write \"{,!(node_modules)/**/}*.{ts,tsx}\""
+    "prettier": "prettier --write \"{,!(node_modules)/**/}*.{ts,tsx}\"",
+    "declarations": "tsc --emitDeclarationOnly -p tsconfig.lib.json"
   },
   "author": "",
   "license": "MIT",

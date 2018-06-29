@@ -1,0 +1,8 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "declaration": true,
+    "declarationDir": "typings"
+  },
+  "include": ["./src/**/*.ts", "./src/**/*.tsx", "./manual-types.d.ts" ]
+}

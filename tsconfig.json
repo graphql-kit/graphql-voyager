@@ -17,9 +17,5 @@
   },
   "compileOnSave": false,
   "exclude": ["node_modules", ".tmp", "dist", "demo-dist", "**/**/voyager.worker.js"],
-  "include": ["./src/**/*.ts", "./src/**/*.tsx", "./manual-types.d.ts", "demo/**/*.tsx"],
-  "awesomeTypescriptLoaderOptions": {
-    "resolveGlobs": true,
-    "useWebpackText": true
-  }
+  "include": ["./src/**/*.ts", "./src/**/*.tsx", "./manual-types.d.ts", "demo/**/*.tsx"]
 }
