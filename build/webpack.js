@@ -17,6 +17,10 @@ module.exports = (env = {}, { mode }) => ({
     hints: false,
   },
 
+  optimization: {
+    minimize: !env.lib,
+  },
+
   resolve: {
     extensions: ['.ts', '.tsx', '.mjs', '.js', '.json', '.css', '.svg'],
     alias: {
@@ -24,21 +28,23 @@ module.exports = (env = {}, { mode }) => ({
     },
   },
 
-  externals: env.lib ? nodeExternals : {
-    react: {
-      root: 'React',
-      commonjs2: 'react',
-      commonjs: 'react',
-      amd: 'react'
-    },
-    'react-dom': {
-      root: 'ReactDOM',
-      commonjs2: 'react-dom',
-      commonjs: 'react-dom',
-      amd: 'react-dom'
-    }
-  },
-  entry: ['./src/vendor.ts', './src/index.tsx'],
+  externals: env.lib
+    ? nodeExternals
+    : {
+        react: {
+          root: 'React',
+          commonjs2: 'react',
+          commonjs: 'react',
+          amd: 'react',
+        },
+        'react-dom': {
+          root: 'ReactDOM',
+          commonjs2: 'react-dom',
+          commonjs: 'react-dom',
+          amd: 'react-dom',
+        },
+      },
+  entry: ['./src/polyfills.ts', './src/index.tsx'],
   output: {
     path: root('dist'),
     filename: env.lib ? 'voyager.lib.js' : 'voyager.min.js',
@@ -51,7 +57,7 @@ module.exports = (env = {}, { mode }) => ({
     rules: [
       {
         test: /\.tsx?$/,
-        use: 'awesome-typescript-loader',
+        use: 'ts-loader',
         exclude: [/\.(spec|e2e)\.ts$/],
       },
       {

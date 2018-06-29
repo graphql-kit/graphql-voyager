@@ -14,7 +14,7 @@ module.exports = function(_, { mode }) {
     resolve: {
       extensions: ['.ts', '.tsx', '.mjs', '.js', '.json', '.css', '.svg'],
     },
-    entry: ['./src/vendor.ts', './demo/index.tsx'],
+    entry: ['./src/polyfills.ts', './demo/index.tsx'],
     devServer: {
       contentBase: root('demo'),
       watchContentBase: true,
@@ -30,7 +30,7 @@ module.exports = function(_, { mode }) {
       rules: [
         {
           test: /\.tsx?$/,
-          use: 'awesome-typescript-loader',
+          use: 'ts-loader',
           exclude: [/\.(spec|e2e)\.ts$/],
         },
         {
@@ -69,7 +69,6 @@ module.exports = function(_, { mode }) {
               loader: 'babel-loader',
               options: {
                 plugins: [
-                  'transform-es2015-classes',
                   'transform-es2015-block-scoping',
                   'transform-es2015-arrow-functions',
                   'transform-es2015-destructuring'
