@@ -55,7 +55,7 @@ The signature of the `init` function:
 ```
 
 + `hostElement` - parent element
-+ `options` - is the JS object with [properties](#Properties) of `Voyager` component
++ `options` - is the JS object with [properties](#properties) of `Voyager` component
 
 ### Using pre-bundled version
 You can get GraphQL Voyager bundle from the following places:
@@ -143,7 +143,7 @@ Graphql Voyager has middleware for the next frameworks:
 Middleware supports the following properties:
 
  + `endpointUrl` [`string`] - the GraphQL endpoint url.
- + `displayOptions` [`object`] - same as [here](#Properties)
+ + `displayOptions` [`object`] - same as [here](#properties)
  + `headersJS` [`string`, default `"{}"`] - object of headers serialized in string to be used on endpoint url<BR>
  **Note:** You can also use any JS expression which results in an object with header names as keys and strings as values e.g. `{ Authorization: localStorage['Meteor.loginToken'] }`
 
