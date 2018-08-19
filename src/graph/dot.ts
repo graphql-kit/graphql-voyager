@@ -30,7 +30,7 @@ function getDot(typeGraph, displayOptions): string {
         node => `
         "${node.name}" [
           id = "${node.id}"
-          label = ${nodeLabel(node, displayOptions)}
+          label = ${nodeLabel(node)}
         ]
         ${objectValues(
           node.fields,
@@ -43,7 +43,6 @@ function getDot(typeGraph, displayOptions): string {
           ]
         `
               : '',
-          displayOptions,
         )};
         ${array(
           node.possibleTypes,
@@ -64,53 +63,52 @@ function getDot(typeGraph, displayOptions): string {
         `,
         )}
       `,
-      displayOptions,
       )}
     }
   `
   );
-}
 
-function nodeLabel(node, displayOptions) {
-  const htmlID = HtmlId('TYPE_TITLE::' + node.name);
-  const kindLabel = node.kind !== 'OBJECT' ? '&lt;&lt;' + node.kind.toLowerCase() + '&gt;&gt;' : '';
+  function nodeLabel(node) {
+    const htmlID = HtmlId('TYPE_TITLE::' + node.name);
+    const kindLabel = node.kind !== 'OBJECT' ? '&lt;&lt;' + node.kind.toLowerCase() + '&gt;&gt;' : '';
 
-  return `
-    <<TABLE ALIGN="LEFT" BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5">
-      <TR>
-        <TD CELLPADDING="4" ${htmlID}><FONT POINT-SIZE="18">${
-    node.name
-  }</FONT><BR/>${kindLabel}</TD>
-      </TR>
-      ${objectValues(node.fields, nodeField, displayOptions)}
-      ${possibleTypes(node)}
-      ${derivedTypes(node)}
-    </TABLE>>
-  `;
-}
-
-function canDisplayRow(type, displayOptions) {
-  if(type.kind === 'SCALAR') {
-    return displayOptions.displayScalars;
+    return `
+      <<TABLE ALIGN="LEFT" BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5">
+        <TR>
+          <TD CELLPADDING="4" ${htmlID}><FONT POINT-SIZE="18">${
+      node.name
+    }</FONT><BR/>${kindLabel}</TD>
+        </TR>
+        ${objectValues(node.fields, nodeField)}
+        ${possibleTypes(node)}
+        ${derivedTypes(node)}
+      </TABLE>>
+    `;
   }
-  return true;
-}
 
-function nodeField(field, displayOptions) {
-  const relayIcon = field.relayType ? TEXT('{R}') : '';
-  const parts = stringifyWrappers(field.typeWrappers).map(TEXT);
-  return canDisplayRow(field.type, displayOptions) ? `
-    <TR>
-      <TD ${HtmlId(field.id)} ALIGN="LEFT" PORT="${field.name}">
-        <TABLE CELLPADDING="0" CELLSPACING="0" BORDER="0">
-          <TR>
-            <TD ALIGN="LEFT">${field.name}<FONT>  </FONT></TD>
-            <TD ALIGN="RIGHT">${relayIcon}${parts[0]}${field.type.name}${parts[1]}</TD>
-          </TR>
-        </TABLE>
-      </TD>
-    </TR>
-  `: '';
+  function canDisplayRow(type) {
+    if(type.kind === 'SCALAR' || type.kind === 'ENUM') {
+      return displayOptions.showLeafFields;
+    }
+    return true;
+  }
+
+  function nodeField(field) {
+    const relayIcon = field.relayType ? TEXT('{R}') : '';
+    const parts = stringifyWrappers(field.typeWrappers).map(TEXT);
+    return canDisplayRow(field.type) ? `
+      <TR>
+        <TD ${HtmlId(field.id)} ALIGN="LEFT" PORT="${field.name}">
+          <TABLE CELLPADDING="0" CELLSPACING="0" BORDER="0">
+            <TR>
+              <TD ALIGN="LEFT">${field.name}<FONT>  </FONT></TD>
+              <TD ALIGN="RIGHT">${relayIcon}${parts[0]}${field.type.name}${parts[1]}</TD>
+            </TR>
+          </TABLE>
+        </TD>
+      </TR>
+    `: '';
+  }
 }
 
 function possibleTypes(node) {
@@ -153,9 +151,9 @@ function derivedTypes(node) {
   `;
 }
 
-function objectValues<X>(object: { [key: string]: X }, stringify: (X, displayOptions) => string, displayOptions): string {
+function objectValues<X>(object: { [key: string]: X }, stringify: (X) => string): string {
   return _.values(object)
-    .map(object => stringify(object, displayOptions))
+    .map(stringify)
     .join('\n');
 }
 

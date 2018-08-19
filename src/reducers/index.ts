@@ -8,7 +8,7 @@ export type DisplayOptions = {
   rootTypeId?: string;
   skipRelay: boolean;
   sortByAlphabet: boolean;
-  displayScalars: boolean;
+  showLeafFields: boolean;
   hideRoot: boolean;
 };
 
@@ -48,7 +48,7 @@ const initialState: StateInterface = {
     rootTypeId: undefined,
     skipRelay: true,
     sortByAlphabet: false,
-    displayScalars: true,
+    showLeafFields: true,
     hideRoot: false,
   },
   selected: {
