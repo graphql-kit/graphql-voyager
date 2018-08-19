@@ -60,3 +60,5 @@ export const getTypeGraphSelector = createSelector(
   state => state.displayOptions.hideRoot,
   getTypeGraph,
 );
+
+export const getDisplayOptions = state => state.displayOptions;

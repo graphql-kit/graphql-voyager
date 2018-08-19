@@ -1,11 +1,11 @@
 import { createSelector } from 'reselect';
-import { getTypeGraphSelector } from './type-graph';
+import { getTypeGraphSelector, getDisplayOptions } from './type-graph';
 import { stringifyWrappers } from '../introspection/';
 import * as _ from 'lodash';
 
-export const getDotSelector = createSelector(getTypeGraphSelector, getDot);
+export const getDotSelector = createSelector(getTypeGraphSelector, getDisplayOptions, getDot);
 
-function getDot(typeGraph): string {
+function getDot(typeGraph, displayOptions): string {
   function isNode(type) {
     return typeGraph.nodes[type.id] !== undefined;
   }
@@ -67,41 +67,48 @@ function getDot(typeGraph): string {
     }
   `
   );
-}
 
-function nodeLabel(node) {
-  const htmlID = HtmlId('TYPE_TITLE::' + node.name);
-  const kindLabel = node.kind !== 'OBJECT' ? '&lt;&lt;' + node.kind.toLowerCase() + '&gt;&gt;' : '';
+  function nodeLabel(node) {
+    const htmlID = HtmlId('TYPE_TITLE::' + node.name);
+    const kindLabel = node.kind !== 'OBJECT' ? '&lt;&lt;' + node.kind.toLowerCase() + '&gt;&gt;' : '';
 
-  return `
-    <<TABLE ALIGN="LEFT" BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5">
+    return `
+      <<TABLE ALIGN="LEFT" BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5">
+        <TR>
+          <TD CELLPADDING="4" ${htmlID}><FONT POINT-SIZE="18">${
+      node.name
+    }</FONT><BR/>${kindLabel}</TD>
+        </TR>
+        ${objectValues(node.fields, nodeField)}
+        ${possibleTypes(node)}
+        ${derivedTypes(node)}
+      </TABLE>>
+    `;
+  }
+
+  function canDisplayRow(type) {
+    if(type.kind === 'SCALAR' || type.kind === 'ENUM') {
+      return displayOptions.showLeafFields;
+    }
+    return true;
+  }
+
+  function nodeField(field) {
+    const relayIcon = field.relayType ? TEXT('{R}') : '';
+    const parts = stringifyWrappers(field.typeWrappers).map(TEXT);
+    return canDisplayRow(field.type) ? `
       <TR>
-        <TD CELLPADDING="4" ${htmlID}><FONT POINT-SIZE="18">${
-    node.name
-  }</FONT><BR/>${kindLabel}</TD>
+        <TD ${HtmlId(field.id)} ALIGN="LEFT" PORT="${field.name}">
+          <TABLE CELLPADDING="0" CELLSPACING="0" BORDER="0">
+            <TR>
+              <TD ALIGN="LEFT">${field.name}<FONT>  </FONT></TD>
+              <TD ALIGN="RIGHT">${relayIcon}${parts[0]}${field.type.name}${parts[1]}</TD>
+            </TR>
+          </TABLE>
+        </TD>
       </TR>
-      ${objectValues(node.fields, nodeField)}
-      ${possibleTypes(node)}
-      ${derivedTypes(node)}
-    </TABLE>>
-  `;
-}
-
-function nodeField(field) {
-  const relayIcon = field.relayType ? TEXT('{R}') : '';
-  const parts = stringifyWrappers(field.typeWrappers).map(TEXT);
-  return `
-    <TR>
-      <TD ${HtmlId(field.id)} ALIGN="LEFT" PORT="${field.name}">
-        <TABLE CELLPADDING="0" CELLSPACING="0" BORDER="0">
-          <TR>
-            <TD ALIGN="LEFT">${field.name}<FONT>  </FONT></TD>
-            <TD ALIGN="RIGHT">${relayIcon}${parts[0]}${field.type.name}${parts[1]}</TD>
-          </TR>
-        </TABLE>
-      </TD>
-    </TR>
-  `;
+    `: '';
+  }
 }
 
 function possibleTypes(node) {
