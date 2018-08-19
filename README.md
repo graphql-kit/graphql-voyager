@@ -41,6 +41,7 @@ module system it is exported as `GraphQLVoyager` global variable.
   + `displayOptions.skipRelay` [`boolean`, default `true`] - skip relay-related entities
   + `displayOptions.rootType` [`string`] - name of the type to be used as a root
   + `displayOptions.sortByAlphabet` [`boolean`, default `false`] - sort fields on graph by alphabet
+  + `displayOptions.displayScalars` [`boolean`, default `true`] - display all scalars
   + `displayOptions.hideRoot` [`boolean`, default `false`] - hide the root type
 + `hideDocs` [`boolean`, default `false`] - hide the docs sidebar
 + `hideSettings` [`boolean`, default `false`] - hide settings panel

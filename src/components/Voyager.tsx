@@ -33,6 +33,7 @@ type IntrospectionProvider = (query: string) => Promise<any>;
 export interface VoyagerDisplayOptions {
   rootType?: string;
   skipRelay?: boolean;
+  displayScalars?: boolean;
   sortByAlphabet?: boolean;
   hideRoot?: boolean;
 }
@@ -62,6 +63,7 @@ export default class Voyager extends React.Component<VoyagerProps> {
       skipRelay: PropTypes.bool,
       sortByAlphabet: PropTypes.bool,
       hideRoot: PropTypes.bool,
+      displayScalars: PropTypes.bool,
     }),
     hideDocs: PropTypes.bool,
     hideSettings: PropTypes.bool,

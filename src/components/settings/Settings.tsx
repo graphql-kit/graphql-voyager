@@ -58,6 +58,13 @@ export class Settings extends React.Component<SettingsProps> {
             onChange={event => onChange({ ...options, skipRelay: event.target.checked })}
           />
           <label htmlFor="skip">Skip Relay</label>
+          <Checkbox
+            id="displayScalars"
+            color="primary"
+            checked={!!options.displayScalars}
+            onChange={event => onChange({ ...options, displayScalars: event.target.checked })}
+          />
+          <label htmlFor="displayScalars">Display scalars</label>
         </div>
       </div>
     );

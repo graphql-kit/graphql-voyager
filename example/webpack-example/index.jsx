@@ -12,7 +12,7 @@ class Test extends React.Component {
 
   render() {
     return (
-      <Voyager introspection={this.introspectionProvider} displayOptions={{skipRelay: false}}/>
+      <Voyager introspection={this.introspectionProvider} displayOptions={{skipRelay: false, displayScalars: true}}/>
     )
   }
 

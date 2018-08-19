@@ -1,11 +1,11 @@
 import { createSelector } from 'reselect';
-import { getTypeGraphSelector } from './type-graph';
+import { getTypeGraphSelector, getDisplayOptions } from './type-graph';
 import { stringifyWrappers } from '../introspection/';
 import * as _ from 'lodash';
 
-export const getDotSelector = createSelector(getTypeGraphSelector, getDot);
+export const getDotSelector = createSelector(getTypeGraphSelector, getDisplayOptions, getDot);
 
-function getDot(typeGraph): string {
+function getDot(typeGraph, displayOptions): string {
   function isNode(type) {
     return typeGraph.nodes[type.id] !== undefined;
   }
@@ -30,7 +30,7 @@ function getDot(typeGraph): string {
         node => `
         "${node.name}" [
           id = "${node.id}"
-          label = ${nodeLabel(node)}
+          label = ${nodeLabel(node, displayOptions)}
         ]
         ${objectValues(
           node.fields,
@@ -43,6 +43,7 @@ function getDot(typeGraph): string {
           ]
         `
               : '',
+          displayOptions,
         )};
         ${array(
           node.possibleTypes,
@@ -63,13 +64,14 @@ function getDot(typeGraph): string {
         `,
         )}
       `,
+      displayOptions,
       )}
     }
   `
   );
 }
 
-function nodeLabel(node) {
+function nodeLabel(node, displayOptions) {
   const htmlID = HtmlId('TYPE_TITLE::' + node.name);
   const kindLabel = node.kind !== 'OBJECT' ? '&lt;&lt;' + node.kind.toLowerCase() + '&gt;&gt;' : '';
 
@@ -80,17 +82,24 @@ function nodeLabel(node) {
     node.name
   }</FONT><BR/>${kindLabel}</TD>
       </TR>
-      ${objectValues(node.fields, nodeField)}
+      ${objectValues(node.fields, nodeField, displayOptions)}
       ${possibleTypes(node)}
       ${derivedTypes(node)}
     </TABLE>>
   `;
 }
 
-function nodeField(field) {
+function canDisplayRow(type, displayOptions) {
+  if(type.kind === 'SCALAR') {
+    return displayOptions.displayScalars;
+  }
+  return true;
+}
+
+function nodeField(field, displayOptions) {
   const relayIcon = field.relayType ? TEXT('{R}') : '';
   const parts = stringifyWrappers(field.typeWrappers).map(TEXT);
-  return `
+  return canDisplayRow(field.type, displayOptions) ? `
     <TR>
       <TD ${HtmlId(field.id)} ALIGN="LEFT" PORT="${field.name}">
         <TABLE CELLPADDING="0" CELLSPACING="0" BORDER="0">
@@ -101,7 +110,7 @@ function nodeField(field) {
         </TABLE>
       </TD>
     </TR>
-  `;
+  `: '';
 }
 
 function possibleTypes(node) {
@@ -144,9 +153,9 @@ function derivedTypes(node) {
   `;
 }
 
-function objectValues<X>(object: { [key: string]: X }, stringify: (X) => string): string {
+function objectValues<X>(object: { [key: string]: X }, stringify: (X, displayOptions) => string, displayOptions): string {
   return _.values(object)
-    .map(stringify)
+    .map(object => stringify(object, displayOptions))
     .join('\n');
 }
 
