@@ -28,7 +28,11 @@ export default class Demo extends React.Component {
   };
 
   handleCustomPreset = (introspection: any) => {
-    this.setState({ activePreset: null, customPresetValue: introspection });
+    this.setState({
+      activePreset: 'custom',
+      customPresetValue: introspection,
+      customPresetModalOpen: false,
+    });
   };
 
   handlePanelClose = () => {
@@ -37,16 +41,17 @@ export default class Demo extends React.Component {
 
   public render() {
     const { activePreset, customPresetModalOpen, customPresetValue } = this.state;
+    const introspection = activePreset === 'custom'
+      ? customPresetValue
+      : PRESETS[activePreset];
 
     return (
       <MuiThemeProvider theme={theme}>
-        <GraphQLVoyager
-          introspection={activePreset === null ? customPresetValue : PRESETS[activePreset]}
-        >
+        <GraphQLVoyager introspection={introspection}>
           <GraphQLVoyager.PanelHeader>
             <Panel
               presets={this.presetNames}
-              activePreset={this.state.activePreset}
+              activePreset={activePreset}
               onChange={this.handlePresetChange}
             />
           </GraphQLVoyager.PanelHeader>
