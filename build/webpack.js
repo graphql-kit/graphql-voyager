@@ -99,10 +99,10 @@ module.exports = (env = {}, { mode }) => ({
             loader: 'babel-loader',
             options: {
               plugins: [
-                'transform-es2015-classes',
-                'transform-es2015-block-scoping',
-                'transform-es2015-arrow-functions',
-                'transform-es2015-destructuring',
+                '@babel/plugin-transform-classes',
+                '@babel/plugin-transform-block-scoping',
+                '@babel/plugin-transform-arrow-functions',
+                '@babel/plugin-transform-destructuring',
               ],
             },
           },
