@@ -74,11 +74,11 @@ folder as `voyager.min.js`.
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="//cdn.jsdelivr.net/react/15.4.2/react.min.js"></script>
-    <script src="//cdn.jsdelivr.net/react/15.4.2/react-dom.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/react/15.4.2/react.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/react/15.4.2/react-dom.min.js"></script>
 
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/graphql-voyager/dist/voyager.css" />
-    <script src="//cdn.jsdelivr.net/npm/graphql-voyager/dist/voyager.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/graphql-voyager/dist/voyager.css" />
+    <script src="https://cdn.jsdelivr.net/npm/graphql-voyager/dist/voyager.min.js"></script>
   </head>
   <body>
     <div id="voyager">Loading...</div>
