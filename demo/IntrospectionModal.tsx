@@ -55,7 +55,7 @@ export class IntrospectionModal extends React.Component<IntrospectionModalProps>
         this.props.onChange(JSON.parse(jsonText));
         break;
       case SDL:
-        const data = introspectionFromSchema(buildSchema(sdlText), { descriptions: true });
+        const data = introspectionFromSchema(buildSchema(sdlText));
         this.props.onChange({ data });
         break;
     }

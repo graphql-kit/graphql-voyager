@@ -349,9 +349,9 @@
     "@types/minimatch" "*"
     "@types/node" "*"
 
-"@types/graphql@^0.13.4":
-  version "0.13.4"
-  resolved "https://registry.yarnpkg.com/@types/graphql/-/graphql-0.13.4.tgz#55ae9c29f0fd6b85ee536f5c72b4769d5c5e06b1"
+"@types/graphql@^14.0.0":
+  version "14.0.0"
+  resolved "https://registry.yarnpkg.com/@types/graphql/-/graphql-14.0.0.tgz#ecbe4d794c854a285411bea3dce83ab193397ad0"
 
 "@types/hapi@^16.1.10":
   version "16.1.14"
