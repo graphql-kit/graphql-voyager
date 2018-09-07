@@ -16,7 +16,7 @@ module.exports = {
     stats: 'errors-only'
   },
   resolve: {
-    extensions: ['.jsx', '.js', '.json']
+    extensions: ['.ts', '.tsx', '.mjs', '.js', '.json', '.css', '.svg'],
   },
   entry: ['./index.jsx'],
   output: {
@@ -31,7 +31,7 @@ module.exports = {
         loader: 'babel-loader',
         exclude: /node_modules/,
         options: {
-          presets: ['es2015', 'react']
+          presets: ['@babel/env', '@babel/react']
         }
       }
     ]

@@ -4,18 +4,18 @@
     "start": "node server.js"
   },
   "dependencies": {
-    "express": "^4.13.3",
-    "express-graphql": "^0.6.2",
-    "graphql": "^0.9.0",
-    "graphql-server-hapi": "^1.0.0",
+    "express": "4.16.3",
+    "express-graphql": "0.6.12",
+    "graphql": "14.0.2",
+    "graphql-server-hapi": "1.4.0",
     "graphql-voyager": "../",
-    "hapi": "^16.4.3",
-    "koa": "^2.3.0",
-    "koa-graphql": "^0.7.1",
-    "koa-router": "^7.2.1"
+    "hapi": "17.5.4",
+    "koa": "2.5.2",
+    "koa-graphql": "0.7.5",
+    "koa-router": "7.4.0"
   },
   "optionalDependencies": {
-    "react": "^15.4.2",
-    "react-dom": "^15.4.2"
+    "react": "16.5.0",
+    "react-dom": "16.5.0"
   }
 }
