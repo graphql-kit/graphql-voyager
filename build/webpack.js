@@ -1,8 +1,8 @@
 const webpack = require('webpack');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
-const nodeExternals = require('webpack-node-externals')();
+const nodeExternals = require('webpack-node-externals')({
+  whitelist: ['viz.js/full.render.js']
+});
 
 const root = require('./helpers').root;
 const VERSION = JSON.stringify(require('../package.json').version);

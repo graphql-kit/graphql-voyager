@@ -17,6 +17,9 @@ module.exports = {
   },
   resolve: {
     extensions: ['.ts', '.tsx', '.mjs', '.js', '.json', '.css', '.svg'],
+    alias: { // fix "duplicated react" issue when using npm link
+      'react': require.resolve('react'),
+    }
   },
   entry: ['./index.jsx'],
   output: {
