@@ -1,4 +1,5 @@
 *
-!dist/*
-!typings
+!dist/**
+!typings/**
+!middleware/**
 !package.json
