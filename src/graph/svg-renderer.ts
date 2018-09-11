@@ -24,7 +24,7 @@ export class SVGRender {
 
   constructor(
     public store,
-    workerURI: string = defaultWorkerURI,
+    workerURI: string,
     loadWorker: WorkerCallback = defaultLoadWorker,
   ) {
     loadWorker(workerURI || defaultWorkerURI, !workerURI).then(worker => {
