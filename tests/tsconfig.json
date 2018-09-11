@@ -1,0 +1,12 @@
+{
+  "extends": "../tsconfig",
+  "compilerOptions": {
+    "target": "es2015"
+  },
+  "include": [
+    "integration/*.ts",
+    "../node_modules/cypress"
+  ],
+  "exclude": [
+  ]
+}

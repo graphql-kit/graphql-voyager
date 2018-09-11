@@ -1,0 +1,8 @@
+{
+  "ignoreTestFiles": "*.js.map",
+  "integrationFolder": "tests/integration",
+  "pluginsFile": "tests/cypress/plugins.js",
+  "fixturesFolder": false,
+  "supportFile": "tests/cypress/support.js",
+  "video": false
+}
