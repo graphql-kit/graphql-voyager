@@ -1,6 +1,6 @@
 {
   "name": "graphql-voyager",
-  "version": "1.0.0-rc.24",
+  "version": "1.0.0-rc.25",
   "description": "GraphQL introspection viewer",
   "main": "dist/voyager.lib.js",
   "types": "typings/index.d.ts",
