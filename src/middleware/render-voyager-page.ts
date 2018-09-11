@@ -32,8 +32,8 @@ export default function renderVoyagerPage(options: MiddlewareOptions) {
     href="https://cdn.jsdelivr.net/npm/graphql-voyager@${version}/dist/voyager.css"
   />
   <script src="https://cdn.jsdelivr.net/fetch/2.0.1/fetch.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/react/15.4.2/react.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/react/15.4.2/react-dom.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/react@16/umd/react.production.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/react@16/umd/react.production.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/graphql-voyager@${version}/dist/voyager.min.js"></script>
 </head>
 <body>
