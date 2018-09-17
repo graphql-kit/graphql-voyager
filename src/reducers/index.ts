@@ -14,14 +14,6 @@ export type DisplayOptions = {
 
 export type StateInterface = {
   schema: any;
-  schemaModal: {
-    opened: boolean;
-    activePreset: string | null;
-    notApplied: {
-      presetValue: any;
-      activePreset: string;
-    } | null;
-  };
   displayOptions: DisplayOptions;
   selected: {
     previousTypesIds: string[];
@@ -33,17 +25,11 @@ export type StateInterface = {
     svg: string;
     focusedId: string | null;
   };
-  menuOpened: boolean;
   errorMessage: string | null;
 };
 
 const initialState: StateInterface = {
   schema: null,
-  schemaModal: {
-    opened: false,
-    activePreset: null,
-    notApplied: null,
-  },
   displayOptions: {
     rootTypeId: undefined,
     skipRelay: true,
@@ -61,7 +47,6 @@ const initialState: StateInterface = {
     svg: null,
     focusedId: null,
   },
-  menuOpened: false,
   errorMessage: null,
 };
 
@@ -177,11 +162,6 @@ export function rootReducer(previousState = initialState, action) {
           ...previousState.graphView,
           focusedId: null,
         },
-      };
-    case ActionTypes.TOGGLE_MENU:
-      return {
-        ...previousState,
-        menuOpened: !previousState.menuOpened,
       };
     case ActionTypes.REPORT_ERROR:
       return {

@@ -7,14 +7,6 @@ export function changeDisplayOptions(options) {
   };
 }
 
-export const TOGGLE_MENU = 'TOGGLE_MENU';
-
-export function toggleMenu() {
-  return {
-    type: TOGGLE_MENU,
-  };
-}
-
 export const REPORT_ERROR = 'REPORT_ERROR';
 
 export function reportError(msg) {
