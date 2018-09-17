@@ -1,6 +1,5 @@
 import * as _ from 'lodash';
-import { createStore, applyMiddleware, compose, Store } from 'redux';
-import thunk from 'redux-thunk';
+import { createStore, compose, Store } from 'redux';
 import { rootReducer } from './reducers';
 
 export function configureStore(preloadedState?): Store<any> {
@@ -11,7 +10,7 @@ export function configureStore(preloadedState?): Store<any> {
     composeEnhancers = compose;
   }
 
-  return createStore(rootReducer, preloadedState, composeEnhancers(applyMiddleware(thunk)));
+  return createStore(rootReducer, preloadedState, composeEnhancers());
 }
 
 // Initial version was copy-pasted from
