@@ -89,7 +89,7 @@
     <small> This tool presents complex graphs. Use it on bigger screen size for better experience </small>
     <a id="skip_warning" href="#"> GOT IT </a>
   </div>
-  <!-- <script>
+  <script>
     var skipBtn = document.getElementById('skip_warning');
     var warning = document.getElementById('mobile-warning');
     if (document.cookie.indexOf('skip_mobile_warning=true') > -1) {
@@ -102,14 +102,7 @@
       skipBtn.addEventListener('touchstart', handler, false);
       skipBtn.addEventListener('click', handler, false);
     }
-
-    window.addEventListener("load", function(event) {
-      GraphQLVoyager.init(document.getElementById('panel_root'), {
-        _schemaPresets: window.VOYAGER_PRESETS,
-        introspection: false
-      });
-    })
-  </script> -->
+  </script>
   <script>
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
