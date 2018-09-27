@@ -95,7 +95,8 @@
     "react-redux": "^5.0.7",
     "redux": "^4.0.0",
     "reselect": "^3.0.1",
-    "svg-pan-zoom": "^3.5.2"
+    "svg-pan-zoom": "^3.5.2",
+    "viz.js": "2.0.0"
   },
   "repository": {
     "type": "git",
