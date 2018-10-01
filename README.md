@@ -152,7 +152,8 @@ Middleware supports the following properties:
 
 ```js
 import express from 'express';
-import { express as voyagerMiddleware } from 'graphql-voyager/middleware';
+import voyagerMiddleware from  'graphql-voyager/middleware/express';
+
 
 const app = express();
 
