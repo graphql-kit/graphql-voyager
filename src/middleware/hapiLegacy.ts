@@ -1,11 +1,9 @@
-// FIXME: enable typings
-// import { Server } from 'hapi';
 import renderVoyagerPage, { MiddlewareOptions } from './render-voyager-page';
 
 const pkg = require('../package.json');
 
 export interface Register {
-  (server/*: Server */, options, next: any): void;
+  (server, options, next): void;
   attributes?: any;
 }
 
