@@ -10620,7 +10620,7 @@
               "deprecationReason": null
             },
             {
-              "name": "targetURL",
+              "name": "targetUrl",
               "description": "The URL for this status context.",
               "args": [],
               "type": {
