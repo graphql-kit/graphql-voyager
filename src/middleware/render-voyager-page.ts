@@ -4,11 +4,13 @@ export interface MiddlewareOptions {
   endpointUrl: string;
   displayOptions?: object;
   headersJS?: string;
+  cdnUrl?: string
 }
 
 export default function renderVoyagerPage(options: MiddlewareOptions) {
   const { endpointUrl, displayOptions } = options;
   const headersJS = options.headersJS ? options.headersJS : '{}';
+  const cdnUrl = options.cdnUrl || 'https://cdn.jsdelivr.net';
   return `
 <!DOCTYPE html>
 <html>
@@ -29,12 +31,12 @@ export default function renderVoyagerPage(options: MiddlewareOptions) {
     }
   </style>
   <link rel="stylesheet"
-    href="https://cdn.jsdelivr.net/npm/graphql-voyager@${version}/dist/voyager.css"
+    href="${cdnUrl}/npm/graphql-voyager@${version}/dist/voyager.css"
   />
-  <script src="https://cdn.jsdelivr.net/fetch/2.0.1/fetch.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/react@16/umd/react.production.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/react-dom@16/umd/react-dom.production.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/graphql-voyager@${version}/dist/voyager.min.js"></script>
+  <script src="${cdnUrl}/fetch/2.0.1/fetch.min.js"></script>
+  <script src="${cdnUrl}/npm/react@16/umd/react.production.min.js"></script>
+  <script src="${cdnUrl}/npm/react-dom@16/umd/react-dom.production.min.js"></script>
+  <script src="${cdnUrl}/npm/graphql-voyager@${version}/dist/voyager.min.js"></script>
 </head>
 <body>
   <main id="voyager">
