@@ -55,15 +55,15 @@
     "react-clipboard.js": "2.0.1",
     "react-dom": "16.5.2",
     "react-svg-loader": "2.1.0",
-    "rimraf": "2.6.2",
+    "rimraf": "2.6.3",
     "style-loader": "0.23.0",
     "svg-as-symbol-loader": "1.2.1",
     "ts-loader": "5.2.1",
     "typescript": "3.1.1",
     "viz.js": "2.0.0",
-    "webpack": "4.20.2",
-    "webpack-cli": "3.1.2",
-    "webpack-dev-server": "3.1.9",
+    "webpack": "4.28.3",
+    "webpack-cli": "3.2.0",
+    "webpack-dev-server": "3.1.14",
     "webpack-node-externals": "1.7.2"
   },
   "peerDependencies": {
@@ -75,15 +75,15 @@
     "@f/animate": "^1.0.1",
     "@material-ui/core": "^3.0.2",
     "classnames": "^2.2.6",
-    "clipboard": "^2.0.1",
+    "clipboard": "^2.0.4",
     "commonmark": "^0.28.1",
     "lodash": "^4.17.10",
     "prop-types": "^15.6.2",
     "react-redux": "^5.0.7",
     "redux": "^4.0.0",
     "reselect": "^4.0.0",
-    "svg-pan-zoom": "^3.5.2",
-    "viz.js": "2.0.0"
+    "svg-pan-zoom": "^3.6.0",
+    "viz.js": "2.1.2"
   },
   "repository": {
     "type": "git",
