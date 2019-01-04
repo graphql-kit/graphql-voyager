@@ -16,6 +16,6 @@
     "babel-loader": "8.0.2",
     "copy-webpack-plugin": "4.5.2",
     "webpack": "4.17.2",
-    "webpack-dev-server": "3.1.8"
+    "webpack-dev-server": "3.1.14"
   }
 }
