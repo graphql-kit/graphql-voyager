@@ -253,6 +253,5 @@ export const getSchemaSelector = createSelector(
   (state: StateInterface) => state.schema,
   (state: StateInterface) => state.displayOptions.sortByAlphabet,
   (state: StateInterface) => state.displayOptions.skipRelay,
-  (state: StateInterface) => state.displayOptions.showLeafFields,
   getSchema,
 );

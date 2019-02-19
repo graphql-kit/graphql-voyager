@@ -1,9 +1,13 @@
 import { createSelector } from 'reselect';
-import { getTypeGraphSelector, getDisplayOptions } from './type-graph';
+import { getTypeGraphSelector } from './type-graph';
 import { stringifyWrappers } from '../introspection/';
 import * as _ from 'lodash';
 
-export const getDotSelector = createSelector(getTypeGraphSelector, getDisplayOptions, getDot);
+export const getDotSelector = createSelector(
+  getTypeGraphSelector,
+  state => state.displayOptions,
+  getDot
+);
 
 function getDot(typeGraph, displayOptions): string {
   function isNode(type) {
