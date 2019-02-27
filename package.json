@@ -60,7 +60,6 @@
     "svg-as-symbol-loader": "1.2.1",
     "ts-loader": "5.2.1",
     "typescript": "3.1.1",
-    "viz.js": "2.0.0",
     "webpack": "4.28.3",
     "webpack-cli": "3.2.0",
     "webpack-dev-server": "3.1.14",
