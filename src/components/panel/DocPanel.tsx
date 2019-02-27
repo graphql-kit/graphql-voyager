@@ -6,7 +6,7 @@ import TypeDoc from '../doc-explorer/TypeDoc';
 import TypeInfoPopover from './TypeInfoPopover';
 
 export interface DocPanelProps {
-  header: React.ReactChild;
+  header: React.ReactNode;
 }
 
 export default class DocPanel extends React.Component<DocPanelProps> {
