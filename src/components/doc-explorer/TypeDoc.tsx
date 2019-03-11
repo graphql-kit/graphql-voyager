@@ -10,8 +10,6 @@ import { SimplifiedTypeWithIDs } from '../../introspection/types';
 import { selectEdge } from '../../actions';
 import { getSelectedType } from '../../selectors';
 import { getTypeGraphSelector } from '../../graph';
-import TypeList from './TypeList';
-import DocNavigation from './DocNavigation';
 import Markdown from '../utils/Markdown';
 import Description from './Description';
 import TypeLink from './TypeLink';
@@ -147,29 +145,11 @@ class TypeDoc extends React.Component<TypeDocProps> {
 
   render() {
     const { selectedType, selectedEdgeId, typeGraph } = this.props;
-
-    if (!typeGraph) {
-      return (
-        <div className="type-doc">
-          <span className="loading"> Loading... </span>;
-        </div>
-      );
-    }
-
     return (
       <div className="type-doc">
-        <DocNavigation />
-        <div className="scroll-area">
-          {!selectedType ? (
-            <TypeList typeGraph={typeGraph} />
-          ) : (
-            <>
-              <Description className="-doc-type" text={selectedType.description} />
-              {this.renderTypesDef(selectedType, typeGraph, selectedEdgeId)}
-              {this.renderFields(selectedType, selectedEdgeId)}
-            </>
-          )}
-        </div>
+        <Description className="-doc-type" text={selectedType.description} />
+        {this.renderTypesDef(selectedType, typeGraph, selectedEdgeId)}
+        {this.renderFields(selectedType, selectedEdgeId)}
       </div>
     );
   }
