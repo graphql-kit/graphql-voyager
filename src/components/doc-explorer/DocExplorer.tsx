@@ -4,7 +4,12 @@ import { connect } from 'react-redux';
 import './DocExplorer.css';
 
 import { getPreviousType, getSelectedType } from '../../selectors';
-import { selectPreviousType, clearSelection, focusElement } from '../../actions/';
+import {
+ selectPreviousType,
+ clearSelection,
+ focusElement,
+ selectEdge,
+} from '../../actions/';
 
 import { getTypeGraphSelector } from '../../graph';
 import TypeList from './TypeList';
@@ -14,6 +19,7 @@ import FocusTypeButton from './FocusTypeButton';
 interface DocExplorerProps {
   previousType: any;
   selectedType: any;
+  selectedEdgeId: any;
   typeGraph: any;
   dispatch: any;
 }
@@ -22,13 +28,14 @@ function mapStateToProps(state) {
   return {
     previousType: getPreviousType(state),
     selectedType: getSelectedType(state),
+    selectedEdgeId: state.selected.currentEdgeId,
     typeGraph: getTypeGraphSelector(state),
   };
 }
 
 class DocExplorer extends React.Component<DocExplorerProps> {
   render() {
-    const { previousType, selectedType, typeGraph } = this.props;
+    const { previousType, selectedType, selectedEdgeId, typeGraph } = this.props;
 
     if (!typeGraph) {
       return (
@@ -36,7 +43,9 @@ class DocExplorer extends React.Component<DocExplorerProps> {
           <span className="loading"> Loading... </span>;
         </div>
       );
-    } else if (!selectedType) {
+    }
+
+    if (!selectedType) {
       return (
         <div className="type-doc">
           <div className="doc-navigation">
@@ -60,10 +69,20 @@ class DocExplorer extends React.Component<DocExplorerProps> {
           </span>
         </div>
         <div className="scroll-area">
-          <TypeDoc />
+          <TypeDoc
+            selectedType={selectedType}
+            selectedEdgeId={selectedEdgeId}
+            typeGraph={typeGraph}
+            onSelectEdge={this.handleSelectEdge}
+          />
         </div>
       </div>
     );
+  }
+
+  handleSelectEdge = (edgeID) => {
+    const { dispatch } = this.props;
+    dispatch(selectEdge(edgeID));
   }
 
   handleNavBackClick = () => {

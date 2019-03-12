@@ -1,15 +1,11 @@
 import * as _ from 'lodash';
 import * as React from 'react';
-import { connect } from 'react-redux';
 import * as classNames from 'classnames';
 
 import './TypeDoc.css';
 
 import { SimplifiedTypeWithIDs } from '../../introspection/types';
 
-import { selectEdge } from '../../actions';
-import { getSelectedType } from '../../selectors';
-import { getTypeGraphSelector } from '../../graph';
 import Markdown from '../utils/Markdown';
 import Description from './Description';
 import TypeLink from './TypeLink';
@@ -20,18 +16,10 @@ interface TypeDocProps {
   selectedType: any;
   selectedEdgeId: string;
   typeGraph: any;
-  dispatch: any;
+  onSelectEdge: (string) => void;
 }
 
-function mapStateToProps(state) {
-  return {
-    selectedType: getSelectedType(state),
-    selectedEdgeId: state.selected.currentEdgeId,
-    typeGraph: getTypeGraphSelector(state),
-  };
-}
-
-class TypeDoc extends React.Component<TypeDocProps> {
+export default class TypeDoc extends React.Component<TypeDocProps> {
   componentDidUpdate(prevProps: TypeDocProps) {
     if (this.props.selectedEdgeId !== prevProps.selectedEdgeId) {
       this.ensureActiveVisible();
@@ -45,13 +33,12 @@ class TypeDoc extends React.Component<TypeDocProps> {
     itemComponent.scrollIntoViewIfNeeded();
   }
 
-  renderTypesDef(type: SimplifiedTypeWithIDs, typeGraph, selectedId: string) {
+  renderTypesDef(type: SimplifiedTypeWithIDs, typeGraph, selectedId, onSelectEdge) {
     let typesTitle;
     let types: {
       id: string;
       type: SimplifiedTypeWithIDs;
     }[];
-    let dispatch = this.props.dispatch;
 
     switch (type.kind) {
       case 'UNION':
@@ -82,9 +69,7 @@ class TypeDoc extends React.Component<TypeDocProps> {
             className: classNames('item', {
               '-selected': type.id === selectedId,
             }),
-            onClick: () => {
-              dispatch(selectEdge(type.id));
-            },
+            onClick: () => onSelectEdge(type.id),
           };
           if (type.id === selectedId) props.ref = 'selectedItem';
           return (
@@ -98,10 +83,9 @@ class TypeDoc extends React.Component<TypeDocProps> {
     );
   }
 
-  renderFields(type: SimplifiedTypeWithIDs, selectedId: string) {
+  renderFields(type: SimplifiedTypeWithIDs, selectedId: string, onSelectEdge) {
     if (_.isEmpty(type.fields)) return null;
 
-    let dispatch = this.props.dispatch;
     return (
       <div className="doc-category">
         <div className="title">{'fields'}</div>
@@ -112,9 +96,7 @@ class TypeDoc extends React.Component<TypeDocProps> {
               '-selected': field.id === selectedId,
               '-with-args': !_.isEmpty(field.args),
             }),
-            onClick: () => {
-              dispatch(selectEdge(field.id));
-            },
+            onClick: () => onSelectEdge(field.id),
           };
           if (field.id === selectedId) props.ref = 'selectedItem';
           return (
@@ -144,15 +126,13 @@ class TypeDoc extends React.Component<TypeDocProps> {
   }
 
   render() {
-    const { selectedType, selectedEdgeId, typeGraph } = this.props;
+    const { selectedType, selectedEdgeId, typeGraph, onSelectEdge } = this.props;
     return (
       <div className="type-doc">
         <Description className="-doc-type" text={selectedType.description} />
-        {this.renderTypesDef(selectedType, typeGraph, selectedEdgeId)}
-        {this.renderFields(selectedType, selectedEdgeId)}
+        {this.renderTypesDef(selectedType, typeGraph, selectedEdgeId, onSelectEdge)}
+        {this.renderFields(selectedType, selectedEdgeId, onSelectEdge)}
       </div>
     );
   }
 }
-
-export default connect(mapStateToProps)(TypeDoc);
