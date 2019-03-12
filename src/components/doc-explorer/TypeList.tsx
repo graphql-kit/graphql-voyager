@@ -1,6 +1,5 @@
 import * as _ from 'lodash';
 import * as React from 'react';
-import { connect } from 'react-redux';
 import * as classNames from 'classnames';
 
 import './TypeList.css';
@@ -11,10 +10,9 @@ import FocusTypeButton from './FocusTypeButton';
 
 interface TypeListProps {
   typeGraph: any;
-  dispatch: any;
 }
 
-class TypeList extends React.Component<TypeListProps> {
+export default class TypeList extends React.Component<TypeListProps> {
   renderItem(type, className?: string) {
     return (
       <div key={type.id} className={classNames('typelist-item', className || '')}>
@@ -43,5 +41,3 @@ class TypeList extends React.Component<TypeListProps> {
     );
   }
 }
-
-export default connect()(TypeList);
