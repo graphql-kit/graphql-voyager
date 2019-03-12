@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 
 import './DocExplorer.css';
 
-import { getPreviousType, getSelectedType } from '../../selectors';
 import {
  selectPreviousType,
  clearSelection,
@@ -17,25 +16,26 @@ import TypeDoc from './TypeDoc';
 import FocusTypeButton from './FocusTypeButton';
 
 interface DocExplorerProps {
-  previousType: any;
-  selectedType: any;
-  selectedEdgeId: any;
+  previousTypeID: string;
+  selectedTypeID: string;
+  selectedEdgeID: string;
   typeGraph: any;
   dispatch: any;
 }
 
 function mapStateToProps(state) {
+  const previousTypesIds = state.selected.previousTypesIds;
   return {
-    previousType: getPreviousType(state),
-    selectedType: getSelectedType(state),
-    selectedEdgeId: state.selected.currentEdgeId,
+    previousTypeID: previousTypesIds[previousTypesIds.length - 1],
+    selectedTypeID: state.selected.currentNodeId,
+    selectedEdgeID: state.selected.currentEdgeId,
     typeGraph: getTypeGraphSelector(state),
   };
 }
 
 class DocExplorer extends React.Component<DocExplorerProps> {
   render() {
-    const { previousType, selectedType, selectedEdgeId, typeGraph } = this.props;
+    const { previousTypeID, selectedTypeID, selectedEdgeID, typeGraph } = this.props;
 
     if (!typeGraph) {
       return (
@@ -45,7 +45,7 @@ class DocExplorer extends React.Component<DocExplorerProps> {
       );
     }
 
-    if (!selectedType) {
+    if (!selectedTypeID) {
       return (
         <div className="type-doc">
           <div className="doc-navigation">
@@ -58,11 +58,12 @@ class DocExplorer extends React.Component<DocExplorerProps> {
       );
     }
 
+    const selectedType = typeGraph.nodes[selectedTypeID];
     return (
       <div className="type-doc">
         <div className="doc-navigation">
           <span className="back" onClick={this.handleNavBackClick}>
-            {previousType ? previousType.name : 'Type List'}
+            {previousTypeID ? typeGraph.nodes[previousTypeID].name : 'Type List'}
           </span>
           <span className="active">
             {selectedType.name}
@@ -74,7 +75,7 @@ class DocExplorer extends React.Component<DocExplorerProps> {
         <div className="scroll-area">
           <TypeDoc
             selectedType={selectedType}
-            selectedEdgeId={selectedEdgeId}
+            selectedEdgeID={selectedEdgeID}
             typeGraph={typeGraph}
             onSelectEdge={this.handleSelectEdge}
           />
@@ -94,11 +95,11 @@ class DocExplorer extends React.Component<DocExplorerProps> {
   }
 
   handleNavBackClick = () => {
-    const { dispatch, previousType } = this.props;
+    const { dispatch, previousTypeID } = this.props;
 
-    if (!previousType) return dispatch(clearSelection());
+    if (!previousTypeID) return dispatch(clearSelection());
 
-    dispatch(focusElement(previousType.id));
+    dispatch(focusElement(previousTypeID));
     dispatch(selectPreviousType());
   }
 }

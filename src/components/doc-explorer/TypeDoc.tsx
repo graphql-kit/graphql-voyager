@@ -14,14 +14,14 @@ import Argument from './Argument';
 
 interface TypeDocProps {
   selectedType: any;
-  selectedEdgeId: string;
+  selectedEdgeID: string;
   typeGraph: any;
   onSelectEdge: (string) => void;
 }
 
 export default class TypeDoc extends React.Component<TypeDocProps> {
   componentDidUpdate(prevProps: TypeDocProps) {
-    if (this.props.selectedEdgeId !== prevProps.selectedEdgeId) {
+    if (this.props.selectedEdgeID !== prevProps.selectedEdgeID) {
       this.ensureActiveVisible();
     }
   }
@@ -126,12 +126,12 @@ export default class TypeDoc extends React.Component<TypeDocProps> {
   }
 
   render() {
-    const { selectedType, selectedEdgeId, typeGraph, onSelectEdge } = this.props;
+    const { selectedType, selectedEdgeID, typeGraph, onSelectEdge } = this.props;
     return (
       <div className="type-doc">
         <Description className="-doc-type" text={selectedType.description} />
-        {this.renderTypesDef(selectedType, typeGraph, selectedEdgeId, onSelectEdge)}
-        {this.renderFields(selectedType, selectedEdgeId, onSelectEdge)}
+        {this.renderTypesDef(selectedType, typeGraph, selectedEdgeID, onSelectEdge)}
+        {this.renderFields(selectedType, selectedEdgeID, onSelectEdge)}
       </div>
     );
   }
