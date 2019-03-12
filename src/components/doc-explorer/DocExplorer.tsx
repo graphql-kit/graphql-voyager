@@ -52,7 +52,7 @@ class DocExplorer extends React.Component<DocExplorerProps> {
             <span className="header">Type List</span>
           </div>
           <div className="scroll-area">
-            <TypeList typeGraph={typeGraph} />
+            <TypeList typeGraph={typeGraph} onFocusType={this.handleFocusType} />
           </div>
         </div>
       );
@@ -65,7 +65,10 @@ class DocExplorer extends React.Component<DocExplorerProps> {
             {previousType ? previousType.name : 'Type List'}
           </span>
           <span className="active">
-            {selectedType.name} <FocusTypeButton type={selectedType} />
+            {selectedType.name}
+            <FocusTypeButton
+              onClick={() => this.handleFocusType(selectedType.id)}
+            />
           </span>
         </div>
         <div className="scroll-area">
@@ -83,6 +86,11 @@ class DocExplorer extends React.Component<DocExplorerProps> {
   handleSelectEdge = (edgeID) => {
     const { dispatch } = this.props;
     dispatch(selectEdge(edgeID));
+  }
+
+  handleFocusType = (typeID) => {
+    const { dispatch } = this.props;
+    dispatch(focusElement(typeID));
   }
 
   handleNavBackClick = () => {
