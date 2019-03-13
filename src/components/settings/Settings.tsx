@@ -40,7 +40,7 @@ export class Settings extends React.Component<SettingsProps> {
           <RootSelector
             schema={schema}
             rootTypeId={options.rootTypeId}
-            onChange={rootTypeId => onChange({ ...options, rootTypeId })}
+            onChange={rootTypeId => onChange({ rootTypeId })}
           />
         </div>
         <div className="setting-other-options">
@@ -48,21 +48,21 @@ export class Settings extends React.Component<SettingsProps> {
             id="sort"
             color="primary"
             checked={!!options.sortByAlphabet}
-            onChange={event => onChange({ ...options, sortByAlphabet: event.target.checked })}
+            onChange={event => onChange({ sortByAlphabet: event.target.checked })}
           />
           <label htmlFor="sort">Sort by Alphabet</label>
           <Checkbox
             id="skip"
             color="primary"
             checked={!!options.skipRelay}
-            onChange={event => onChange({ ...options, skipRelay: event.target.checked })}
+            onChange={event => onChange({ skipRelay: event.target.checked })}
           />
           <label htmlFor="skip">Skip Relay</label>
           <Checkbox
             id="showLeafFields"
             color="primary"
             checked={!!options.showLeafFields}
-            onChange={event => onChange({ ...options, showLeafFields: event.target.checked })}
+            onChange={event => onChange({ showLeafFields: event.target.checked })}
           />
           <label htmlFor="showLeafFields">Show leaf fields</label>
         </div>
