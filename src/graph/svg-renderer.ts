@@ -1,7 +1,5 @@
 import * as _ from 'lodash';
-import { getDotSelector } from './dot';
-import { observeStore } from '../redux';
-import { svgRenderingFinished, reportError } from '../actions';
+import { getDot } from './dot';
 
 import {
   forEachNode,
@@ -19,40 +17,27 @@ const svgns = 'http://www.w3.org/2000/svg';
 const xlinkns = 'http://www.w3.org/1999/xlink';
 
 export class SVGRender {
-  unsubscribe: any;
-  viz: any;
+  vizPromise: any;
 
   constructor(
-    public store,
     workerURI: string,
     loadWorker: WorkerCallback = defaultLoadWorker,
   ) {
-    loadWorker(workerURI || defaultWorkerURI, !workerURI).then(worker => {
-      this.viz = new Viz({ worker });
-
-      this.unsubscribe = observeStore(store, getDotSelector, dot => {
-        if (dot !== null) this._renderSvg(dot);
-      });
-    });
+    this.vizPromise = loadWorker(workerURI || defaultWorkerURI, !workerURI)
+      .then(worker => new Viz({ worker }));
   }
 
-  destroy() {
-    this.unsubscribe();
-  }
-
-  _renderSvg(dot) {
-    console.time('Rendering Graph');
-    this.viz
-      .renderString(dot)
+  renderSvg(typeGraph, displayOptions) {
+    return this.vizPromise
+      .then(viz => {
+        console.time('Rendering Graph');
+        const dot = getDot(typeGraph, displayOptions);
+        return viz.renderString(dot);
+      })
       .then(rawSVG => {
         const svg = preprocessVizSVG(rawSVG);
-        this.store.dispatch(svgRenderingFinished(svg));
-
         console.timeEnd('Rendering Graph');
-      })
-      .catch(error => {
-        const msg = error.message || 'Unknown error';
-        this.store.dispatch(reportError(msg));
+        return svg;
       });
   }
 }

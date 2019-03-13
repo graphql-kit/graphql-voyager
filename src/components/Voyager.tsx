@@ -72,7 +72,6 @@ export default class Voyager extends React.Component<VoyagerProps> {
   };
 
   viewport: Viewport;
-  renderer: SVGRender;
   store: Store<StateInterface>;
 
   constructor(props) {
@@ -82,15 +81,14 @@ export default class Voyager extends React.Component<VoyagerProps> {
 
   componentDidMount() {
     // init viewport and svg-renderer
-    this.renderer = new SVGRender(this.store, this.props.workerURI, this.props.loadWorker);
-    this.viewport = new Viewport(this.store, this.refs['viewport'] as HTMLElement);
+    const renderer = new SVGRender(this.props.workerURI, this.props.loadWorker);
+    this.viewport = new Viewport(this.store, renderer, this.refs['viewport'] as HTMLElement);
 
     this.updateIntrospection();
   }
 
   componentWillUnmount() {
     this.viewport.destroy();
-    this.renderer.unsubscribe();
   }
 
   updateIntrospection() {

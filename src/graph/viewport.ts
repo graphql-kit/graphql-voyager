@@ -6,6 +6,7 @@ import * as Actions from '../actions';
 import { observeStore } from '../redux';
 import { removeClass, forEachNode, stringToSvg } from '../utils/';
 
+import { getTypeGraphSelector } from './type-graph';
 import { typeNameToId } from '../introspection';
 
 export class Viewport {
@@ -17,7 +18,7 @@ export class Viewport {
 
   _unsubscribe: any;
 
-  constructor(public store, public container: HTMLElement) {
+  constructor(public store, public renderer, public container: HTMLElement) {
     let unsubscribe = [];
 
     function subscribe(...args) {
@@ -26,26 +27,30 @@ export class Viewport {
 
     this._unsubscribe = observeStore(
       store,
-      state => state.graphView.svg,
-      svg => {
+      getTypeGraphSelector,
+      state => state.displayOptions,
+      (typeGraph, displayOptions) => {
         unsubscribe.forEach(f => f());
         unsubscribe = [];
 
-        if (svg === null) return;
+        if (typeGraph == null) return;
 
-        this.display(svg);
+        renderer.renderSvg(typeGraph, displayOptions).then(svg => {
+          this.display(svg);
+          store.dispatch(Actions.svgRenderingFinished('finish'));
 
-        subscribe(state => state.selected.currentNodeId, id => this.selectNodeById(id));
-        subscribe(state => state.selected.currentEdgeId, id => this.selectEdgeById(id));
-        subscribe(
-          state => state.graphView.focusedId,
-          id => {
-            if (id === null) return;
+          subscribe(state => state.selected.currentNodeId, id => this.selectNodeById(id));
+          subscribe(state => state.selected.currentEdgeId, id => this.selectEdgeById(id));
+          subscribe(
+            state => state.graphView.focusedId,
+            id => {
+              if (id === null) return;
 
-            this.focusElement(id);
-            store.dispatch(Actions.focusElementDone(id));
-          },
-        );
+              this.focusElement(id);
+              store.dispatch(Actions.focusElementDone(id));
+            },
+          );
+        });
       },
     );
 
