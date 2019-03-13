@@ -35,22 +35,27 @@ export class Viewport {
 
         if (typeGraph == null) return;
 
-        renderer.renderSvg(typeGraph, displayOptions).then(svg => {
-          this.display(svg);
-          store.dispatch(Actions.svgRenderingFinished('finish'));
+        renderer.renderSvg(typeGraph, displayOptions)
+          .then(svg => {
+            this.display(svg);
+            store.dispatch(Actions.svgRenderingFinished('finish'));
 
-          subscribe(state => state.selected.currentNodeId, id => this.selectNodeById(id));
-          subscribe(state => state.selected.currentEdgeId, id => this.selectEdgeById(id));
-          subscribe(
-            state => state.graphView.focusedId,
-            id => {
-              if (id === null) return;
+            subscribe(state => state.selected.currentNodeId, id => this.selectNodeById(id));
+            subscribe(state => state.selected.currentEdgeId, id => this.selectEdgeById(id));
+            subscribe(
+              state => state.graphView.focusedId,
+              id => {
+                if (id === null) return;
 
-              this.focusElement(id);
-              store.dispatch(Actions.focusElementDone(id));
-            },
-          );
-        });
+                this.focusElement(id);
+                store.dispatch(Actions.focusElementDone(id));
+              },
+            );
+          })
+          .catch(error => {
+            const msg = error.message || 'Unknown error';
+            this.store.dispatch(Actions.reportError(msg));
+          });
       },
     );
 
