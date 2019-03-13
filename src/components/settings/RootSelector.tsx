@@ -42,7 +42,12 @@ export default class RootSelector extends React.Component<RootSelectorProps> {
     return (
       <Select
         className="root-selector"
-        onChange={event => onChange(event.target.value)}
+        onChange={event => {
+          const newRootTypeId = event.target.value;
+          if (newRootTypeId !== rootTypeId) {
+            onChange(newRootTypeId);
+          }
+        }}
         value={rootTypeId}
       >
         {typesList.map(item => (
