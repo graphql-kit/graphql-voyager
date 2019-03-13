@@ -17,19 +17,10 @@ function mapStateToProps(state) {
 }
 
 class LoadingAnimation extends React.Component<LoadingAnimationProps> {
-  shouldComponentUpdate(nextProps) {
-    return this.props.loading !== nextProps.loading;
-  }
-
   render() {
-    const loading = this.props.loading;
+    const { loading } = this.props;
     return (
-      <div
-        className={classNames({
-          'loading-box': true,
-          visible: loading,
-        })}
-      >
+      <div className={classNames({ 'loading-box': true, visible: loading })} >
         <span className="loading-animation">
           <VoyagerIcon />
           <h1> Transmitting... </h1>
