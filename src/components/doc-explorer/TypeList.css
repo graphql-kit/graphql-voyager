@@ -4,7 +4,7 @@
   padding-left: var(--panel-spacing);
 }
 
-.typelist-item.-root a.type-name:after {
+.typelist-item.-root .type-name:after {
   content: "root";
   display: inline-block;
   vertical-align: middle;

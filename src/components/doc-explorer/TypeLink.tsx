@@ -1,26 +1,30 @@
 import * as React from 'react';
-import { connect } from 'react-redux';
+import * as classNames from 'classnames';
+import { isBuiltInScalarType, isScalarType, isInputObjectType } from '../../introspection';
 
 import './TypeLink.css';
 
-import { selectNode, focusElement } from '../../actions/';
-
 interface TypeLinkProps {
   type: any;
-  dispatch: any;
+  onClick: (any) => void;
 }
 
-class TypeLink extends React.Component<TypeLinkProps> {
+export default class TypeLink extends React.Component<TypeLinkProps> {
   render() {
-    const { type, dispatch } = this.props;
+    const { type, onClick } = this.props;
+
+    let className;
+    if (isBuiltInScalarType(type)) className = '-built-in';
+    else if (isScalarType(type)) className = '-scalar';
+    else if (isInputObjectType(type)) className = '-input-obj';
+    else className = '-object';
 
     return (
       <a
-        className="type-name -object"
+        className={classNames('type-name', className)}
         onClick={event => {
           event.stopPropagation();
-          dispatch(focusElement(type.id));
-          dispatch(selectNode(type.id));
+          onClick(type);
         }}
       >
         {type.name}
@@ -28,5 +32,3 @@ class TypeLink extends React.Component<TypeLinkProps> {
     );
   }
 }
-
-export default connect()(TypeLink);

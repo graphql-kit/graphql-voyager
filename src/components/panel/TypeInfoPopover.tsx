@@ -57,9 +57,17 @@ class ScalarDetails extends React.Component<ScalarDetailsProps, ScalarDetailsSta
         <IconButton className="closeButton" onClick={() => this.close()}>
           <CloseIcon />
         </IconButton>
-        {(type || localType) && <TypeDetails type={type || localType} />}
+        {(type || localType) && <TypeDetails
+          type={type || localType}
+          onTypeLink={this.handleTypeLink}
+        />}
       </div>
     );
+  }
+
+  handleTypeLink = (type) => {
+    let { dispatch } = this.props;
+    dispatch(changeSelectedTypeInfo(type));
   }
 }
 

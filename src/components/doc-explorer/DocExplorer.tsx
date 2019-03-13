@@ -7,10 +7,12 @@ import {
  selectPreviousType,
  clearSelection,
  focusElement,
+ selectNode,
  selectEdge,
+ changeSelectedTypeInfo,
 } from '../../actions/';
 
-import { getTypeGraphSelector } from '../../graph';
+import { isNode, getTypeGraphSelector } from '../../graph';
 import TypeList from './TypeList';
 import TypeDoc from './TypeDoc';
 import FocusTypeButton from './FocusTypeButton';
@@ -52,7 +54,11 @@ class DocExplorer extends React.Component<DocExplorerProps> {
             <span className="header">Type List</span>
           </div>
           <div className="scroll-area">
-            <TypeList typeGraph={typeGraph} onFocusType={this.handleFocusType} />
+            <TypeList
+              typeGraph={typeGraph}
+              onTypeLink={this.handleTypeLink}
+              onFocusType={this.handleFocusType}
+            />
           </div>
         </div>
       );
@@ -77,6 +83,7 @@ class DocExplorer extends React.Component<DocExplorerProps> {
             selectedType={selectedType}
             selectedEdgeID={selectedEdgeID}
             typeGraph={typeGraph}
+            onTypeLink={this.handleTypeLink}
             onSelectEdge={this.handleSelectEdge}
           />
         </div>
@@ -92,6 +99,17 @@ class DocExplorer extends React.Component<DocExplorerProps> {
   handleFocusType = (typeID) => {
     const { dispatch } = this.props;
     dispatch(focusElement(typeID));
+  }
+
+  handleTypeLink = (type) => {
+    let { dispatch } = this.props;
+
+    if (isNode(type)) {
+      dispatch(focusElement(type.id));
+      dispatch(selectNode(type.id));
+    } else {
+      dispatch(changeSelectedTypeInfo(type));
+    }
   }
 
   handleNavBackClick = () => {

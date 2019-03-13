@@ -4,29 +4,18 @@ import IconButton from '@material-ui/core/IconButton';
 import './WrappedTypeName.css';
 
 import { stringifyWrappers } from '../../introspection/';
-import { isNode } from '../../graph/';
 import TypeLink from './TypeLink';
-import TypeName from './TypeName';
 
 import RelayIcon from '../icons/relay-icon.svg';
 
 interface WrappedTypeNameProps {
   container: any;
+  onTypeLink: (any) => void;
 }
 
 export default class WrappedTypeName extends React.Component<WrappedTypeNameProps> {
-  renderRelayIcon() {
-    return (
-      <Tooltip title="Relay Connection" placement="top">
-        <IconButton className="relay-icon">
-          <RelayIcon />
-        </IconButton>
-      </Tooltip>
-    );
-  }
-
   render() {
-    const { container } = this.props;
+    const { container, onTypeLink } = this.props;
 
     const type = container.type;
     const wrappers = container.typeWrappers || [];
@@ -35,9 +24,20 @@ export default class WrappedTypeName extends React.Component<WrappedTypeNameProp
     return (
       <span className="wrapped-type-name">
         {leftWrap}
-        {isNode(type) ? <TypeLink type={type} /> : <TypeName type={type} />}
-        {rightWrap} {container.relayType && this.renderRelayIcon()}
+        <TypeLink type={type} onClick={onTypeLink} />
+        {rightWrap} {container.relayType && wrapRelayIcon()}
       </span>
     );
   }
 }
+
+function wrapRelayIcon() {
+  return (
+    <Tooltip title="Relay Connection" placement="top">
+      <IconButton className="relay-icon">
+        <RelayIcon />
+      </IconButton>
+    </Tooltip>
+  );
+}
+

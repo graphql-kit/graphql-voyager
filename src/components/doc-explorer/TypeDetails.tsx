@@ -8,10 +8,11 @@ import WrappedTypeName from './WrappedTypeName';
 
 interface TypeDetailsProps {
   type: SimplifiedTypeWithIDs;
+  onTypeLink: (any) => void;
 }
 
 export default class TypeDetails extends React.Component<TypeDetailsProps> {
-  renderFields(type: SimplifiedTypeWithIDs) {
+  renderFields(type: SimplifiedTypeWithIDs, onTypeLink) {
     if (_.isEmpty(type.inputFields)) return null;
 
     return (
@@ -21,7 +22,7 @@ export default class TypeDetails extends React.Component<TypeDetailsProps> {
           return (
             <div key={field.id} className="item">
               <a className="field-name">{field.name}</a>
-              <WrappedTypeName container={field} />
+              <WrappedTypeName container={field} onTypeLink={onTypeLink} />
               <Markdown text={field.description} className="description-box -field" />
             </div>
           );
@@ -42,7 +43,7 @@ export default class TypeDetails extends React.Component<TypeDetailsProps> {
   }
 
   render() {
-    const { type } = this.props;
+    const { type, onTypeLink } = this.props;
 
     return (
       <div className="type-details">
@@ -51,7 +52,7 @@ export default class TypeDetails extends React.Component<TypeDetailsProps> {
           <Description className="-doc-type" text={type.description} />
         </header>
         <div className="doc-categories">
-          {this.renderFields(type)}
+          {this.renderFields(type, onTypeLink)}
           {this.renderEnumValues(type)}
         </div>
       </div>

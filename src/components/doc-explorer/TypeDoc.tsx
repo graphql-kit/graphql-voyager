@@ -17,6 +17,7 @@ interface TypeDocProps {
   selectedEdgeID: string;
   typeGraph: any;
   onSelectEdge: (string) => void;
+  onTypeLink: (any) => void;
 }
 
 export default class TypeDoc extends React.Component<TypeDocProps> {
@@ -34,7 +35,14 @@ export default class TypeDoc extends React.Component<TypeDocProps> {
   }
 
   render() {
-    const { selectedType, selectedEdgeID, typeGraph, onSelectEdge } = this.props;
+    const {
+      selectedType,
+      selectedEdgeID,
+      typeGraph,
+      onSelectEdge,
+      onTypeLink,
+    } = this.props;
+
     return (
       <div className="type-doc">
         <Description className="-doc-type" text={selectedType.description} />
@@ -84,7 +92,7 @@ export default class TypeDoc extends React.Component<TypeDocProps> {
             if (type.id === selectedId) props.ref = 'selectedItem';
             return (
               <div {...props}>
-                <TypeLink type={type.type} />
+                <TypeLink type={type.type} onClick={onTypeLink} />
                 <Description text={type.type.description} className="-linked-type" />
               </div>
             );
@@ -120,12 +128,17 @@ export default class TypeDoc extends React.Component<TypeDocProps> {
                   {!_.isEmpty(field.args) && (
                     <span key="args" className="args">
                       {_.map(field.args, arg => (
-                        <Argument key={arg.name} arg={arg} expanded={field.id === selectedId} />
+                        <Argument
+                          key={arg.name}
+                          arg={arg}
+                          expanded={field.id === selectedId}
+                          onTypeLink={onTypeLink}
+                        />
                       ))}
                     </span>
                   )}
                 </span>
-                <WrappedTypeName container={field} />
+                <WrappedTypeName container={field} onTypeLink={onTypeLink} />
                 {field.isDeprecated && <span className="doc-alert-text">{' (DEPRECATED)'}</span>}
                 <Markdown text={field.description} className="description-box -field" />
               </div>

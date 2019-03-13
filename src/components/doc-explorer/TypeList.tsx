@@ -11,11 +11,12 @@ import FocusTypeButton from './FocusTypeButton';
 interface TypeListProps {
   typeGraph: any;
   onFocusType: (string) => void;
+  onTypeLink: (string) => void;
 }
 
 export default class TypeList extends React.Component<TypeListProps> {
   render() {
-    const { typeGraph, onFocusType } = this.props;
+    const { typeGraph, onFocusType, onTypeLink } = this.props;
 
     if (typeGraph === null) return null;
 
@@ -36,7 +37,7 @@ export default class TypeList extends React.Component<TypeListProps> {
     function renderItem(type, className?: string) {
       return (
         <div key={type.id} className={classNames('typelist-item', className)}>
-          <TypeLink type={type} />
+          <TypeLink type={type} onClick={onTypeLink} />
           <FocusTypeButton onClick={() => onFocusType(type.id)} />
           <Description className="-doc-type" text={type.description} />
         </div>
