@@ -85,10 +85,8 @@ export function rootReducer(previousState = initialState, action) {
       return {
         ...previousState,
         selected: {
-          ...previousState.selected,
+          ...initialState.selected,
           currentNodeId,
-          currentEdgeId: null,
-          scalar: null,
         },
       };
     case ActionTypes.SELECT_EDGE:
@@ -115,11 +113,6 @@ export function rootReducer(previousState = initialState, action) {
           currentEdgeId,
           scalar: null,
         },
-      };
-    case ActionTypes.CLEAR_SELECTION:
-      return {
-        ...previousState,
-        selected: initialState.selected,
       };
     case ActionTypes.FOCUS_ELEMENT:
       return {

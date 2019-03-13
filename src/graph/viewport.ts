@@ -122,7 +122,7 @@ export class Viewport {
         let $edge = getParent(target, 'edge');
         this.store.dispatch(Actions.selectEdge(edgeSource($edge).id));
       } else if (!isControl(target)) {
-        this.store.dispatch(Actions.clearSelection());
+        this.store.dispatch(Actions.selectNode(null));
       }
     });
   }

@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import './DocExplorer.css';
 
 import {
- clearSelection,
  focusElement,
  selectNode,
  selectEdge,
@@ -142,7 +141,7 @@ class DocExplorer extends React.Component<DocExplorerProps> {
 
     this.setState({ navStack: newNavStack });
 
-    if (newCurrentNode.type == null) return dispatch(clearSelection());
+    if (newCurrentNode.type == null) return dispatch(selectNode(null));
 
     const id = newCurrentNode.type.id;
     dispatch(focusElement(id));

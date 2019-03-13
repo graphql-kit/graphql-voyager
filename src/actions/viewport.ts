@@ -14,13 +14,6 @@ export function selectEdge(id) {
   };
 }
 
-export const CLEAR_SELECTION = 'CLEAR_SELECTION';
-export function clearSelection() {
-  return {
-    type: CLEAR_SELECTION,
-  };
-}
-
 export const FOCUS_ELEMENT = 'FOCUS_ELEMENT';
 export function focusElement(id) {
   return {
