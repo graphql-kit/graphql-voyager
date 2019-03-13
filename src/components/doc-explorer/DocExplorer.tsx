@@ -18,26 +18,32 @@ import TypeDoc from './TypeDoc';
 import FocusTypeButton from './FocusTypeButton';
 
 interface DocExplorerProps {
-  previousTypeID: string;
-  selectedTypeID: string;
+  previousType: any;
+  selectedType: any;
   selectedEdgeID: string;
   typeGraph: any;
   dispatch: any;
 }
 
 function mapStateToProps(state) {
+  const typeGraph = getTypeGraphSelector(state);
+  const nodes = typeGraph ? typeGraph.nodes : Object.create(null);
+
   const previousTypesIds = state.selected.previousTypesIds;
+  const previousTypeId = previousTypesIds[previousTypesIds.length - 1];
+  const selectedTypeId = state.selected.currentNodeId;
+
   return {
-    previousTypeID: previousTypesIds[previousTypesIds.length - 1],
-    selectedTypeID: state.selected.currentNodeId,
+    previousType: previousTypeId && nodes[previousTypeId],
+    selectedType: selectedTypeId && nodes[selectedTypeId],
     selectedEdgeID: state.selected.currentEdgeId,
-    typeGraph: getTypeGraphSelector(state),
+    typeGraph,
   };
 }
 
 class DocExplorer extends React.Component<DocExplorerProps> {
   render() {
-    const { previousTypeID, selectedTypeID, selectedEdgeID, typeGraph } = this.props;
+    const { previousType, selectedType, selectedEdgeID, typeGraph } = this.props;
 
     if (!typeGraph) {
       return (
@@ -47,7 +53,7 @@ class DocExplorer extends React.Component<DocExplorerProps> {
       );
     }
 
-    if (!selectedTypeID) {
+    if (!selectedType) {
       return (
         <div className="type-doc">
           <div className="doc-navigation">
@@ -64,17 +70,16 @@ class DocExplorer extends React.Component<DocExplorerProps> {
       );
     }
 
-    const selectedType = typeGraph.nodes[selectedTypeID];
     return (
       <div className="type-doc">
         <div className="doc-navigation">
           <span className="back" onClick={this.handleNavBackClick}>
-            {previousTypeID ? typeGraph.nodes[previousTypeID].name : 'Type List'}
+            {previousType ? previousType.name : 'Type List'}
           </span>
           <span className="active">
             {selectedType.name}
             <FocusTypeButton
-              onClick={() => this.handleFocusType(selectedType.id)}
+              onClick={() => this.handleFocusType(selectedType)}
             />
           </span>
         </div>
@@ -96,9 +101,9 @@ class DocExplorer extends React.Component<DocExplorerProps> {
     dispatch(selectEdge(edgeID));
   }
 
-  handleFocusType = (typeID) => {
+  handleFocusType = (type) => {
     const { dispatch } = this.props;
-    dispatch(focusElement(typeID));
+    dispatch(focusElement(type.id));
   }
 
   handleTypeLink = (type) => {
@@ -113,11 +118,11 @@ class DocExplorer extends React.Component<DocExplorerProps> {
   }
 
   handleNavBackClick = () => {
-    const { dispatch, previousTypeID } = this.props;
+    const { dispatch, previousType } = this.props;
 
-    if (!previousTypeID) return dispatch(clearSelection());
+    if (!previousType) return dispatch(clearSelection());
 
-    dispatch(focusElement(previousTypeID));
+    dispatch(focusElement(previousType.id));
     dispatch(selectPreviousType());
   }
 }
