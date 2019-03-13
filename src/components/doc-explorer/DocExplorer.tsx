@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import './DocExplorer.css';
 
 import {
- selectPreviousType,
  clearSelection,
  focusElement,
  selectNode,
@@ -18,32 +17,47 @@ import TypeDoc from './TypeDoc';
 import FocusTypeButton from './FocusTypeButton';
 
 interface DocExplorerProps {
-  previousType: any;
-  selectedType: any;
+  selectedTypeID: any;
   selectedEdgeID: string;
   typeGraph: any;
   dispatch: any;
 }
 
 function mapStateToProps(state) {
-  const typeGraph = getTypeGraphSelector(state);
-  const nodes = typeGraph ? typeGraph.nodes : Object.create(null);
-
-  const previousTypesIds = state.selected.previousTypesIds;
-  const previousTypeId = previousTypesIds[previousTypesIds.length - 1];
-  const selectedTypeId = state.selected.currentNodeId;
-
   return {
-    previousType: previousTypeId && nodes[previousTypeId],
-    selectedType: selectedTypeId && nodes[selectedTypeId],
+    selectedTypeID: state.selected.currentNodeId,
     selectedEdgeID: state.selected.currentEdgeId,
-    typeGraph,
+    typeGraph: getTypeGraphSelector(state),
   };
 }
 
+const initialNav = { title: 'Type List', type: null };
+
 class DocExplorer extends React.Component<DocExplorerProps> {
+  state = { navStack: [initialNav] };
+
+  static getDerivedStateFromProps(props, state) {
+    const { selectedTypeID, typeGraph } = props;
+
+    const { navStack } = state;
+    const lastNav = navStack[navStack.length - 1];
+    const lastTypeID = lastNav.type ? lastNav.type.id : null;
+    if (selectedTypeID !== lastTypeID) {
+      if (selectedTypeID == null) {
+        return { navStack: [initialNav] };
+      }
+
+      const type = typeGraph.nodes[selectedTypeID];
+      const newNavStack = [...navStack, { title: type.name, type }];
+
+      return { navStack: newNavStack };
+    }
+
+    return null;
+  }
+
   render() {
-    const { previousType, selectedType, selectedEdgeID, typeGraph } = this.props;
+    const { selectedEdgeID, typeGraph } = this.props;
 
     if (!typeGraph) {
       return (
@@ -53,7 +67,10 @@ class DocExplorer extends React.Component<DocExplorerProps> {
       );
     }
 
-    if (!selectedType) {
+    const { navStack } = this.state;
+    const previousNav = navStack[navStack.length - 2];
+
+    if (!previousNav) {
       return (
         <div className="type-doc">
           <div className="doc-navigation">
@@ -70,22 +87,23 @@ class DocExplorer extends React.Component<DocExplorerProps> {
       );
     }
 
+    const currentNav = navStack[navStack.length - 1];
     return (
       <div className="type-doc">
         <div className="doc-navigation">
           <span className="back" onClick={this.handleNavBackClick}>
-            {previousType ? previousType.name : 'Type List'}
+            {previousNav.title}
           </span>
           <span className="active">
-            {selectedType.name}
+            {currentNav.type.name}
             <FocusTypeButton
-              onClick={() => this.handleFocusType(selectedType)}
+              onClick={() => this.handleFocusType(currentNav.type)}
             />
           </span>
         </div>
         <div className="scroll-area">
           <TypeDoc
-            selectedType={selectedType}
+            selectedType={currentNav.type}
             selectedEdgeID={selectedEdgeID}
             typeGraph={typeGraph}
             onTypeLink={this.handleTypeLink}
@@ -118,12 +136,17 @@ class DocExplorer extends React.Component<DocExplorerProps> {
   }
 
   handleNavBackClick = () => {
-    const { dispatch, previousType } = this.props;
+    const { dispatch } = this.props;
+    const newNavStack = this.state.navStack.slice(0, -1);
+    const newCurrentNode = newNavStack[newNavStack.length - 1];
 
-    if (!previousType) return dispatch(clearSelection());
+    this.setState({ navStack: newNavStack });
 
-    dispatch(focusElement(previousType.id));
-    dispatch(selectPreviousType());
+    if (newCurrentNode.type == null) return dispatch(clearSelection());
+
+    const id = newCurrentNode.type.id;
+    dispatch(focusElement(id));
+    dispatch(selectNode(id));
   }
 }
 

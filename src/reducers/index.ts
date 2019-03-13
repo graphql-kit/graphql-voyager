@@ -16,7 +16,6 @@ export type StateInterface = {
   schema: any;
   displayOptions: DisplayOptions;
   selected: {
-    previousTypesIds: string[];
     currentNodeId: string | null;
     currentEdgeId: string | null;
     scalar: string | null;
@@ -38,7 +37,6 @@ const initialState: StateInterface = {
     hideRoot: false,
   },
   selected: {
-    previousTypesIds: [],
     currentNodeId: null,
     currentEdgeId: null,
     scalar: null,
@@ -49,15 +47,6 @@ const initialState: StateInterface = {
   },
   errorMessage: null,
 };
-
-function pushHistory(currentTypeId: string, previousState): string[] {
-  let previousTypesIds = previousState.selected.previousTypesIds;
-  let previousTypeId = previousState.selected.currentNodeId;
-
-  if (previousTypeId === null || previousTypeId === currentTypeId) return previousTypesIds;
-
-  if (_.last(previousTypesIds) !== previousTypeId) return [...previousTypesIds, previousTypeId];
-}
 
 export function rootReducer(previousState = initialState, action) {
   const { type } = action;
@@ -97,7 +86,6 @@ export function rootReducer(previousState = initialState, action) {
         ...previousState,
         selected: {
           ...previousState.selected,
-          previousTypesIds: pushHistory(currentNodeId, previousState),
           currentNodeId,
           currentEdgeId: null,
           scalar: null,
@@ -123,20 +111,8 @@ export function rootReducer(previousState = initialState, action) {
         ...previousState,
         selected: {
           ...previousState.selected,
-          previousTypesIds: pushHistory(nodeId, previousState),
           currentNodeId: nodeId,
           currentEdgeId,
-          scalar: null,
-        },
-      };
-    case ActionTypes.SELECT_PREVIOUS_TYPE:
-      return {
-        ...previousState,
-        selected: {
-          ...previousState.selected,
-          previousTypesIds: _.initial(previousState.selected.previousTypesIds),
-          currentNodeId: _.last(previousState.selected.previousTypesIds),
-          currentEdgeId: null,
           scalar: null,
         },
       };
