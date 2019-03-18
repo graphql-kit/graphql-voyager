@@ -11,11 +11,15 @@ import {
 } from '../../actions/';
 
 import { isNode, getTypeGraphSelector } from '../../graph';
+import TypeInfoPopover from '../panel/TypeInfoPopover';
+import PoweredBy from '../utils/PoweredBy';
+
 import TypeList from './TypeList';
 import TypeDoc from './TypeDoc';
 import FocusTypeButton from './FocusTypeButton';
 
 interface DocExplorerProps {
+  header: React.ReactNode;
   selectedTypeID: any;
   selectedEdgeID: string;
   typeGraph: any;
@@ -56,6 +60,19 @@ class DocExplorer extends React.Component<DocExplorerProps> {
   }
 
   render() {
+    return (
+      <div className="doc-panel">
+        <div className="contents">
+          {this.props.header}
+          {this.renderDocs()}
+          <PoweredBy />
+        </div>
+        <TypeInfoPopover />
+      </div>
+    );
+  }
+
+  renderDocs() {
     const { selectedEdgeID, typeGraph } = this.props;
 
     if (!typeGraph) {

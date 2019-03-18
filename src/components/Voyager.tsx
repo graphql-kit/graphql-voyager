@@ -14,7 +14,7 @@ import './viewport.css';
 
 import ErrorBar from './utils/ErrorBar';
 import LoadingAnimation from './utils/LoadingAnimation';
-import DocPanel from './panel/DocPanel';
+import DocExplorer from './doc-explorer/DocExplorer';
 
 import { SVGRender } from './../graph/';
 import { Viewport } from './../graph/';
@@ -139,7 +139,7 @@ export default class Voyager extends React.Component<VoyagerProps> {
       <Provider store={this.store}>
         <MuiThemeProvider theme={theme}>
           <div className="graphql-voyager">
-            {!hideDocs && <DocPanel header={panelHeader} />}
+            {!hideDocs && <DocExplorer header={panelHeader} />}
             {!hideSettings && <Settings />}
             <div ref="viewport" className="viewport" />
             <ErrorBar />
