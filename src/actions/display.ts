@@ -23,12 +23,3 @@ export function clearError() {
     type: CLEAR_ERROR,
   };
 }
-
-export const CHANGE_SELECTED_TYPEINFO = 'CHANGE_SELECTED_TYPEINFO';
-
-export function changeSelectedTypeInfo(type) {
-  return {
-    type: CHANGE_SELECTED_TYPEINFO,
-    payload: type,
-  };
-}

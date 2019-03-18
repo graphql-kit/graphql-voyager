@@ -3,15 +3,10 @@ import { connect } from 'react-redux';
 
 import './DocExplorer.css';
 
-import {
- focusElement,
- selectNode,
- selectEdge,
- changeSelectedTypeInfo,
-} from '../../actions/';
+import { focusElement, selectNode, selectEdge } from '../../actions/';
 
 import { isNode, getTypeGraphSelector } from '../../graph';
-import TypeInfoPopover from '../panel/TypeInfoPopover';
+import TypeInfoPopover from './TypeInfoPopover';
 import PoweredBy from '../utils/PoweredBy';
 
 import TypeList from './TypeList';
@@ -37,7 +32,7 @@ function mapStateToProps(state) {
 const initialNav = { title: 'Type List', type: null };
 
 class DocExplorer extends React.Component<DocExplorerProps> {
-  state = { navStack: [initialNav] };
+  state = { navStack: [initialNav], typeForInfoPopover: null };
 
   static getDerivedStateFromProps(props, state) {
     const { selectedTypeID, typeGraph } = props;
@@ -47,13 +42,13 @@ class DocExplorer extends React.Component<DocExplorerProps> {
     const lastTypeID = lastNav.type ? lastNav.type.id : null;
     if (selectedTypeID !== lastTypeID) {
       if (selectedTypeID == null) {
-        return { navStack: [initialNav] };
+        return { navStack: [initialNav], typeForInfoPopover: null };
       }
 
       const type = typeGraph.nodes[selectedTypeID];
       const newNavStack = [...navStack, { title: type.name, type }];
 
-      return { navStack: newNavStack };
+      return { navStack: newNavStack, typeForInfoPopover: null };
     }
 
     return null;
@@ -67,7 +62,10 @@ class DocExplorer extends React.Component<DocExplorerProps> {
           {this.renderDocs()}
           <PoweredBy />
         </div>
-        <TypeInfoPopover />
+        <TypeInfoPopover
+          type={this.state.typeForInfoPopover}
+          onChange={type => this.setState({ typeForInfoPopover: type })}
+        />
       </div>
     );
   }
@@ -147,7 +145,7 @@ class DocExplorer extends React.Component<DocExplorerProps> {
       dispatch(focusElement(type.id));
       dispatch(selectNode(type.id));
     } else {
-      dispatch(changeSelectedTypeInfo(type));
+      this.setState({ typeForInfoPopover: type });
     }
   }
 
@@ -156,7 +154,7 @@ class DocExplorer extends React.Component<DocExplorerProps> {
     const newNavStack = this.state.navStack.slice(0, -1);
     const newCurrentNode = newNavStack[newNavStack.length - 1];
 
-    this.setState({ navStack: newNavStack });
+    this.setState({ navStack: newNavStack, typeForInfoPopover: null });
 
     if (newCurrentNode.type == null) return dispatch(selectNode(null));
 

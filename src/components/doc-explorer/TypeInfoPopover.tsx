@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { connect } from 'react-redux';
 import * as classNames from 'classnames';
 
 import './TypeInfoPopover.css';
@@ -7,38 +6,30 @@ import './TypeInfoPopover.css';
 import CloseIcon from '../icons/close-black.svg';
 import IconButton from '@material-ui/core/IconButton';
 
-import { changeSelectedTypeInfo } from '../../actions';
-
 import TypeDetails from '../doc-explorer/TypeDetails';
-
-function mapStateToProps(state) {
-  return {
-    type: state.selected.typeinfo,
-  };
-}
 
 interface ScalarDetailsProps {
   type: any;
-  dispatch: any;
+  onChange: any;
 }
 
 interface ScalarDetailsState {
   localType: any;
 }
 
-class ScalarDetails extends React.Component<ScalarDetailsProps, ScalarDetailsState> {
+export default class ScalarDetails extends React.Component<ScalarDetailsProps, ScalarDetailsState> {
   constructor(props) {
     super(props);
     this.state = { localType: null };
   }
   close() {
-    this.props.dispatch(changeSelectedTypeInfo(null));
+    this.props.onChange(null);
     setTimeout(() => {
       this.setState({ localType: null });
     }, 450);
   }
   render() {
-    let { type } = this.props;
+    let { type, onChange } = this.props;
 
     //FIXME: implement animation correctly
     //https://facebook.github.io/react/docs/animation.html
@@ -59,16 +50,9 @@ class ScalarDetails extends React.Component<ScalarDetailsProps, ScalarDetailsSta
         </IconButton>
         {(type || localType) && <TypeDetails
           type={type || localType}
-          onTypeLink={this.handleTypeLink}
+          onTypeLink={onChange}
         />}
       </div>
     );
   }
-
-  handleTypeLink = (type) => {
-    let { dispatch } = this.props;
-    dispatch(changeSelectedTypeInfo(type));
-  }
 }
-
-export default connect(mapStateToProps)(ScalarDetails);

@@ -18,7 +18,6 @@ export type StateInterface = {
   selected: {
     currentNodeId: string | null;
     currentEdgeId: string | null;
-    scalar: string | null;
   };
   graphView: {
     svg: string;
@@ -39,7 +38,6 @@ const initialState: StateInterface = {
   selected: {
     currentNodeId: null,
     currentEdgeId: null,
-    scalar: null,
   },
   graphView: {
     svg: null,
@@ -99,7 +97,6 @@ export function rootReducer(previousState = initialState, action) {
           selected: {
             ...previousState.selected,
             currentEdgeId: null,
-            scalar: null,
           },
         };
       }
@@ -111,7 +108,6 @@ export function rootReducer(previousState = initialState, action) {
           ...previousState.selected,
           currentNodeId: nodeId,
           currentEdgeId,
-          scalar: null,
         },
       };
     case ActionTypes.FOCUS_ELEMENT:
@@ -141,14 +137,6 @@ export function rootReducer(previousState = initialState, action) {
       return {
         ...previousState,
         errorMessage: initialState.errorMessage,
-      };
-    case ActionTypes.CHANGE_SELECTED_TYPEINFO:
-      return {
-        ...previousState,
-        selected: {
-          ...previousState.selected,
-          typeinfo: action.payload,
-        },
       };
     default:
       return previousState;
