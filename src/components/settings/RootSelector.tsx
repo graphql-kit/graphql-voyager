@@ -16,11 +16,9 @@ interface RootSelectorProps {
 
 export default class RootSelector extends React.Component<RootSelectorProps> {
   render() {
-    let { rootTypeId, schema, onChange } = this.props;
+    let { schema, onChange } = this.props;
 
-    if (schema === null) return null;
-
-    rootTypeId = rootTypeId || getDefaultRoot(schema);
+    const rootTypeId = this.props.rootTypeId || getDefaultRoot(schema);
     let { types, queryType, mutationType, subscriptionType } = schema;
 
     types = _.omit(types, queryType.id);

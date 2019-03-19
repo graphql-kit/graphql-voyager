@@ -34,6 +34,8 @@ export class Settings extends React.Component<SettingsProps> {
   render() {
     let { schema, options, onChange } = this.props;
 
+    if (schema == null) return null;
+
     return (
       <div className="menu-content">
         <div className="setting-change-root">
