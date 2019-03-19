@@ -2,96 +2,42 @@ import * as _ from 'lodash';
 import * as svgPanZoom from 'svg-pan-zoom';
 import * as animate from '@f/animate';
 
-import * as Actions from '../actions';
-import { observeStore } from '../redux';
 import { removeClass, forEachNode, stringToSvg } from '../utils/';
-
-import { getTypeGraphSelector } from './type-graph';
 import { typeNameToId } from '../introspection';
 
 export class Viewport {
+  onSelectNode: (id: string) => void;
+  onSelectEdge: (id: string) => void;
+
   $svg: SVGElement;
   zoomer: SvgPanZoom.Instance;
   offsetLeft: number;
   offsetTop: number;
   maxZoom: number;
 
-  _unsubscribe: any;
+  constructor(svgString, public container: HTMLElement, onSelectNode, onSelectEdge) {
+    this.onSelectNode = onSelectNode;
+    this.onSelectEdge = onSelectEdge;
 
-  constructor(public store, public renderer, public container: HTMLElement) {
-    let unsubscribe = [];
+    this.container.innerHTML = '';
+    this.$svg = stringToSvg(svgString);
+    this.container.appendChild(this.$svg);
 
-    function subscribe(...args) {
-      unsubscribe.push(observeStore(store, ...args));
-    }
-
-    this._unsubscribe = observeStore(
-      store,
-      getTypeGraphSelector,
-      state => state.displayOptions,
-      (typeGraph, displayOptions) => {
-        unsubscribe.forEach(f => f());
-        unsubscribe = [];
-
-        if (typeGraph == null) return;
-
-        renderer.renderSvg(typeGraph, displayOptions)
-          .then(svg => {
-            this.display(svg);
-            store.dispatch(Actions.svgRenderingFinished('finish'));
-
-            subscribe(state => state.selected.currentNodeId, id => this.selectNodeById(id));
-            subscribe(state => state.selected.currentEdgeId, id => this.selectEdgeById(id));
-            subscribe(
-              state => state.graphView.focusedId,
-              id => {
-                if (id === null) return;
-
-                this.focusElement(id);
-                store.dispatch(Actions.focusElementDone(id));
-              },
-            );
-          })
-          .catch(error => {
-            const msg = error.message || 'Unknown error';
-            this.store.dispatch(Actions.reportError(msg));
-          });
-      },
-    );
-
-    window.addEventListener('resize', this.resize);
+    this.enableZoom();
+    this.bindClick();
+    this.bindHover();
 
     this.resize();
+    window.addEventListener('resize', () => this.resize());
   }
 
-  resize = () => {
+  resize() {
     let bbRect = this.container.getBoundingClientRect();
     this.offsetLeft = bbRect.left;
     this.offsetTop = bbRect.top;
     if (this.zoomer !== undefined) {
       this.zoomer.resize();
     }
-  };
-
-  display(svgString) {
-    this.clear();
-    this.$svg = stringToSvg(svgString);
-    this.container.appendChild(this.$svg);
-    // run on the next tick
-    setTimeout(() => {
-      this.enableZoom();
-      this.bindClick();
-      this.bindHover();
-    }, 0);
-  }
-
-  clear() {
-    try {
-      this.zoomer && this.zoomer.destroy();
-    } catch (e) {
-      // skip
-    }
-    this.container.innerHTML = '';
   }
 
   enableZoom() {
@@ -124,15 +70,15 @@ export class Viewport {
       var target = event.target as Element;
       if (isLink(target)) {
         const typeId = typeNameToId(target.textContent);
-        this.store.dispatch(Actions.focusElement(typeId));
+        this.focusElement(typeId);
       } else if (isNode(target)) {
         let $node = getParent(target, 'node');
-        this.store.dispatch(Actions.selectNode($node.id));
+        this.onSelectNode($node.id);
       } else if (isEdge(target)) {
         let $edge = getParent(target, 'edge');
-        this.store.dispatch(Actions.selectEdge(edgeSource($edge).id));
+        this.onSelectEdge(edgeSource($edge).id);
       } else if (!isControl(target)) {
-        this.store.dispatch(Actions.selectNode(null));
+        this.onSelectNode(null);
       }
     });
   }
@@ -245,7 +191,6 @@ export class Viewport {
   }
 
   destroy() {
-    this._unsubscribe();
     window.removeEventListener('resize', this.resize);
     try {
       this.zoomer.destroy();

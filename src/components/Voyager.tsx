@@ -13,12 +13,10 @@ import './Voyager.css';
 import './viewport.css';
 
 import ErrorBar from './utils/ErrorBar';
-import LoadingAnimation from './utils/LoadingAnimation';
+import GraphViewport, {GraphViewport as GraphViewportType} from './GraphViewport';
 import DocExplorer from './doc-explorer/DocExplorer';
 
 import { SVGRender } from './../graph/';
-import { Viewport } from './../graph/';
-
 import { changeSchema, reportError, changeDisplayOptions } from '../actions/';
 
 import { typeNameToId } from '../introspection/';
@@ -71,24 +69,19 @@ export default class Voyager extends React.Component<VoyagerProps> {
     loadWorker: PropTypes.func,
   };
 
-  viewport: Viewport;
+  svgRenderer: SVGRender;
   store: Store<StateInterface>;
+
+  viewportRef = React.createRef<GraphViewportType>();
 
   constructor(props) {
     super(props);
     this.store = configureStore();
+    this.svgRenderer = new SVGRender(this.props.workerURI, this.props.loadWorker);
   }
 
   componentDidMount() {
-    // init viewport and svg-renderer
-    const renderer = new SVGRender(this.props.workerURI, this.props.loadWorker);
-    this.viewport = new Viewport(this.store, renderer, this.refs['viewport'] as HTMLElement);
-
     this.updateIntrospection();
-  }
-
-  componentWillUnmount() {
-    this.viewport.destroy();
   }
 
   updateIntrospection() {
@@ -122,7 +115,7 @@ export default class Voyager extends React.Component<VoyagerProps> {
     }
 
     if (this.props.hideDocs !== prevProps.hideDocs) {
-      this.viewport.resize();
+      this.viewportRef.current.resize();
     }
   }
 
@@ -139,11 +132,15 @@ export default class Voyager extends React.Component<VoyagerProps> {
       <Provider store={this.store}>
         <MuiThemeProvider theme={theme}>
           <div className="graphql-voyager">
-            {!hideDocs && <DocExplorer header={panelHeader} />}
+            {!hideDocs && <DocExplorer
+              header={panelHeader}
+              onFocusNode={
+                (type) => this.viewportRef.current.focusNode(type.id)
+              }
+            />}
             {!hideSettings && <Settings />}
-            <div ref="viewport" className="viewport" />
+            <GraphViewport svgRenderer={this.svgRenderer} ref={this.viewportRef} />
             <ErrorBar />
-            <LoadingAnimation />
           </div>
         </MuiThemeProvider>
       </Provider>

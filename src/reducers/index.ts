@@ -19,10 +19,6 @@ export type StateInterface = {
     currentNodeId: string | null;
     currentEdgeId: string | null;
   };
-  graphView: {
-    svg: string;
-    focusedId: string | null;
-  };
   errorMessage: string | null;
 };
 
@@ -39,10 +35,6 @@ const initialState: StateInterface = {
     currentNodeId: null,
     currentEdgeId: null,
   },
-  graphView: {
-    svg: null,
-    focusedId: null,
-  },
   errorMessage: null,
 };
 
@@ -54,7 +46,6 @@ export function rootReducer(previousState = initialState, action) {
         ...previousState,
         schema: action.payload.introspection,
         displayOptions: _.defaults(action.payload.displayOptions, initialState.displayOptions),
-        graphView: initialState.graphView,
         selected: initialState.selected,
       };
     case ActionTypes.CHANGE_DISPLAY_OPTIONS:
@@ -65,16 +56,7 @@ export function rootReducer(previousState = initialState, action) {
       return {
         ...previousState,
         displayOptions,
-        graphView: initialState.graphView,
         selected: initialState.selected,
-      };
-    case ActionTypes.SVG_RENDERING_FINISHED:
-      return {
-        ...previousState,
-        graphView: {
-          ...previousState.graphView,
-          svg: action.payload,
-        },
       };
     case ActionTypes.SELECT_NODE:
       const currentNodeId = action.payload;
@@ -108,24 +90,6 @@ export function rootReducer(previousState = initialState, action) {
           ...previousState.selected,
           currentNodeId: nodeId,
           currentEdgeId,
-        },
-      };
-    case ActionTypes.FOCUS_ELEMENT:
-      return {
-        ...previousState,
-        graphView: {
-          ...previousState.graphView,
-          focusedId: action.payload,
-        },
-      };
-    case ActionTypes.FOCUS_ELEMENT_DONE:
-      if (previousState.graphView.focusedId !== action.payload) return previousState;
-
-      return {
-        ...previousState,
-        graphView: {
-          ...previousState.graphView,
-          focusedId: null,
         },
       };
     case ActionTypes.REPORT_ERROR:
