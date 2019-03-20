@@ -37,8 +37,7 @@ export interface VoyagerDisplayOptions {
 }
 
 export interface VoyagerProps {
-  _schemaPresets?: any;
-  introspection: IntrospectionProvider | Object | boolean;
+  introspection: IntrospectionProvider | Object;
   displayOptions?: VoyagerDisplayOptions;
   hideDocs?: boolean;
   hideSettings?: boolean;
@@ -53,9 +52,7 @@ export default class Voyager extends React.Component<VoyagerProps> {
     introspection: PropTypes.oneOfType([
       PropTypes.func.isRequired,
       PropTypes.object.isRequired,
-      PropTypes.bool.isRequired,
     ]).isRequired,
-    _schemaPresets: PropTypes.object,
     displayOptions: PropTypes.shape({
       rootType: PropTypes.string,
       skipRelay: PropTypes.bool,
