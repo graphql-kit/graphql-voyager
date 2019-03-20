@@ -41,8 +41,8 @@ export class Settings extends React.Component<SettingsProps> {
         <div className="setting-change-root">
           <RootSelector
             schema={schema}
-            rootTypeId={options.rootTypeId}
-            onChange={rootTypeId => onChange({ rootTypeId })}
+            rootType={options.rootType}
+            onChange={rootType => onChange({ rootType })}
           />
         </div>
         <div className="setting-other-options">

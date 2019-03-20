@@ -20,7 +20,6 @@ import PoweredBy from './utils/PoweredBy';
 import { SVGRender } from './../graph/';
 import { changeSchema, reportError, changeDisplayOptions } from '../actions/';
 
-import { typeNameToId } from '../introspection/';
 import { StateInterface } from '../reducers';
 
 import { WorkerCallback } from '../utils/types';
@@ -86,7 +85,6 @@ export default class Voyager extends React.Component<VoyagerProps> {
   }
 
   updateIntrospection() {
-    let displayOpts = normalizeDisplayOptions(this.props.displayOptions);
     if (_.isFunction(this.props.introspection)) {
       let promise = (this.props.introspection as IntrospectionProvider)(introspectionQuery);
 
@@ -98,10 +96,12 @@ export default class Voyager extends React.Component<VoyagerProps> {
 
       promise.then(schema => {
         if (schema === this.store.getState().schema) return;
-        this.store.dispatch(changeSchema(schema, displayOpts));
+        this.store.dispatch(changeSchema(schema, this.props.displayOptions));
       });
     } else if (this.props.introspection) {
-      this.store.dispatch(changeSchema(this.props.introspection, displayOpts));
+      this.store.dispatch(
+        changeSchema(this.props.introspection, this.props.displayOptions),
+      );
     }
   }
 
@@ -111,8 +111,7 @@ export default class Voyager extends React.Component<VoyagerProps> {
       return;
     }
     if (this.props.displayOptions !== prevProps.displayOptions) {
-      let opts = normalizeDisplayOptions(this.props.displayOptions);
-      this.store.dispatch(changeDisplayOptions(opts));
+      this.store.dispatch(changeDisplayOptions(this.props.displayOptions));
     }
 
     if (this.props.hideDocs !== prevProps.hideDocs) {
@@ -163,11 +162,4 @@ export default class Voyager extends React.Component<VoyagerProps> {
 // Duck-type promise detection.
 function isPromise(value) {
   return typeof value === 'object' && typeof value.then === 'function';
-}
-
-function normalizeDisplayOptions(opts: VoyagerDisplayOptions = {}) {
-  return {
-    ...opts,
-    rootTypeId: opts.rootType && typeNameToId(opts.rootType),
-  };
 }

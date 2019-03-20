@@ -2,6 +2,7 @@ import * as _ from 'lodash';
 import { createSelector } from 'reselect';
 
 import {
+  typeNameToId,
   getSchemaSelector,
   isScalarType,
   isInputObjectType,
@@ -13,13 +14,14 @@ export function isNode(type) {
 }
 
 export function getDefaultRoot(schema) {
-  return schema.queryType.id;
+  return schema.queryType.name;
 }
 
-function getTypeGraph(schema, rootTypeId: string, hideRoot: boolean) {
+function getTypeGraph(schema, rootType: string, hideRoot: boolean) {
   if (schema === null) return null;
 
-  return buildGraph(rootTypeId || getDefaultRoot(schema));
+  const rootId = typeNameToId(rootType || getDefaultRoot(schema))
+  return buildGraph(rootId);
 
   function getEdgeTargets(type) {
     return _([
@@ -56,7 +58,7 @@ function getTypeGraph(schema, rootTypeId: string, hideRoot: boolean) {
 
 export const getTypeGraphSelector = createSelector(
   getSchemaSelector,
-  state => state.displayOptions.rootTypeId,
+  state => state.displayOptions.rootType,
   state => state.displayOptions.hideRoot,
   getTypeGraph,
 );

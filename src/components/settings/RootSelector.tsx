@@ -1,4 +1,3 @@
-import * as _ from 'lodash';
 import * as React from 'react';
 
 import { isNode, getDefaultRoot } from '../../graph/';
@@ -9,51 +8,61 @@ import MenuItem from '@material-ui/core/MenuItem';
 import './RootSelector.css';
 
 interface RootSelectorProps {
-  rootTypeId?: string;
+  rootType?: string;
   schema: any;
   onChange: any;
 }
 
 export default class RootSelector extends React.Component<RootSelectorProps> {
   render() {
-    let { schema, onChange } = this.props;
+    const { schema, onChange } = this.props;
+    const rootType = this.props.rootType || getDefaultRoot(schema);
 
-    const rootTypeId = this.props.rootTypeId || getDefaultRoot(schema);
-    let { types, queryType, mutationType, subscriptionType } = schema;
-
-    types = _.omit(types, queryType.id);
-    if (mutationType) types = _.omit(types, mutationType.id);
-    if (subscriptionType) types = _.omit(types, subscriptionType.id);
-
-    types = _(types)
-      .values()
+    const rootTypeNames = getRootTypeNames(schema);
+    const otherTypeNames = Object.keys(schema.types)
+      .map(id => schema.types[id])
       .filter(isNode)
-      .sortBy('name')
-      .value();
+      .map(type => type.name)
+      .filter(name => rootTypeNames.indexOf(name) === -1)
+      .sort();
 
-    let typesList = _.compact([queryType, mutationType, subscriptionType]).map(type => ({
-      value: type.id,
-      label: type.name,
-      bold: true,
-    }));
-    typesList = [...typesList, ...types.map(type => ({ value: type.id, label: type.name }))];
     return (
       <Select
         className="root-selector"
-        onChange={event => {
-          const newRootTypeId = event.target.value;
-          if (newRootTypeId !== rootTypeId) {
-            onChange(newRootTypeId);
-          }
-        }}
-        value={rootTypeId}
+        onChange={handleChange}
+        value={rootType}
       >
-        {typesList.map(item => (
-          <MenuItem value={item.value} key={item.value}>
-            {item.bold ? <strong> {item.label} </strong> : <span>{item.label}</span>}
+        {rootTypeNames.map(name => (
+          <MenuItem value={name} key={name}>
+            <strong>{name}</strong>
           </MenuItem>
+        ))}
+        {otherTypeNames.map(name => (
+          <MenuItem value={name} key={name}>{name}</MenuItem>
         ))}
       </Select>
     );
+
+    function handleChange(event) {
+      const newRootType = event.target.value;
+      if (newRootType !== rootType) {
+        onChange(newRootType);
+      }
+    }
   }
+}
+
+function getRootTypeNames(schema) {
+  let { queryType, mutationType, subscriptionType } = schema;
+  const names = [];
+  if (queryType) {
+    names.push(queryType.name);
+  }
+  if (mutationType) {
+    names.push(mutationType.name);
+  }
+  if (subscriptionType) {
+    names.push(subscriptionType.name);
+  }
+  return names;
 }

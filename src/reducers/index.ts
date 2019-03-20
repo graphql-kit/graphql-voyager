@@ -5,7 +5,7 @@ import * as ActionTypes from '../actions/';
 import { extractTypeId } from '../introspection';
 
 export type DisplayOptions = {
-  rootTypeId?: string;
+  rootType?: string;
   skipRelay: boolean;
   sortByAlphabet: boolean;
   showLeafFields: boolean;
@@ -25,7 +25,7 @@ export type StateInterface = {
 const initialState: StateInterface = {
   schema: null,
   displayOptions: {
-    rootTypeId: undefined,
+    rootType: undefined,
     skipRelay: true,
     sortByAlphabet: false,
     showLeafFields: true,
