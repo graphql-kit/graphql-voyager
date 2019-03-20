@@ -25,7 +25,7 @@
   flex: 1;
   margin-top: var(--panel-spacing);
   position: relative;
-  
+
   & > div {
     position: relative;
     z-index: 1;
@@ -46,6 +46,7 @@
   & > .scroll-area {
     padding-top: var(--panel-spacing);
     overflow-y: auto;
+    flex-grow: 1;
 
     & .description-box.-doc-type {
       padding: 0 var(--panel-spacing);

@@ -4,5 +4,5 @@
   color: #333333;
   text-align: center;
   padding: 10px 10px;
-  box-shadow: 0 0 4px 2px var(--shadow-color);
+  border-top: 1px solid var(--shadow-color);
 }
