@@ -44,11 +44,11 @@ export default class TypeDoc extends React.Component<TypeDocProps> {
     } = this.props;
 
     return (
-      <div className="type-doc">
+      <>
         <Description className="-doc-type" text={selectedType.description} />
         {renderTypesDef(selectedType, selectedEdgeID)}
         {renderFields(selectedType, selectedEdgeID)}
-      </div>
+      </>
     );
 
     function renderTypesDef(type: SimplifiedTypeWithIDs, selectedId) {

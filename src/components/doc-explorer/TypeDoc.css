@@ -24,7 +24,13 @@
   flex-direction: column;
   flex: 1;
   margin-top: var(--panel-spacing);
-  overflow: hidden;
+  position: relative;
+  
+  & > div {
+    position: relative;
+    z-index: 1;
+    background: white;
+  }
 
   & > .loading {
     padding: 0 var(--panel-spacing);

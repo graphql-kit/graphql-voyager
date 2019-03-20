@@ -15,6 +15,7 @@ import './viewport.css';
 import ErrorBar from './utils/ErrorBar';
 import GraphViewport, {GraphViewport as GraphViewportType} from './GraphViewport';
 import DocExplorer from './doc-explorer/DocExplorer';
+import PoweredBy from './utils/PoweredBy';
 
 import { SVGRender } from './../graph/';
 import { changeSchema, reportError, changeDisplayOptions } from '../actions/';
@@ -122,28 +123,35 @@ export default class Voyager extends React.Component<VoyagerProps> {
   render() {
     let { hideDocs = false, hideSettings } = this.props;
 
-    const children = React.Children.toArray(this.props.children);
-
-    const panelHeader = children.find(
-      (child: React.ReactElement<any>) => child.type === Voyager.PanelHeader,
-    );
-
     return (
       <Provider store={this.store}>
         <MuiThemeProvider theme={theme}>
           <div className="graphql-voyager">
-            {!hideDocs && <DocExplorer
-              header={panelHeader}
-              onFocusNode={
-                (type) => this.viewportRef.current.focusNode(type.id)
-              }
-            />}
+            {!hideDocs && this.renderPanel()}
             {!hideSettings && <Settings />}
             <GraphViewport svgRenderer={this.svgRenderer} ref={this.viewportRef} />
             <ErrorBar />
           </div>
         </MuiThemeProvider>
       </Provider>
+    );
+  }
+
+  renderPanel() {
+    const children = React.Children.toArray(this.props.children);
+    const panelHeader = children.find(
+      (child: React.ReactElement<any>) => child.type === Voyager.PanelHeader,
+    );
+    const onFocusNode = (type) => this.viewportRef.current.focusNode(type.id);
+
+    return (
+      <div className="doc-panel">
+        <div className="contents">
+          {panelHeader}
+          <DocExplorer onFocusNode={onFocusNode} />
+          <PoweredBy />
+        </div>
+      </div>
     );
   }
 
