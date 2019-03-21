@@ -1,36 +1,26 @@
+import { isNode } from '../../graph';
+
 import * as React from 'react';
-import { connect } from 'react-redux';
-
-import './DocExplorer.css';
-
-import { selectNode, selectEdge } from '../../actions/';
-
-import { isNode, getTypeGraphSelector } from '../../graph';
-import TypeInfoPopover from './TypeInfoPopover';
-
 import TypeList from './TypeList';
 import TypeDoc from './TypeDoc';
 import FocusTypeButton from './FocusTypeButton';
+import TypeInfoPopover from './TypeInfoPopover';
+
+import './DocExplorer.css';
 
 interface DocExplorerProps {
-  selectedTypeID: any;
-  selectedEdgeID: string;
   typeGraph: any;
-  dispatch: any;
-  onFocusNode: any;
-}
+  selectedTypeID: string;
+  selectedEdgeID: string;
 
-function mapStateToProps(state) {
-  return {
-    selectedTypeID: state.selected.currentNodeId,
-    selectedEdgeID: state.selected.currentEdgeId,
-    typeGraph: getTypeGraphSelector(state),
-  };
+  onFocusNode: (id: string) => void;
+  onSelectNode: (id: string) => void;
+  onSelectEdge: (id: string) => void;
 }
 
 const initialNav = { title: 'Type List', type: null };
 
-class DocExplorer extends React.Component<DocExplorerProps> {
+export default class DocExplorer extends React.Component<DocExplorerProps> {
   state = { navStack: [initialNav], typeForInfoPopover: null };
 
   static getDerivedStateFromProps(props, state) {
@@ -54,7 +44,12 @@ class DocExplorer extends React.Component<DocExplorerProps> {
   }
 
   render() {
-    const { selectedEdgeID, typeGraph, onFocusNode } = this.props;
+    const {
+      selectedEdgeID,
+      typeGraph,
+      onFocusNode,
+      onSelectEdge,
+    } = this.props;
 
     if (!typeGraph) {
       return (
@@ -77,7 +72,7 @@ class DocExplorer extends React.Component<DocExplorerProps> {
             <TypeList
               typeGraph={typeGraph}
               onTypeLink={this.handleTypeLink}
-              onFocusType={onFocusNode}
+              onFocusType={type => onFocusNode(type.id)}
             />
           </div>
         </div>
@@ -94,7 +89,7 @@ class DocExplorer extends React.Component<DocExplorerProps> {
           <span className="active">
             {currentNav.type.name}
             <FocusTypeButton
-              onClick={() => onFocusNode(currentNav.type)}
+              onClick={() => onFocusNode(currentNav.type.id)}
             />
           </span>
         </div>
@@ -104,7 +99,7 @@ class DocExplorer extends React.Component<DocExplorerProps> {
             selectedEdgeID={selectedEdgeID}
             typeGraph={typeGraph}
             onTypeLink={this.handleTypeLink}
-            onSelectEdge={this.handleSelectEdge}
+            onSelectEdge={onSelectEdge}
           />
         </div>
         <TypeInfoPopover
@@ -115,34 +110,29 @@ class DocExplorer extends React.Component<DocExplorerProps> {
     );
   }
 
-  handleSelectEdge = (edgeID) => {
-    const { dispatch } = this.props;
-    dispatch(selectEdge(edgeID));
-  }
-
   handleTypeLink = (type) => {
-    let { dispatch, onFocusNode } = this.props;
+    let { onFocusNode, onSelectNode } = this.props;
 
     if (isNode(type)) {
-      onFocusNode(type);
-      dispatch(selectNode(type.id));
+      onFocusNode(type.id);
+      onSelectNode(type.id);
     } else {
       this.setState({ typeForInfoPopover: type });
     }
   }
 
   handleNavBackClick = () => {
-    const { dispatch, onFocusNode } = this.props;
+    const { onFocusNode, onSelectNode } = this.props;
     const newNavStack = this.state.navStack.slice(0, -1);
     const newCurrentNode = newNavStack[newNavStack.length - 1];
 
     this.setState({ navStack: newNavStack, typeForInfoPopover: null });
 
-    if (newCurrentNode.type == null) return dispatch(selectNode(null));
+    if (newCurrentNode.type == null) {
+      return onSelectNode(null);
+    }
 
-    onFocusNode(newCurrentNode.type);
-    dispatch(selectNode(newCurrentNode.type.id));
+    onFocusNode(newCurrentNode.type.id);
+    onSelectNode(newCurrentNode.type.id);
   }
 }
-
-export default connect(mapStateToProps)(DocExplorer);

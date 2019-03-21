@@ -1,40 +1,16 @@
 import * as React from 'react';
-import { connect } from 'react-redux';
-
 import Checkbox from '@material-ui/core/Checkbox';
-
 import RootSelector from './RootSelector';
-
-import { getSchemaSelector } from '../../introspection';
-import { changeDisplayOptions } from '../../actions/';
 
 interface SettingsProps {
   schema: any;
   options: any;
-  onChange: any;
+  onChange: (any) => void;
 }
 
-function mapStateToProps(state) {
-  const schema = getSchemaSelector(state);
-  return {
-    options: state.displayOptions,
-    schema: schema,
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    onChange: options => {
-      dispatch(changeDisplayOptions(options));
-    },
-  };
-}
-
-export class Settings extends React.Component<SettingsProps> {
+export default class Settings extends React.Component<SettingsProps> {
   render() {
     let { schema, options, onChange } = this.props;
-
-    if (schema == null) return null;
 
     return (
       <div className="menu-content">
@@ -72,8 +48,3 @@ export class Settings extends React.Component<SettingsProps> {
     );
   }
 }
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Settings);

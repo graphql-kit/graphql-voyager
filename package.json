@@ -35,7 +35,6 @@
     "@types/prop-types": "15.5.9",
     "@types/react": "16.8.5",
     "@types/react-dom": "16.8.2",
-    "@types/react-redux": "7.0.1",
     "@types/webpack": "4.4.25",
     "babel-loader": "8.0.5",
     "copy-webpack-plugin": "5.0.0",
@@ -78,9 +77,6 @@
     "commonmark": "^0.28.1",
     "lodash": "^4.17.10",
     "prop-types": "^15.7.2",
-    "react-redux": "^6.0.1",
-    "redux": "^4.0.1",
-    "reselect": "^4.0.0",
     "svg-pan-zoom": "^3.6.0",
     "viz.js": "2.1.2"
   },

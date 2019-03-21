@@ -1,9 +1,6 @@
 import * as _ from 'lodash';
-import { createSelector } from 'reselect';
-
 import {
   typeNameToId,
-  getSchemaSelector,
   isScalarType,
   isInputObjectType,
   isSystemType,
@@ -17,7 +14,7 @@ export function getDefaultRoot(schema) {
   return schema.queryType.name;
 }
 
-function getTypeGraph(schema, rootType: string, hideRoot: boolean) {
+export function getTypeGraph(schema, rootType: string, hideRoot: boolean) {
   if (schema === null) return null;
 
   const rootId = typeNameToId(rootType || getDefaultRoot(schema))
@@ -55,10 +52,3 @@ function getTypeGraph(schema, rootType: string, hideRoot: boolean) {
     };
   }
 }
-
-export const getTypeGraphSelector = createSelector(
-  getSchemaSelector,
-  state => state.displayOptions.rootType,
-  state => state.displayOptions.hideRoot,
-  getTypeGraph,
-);

@@ -1,6 +1,4 @@
-import { StateInterface } from '../reducers';
 import * as _ from 'lodash';
-import { createSelector } from 'reselect';
 import {
   buildClientSchema,
   introspectionFromSchema,
@@ -230,7 +228,7 @@ function assignTypesAndIDs(schema: SimplifiedIntrospection) {
   schema.types = _.keyBy(schema.types, 'id');
 }
 
-function getSchema(introspection: any, sortByAlphabet: boolean, skipRelay: boolean) {
+export function getSchema(introspection: any, sortByAlphabet: boolean, skipRelay: boolean) {
   if (!introspection) return null;
 
   let schema = buildClientSchema(introspection.data);
@@ -248,10 +246,3 @@ function getSchema(introspection: any, sortByAlphabet: boolean, skipRelay: boole
   }
   return simpleSchema;
 }
-
-export const getSchemaSelector = createSelector(
-  (state: StateInterface) => state.schema,
-  (state: StateInterface) => state.displayOptions.sortByAlphabet,
-  (state: StateInterface) => state.displayOptions.skipRelay,
-  getSchema,
-);

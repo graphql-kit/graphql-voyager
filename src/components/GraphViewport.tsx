@@ -1,32 +1,21 @@
 import * as React from 'react';
-import { connect } from 'react-redux';
-
-import { Viewport } from './../graph/';
-import { selectNode, selectEdge, reportError } from '../actions';
-import { getTypeGraphSelector } from '../graph/type-graph';
-
 import LoadingAnimation from './utils/LoadingAnimation';
 
+import { Viewport } from './../graph/';
+
 interface GraphViewportProps {
-  selectedTypeID?: any;
-  selectedEdgeID?: string;
-  typeGraph?: any;
-  displayOptions?: any;
-  dispatch?: any;
-
   svgRenderer: any;
+  typeGraph: any;
+  displayOptions: any;
+
+  selectedTypeID: string;
+  selectedEdgeID: string;
+
+  onSelectNode: (id: string) => void;
+  onSelectEdge: (id: string) => void;
 }
 
-function mapStateToProps(state) {
-  return {
-    selectedTypeID: state.selected.currentNodeId,
-    selectedEdgeID: state.selected.currentEdgeId,
-    typeGraph: getTypeGraphSelector(state),
-    displayOptions: state.displayOptions,
-  };
-}
-
-export class GraphViewport extends React.Component<GraphViewportProps> {
+export default class GraphViewport extends React.Component<GraphViewportProps> {
   state = { typeGraph: null, displayOptions: null, svgViewport: null };
 
   // Handle async graph rendering based on this example
@@ -94,7 +83,8 @@ export class GraphViewport extends React.Component<GraphViewportProps> {
     this._currentTypeGraph = typeGraph;
     this._currentDisplayOptions = displayOptions;
 
-    this.props.svgRenderer.renderSvg(typeGraph, displayOptions)
+    const { svgRenderer, onSelectNode, onSelectEdge } = this.props;
+    svgRenderer.renderSvg(typeGraph, displayOptions)
       .then(svg => {
         if (
           typeGraph !== this._currentTypeGraph ||
@@ -105,20 +95,16 @@ export class GraphViewport extends React.Component<GraphViewportProps> {
 
         this._cleanupSvgViewport();
         const containerRef = this.refs['viewport'] as HTMLElement;
-        const svgViewport = new Viewport(
-          svg,
-          containerRef,
-          (nodeID) => this.props.dispatch(selectNode(nodeID)),
-          (edgeID) => this.props.dispatch(selectEdge(edgeID)),
-        );
+        const svgViewport =
+          new Viewport(svg, containerRef, onSelectNode, onSelectEdge);
         this.setState({ svgViewport });
       })
       .catch(error => {
         this._currentTypeGraph = null;
         this._currentDisplayOptions = null;
 
-        const msg = error.message || 'Unknown error';
-        this.props.dispatch(reportError(msg));
+        error.message = error.message || 'Unknown error';
+        this.setState(() => { throw error; });
       });
   }
 
@@ -151,5 +137,3 @@ export class GraphViewport extends React.Component<GraphViewportProps> {
     }
   }
 }
-
-export default connect(mapStateToProps, null, null, { forwardRef: true })(GraphViewport);
