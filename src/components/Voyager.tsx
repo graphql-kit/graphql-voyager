@@ -22,6 +22,7 @@ type IntrospectionProvider = (query: string) => Promise<any>;
 export interface VoyagerDisplayOptions {
   rootType?: string;
   skipRelay?: boolean;
+  skipDeprecated?: boolean;
   showLeafFields?: boolean;
   sortByAlphabet?: boolean;
   hideRoot?: boolean;
@@ -30,6 +31,7 @@ export interface VoyagerDisplayOptions {
 const defaultDisplayOptions = {
   rootType: undefined,
   skipRelay: true,
+  skipDeprecated: true,
   sortByAlphabet: false,
   showLeafFields: true,
   hideRoot: false,
@@ -62,6 +64,7 @@ export default class Voyager extends React.Component<VoyagerProps> {
     displayOptions: PropTypes.shape({
       rootType: PropTypes.string,
       skipRelay: PropTypes.bool,
+      skipDeprecated: PropTypes.bool,
       sortByAlphabet: PropTypes.bool,
       hideRoot: PropTypes.bool,
       showLeafFields: PropTypes.bool,
@@ -132,7 +135,8 @@ export default class Voyager extends React.Component<VoyagerProps> {
     const schema = getSchema(
       introspectionData,
       displayOptions.sortByAlphabet,
-      displayOptions.skipRelay
+      displayOptions.skipRelay,
+      displayOptions.skipDeprecated
     );
     const typeGraph = getTypeGraph(
       schema,

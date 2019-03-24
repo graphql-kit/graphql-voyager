@@ -37,6 +37,13 @@ export default class Settings extends React.Component<SettingsProps> {
           />
           <label htmlFor="skip">Skip Relay</label>
           <Checkbox
+            id="deprecated"
+            color="primary"
+            checked={!!options.skipDeprecated}
+            onChange={event => onChange({ skipDeprecated: event.target.checked })}
+          />
+          <label htmlFor="deprecated">Skip deprecated</label>
+          <Checkbox
             id="showLeafFields"
             color="primary"
             checked={!!options.showLeafFields}

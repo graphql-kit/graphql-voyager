@@ -91,6 +91,7 @@ export function getDot(typeGraph, displayOptions): string {
 
   function nodeField(field) {
     const relayIcon = field.relayType ? TEXT('{R}') : '';
+    const deprecatedIcon = field.isDeprecated ? TEXT('{D}') : '';
     const parts = stringifyWrappers(field.typeWrappers).map(TEXT);
     return canDisplayRow(field.type) ? `
       <TR>
@@ -98,7 +99,7 @@ export function getDot(typeGraph, displayOptions): string {
           <TABLE CELLPADDING="0" CELLSPACING="0" BORDER="0">
             <TR>
               <TD ALIGN="LEFT">${field.name}<FONT>  </FONT></TD>
-              <TD ALIGN="RIGHT">${relayIcon}${parts[0]}${field.type.name}${parts[1]}</TD>
+              <TD ALIGN="RIGHT">${deprecatedIcon}${relayIcon}${parts[0]}${field.type.name}${parts[1]}</TD>
             </TR>
           </TABLE>
         </TD>

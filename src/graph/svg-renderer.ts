@@ -13,6 +13,7 @@ import Viz from 'viz.js';
 import defaultWorkerURI from 'viz.js/full.render.js';
 
 const RelayIconSvg = require('!!svg-as-symbol-loader?id=RelayIcon!../components/icons/relay-icon.svg');
+const DeprecatedIconSvg = require('!!svg-as-symbol-loader?id=DeprecatedIcon!../components/icons/deprecated-icon.svg');
 const svgns = 'http://www.w3.org/2000/svg';
 const xlinkns = 'http://www.w3.org/1999/xlink';
 
@@ -43,8 +44,9 @@ export class SVGRender {
 }
 
 function preprocessVizSVG(svgString: string) {
-  //Add Relay Icon
+  //Add Relay and Deprecated icons
   svgString = svgString.replace(/<svg [^>]*>/, '$&' + RelayIconSvg);
+  svgString = svgString.replace(/<svg [^>]*>/, '$&' + DeprecatedIconSvg);
 
   let svg = stringToSvg(svgString);
 
@@ -97,20 +99,20 @@ function preprocessVizSVG(svgString: string) {
 
     for (var i = 2; i < texts.length; ++i) {
       var str = texts[i].innerHTML;
-      if (str === '{R}') {
+      if (str === '{R}' || str == '{D}') {
         const $iconPlaceholder = texts[i];
         const height = 22;
         const width = 22;
-        const $useRelayIcon = document.createElementNS(svgns, 'use');
-        $useRelayIcon.setAttributeNS(xlinkns, 'href', '#RelayIcon');
-        $useRelayIcon.setAttribute('width', `${width}px`);
-        $useRelayIcon.setAttribute('height', `${height}px`);
+        const $useIcon = document.createElementNS(svgns, 'use');
+        $useIcon.setAttributeNS(xlinkns, 'href', str === '{R}' ? '#RelayIcon' : '#DeprecatedIcon');
+        $useIcon.setAttribute('width', `${width}px`);
+        $useIcon.setAttribute('height', `${height}px`);
 
         //FIXME: remove hardcoded offset
         const y = parseInt($iconPlaceholder.getAttribute('y')) - 15;
-        $useRelayIcon.setAttribute('x', $iconPlaceholder.getAttribute('x'));
-        $useRelayIcon.setAttribute('y', y.toString());
-        $field.replaceChild($useRelayIcon, $iconPlaceholder);
+        $useIcon.setAttribute('x', $iconPlaceholder.getAttribute('x'));
+        $useIcon.setAttribute('y', y.toString());
+        $field.replaceChild($useIcon, $iconPlaceholder);
         continue;
       }
 
