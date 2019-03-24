@@ -181,6 +181,20 @@ function markRelayTypes(schema: SimplifiedIntrospectionWithIds): void {
   }
 }
 
+function markDeprecated(schema: SimplifiedIntrospectionWithIds): void {
+  // Remove deprecated fields.
+  _.each(schema.types, type => {
+    type.fields = _.pickBy(type.fields, field => !field.isDeprecated)
+  });
+
+  // We can't remove types that end up being empty
+  // because we cannot be sure that the @deprecated directives where
+  // consistently added to the schema we're handling.
+  //
+  // Entities may have non deprecated fields pointing towards entities
+  // which are deprecated.
+}
+
 function assignTypesAndIDs(schema: SimplifiedIntrospection) {
   (<any>schema).queryType = schema.types[schema.queryType];
   (<any>schema).mutationType = schema.types[schema.mutationType];
@@ -228,7 +242,12 @@ function assignTypesAndIDs(schema: SimplifiedIntrospection) {
   schema.types = _.keyBy(schema.types, 'id');
 }
 
-export function getSchema(introspection: any, sortByAlphabet: boolean, skipRelay: boolean) {
+export function getSchema(
+  introspection: any,
+  sortByAlphabet: boolean,
+  skipRelay: boolean,
+  skipDeprecated: boolean,
+) {
   if (!introspection) return null;
 
   let schema = buildClientSchema(introspection.data);
@@ -243,6 +262,9 @@ export function getSchema(introspection: any, sortByAlphabet: boolean, skipRelay
 
   if (skipRelay) {
     markRelayTypes((<any>simpleSchema) as SimplifiedIntrospectionWithIds);
+  }
+  if (skipDeprecated) {
+    markDeprecated((<any>simpleSchema) as SimplifiedIntrospectionWithIds);
   }
   return simpleSchema;
 }

@@ -39,6 +39,7 @@ module system it is exported as `GraphQLVoyager` global variable.
 + `introspection` [`object` or function: `(query: string) => Promise`] - the server introspection response. If `function` is provided GraphQL Voyager will pass introspection query as a first function parameter. Function should return `Promise` which resolves to introspection response object.
 + `displayOptions` _(optional)_
   + `displayOptions.skipRelay` [`boolean`, default `true`] - skip relay-related entities
+  + `displayOptions.skipDeprecated` [`boolean`, default `true`] - skip deprecated fields and entities that contain only deprecated fields.
   + `displayOptions.rootType` [`string`] - name of the type to be used as a root
   + `displayOptions.sortByAlphabet` [`boolean`, default `false`] - sort fields on graph by alphabet
   + `displayOptions.showLeafFields` [`boolean`, default `true`] - show all scalars and enums
