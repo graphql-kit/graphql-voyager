@@ -17,7 +17,7 @@ export default class TypeDetails extends React.Component<TypeDetailsProps> {
 
     return (
       <div className="doc-category">
-        <div className="title">{'fields'}</div>
+        <div className="title">fields</div>
         {_.map(type.inputFields, field => {
           return (
             <div key={field.id} className="item">
@@ -36,7 +36,7 @@ export default class TypeDetails extends React.Component<TypeDetailsProps> {
 
     return (
       <div className="doc-category">
-        <div className="title">{'values'}</div>
+        <div className="title">values</div>
         {_.map(type.enumValues, value => <EnumValue key={value.name} value={value} />)}
       </div>
     );

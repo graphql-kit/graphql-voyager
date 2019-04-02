@@ -66,9 +66,9 @@ export default class OtherSearchResults extends React.Component<SearchResultsPro
             <span className="field-name">{field.name}</span>
             {matchingArgs.length > 0 && <span className="args args-wrap">
               {matchingArgs.map(arg =>
-                <span key={arg.id} className="arg-wrap arg-name">{arg.name}</span>,
+                <span key={arg.id} className="arg-wrap arg-name">{arg.name}</span>
               )}
-            </span>},
+            </span>}
           </div>
         );
       }
@@ -77,17 +77,17 @@ export default class OtherSearchResults extends React.Component<SearchResultsPro
     if (matchedTypes.length + matchedFields.length === 0) {
       return (
         <div className="other-search-results doc-category">
-          <span className="title">{'other results'}</span>
-          <span className="doc-alert-text">
-            {'No results found.'}
-          </span>
+          <div className="title">other results</div>
+          <div className="doc-alert-text -search">
+            No results found.
+          </div>
         </div>
       );
     }
 
     return (
       <div className="other-search-results doc-category">
-        <span className="title">{'other results'}</span>
+        <div className="title">other results</div>
         {matchedTypes}
         {matchedFields}
       </div>

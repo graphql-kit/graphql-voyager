@@ -18,7 +18,7 @@ export default class Description extends React.Component<DescriptionProps> {
 
     return (
       <div className={classNames('description-box', className, '-no-description')}>
-        <p>{'No Description'}</p>
+        <p>No Description</p>
       </div>
     );
   }

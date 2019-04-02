@@ -1,17 +1,17 @@
 import * as React from 'react';
 import Input from '@material-ui/core/Input';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import IconButton from '@material-ui/core/IconButton';
-import CloseIcon from '../icons/close-black.svg';
+
+import './SearchBox.css';
 
 interface SearchBoxProps {
   placeholder: string;
   value?: string;
-  onSearch?: (string) => void,
+  onSearch?: (string) => void;
 }
 
 interface SearchBoxState {
-  value: string
+  value: string;
 }
 
 export default class SearchBox extends React.Component<SearchBoxProps, SearchBoxState> {
@@ -19,7 +19,7 @@ export default class SearchBox extends React.Component<SearchBoxProps, SearchBox
 
   constructor(props) {
     super(props);
-    this.state = { value: props.value || ''};
+    this.state = { value: props.value || '' };
   }
 
   componentWillUnmount() {
@@ -31,28 +31,30 @@ export default class SearchBox extends React.Component<SearchBoxProps, SearchBox
     const { placeholder } = this.props;
 
     return (
-      <Input
-        placeholder={placeholder}
-        value={value}
-        onChange={this.handleChange}
-        type="text"
-        className="search-box"
-        inputProps={{'aria-label': 'Description'}}
-        endAdornment={value &&
-          <InputAdornment position="end">
-            <IconButton
-              className="search-box-clear"
-              onClick={this.handleClear}
-            >
-              <CloseIcon />
-            </IconButton>
-          </InputAdornment>
-        }
-      />
+      <div className="search-box-wrapper">
+        <Input
+          fullWidth
+          placeholder={placeholder}
+          value={value}
+          onChange={this.handleChange}
+          type="text"
+          className="search-box"
+          inputProps={{ 'aria-label': 'Description' }}
+          endAdornment={
+            value && (
+              <InputAdornment position="end">
+                <span className="search-box-clear" onClick={this.handleClear}>
+                  ×
+                </span>
+              </InputAdornment>
+            )
+          }
+        />
+      </div>
     );
   }
 
-  handleChange = (event) => {
+  handleChange = event => {
     const { value } = event.target;
 
     this.setState({ value });
@@ -61,11 +63,11 @@ export default class SearchBox extends React.Component<SearchBoxProps, SearchBox
     this.timeout = setTimeout(() => {
       this.props.onSearch(value);
     }, 200);
-  }
+  };
 
   handleClear = () => {
     this.setState({ value: '' });
     clearTimeout(this.timeout);
     this.props.onSearch('');
-  }
+  };
 }

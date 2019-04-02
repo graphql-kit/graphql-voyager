@@ -5,10 +5,21 @@
   color: var(--field-name-color)
 }
 
+.type-name + .field-name {
+  &::before {
+    content: ".";
+    color: var(--text-color);
+  }
+}
+
 .doc-alert-text {
   color: var(--alert-color);
   font-family: var(--monospace-font-family);
   font-size: 13px;
+
+  &.-search {
+    padding: var(--panel-items-spacing) var(--panel-spacing);
+  }
 }
 
 .value-name {
@@ -22,6 +33,7 @@
 .type-doc {
   display: flex;
   flex-direction: column;
+  overflow: hidden;
   flex: 1;
   margin-top: var(--panel-spacing);
   position: relative;

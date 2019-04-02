@@ -120,7 +120,7 @@ export default class TypeDoc extends React.Component<TypeDocProps> {
 
       return (
         <div className="doc-category">
-          <div className="title">{'fields'}</div>
+          <div className="title">fields</div>
           {fields.map(field => {
             let props: any = {
               key: field.name,
@@ -153,7 +153,7 @@ export default class TypeDoc extends React.Component<TypeDocProps> {
                   )}
                 </span>
                 <WrappedTypeName container={field} onTypeLink={onTypeLink} />
-                {field.isDeprecated && <span className="doc-alert-text">{' (DEPRECATED)'}</span>}
+                {field.isDeprecated && <span className="doc-alert-text">{' '}DEPRECATED</span>}
                 <Markdown text={field.description} className="description-box -field" />
               </div>
             );
