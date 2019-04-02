@@ -126,7 +126,6 @@ function markRelayTypes(schema: SimplifiedIntrospectionWithIds): void {
   _.each(schema.types, type => {
     if (!_.isEmpty(type.interfaces)) {
       type.interfaces = _.reject(type.interfaces, baseType => baseType.type.name === 'Node');
-      if (_.isEmpty(type.interfaces)) delete type.interfaces;
     }
 
     _.each(type.fields, field => {

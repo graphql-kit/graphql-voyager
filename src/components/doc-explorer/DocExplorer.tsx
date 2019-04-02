@@ -5,6 +5,8 @@ import TypeList from './TypeList';
 import TypeDoc from './TypeDoc';
 import FocusTypeButton from './FocusTypeButton';
 import TypeInfoPopover from './TypeInfoPopover';
+import OtherSearchResults from './OtherSearchResults';
+import SearchBox from '../utils/SearchBox';
 
 import './DocExplorer.css';
 
@@ -18,7 +20,7 @@ interface DocExplorerProps {
   onSelectEdge: (id: string) => void;
 }
 
-const initialNav = { title: 'Type List', type: null };
+const initialNav = { title: 'Type List', type: null, searchValue: null };
 
 export default class DocExplorer extends React.Component<DocExplorerProps> {
   state = { navStack: [initialNav], typeForInfoPopover: null };
@@ -35,7 +37,10 @@ export default class DocExplorer extends React.Component<DocExplorerProps> {
       }
 
       const type = typeGraph.nodes[selectedTypeID];
-      const newNavStack = [...navStack, { title: type.name, type }];
+      const newNavStack = [
+        ...navStack,
+        { title: type.name, type, searchValue: null },
+      ];
 
       return { navStack: newNavStack, typeForInfoPopover: null };
     }
@@ -44,16 +49,11 @@ export default class DocExplorer extends React.Component<DocExplorerProps> {
   }
 
   render() {
-    const {
-      selectedEdgeID,
-      typeGraph,
-      onFocusNode,
-      onSelectEdge,
-    } = this.props;
+    const { typeGraph } = this.props;
 
     if (!typeGraph) {
       return (
-        <div className="type-doc">
+        <div className="type-doc" key={0}>
           <span className="loading"> Loading... </span>;
         </div>
       );
@@ -61,53 +61,91 @@ export default class DocExplorer extends React.Component<DocExplorerProps> {
 
     const { navStack } = this.state;
     const previousNav = navStack[navStack.length - 2];
+    const currentNav = navStack[navStack.length - 1];
 
-    if (!previousNav) {
-      return (
-        <div className="type-doc">
-          <div className="doc-navigation">
-            <span className="header">Type List</span>
-          </div>
-          <div className="scroll-area">
-            <TypeList
-              typeGraph={typeGraph}
-              onTypeLink={this.handleTypeLink}
-              onFocusType={type => onFocusNode(type.id)}
-            />
-          </div>
+    const name = currentNav.type ? currentNav.type.name : 'Schema';
+    return (
+      <div className="type-doc" key={navStack.length}>
+        {this.renderNavigation(previousNav, currentNav)}
+        <div className="scroll-area">
+          <SearchBox
+            placeholder={`Search ${name}...`}
+            value={currentNav.searchValue}
+            onSearch={this.handleSearch}
+          />
+          {this.renderCurrentNav(currentNav)}
+          {currentNav.searchValue && <OtherSearchResults
+            typeGraph={typeGraph}
+            withinType={currentNav.type}
+            searchValue={currentNav.searchValue}
+            onTypeLink={this.handleTypeLink}
+            onFieldLink={this.handleFieldLink}
+          />}
         </div>
+        {currentNav.type && <TypeInfoPopover
+            type={this.state.typeForInfoPopover}
+            onChange={type => this.setState({ typeForInfoPopover: type })}
+        />}
+      </div>
+    );
+  }
+
+  renderCurrentNav(currentNav) {
+    const { typeGraph, selectedEdgeID, onSelectEdge, onFocusNode } = this.props;
+
+    if (currentNav.type) {
+      return (
+        <TypeDoc
+          selectedType={currentNav.type}
+          selectedEdgeID={selectedEdgeID}
+          typeGraph={typeGraph}
+          filter={currentNav.searchValue}
+          onTypeLink={this.handleTypeLink}
+          onSelectEdge={onSelectEdge}
+        />
       );
     }
 
-    const currentNav = navStack[navStack.length - 1];
     return (
-      <div className="type-doc">
+      <TypeList
+        typeGraph={typeGraph}
+        filter={currentNav.searchValue}
+        onTypeLink={this.handleTypeLink}
+        onFocusType={type => onFocusNode(type.id)}
+      />
+    );
+  }
+
+  renderNavigation(previousNav, currentNav) {
+    const { onFocusNode } = this.props;
+    if (previousNav) {
+      return (
         <div className="doc-navigation">
           <span className="back" onClick={this.handleNavBackClick}>
             {previousNav.title}
           </span>
           <span className="active">
-            {currentNav.type.name}
+            {currentNav.title}
             <FocusTypeButton
               onClick={() => onFocusNode(currentNav.type.id)}
             />
           </span>
         </div>
-        <div className="scroll-area">
-          <TypeDoc
-            selectedType={currentNav.type}
-            selectedEdgeID={selectedEdgeID}
-            typeGraph={typeGraph}
-            onTypeLink={this.handleTypeLink}
-            onSelectEdge={onSelectEdge}
-          />
-        </div>
-        <TypeInfoPopover
-            type={this.state.typeForInfoPopover}
-            onChange={type => this.setState({ typeForInfoPopover: type })}
-          />
+      );
+    }
+
+    return (
+      <div className="doc-navigation">
+        <span className="header">{currentNav.title}</span>
       </div>
     );
+  }
+
+  handleSearch = (value) => {
+    const navStack = this.state.navStack.slice();
+    const currentNav = navStack[navStack.length - 1];
+    navStack[navStack.length - 1] = { ...currentNav, searchValue: value };
+    this.setState({ navStack });
   }
 
   handleTypeLink = (type) => {
@@ -119,6 +157,14 @@ export default class DocExplorer extends React.Component<DocExplorerProps> {
     } else {
       this.setState({ typeForInfoPopover: type });
     }
+  }
+
+  handleFieldLink = (field, type) => {
+    let { onFocusNode, onSelectNode, onSelectEdge } = this.props;
+
+    onFocusNode(type.id);
+    onSelectNode(type.id);
+    onSelectEdge(field.id);
   }
 
   handleNavBackClick = () => {

@@ -1,6 +1,7 @@
 import * as _ from 'lodash';
 import * as React from 'react';
 import * as classNames from 'classnames';
+import { isMatch } from '../../utils';
 
 import './TypeList.css';
 
@@ -10,13 +11,14 @@ import FocusTypeButton from './FocusTypeButton';
 
 interface TypeListProps {
   typeGraph: any;
+  filter: string;
   onFocusType: (any) => void;
   onTypeLink: (any) => void;
 }
 
 export default class TypeList extends React.Component<TypeListProps> {
   render() {
-    const { typeGraph, onFocusType, onTypeLink } = this.props;
+    const { typeGraph, filter, onFocusType, onTypeLink } = this.props;
 
     if (typeGraph === null) return null;
 
@@ -35,6 +37,10 @@ export default class TypeList extends React.Component<TypeListProps> {
     );
 
     function renderItem(type, className?: string) {
+      if (!isMatch(type.name, filter)) {
+        return null
+      }
+
       return (
         <div key={type.id} className={classNames('typelist-item', className)}>
           <TypeLink type={type} onClick={onTypeLink} />

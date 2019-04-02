@@ -5,6 +5,7 @@ import * as classNames from 'classnames';
 import './TypeDoc.css';
 
 import { SimplifiedTypeWithIDs } from '../../introspection/types';
+import { isMatch } from '../../utils';
 
 import Markdown from '../utils/Markdown';
 import Description from './Description';
@@ -16,6 +17,7 @@ interface TypeDocProps {
   selectedType: any;
   selectedEdgeID: string;
   typeGraph: any;
+  filter: string;
   onSelectEdge: (string) => void;
   onTypeLink: (any) => void;
 }
@@ -39,6 +41,7 @@ export default class TypeDoc extends React.Component<TypeDocProps> {
       selectedType,
       selectedEdgeID,
       typeGraph,
+      filter,
       onSelectEdge,
       onTypeLink,
     } = this.props;
@@ -75,8 +78,11 @@ export default class TypeDoc extends React.Component<TypeDocProps> {
           return null;
       }
 
-      types = _.filter(types, type => typeGraph.nodes[type.type.id] !== undefined);
-      if (_.isEmpty(types)) return null;
+      types = types.filter(
+        ({type}) => typeGraph.nodes[type.id] && isMatch(type.name, filter),
+      );
+
+      if (types.length === 0) return null;
 
       return (
         <div className="doc-category">
@@ -102,12 +108,20 @@ export default class TypeDoc extends React.Component<TypeDocProps> {
     }
 
     function renderFields(type: SimplifiedTypeWithIDs, selectedId: string) {
-      if (_.isEmpty(type.fields)) return null;
+      let fields: any = Object.values(type.fields);
+      fields = fields.filter(field => {
+        const args: any = Object.values(field.args);
+        const matchingArgs = args.filter(arg => isMatch(arg.name, filter));
+
+        return isMatch(field.name, filter) || matchingArgs.length > 0;
+      });
+
+      if (fields.length === 0) return null;
 
       return (
         <div className="doc-category">
           <div className="title">{'fields'}</div>
-          {_.map(type.fields, field => {
+          {fields.map(field => {
             let props: any = {
               key: field.name,
               className: classNames('item', {

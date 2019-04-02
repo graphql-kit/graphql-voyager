@@ -4,6 +4,19 @@ import * as path from 'path';
 export var __dirname;
 export * from './dom-helpers';
 
+export function isMatch(sourceText: string, searchValue: string) {
+  if (!searchValue) {
+    return true;
+  }
+
+  try {
+    const escaped = searchValue.replace(/[^_0-9A-Za-z]/g, ch => '\\' + ch);
+    return sourceText.search(new RegExp(escaped, 'i')) !== -1;
+  } catch (e) {
+    return sourceText.toLowerCase().indexOf(searchValue.toLowerCase()) !== -1;
+  }
+}
+
 export function getQueryParams(query = location.search) {
   if (!query) {
     return {};
