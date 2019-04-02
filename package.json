@@ -77,7 +77,6 @@
     "commonmark": "^0.28.1",
     "lodash": "^4.17.10",
     "prop-types": "^15.7.2",
-    "react-string-replace": "^0.4.2",
     "svg-pan-zoom": "^3.6.0",
     "viz.js": "2.1.2"
   },

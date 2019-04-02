@@ -5173,13 +5173,6 @@ react-lifecycles-compat@^3.0.2, react-lifecycles-compat@^3.0.4:
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
 
-react-string-replace@^0.4.2:
-  version "0.4.2"
-  resolved "https://registry.yarnpkg.com/react-string-replace/-/react-string-replace-0.4.2.tgz#a4e7f0ff3e47d375929cfa70ac407bf37a7fd9e1"
-  integrity sha512-mTFMSKV6AyrK3iXm5C7zGNXIEPLf0meG4HVDs2sRAVFoqKUg28m3/8/f17KA/jpM9rMgvTGGA9hb0pV1MR52mQ==
-  dependencies:
-    lodash "^4.17.4"
-
 react-svg-core@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/react-svg-core/-/react-svg-core-2.1.0.tgz#3700322af70117c91f83f18febb481128de3cfbb"
