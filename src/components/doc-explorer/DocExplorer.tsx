@@ -164,7 +164,8 @@ export default class DocExplorer extends React.Component<DocExplorerProps> {
 
     onFocusNode(type.id);
     onSelectNode(type.id);
-    onSelectEdge(field.id);
+    // wait for docs panel to rerender with new edges
+    setTimeout(() => onSelectEdge(field.id));
   }
 
   handleNavBackClick = () => {
