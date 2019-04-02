@@ -66,7 +66,9 @@ export default class OtherSearchResults extends React.Component<SearchResultsPro
             <span className="field-name">{field.name}</span>
             {matchingArgs.length > 0 && <span className="args args-wrap">
               {matchingArgs.map(arg =>
-                <span key={arg.id} className="arg-wrap arg-name">{arg.name}</span>
+                <span key={arg.id} className="arg-wrap">
+                  <span className="arg arg-name">{arg.name}</span>
+                </span>
               )}
             </span>}
           </div>
