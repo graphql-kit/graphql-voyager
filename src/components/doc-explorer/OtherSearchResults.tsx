@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { isMatch } from '../../utils';
+import { isMatch, highlightTerm } from '../../utils';
 
 interface SearchResultsProps {
   typeGraph: any;
@@ -22,7 +22,7 @@ export default class OtherSearchResults extends React.Component<SearchResultsPro
         if (isMatch(type.name, searchValue)) {
           matchedTypes.push(
             <div className="item" key={type.name} onClick={() => onTypeLink(type)}>
-              <span className="type-name">{type.name}</span>
+              <span className="type-name">{highlightTerm(type.name, searchValue)}</span>
             </div>,
           );
         }
@@ -50,12 +50,12 @@ export default class OtherSearchResults extends React.Component<SearchResultsPro
         matchedFields.push(
           <div className="item" key={field.id} onClick={() => onFieldLink(field, type)}>
             <span className="type-name">{type.name}</span>
-            <span className="field-name">{field.name}</span>
+            <span className="field-name">{highlightTerm(field.name, searchValue)}</span>
             {matchingArgs.length > 0 && (
               <span className="args args-wrap">
                 {matchingArgs.map(arg => (
                   <span key={arg.id} className="arg-wrap">
-                    <span className="arg arg-name">{arg.name}</span>
+                    <span className="arg arg-name">{highlightTerm(arg.name, searchValue)}</span>
                   </span>
                 ))}
               </span>

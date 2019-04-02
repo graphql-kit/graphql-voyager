@@ -3,6 +3,7 @@ import * as path from 'path';
 // similar to node __dirname
 export var __dirname;
 export * from './dom-helpers';
+export * from './highlight';
 
 export function isMatch(sourceText: string, searchValue: string) {
   if (!searchValue) {

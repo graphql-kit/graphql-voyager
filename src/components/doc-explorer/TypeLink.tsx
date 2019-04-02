@@ -1,17 +1,21 @@
 import * as React from 'react';
 import * as classNames from 'classnames';
 import { isBuiltInScalarType, isScalarType, isInputObjectType } from '../../introspection';
+import { highlightTerm } from '../../utils';
 
 import './TypeLink.css';
 
 interface TypeLinkProps {
-  type: any;
+  type: {
+    name: string;
+  };
   onClick: (any) => void;
+  filter?: string;
 }
 
 export default class TypeLink extends React.Component<TypeLinkProps> {
   render() {
-    const { type, onClick } = this.props;
+    const { type, onClick, filter } = this.props;
 
     let className;
     if (isBuiltInScalarType(type)) className = '-built-in';
@@ -27,7 +31,7 @@ export default class TypeLink extends React.Component<TypeLinkProps> {
           onClick(type);
         }}
       >
-        {type.name}
+        {highlightTerm(type.name, filter)}
       </a>
     );
   }

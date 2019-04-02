@@ -5,7 +5,7 @@ import * as classNames from 'classnames';
 import './TypeDoc.css';
 
 import { SimplifiedTypeWithIDs } from '../../introspection/types';
-import { isMatch } from '../../utils';
+import { isMatch, highlightTerm } from '../../utils';
 
 import Markdown from '../utils/Markdown';
 import Description from './Description';
@@ -131,7 +131,7 @@ export default class TypeDoc extends React.Component<TypeDocProps> {
             if (field.id === selectedId) props.ref = 'selectedItem';
             return (
               <div {...props}>
-                <a className="field-name">{field.name}</a>
+                <a className="field-name">{highlightTerm(field.name, filter)}</a>
                 <span
                   className={classNames('args-wrap', {
                     '-empty': _.isEmpty(field.args),
