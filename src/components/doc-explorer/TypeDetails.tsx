@@ -37,7 +37,9 @@ export default class TypeDetails extends React.Component<TypeDetailsProps> {
     return (
       <div className="doc-category">
         <div className="title">values</div>
-        {_.map(type.enumValues, value => <EnumValue key={value.name} value={value} />)}
+        {_.map(type.enumValues, value => (
+          <EnumValue key={value.name} value={value} />
+        ))}
       </div>
     );
   }

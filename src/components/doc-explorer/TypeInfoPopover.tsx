@@ -48,10 +48,7 @@ export default class ScalarDetails extends React.Component<ScalarDetailsProps, S
         <IconButton className="closeButton" onClick={() => this.close()}>
           <CloseIcon />
         </IconButton>
-        {(type || localType) && <TypeDetails
-          type={type || localType}
-          onTypeLink={onChange}
-        />}
+        {(type || localType) && <TypeDetails type={type || localType} onTypeLink={onChange} />}
       </div>
     );
   }

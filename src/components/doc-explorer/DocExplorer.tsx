@@ -37,10 +37,7 @@ export default class DocExplorer extends React.Component<DocExplorerProps> {
       }
 
       const type = typeGraph.nodes[selectedTypeID];
-      const newNavStack = [
-        ...navStack,
-        { title: type.name, type, searchValue: null },
-      ];
+      const newNavStack = [...navStack, { title: type.name, type, searchValue: null }];
 
       return { navStack: newNavStack, typeForInfoPopover: null };
     }
@@ -74,18 +71,22 @@ export default class DocExplorer extends React.Component<DocExplorerProps> {
             onSearch={this.handleSearch}
           />
           {this.renderCurrentNav(currentNav)}
-          {currentNav.searchValue && <OtherSearchResults
-            typeGraph={typeGraph}
-            withinType={currentNav.type}
-            searchValue={currentNav.searchValue}
-            onTypeLink={this.handleTypeLink}
-            onFieldLink={this.handleFieldLink}
-          />}
+          {currentNav.searchValue && (
+            <OtherSearchResults
+              typeGraph={typeGraph}
+              withinType={currentNav.type}
+              searchValue={currentNav.searchValue}
+              onTypeLink={this.handleTypeLink}
+              onFieldLink={this.handleFieldLink}
+            />
+          )}
         </div>
-        {currentNav.type && <TypeInfoPopover
+        {currentNav.type && (
+          <TypeInfoPopover
             type={this.state.typeForInfoPopover}
             onChange={type => this.setState({ typeForInfoPopover: type })}
-        />}
+          />
+        )}
       </div>
     );
   }
@@ -126,9 +127,7 @@ export default class DocExplorer extends React.Component<DocExplorerProps> {
           </span>
           <span className="active">
             {currentNav.title}
-            <FocusTypeButton
-              onClick={() => onFocusNode(currentNav.type.id)}
-            />
+            <FocusTypeButton onClick={() => onFocusNode(currentNav.type.id)} />
           </span>
         </div>
       );
@@ -141,14 +140,14 @@ export default class DocExplorer extends React.Component<DocExplorerProps> {
     );
   }
 
-  handleSearch = (value) => {
+  handleSearch = value => {
     const navStack = this.state.navStack.slice();
     const currentNav = navStack[navStack.length - 1];
     navStack[navStack.length - 1] = { ...currentNav, searchValue: value };
     this.setState({ navStack });
-  }
+  };
 
-  handleTypeLink = (type) => {
+  handleTypeLink = type => {
     let { onFocusNode, onSelectNode } = this.props;
 
     if (isNode(type)) {
@@ -157,7 +156,7 @@ export default class DocExplorer extends React.Component<DocExplorerProps> {
     } else {
       this.setState({ typeForInfoPopover: type });
     }
-  }
+  };
 
   handleFieldLink = (field, type) => {
     let { onFocusNode, onSelectNode, onSelectEdge } = this.props;
@@ -166,7 +165,7 @@ export default class DocExplorer extends React.Component<DocExplorerProps> {
     onSelectNode(type.id);
     // wait for docs panel to rerender with new edges
     setTimeout(() => onSelectEdge(field.id));
-  }
+  };
 
   handleNavBackClick = () => {
     const { onFocusNode, onSelectNode } = this.props;
@@ -181,5 +180,5 @@ export default class DocExplorer extends React.Component<DocExplorerProps> {
 
     onFocusNode(newCurrentNode.type.id);
     onSelectNode(newCurrentNode.type.id);
-  }
+  };
 }

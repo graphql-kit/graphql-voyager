@@ -27,18 +27,16 @@ export default class RootSelector extends React.Component<RootSelectorProps> {
       .sort();
 
     return (
-      <Select
-        className="root-selector"
-        onChange={handleChange}
-        value={rootType}
-      >
+      <Select className="root-selector" onChange={handleChange} value={rootType}>
         {rootTypeNames.map(name => (
           <MenuItem value={name} key={name}>
             <strong>{name}</strong>
           </MenuItem>
         ))}
         {otherTypeNames.map(name => (
-          <MenuItem value={name} key={name}>{name}</MenuItem>
+          <MenuItem value={name} key={name}>
+            {name}
+          </MenuItem>
         ))}
       </Select>
     );

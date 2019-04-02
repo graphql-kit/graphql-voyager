@@ -38,11 +38,8 @@ const defaultDisplayOptions = {
 };
 
 function normalizeDisplayOptions(options) {
-  return options == null
-    ? { ...defaultDisplayOptions, options }
-    : defaultDisplayOptions;
+  return options == null ? { ...defaultDisplayOptions, options } : defaultDisplayOptions;
 }
-
 
 export interface VoyagerProps {
   introspection: IntrospectionProvider | Object;
@@ -57,10 +54,8 @@ export interface VoyagerProps {
 
 export default class Voyager extends React.Component<VoyagerProps> {
   static propTypes = {
-    introspection: PropTypes.oneOfType([
-      PropTypes.func.isRequired,
-      PropTypes.object.isRequired,
-    ]).isRequired,
+    introspection: PropTypes.oneOfType([PropTypes.func.isRequired, PropTypes.object.isRequired])
+      .isRequired,
     displayOptions: PropTypes.shape({
       rootType: PropTypes.string,
       skipRelay: PropTypes.bool,
@@ -108,9 +103,7 @@ export default class Voyager extends React.Component<VoyagerProps> {
     let promise = this.props.introspection(introspectionQuery);
 
     if (!isPromise(promise)) {
-      throw new Error(
-        'SchemaProvider did not return a Promise for introspection.',
-      );
+      throw new Error('SchemaProvider did not return a Promise for introspection.');
     }
 
     this.setState({
@@ -136,13 +129,9 @@ export default class Voyager extends React.Component<VoyagerProps> {
       introspectionData,
       displayOptions.sortByAlphabet,
       displayOptions.skipRelay,
-      displayOptions.skipDeprecated
+      displayOptions.skipDeprecated,
     );
-    const typeGraph = getTypeGraph(
-      schema,
-      displayOptions.rootType,
-      displayOptions.hideRoot,
-    );
+    const typeGraph = getTypeGraph(schema, displayOptions.rootType, displayOptions.hideRoot);
 
     this.setState({
       introspectionData,
@@ -190,7 +179,7 @@ export default class Voyager extends React.Component<VoyagerProps> {
     );
 
     const { typeGraph, selectedTypeID, selectedEdgeID } = this.state;
-    const onFocusNode = (id) => this.viewportRef.current.focusNode(id);
+    const onFocusNode = id => this.viewportRef.current.focusNode(id);
 
     return (
       <div className="doc-panel">
@@ -200,7 +189,6 @@ export default class Voyager extends React.Component<VoyagerProps> {
             typeGraph={typeGraph}
             selectedTypeID={selectedTypeID}
             selectedEdgeID={selectedEdgeID}
-
             onFocusNode={onFocusNode}
             onSelectNode={this.handleSelectNode}
             onSelectEdge={this.handleSelectEdge}
@@ -226,42 +214,34 @@ export default class Voyager extends React.Component<VoyagerProps> {
   }
 
   renderGraphViewport() {
-    const {
-      displayOptions,
-      typeGraph,
-      selectedTypeID,
-      selectedEdgeID
-    } = this.state;
+    const { displayOptions, typeGraph, selectedTypeID, selectedEdgeID } = this.state;
 
     return (
       <GraphViewport
         svgRenderer={this.svgRenderer}
         typeGraph={typeGraph}
         displayOptions={displayOptions}
-
         selectedTypeID={selectedTypeID}
         selectedEdgeID={selectedEdgeID}
-
         onSelectNode={this.handleSelectNode}
         onSelectEdge={this.handleSelectEdge}
-
         ref={this.viewportRef}
       />
     );
   }
 
-  handleDisplayOptionsChange = (delta) => {
+  handleDisplayOptionsChange = delta => {
     const displayOptions = { ...this.state.displayOptions, ...delta };
     this.updateIntrospection(this.state.introspectionData, displayOptions);
-  }
+  };
 
-  handleSelectNode = (selectedTypeID) => {
+  handleSelectNode = selectedTypeID => {
     if (selectedTypeID !== this.state.selectedTypeID) {
       this.setState({ selectedTypeID, selectedEdgeID: null });
     }
-  }
+  };
 
-  handleSelectEdge = (selectedEdgeID) => {
+  handleSelectEdge = selectedEdgeID => {
     if (selectedEdgeID === this.state.selectedEdgeID) {
       // deselect if click again
       this.setState({ selectedEdgeID: null });
@@ -269,7 +249,7 @@ export default class Voyager extends React.Component<VoyagerProps> {
       const selectedTypeID = extractTypeId(selectedEdgeID);
       this.setState({ selectedTypeID, selectedEdgeID });
     }
-  }
+  };
 
   static PanelHeader = props => {
     return props.children || null;

@@ -183,7 +183,7 @@ function markRelayTypes(schema: SimplifiedIntrospectionWithIds): void {
 function markDeprecated(schema: SimplifiedIntrospectionWithIds): void {
   // Remove deprecated fields.
   _.each(schema.types, type => {
-    type.fields = _.pickBy(type.fields, field => !field.isDeprecated)
+    type.fields = _.pickBy(type.fields, field => !field.isDeprecated);
   });
 
   // We can't remove types that end up being empty

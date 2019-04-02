@@ -4,11 +4,7 @@ import Tab from '@material-ui/core/Tab';
 import Button from '@material-ui/core/Button';
 import Clipboard from 'react-clipboard.js';
 
-import {
-  buildSchema,
-  introspectionQuery,
-  introspectionFromSchema,
-} from 'graphql/utilities';
+import { buildSchema, introspectionQuery, introspectionFromSchema } from 'graphql/utilities';
 
 import './IntrospectionModal.css';
 
@@ -87,8 +83,8 @@ export class IntrospectionModal extends React.Component<IntrospectionModalProps>
           <Tab label={Introspection} />
         </Tabs>
         <div className="tab-container">
-          { inputType === SDL && this.renderSDLTab() }
-          { inputType === Introspection && this.renderIntrospectionTab() }
+          {inputType === SDL && this.renderSDLTab()}
+          {inputType === Introspection && this.renderIntrospectionTab()}
         </div>
 
         <div className="model-footer">
@@ -106,36 +102,40 @@ export class IntrospectionModal extends React.Component<IntrospectionModalProps>
   renderSDLTab() {
     const { sdlText } = this.state;
     console.log(sdlText);
-    return <textarea
-      value={ sdlText || ''}
-      placeholder="Paste SDL Here"
-      onChange={this.handleSDLChange.bind(this)}
-    />
+    return (
+      <textarea
+        value={sdlText || ''}
+        placeholder="Paste SDL Here"
+        onChange={this.handleSDLChange.bind(this)}
+      />
+    );
   }
 
   renderIntrospectionTab() {
     const { jsonText, recentlyCopied } = this.state;
-    return (<>
-      <div>
-        Run the introspection query against a GraphQL endpoint.
-        Paste the result into the textarea below to view the model relationships.
-      </div>
-      <Clipboard
-        component="a"
-        className="copy-button"
-        options={{ container: this.modalRef.current }}
-        data-clipboard-text={introspectionQuery}
-        onClick={() => this.copy()}
-      >
-        <Button color="primary" size="small">
-          {recentlyCopied ? 'Copied!' : 'Copy Introspection Query'}
-        </Button>
-      </Clipboard>
-      <textarea
-        value={ jsonText || ''}
-        placeholder="Paste Introspection Here"
-        onChange={this.handleJSONChange.bind(this)}
-      />
-    </>);
+    return (
+      <>
+        <div>
+          Run the introspection query against a GraphQL endpoint. Paste the result into the textarea
+          below to view the model relationships.
+        </div>
+        <Clipboard
+          component="a"
+          className="copy-button"
+          options={{ container: this.modalRef.current }}
+          data-clipboard-text={introspectionQuery}
+          onClick={() => this.copy()}
+        >
+          <Button color="primary" size="small">
+            {recentlyCopied ? 'Copied!' : 'Copy Introspection Query'}
+          </Button>
+        </Clipboard>
+        <textarea
+          value={jsonText || ''}
+          placeholder="Paste Introspection Here"
+          onChange={this.handleJSONChange.bind(this)}
+        />
+      </>
+    );
   }
 }

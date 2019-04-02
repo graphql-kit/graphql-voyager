@@ -78,9 +78,7 @@ export default class TypeDoc extends React.Component<TypeDocProps> {
           return null;
       }
 
-      types = types.filter(
-        ({type}) => typeGraph.nodes[type.id] && isMatch(type.name, filter),
-      );
+      types = types.filter(({ type }) => typeGraph.nodes[type.id] && isMatch(type.name, filter));
 
       if (types.length === 0) return null;
 
@@ -153,7 +151,7 @@ export default class TypeDoc extends React.Component<TypeDocProps> {
                   )}
                 </span>
                 <WrappedTypeName container={field} onTypeLink={onTypeLink} />
-                {field.isDeprecated && <span className="doc-alert-text">{' '}DEPRECATED</span>}
+                {field.isDeprecated && <span className="doc-alert-text"> DEPRECATED</span>}
                 <Markdown text={field.description} className="description-box -field" />
               </div>
             );

@@ -1,11 +1,7 @@
 import * as _ from 'lodash';
 import { getDot } from './dot';
 
-import {
-  forEachNode,
-  loadWorker as defaultLoadWorker,
-  stringToSvg,
-} from '../utils/';
+import { forEachNode, loadWorker as defaultLoadWorker, stringToSvg } from '../utils/';
 
 import { WorkerCallback } from '../utils/types';
 
@@ -20,12 +16,10 @@ const xlinkns = 'http://www.w3.org/1999/xlink';
 export class SVGRender {
   vizPromise: any;
 
-  constructor(
-    workerURI: string,
-    loadWorker: WorkerCallback = defaultLoadWorker,
-  ) {
-    this.vizPromise = loadWorker(workerURI || defaultWorkerURI, !workerURI)
-      .then(worker => new Viz({ worker }));
+  constructor(workerURI: string, loadWorker: WorkerCallback = defaultLoadWorker) {
+    this.vizPromise = loadWorker(workerURI || defaultWorkerURI, !workerURI).then(
+      worker => new Viz({ worker }),
+    );
   }
 
   renderSvg(typeGraph, displayOptions) {

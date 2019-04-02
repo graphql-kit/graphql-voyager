@@ -13,7 +13,7 @@ export default class LoadingAnimation extends React.Component<LoadingAnimationPr
   render() {
     const { loading } = this.props;
     return (
-      <div className={classNames({ 'loading-box': true, visible: loading })} >
+      <div className={classNames({ 'loading-box': true, visible: loading })}>
         <span className="loading-animation">
           <VoyagerIcon />
           <h1> Transmitting... </h1>

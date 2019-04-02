@@ -26,10 +26,7 @@ export default class GraphViewport extends React.Component<GraphViewportProps> {
   static getDerivedStateFromProps(props, state) {
     const { typeGraph, displayOptions } = props;
 
-    if (
-      typeGraph !== state.typeGraph ||
-      displayOptions !== state.displayOptions
-    ) {
+    if (typeGraph !== state.typeGraph || displayOptions !== state.displayOptions) {
       return { typeGraph, displayOptions, svgViewport: null };
     }
 
@@ -73,10 +70,7 @@ export default class GraphViewport extends React.Component<GraphViewportProps> {
       return; // Nothing to render
     }
 
-    if (
-      typeGraph === this._currentTypeGraph &&
-      displayOptions === this._currentDisplayOptions
-    ) {
+    if (typeGraph === this._currentTypeGraph && displayOptions === this._currentDisplayOptions) {
       return; // Already rendering in background
     }
 
@@ -84,7 +78,8 @@ export default class GraphViewport extends React.Component<GraphViewportProps> {
     this._currentDisplayOptions = displayOptions;
 
     const { svgRenderer, onSelectNode, onSelectEdge } = this.props;
-    svgRenderer.renderSvg(typeGraph, displayOptions)
+    svgRenderer
+      .renderSvg(typeGraph, displayOptions)
       .then(svg => {
         if (
           typeGraph !== this._currentTypeGraph ||
@@ -95,8 +90,7 @@ export default class GraphViewport extends React.Component<GraphViewportProps> {
 
         this._cleanupSvgViewport();
         const containerRef = this.refs['viewport'] as HTMLElement;
-        const svgViewport =
-          new Viewport(svg, containerRef, onSelectNode, onSelectEdge);
+        const svgViewport = new Viewport(svg, containerRef, onSelectNode, onSelectEdge);
         this.setState({ svgViewport });
       })
       .catch(error => {
@@ -104,16 +98,20 @@ export default class GraphViewport extends React.Component<GraphViewportProps> {
         this._currentDisplayOptions = null;
 
         error.message = error.message || 'Unknown error';
-        this.setState(() => { throw error; });
+        this.setState(() => {
+          throw error;
+        });
       });
   }
 
   render() {
     const isLoading = this.state.svgViewport == null;
-    return (<>
-      <div ref="viewport" className="viewport" />
-      <LoadingAnimation loading={isLoading} />
-    </>);
+    return (
+      <>
+        <div ref="viewport" className="viewport" />
+        <LoadingAnimation loading={isLoading} />
+      </>
+    );
   }
 
   resize() {

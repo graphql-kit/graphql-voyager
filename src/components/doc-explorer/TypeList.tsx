@@ -38,7 +38,7 @@ export default class TypeList extends React.Component<TypeListProps> {
 
     function renderItem(type, className?: string) {
       if (!isMatch(type.name, filter)) {
-        return null
+        return null;
       }
 
       return (

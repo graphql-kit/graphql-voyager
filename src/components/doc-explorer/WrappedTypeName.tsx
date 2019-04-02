@@ -40,4 +40,3 @@ function wrapRelayIcon() {
     </Tooltip>
   );
 }
-

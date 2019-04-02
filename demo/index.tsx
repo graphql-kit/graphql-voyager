@@ -41,9 +41,7 @@ export default class Demo extends React.Component {
 
   public render() {
     const { activePreset, customPresetModalOpen, customPresetValue } = this.state;
-    const introspection = activePreset === 'custom'
-      ? customPresetValue
-      : PRESETS[activePreset];
+    const introspection = activePreset === 'custom' ? customPresetValue : PRESETS[activePreset];
 
     return (
       <MuiThemeProvider theme={theme}>
