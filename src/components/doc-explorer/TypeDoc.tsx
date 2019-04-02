@@ -96,7 +96,7 @@ export default class TypeDoc extends React.Component<TypeDocProps> {
             if (type.id === selectedId) props.ref = 'selectedItem';
             return (
               <div {...props}>
-                <TypeLink type={type.type} onClick={onTypeLink} />
+                <TypeLink type={type.type} onClick={onTypeLink} filter={filter} />
                 <Description text={type.type.description} className="-linked-type" />
               </div>
             );
