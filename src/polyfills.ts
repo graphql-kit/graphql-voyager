@@ -3,10 +3,10 @@ interface Element {
 }
 
 if (!Element.prototype.scrollIntoViewIfNeeded) {
-  Element.prototype.scrollIntoViewIfNeeded = function(centerIfNeeded) {
+  Element.prototype.scrollIntoViewIfNeeded = function(centerIfNeeded, parent?) {
     centerIfNeeded = arguments.length === 0 ? true : !!centerIfNeeded;
 
-    var parent = this.parentNode,
+    var parent = parent || this.parentNode,
       parentComputedStyle = window.getComputedStyle(parent, null),
       parentBorderTopWidth = parseInt(parentComputedStyle.getPropertyValue('border-top-width')),
       parentBorderLeftWidth = parseInt(parentComputedStyle.getPropertyValue('border-left-width')),
@@ -18,7 +18,8 @@ if (!Element.prototype.scrollIntoViewIfNeeded) {
       overRight =
         this.offsetLeft - parent.offsetLeft + this.clientWidth - parentBorderLeftWidth >
         parent.scrollLeft + parent.clientWidth,
-      alignWithTop = overTop && !overBottom;
+      alignWithTop = overTop && !overBottom,
+      hasScrolled = false;
 
     if ((overTop || overBottom) && centerIfNeeded) {
       parent.scrollTop =
@@ -27,6 +28,7 @@ if (!Element.prototype.scrollIntoViewIfNeeded) {
         parent.clientHeight / 2 -
         parentBorderTopWidth +
         this.clientHeight / 2;
+      hasScrolled = true;
     }
 
     if ((overLeft || overRight) && centerIfNeeded) {
@@ -36,10 +38,16 @@ if (!Element.prototype.scrollIntoViewIfNeeded) {
         parent.clientWidth / 2 -
         parentBorderLeftWidth +
         this.clientWidth / 2;
+      hasScrolled = true;
     }
 
     if ((overTop || overBottom || overLeft || overRight) && !centerIfNeeded) {
       this.scrollIntoView(alignWithTop);
+      hasScrolled = true;
+    }
+
+    if (!hasScrolled && parent.parentNode instanceof HTMLElement && parent.clientHeight === parent.scrollHeight) {
+      this.scrollIntoViewIfNeeded.call(this, centerIfNeeded, parent.parentNode);
     }
   };
 }

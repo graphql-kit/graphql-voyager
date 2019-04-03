@@ -29,6 +29,10 @@ export default class TypeDoc extends React.Component<TypeDocProps> {
     }
   }
 
+  componentDidMount() {
+    this.ensureActiveVisible();
+  }
+
   ensureActiveVisible() {
     let itemComponent = this.refs['selectedItem'] as HTMLElement;
     if (!itemComponent) return;
