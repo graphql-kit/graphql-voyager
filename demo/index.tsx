@@ -62,4 +62,4 @@ export default class Demo extends React.Component {
   }
 }
 
-render(<Demo />, document.getElementById('panel_root'));
+render(<Demo />, document.getElementById('root'));
