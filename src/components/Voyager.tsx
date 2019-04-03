@@ -38,7 +38,7 @@ const defaultDisplayOptions = {
 };
 
 function normalizeDisplayOptions(options) {
-  return options == null ? { ...defaultDisplayOptions, options } : defaultDisplayOptions;
+  return options != null ? { ...defaultDisplayOptions, ...options } : defaultDisplayOptions;
 }
 
 export interface VoyagerProps {
