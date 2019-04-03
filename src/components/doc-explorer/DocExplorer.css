@@ -57,6 +57,8 @@
     font-weight: bold;
     color: var(--primary-color);
     font-weight: bold;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   & > .header {

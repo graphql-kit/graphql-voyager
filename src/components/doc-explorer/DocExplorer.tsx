@@ -125,7 +125,7 @@ export default class DocExplorer extends React.Component<DocExplorerProps> {
           <span className="back" onClick={this.handleNavBackClick}>
             {previousNav.title}
           </span>
-          <span className="active">
+          <span className="active" title={currentNav.title}>
             {currentNav.title}
             <FocusTypeButton onClick={() => onFocusNode(currentNav.type.id)} />
           </span>
