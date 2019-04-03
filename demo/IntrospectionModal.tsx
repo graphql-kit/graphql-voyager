@@ -101,7 +101,6 @@ export class IntrospectionModal extends React.Component<IntrospectionModalProps>
 
   renderSDLTab() {
     const { sdlText } = this.state;
-    console.log(sdlText);
     return (
       <textarea
         value={sdlText || ''}
