@@ -133,13 +133,14 @@ function markRelayTypes(schema: SimplifiedIntrospectionWithIds): void {
 
       //FIXME: additional checks
       const relayConnetion = field.type;
+      const relayEdge = _.get(relayConnetion, 'fields.edges.type');
+      const realType = _.get(relayEdge, 'fields.node.type');
 
-      if (!relayConnetion.fields.edges) return;
+      if (relayEdge === undefined || realType === undefined) return;
 
       relayConnetion.isRelayType = true;
-      const relayEdge = relayConnetion.fields['edges'].type;
       relayEdge.isRelayType = true;
-      const realType = relayEdge.fields['node'].type;
+
       edgeTypesMap[relayEdge.name] = realType;
 
       field.relayType = field.type;
