@@ -129,22 +129,29 @@ function markRelayTypes(schema: SimplifiedIntrospectionWithIds): void {
     }
 
     _.each(type.fields, field => {
-      if (!/.Connection$/.test(field.type.name)) return;
+      const connectionType = field.type;
+      if (
+        !/.Connection$/.test(connectionType.name) ||
+        connectionType.kind !== 'OBJECT' ||
+        !connectionType.fields.edges
+      ) {
+        return;
+      }
 
-      //FIXME: additional checks
-      const relayConnetion = field.type;
-      const relayEdge = _.get(relayConnetion, 'fields.edges.type');
-      const realType = _.get(relayEdge, 'fields.node.type');
+      const edgesType = connectionType.fields.edges.type
+      if (edgesType.kind !== 'OBJECT' || !edgesType.fields.node) {
+        return;
+      }
 
-      if (relayEdge === undefined || realType === undefined) return;
+      const nodeType = edgesType.fields.node.type;
 
-      relayConnetion.isRelayType = true;
-      relayEdge.isRelayType = true;
+      connectionType.isRelayType = true;
+      edgesType.isRelayType = true;
 
-      edgeTypesMap[relayEdge.name] = realType;
+      edgeTypesMap[edgesType.name] = nodeType;
 
       field.relayType = field.type;
-      field.type = realType;
+      field.type = nodeType;
       field.typeWrappers = ['LIST'];
 
       const relayArgNames = ['first', 'last', 'before', 'after'];
