@@ -1,6 +1,6 @@
 {
   "name": "graphql-voyager",
-  "version": "1.0.0-rc.26",
+  "version": "1.0.0-rc.27",
   "description": "GraphQL introspection viewer",
   "main": "dist/voyager.lib.js",
   "types": "typings/index.d.ts",
@@ -33,7 +33,7 @@
     "@types/graphql": "14.0.7",
     "@types/lodash": "4.14.121",
     "@types/prop-types": "15.5.9",
-    "@types/react": "16.8.5",
+    "@types/react": "16.8.13",
     "@types/react-dom": "16.8.2",
     "@types/webpack": "4.4.25",
     "babel-loader": "8.0.5",
