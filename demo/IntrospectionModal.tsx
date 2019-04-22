@@ -126,7 +126,7 @@ export class IntrospectionModal extends React.Component<IntrospectionModalProps>
             <Button variant="contained" onClick={this.handleCancel}>
               Cancel
             </Button>
-            <Button variant="contained" color="primary" onClick={this.handleSubmit}>
+            <Button variant="contained" color="primary"  style={{color: 'white'}} onClick={this.handleSubmit}>
               Display
             </Button>
           </div>

@@ -6,7 +6,8 @@
 
   width: 75%;
   height: 75%;
-  min-height: 500px;
+  max-height: 400px;
+  max-width: 800px;
   transform: translate(-50%, -50%);
   overflow: hidden;
   border-radius: 4px;
@@ -61,7 +62,9 @@
 .preset-card {
   overflow: hidden;
   border: 3px solid transparent;
-  background-color: color(var(--modal-bg-color) l(- 3%));
+  /* background-color: color(var(--modal-bg-color) l(- 3%)); */
+  box-shadow: 0px 0 8px 2px rgba(0, 0, 0, 0.1);
+  font-family: var(--base-font-family);
   text-align: center;
   cursor: pointer;
   box-sizing: border-box;
@@ -79,12 +82,11 @@
   padding: 10px 20px;
 
   &:hover {
-    background-color: color(var(--modal-bg-color) l(- 5%));
+    box-shadow: 0px 0 8px 2px color(var(--primary-color) alpha(0.3) l(-10%));
   }
 
   &.-active {
-    border-color: var(--primary-color);
-    box-shadow: 0px 0px 10px 2px var(--shadow-color);
+    box-shadow: 0px 0 8px 2px color(var(--primary-color) alpha(0.5) l(-10%));
   }
 }
 
@@ -93,23 +95,15 @@
   display: flex;
   flex-wrap: wrap;
   align-content: center;
-  padding-right: 20px;
+  justify-content: space-around;
 
    @media (--small-viewport) {
     padding-right: 0;
   }
 
   & > div {
-    width: calc(50% - 20px);
+    width: calc(50% - 40px);
     height: 100px;
-
-    &:nth-child(odd) {
-      margin-left: 0;
-    }
-
-    &:nth-child(even) {
-      margin-right: 0;
-    }
   }
 
   & > .preset-card {
