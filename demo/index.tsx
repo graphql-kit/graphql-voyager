@@ -1,63 +1,70 @@
 import * as React from 'react';
 import { render } from 'react-dom';
-import Modal from '@material-ui/core/Modal';
+
+import Button from '@material-ui/core/Button';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 
 import { theme } from '../src/components/MUITheme';
 import { GraphQLVoyager } from '../src';
-import { Panel } from './components';
+import LogoIcon from './icons/logo-small.svg';
 
-import { PRESETS } from './presets';
 import { IntrospectionModal } from './IntrospectionModal';
+import { defaultPreset } from './presets';
+
+import './components.css';
 
 export default class Demo extends React.Component {
-  presetNames = Object.keys(PRESETS);
-
   state = {
-    activePreset: this.presetNames[0],
-    customPresetModalOpen: false,
-    customPresetValue: null,
-  };
-
-  handlePresetChange = (activePreset: string) => {
-    if (activePreset !== 'custom') {
-      this.setState({ activePreset });
-    } else {
-      this.setState({ customPresetModalOpen: true });
-    }
-  };
-
-  handleCustomPreset = (introspection: any) => {
-    this.setState({
-      activePreset: 'custom',
-      customPresetValue: introspection,
-      customPresetModalOpen: false,
-    });
-  };
-
-  handlePanelClose = () => {
-    this.setState({ customPresetModalOpen: false });
+    changeSchemaModalOpen: false,
+    introspection: defaultPreset,
   };
 
   public render() {
-    const { activePreset, customPresetModalOpen, customPresetValue } = this.state;
-    const introspection = activePreset === 'custom' ? customPresetValue : PRESETS[activePreset];
+    const { changeSchemaModalOpen, introspection } = this.state;
+
+    const openChangeSchema = () => this.setState({ changeSchemaModalOpen: true });
+    const closeChangeSchema = () => this.setState({ changeSchemaModalOpen: false });
 
     return (
       <MuiThemeProvider theme={theme}>
         <GraphQLVoyager introspection={introspection}>
           <GraphQLVoyager.PanelHeader>
-            <Panel
-              presets={this.presetNames}
-              activePreset={activePreset}
-              onChange={this.handlePresetChange}
-            />
+            <div className="voyager-panel">
+              <Logo />
+              <Button
+                color="primary"
+                variant="contained"
+                className="choosebutton"
+                onClick={openChangeSchema}
+              >
+                Change Schema
+              </Button>
+            </div>
           </GraphQLVoyager.PanelHeader>
         </GraphQLVoyager>
-        <Modal open={customPresetModalOpen} onClose={this.handlePanelClose}>
-          <IntrospectionModal onClose={this.handlePanelClose} onChange={this.handleCustomPreset} />
-        </Modal>
+        <IntrospectionModal
+          open={changeSchemaModalOpen}
+          onClose={closeChangeSchema}
+          onChange={(introspection) => this.setState({ introspection })}
+        />
       </MuiThemeProvider>
+    );
+  }
+}
+
+class Logo extends React.Component {
+  render() {
+    return (
+      <div className="voyager-logo">
+        <a href="https://github.com/APIs-guru/graphql-voyager" target="_blank">
+          <div className="logo">
+            <LogoIcon />
+            <h2 className="title">
+              <strong>GraphQL</strong> Voyager
+            </h2>
+          </div>
+        </a>
+      </div>
     );
   }
 }

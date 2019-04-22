@@ -1,36 +1,55 @@
 import * as React from 'react';
+import * as classNames from 'classnames';
+
+import Modal from '@material-ui/core/Modal';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Button from '@material-ui/core/Button';
 import Clipboard from 'react-clipboard.js';
 
 import { buildSchema, introspectionQuery, introspectionFromSchema } from 'graphql/utilities';
+import { PRESETS, defaultPresetName } from './presets';
 
 import './IntrospectionModal.css';
 
 export interface IntrospectionModalProps {
+  open: boolean;
   onClose: () => void;
   onChange: (introspectin: any) => void;
 }
 
+const Presets = 'Presets';
 const SDL = 'SDL';
 const Introspection = 'Introspection';
-const tabNames = [SDL, Introspection];
+const tabNames = [Presets, SDL, Introspection];
+
+const initialConfig = {
+  inputType: Presets,
+  activePreset: defaultPresetName,
+  sdlText: null,
+  jsonText: null,
+};
 
 export class IntrospectionModal extends React.Component<IntrospectionModalProps> {
   state = {
-    inputType: SDL,
+    submitted: initialConfig,
+    current: initialConfig,
     recentlyCopied: false,
-    sdlText: null,
-    jsonText: null,
   };
 
   modalRef: React.RefObject<HTMLDivElement> = React.createRef();
 
-  handleTabChange = (_, activeTab) => {
+  changeCurrent(diff) {
     this.setState({
-      inputType: tabNames[activeTab],
+      current: {
+        ...this.state.current,
+        ...diff,
+      },
     });
+  }
+
+  handleTabChange = (_, activeTab) => {
+    this.changeCurrent({ inputType: tabNames[activeTab] });
   };
 
   copy() {
@@ -41,12 +60,16 @@ export class IntrospectionModal extends React.Component<IntrospectionModalProps>
   }
 
   handleCancel = () => {
+    this.setState({ current: { ...this.state.submitted } })
     this.props.onClose();
   };
 
   handleSubmit = () => {
-    const { inputType, jsonText, sdlText } = this.state;
+    const { inputType, activePreset, jsonText, sdlText } = this.state.current;
     switch (inputType) {
+      case Presets:
+        this.props.onChange(PRESETS[activePreset]);
+        break;
       case Introspection:
         this.props.onChange(JSON.parse(jsonText));
         break;
@@ -55,63 +78,98 @@ export class IntrospectionModal extends React.Component<IntrospectionModalProps>
         this.props.onChange({ data });
         break;
     }
+
+    this.setState({ submitted: { ...this.state.current } })
+    this.props.onClose();
   };
 
-  handleSDLChange(event) {
-    let sdlText = event.target.value;
-    if (sdlText === '') sdlText = null;
-    this.setState({ sdlText });
+  handlePresetChange = (activePreset) => {
+    this.changeCurrent({ activePreset });
   }
 
-  handleJSONChange(event) {
+  handleSDLChange = (event) => {
+    let sdlText = event.target.value;
+    if (sdlText === '') sdlText = null;
+    this.changeCurrent({ sdlText });
+  }
+
+  handleJSONChange = (event) => {
     let jsonText = event.target.value;
     if (jsonText === '') jsonText = null;
-    this.setState({ jsonText });
+    this.changeCurrent({ jsonText });
   }
 
   public render() {
-    const { inputType } = this.state;
-    return (
-      <div className="modal-paper" tabIndex={-1} ref={this.modalRef}>
-        <Tabs
-          value={tabNames.indexOf(inputType)}
-          indicatorColor="primary"
-          textColor="primary"
-          onChange={this.handleTabChange}
-        >
-          <Tab label={SDL} />
-          <Tab label={Introspection} />
-        </Tabs>
-        <div className="tab-container">
-          {inputType === SDL && this.renderSDLTab()}
-          {inputType === Introspection && this.renderIntrospectionTab()}
-        </div>
+    const { open } = this.props;
+    const { inputType } = this.state.current;
 
-        <div className="model-footer">
-          <Button variant="raised" onClick={this.handleCancel}>
-            Cancel
-          </Button>
-          <Button variant="raised" color="primary" onClick={this.handleSubmit}>
-            Display
-          </Button>
+    return (
+      <Modal open={open} onClose={this.handleCancel}>
+        <div className="modal-paper" tabIndex={-1} ref={this.modalRef}>
+          <Tabs
+            value={tabNames.indexOf(inputType)}
+            indicatorColor="primary"
+            textColor="primary"
+            onChange={this.handleTabChange}
+          >
+            <Tab label={Presets} />
+            <Tab label={SDL} />
+            <Tab label={Introspection} />
+          </Tabs>
+          <div className="tab-container">
+            {inputType === Presets && this.renderPresetsTab()}
+            {inputType === SDL && this.renderSDLTab()}
+            {inputType === Introspection && this.renderIntrospectionTab()}
+          </div>
+
+          <div className="model-footer">
+            <Button variant="contained" onClick={this.handleCancel}>
+              Cancel
+            </Button>
+            <Button variant="contained" color="primary" onClick={this.handleSubmit}>
+              Display
+            </Button>
+          </div>
         </div>
+      </Modal>
+    );
+  }
+
+  renderPresetsTab() {
+    const presetNames = Object.keys(PRESETS);
+    const { activePreset } = this.state.current;
+
+    return (
+      <div className="preset-cards">
+        {presetNames.map(name => (
+          <div
+            key={name}
+            className={classNames('preset-card', {
+              '-active': name === activePreset,
+            })}
+            onClick={() => this.handlePresetChange(name)}
+          >
+            <h2>{name}</h2>
+          </div>
+        ))}
       </div>
     );
   }
 
   renderSDLTab() {
-    const { sdlText } = this.state;
+    const { sdlText } = this.state.current;
     return (
       <textarea
         value={sdlText || ''}
         placeholder="Paste SDL Here"
-        onChange={this.handleSDLChange.bind(this)}
+        onChange={this.handleSDLChange}
       />
     );
   }
 
   renderIntrospectionTab() {
-    const { jsonText, recentlyCopied } = this.state;
+    const { recentlyCopied } = this.state;
+    const { jsonText } = this.state.current;
     return (
       <>
         <div>
@@ -132,7 +190,7 @@ export class IntrospectionModal extends React.Component<IntrospectionModalProps>
         <textarea
           value={jsonText || ''}
           placeholder="Paste Introspection Here"
-          onChange={this.handleJSONChange.bind(this)}
+          onChange={this.handleJSONChange}
         />
       </>
     );

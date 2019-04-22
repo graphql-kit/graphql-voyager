@@ -9,3 +9,6 @@ export const PRESETS = {
   'Shopify Storefront': shopifyIntrospection,
   GitHub: githubIntrospection,
 };
+
+export const defaultPresetName = 'Star Wars';
+export const defaultPreset = PRESETS[defaultPresetName];
