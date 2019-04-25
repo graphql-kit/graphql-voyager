@@ -1,9 +1,8 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
+import { getIntrospectionQuery } from 'graphql';
 import {Voyager} from 'graphql-voyager';
 import fetch from 'isomorphic-fetch';
-
-const INTROSPECTION_URL = 'https://gist.githubusercontent.com/RomanGotsiy/0f472e61cc50b497ec48c24b3cb283f1/raw/a544b330f773dcdefeb16364451f7b469800dc5d/swapi-introspection.json';
 
 class Test extends React.Component {
   constructor() {
@@ -17,8 +16,15 @@ class Test extends React.Component {
   }
 
   introspectionProvider(query) {
-    return fetch(INTROSPECTION_URL, {
-      method: 'get',
+    return fetch('http://swapi.apis.guru', {
+      method: 'post',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        query: getIntrospectionQuery(),
+      }),
     }).then(response => response.json());
   }
 }
