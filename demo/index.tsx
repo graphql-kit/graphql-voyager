@@ -19,6 +19,27 @@ export default class Demo extends React.Component {
     introspection: defaultPreset,
   };
 
+  constructor(props) {
+    super(props);
+
+    const { url, withCredentials } = getQueryParams();
+    if (url) {
+      this.state.introspection = introspectionQuery => fetch(url, {
+        method: 'post',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ query: introspectionQuery }),
+        ...(
+          withCredentials === 'true'
+            ? { credentials: 'include', mode: 'cors' }
+            : {}
+        ),
+      }).then(response => response.json());
+    }
+  }
+
   public render() {
     const { changeSchemaModalOpen, introspection } = this.state;
 
@@ -51,6 +72,17 @@ export default class Demo extends React.Component {
       </MuiThemeProvider>
     );
   }
+}
+
+function getQueryParams(): { [key: string]: string } {
+  const query = window.location.search.substring(1);
+  const params = {};
+
+  for (const param of query.split('&')) {
+    const [key, value] = param.split('=');
+    params[key] = value ? decodeURIComponent(value.replace(/\+/g, ' ')) : '';
+  }
+  return params;
 }
 
 class Logo extends React.Component {
