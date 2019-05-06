@@ -1,6 +1,5 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { getIntrospectionQuery } from 'graphql';
 import {Voyager} from 'graphql-voyager';
 import fetch from 'isomorphic-fetch';
 
@@ -22,9 +21,7 @@ class Test extends React.Component {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        query: getIntrospectionQuery(),
-      }),
+      body: JSON.stringify({ query }),
     }).then(response => response.json());
   }
 }
