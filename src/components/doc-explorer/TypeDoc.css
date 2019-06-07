@@ -86,8 +86,8 @@
     position: relative;
     border-left: 3px solid transparent;
 
-    & > description-box {
-      .margin-top: 5px;
+    & > .description-box {
+      margin-top: 5px;
     }
   }
 
