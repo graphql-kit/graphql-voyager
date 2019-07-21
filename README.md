@@ -220,5 +220,17 @@ app.use(router.allowedMethods());
 app.listen(3001);
 ```
 
+## Build Docker Image
+
+```
+$ npm install
+$ npm run build:release
+```
+
+```
+$ docker build . -f docker-image/Dockerfile -t apisguru/graphql-voyager
+$ docker push apisguru/graphql-voyager
+```
+
 ## Credits
 This tool is inspired by [graphql-visualizer](https://github.com/NathanRSmith/graphql-visualizer) project.
