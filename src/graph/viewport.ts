@@ -22,8 +22,10 @@ export class Viewport {
     this.container.innerHTML = '';
     this.$svg = stringToSvg(svgString);
     this.container.appendChild(this.$svg);
-
-    this.enableZoom();
+    
+    // Allow the SVG dimensions to be computed
+    // Quick fix for SVG manipulation issues.
+    setTimeout(() => this.enableZoom(), 0);
     this.bindClick();
     this.bindHover();
 
