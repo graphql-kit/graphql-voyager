@@ -101,7 +101,7 @@ export class Viewport {
         $sourceGroup.classList.add('hovered');
         $prevHovered = $sourceGroup;
         let $edge = edgeFrom($sourceGroup.id);
-        $edge && $edge.classList.add('hovered')
+        $edge && $edge.classList.add('hovered');
         $prevHoveredEdge = $edge;
       } else {
         clearSelection();
