@@ -1,6 +1,8 @@
 Example GraphQL-Voyager Install
 ========================
 
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+
 ------
 **Attribution:** the contents of this folder was copied from [GraphiQL](https://github.com/graphql/graphiql/tree/master/example) example and modified for GraphQL-Voyager example. See copyright below:
 
