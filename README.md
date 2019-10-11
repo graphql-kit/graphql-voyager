@@ -16,6 +16,9 @@ _[GraphQL Weekly #42](https://graphqlweekly.com/issues/42)_
 ## [Live Demo](https://apis.guru/graphql-voyager/)
 [![voyager demo](./docs/demo-gif.gif)](https://apis.guru/graphql-voyager/)
 
+## Running on Cloud
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+
 ## Features
   + Quick navigation on graph
   + Left panel which provides more detailed information about every type
