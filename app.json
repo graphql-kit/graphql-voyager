@@ -2,6 +2,7 @@
   "name": "graphql-voyager-example",
   "description": "GraphQL introspection viewer example",
   "website": "https://github.com/APIs-guru/graphql-voyager.git",
+  "repository": "https://github.com/bdcorps/graphql-voyager/tree/master/",
   "buildpacks": [
     {
       "url": "heroku/nodejs"
