@@ -22,13 +22,6 @@ _[GraphQL Weekly #42](https://graphqlweekly.com/issues/42)_
   + "Skip Relay" option that simplifies graph by removing Relay wrapper classes
   + Ability to choose any type to be a root of the graph
 
-## Roadmap
-  - [x] Major refactoring
-  - [ ] Publish as a library ([issue 1](https://github.com/APIs-guru/graphql-voyager/issues/1))
-  - [ ] Tests + CI + CD
-  - [ ] Try to optimize graph auto-layout
-  - [ ] [ < place for your ideas > ](https://github.com/APIs-guru/graphql-voyager/issues/new)
-
 ## Usage
 GraphQL Voyager exports `Voyager` React component and helper `init` function. If used without
 module system it is exported as `GraphQLVoyager` global variable.
