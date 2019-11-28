@@ -225,8 +225,8 @@ app.listen(3001);
 ### Build
 
 ```
-$ npm install
-$ npm run build:release
+$ yarn install
+$ yarn run build:release
 ```
 
 ```
