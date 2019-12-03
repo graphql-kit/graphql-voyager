@@ -77,6 +77,7 @@ export function getDot(typeGraph, displayOptions): string {
         ${objectValues(node.fields, nodeField)}
         ${possibleTypes(node)}
         ${derivedTypes(node)}
+        ${interfacesTypes(node)}
       </TABLE>>
     `;
   }
@@ -142,6 +143,26 @@ function derivedTypes(node) {
     </TR>
     ${array(
       derivedTypes,
+      ({ id, type }) => `
+      <TR>
+        <TD ${HtmlId(id)} ALIGN="LEFT" PORT="${type.name}">${type.name}</TD>
+      </TR>
+    `,
+    )}
+  `;
+}
+
+function interfacesTypes(node) {
+  const interfacesTypes = node.interfaces;
+  if (_.isEmpty(interfacesTypes)) {
+    return '';
+  }
+  return `
+    <TR>
+      <TD>interfaces</TD>
+    </TR>
+    ${array(
+      interfacesTypes,
       ({ id, type }) => `
       <TR>
         <TD ${HtmlId(id)} ALIGN="LEFT" PORT="${type.name}">${type.name}</TD>

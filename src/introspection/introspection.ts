@@ -138,7 +138,7 @@ function markRelayTypes(schema: SimplifiedIntrospectionWithIds): void {
         return;
       }
 
-      const edgesType = connectionType.fields.edges.type
+      const edgesType = connectionType.fields.edges.type;
       if (edgesType.kind !== 'OBJECT' || !edgesType.fields.node) {
         return;
       }
@@ -202,6 +202,23 @@ function markDeprecated(schema: SimplifiedIntrospectionWithIds): void {
   // which are deprecated.
 }
 
+function markInterfaceFields(schema: SimplifiedIntrospectionWithIds): void {
+  _.each(schema.types, type => {
+    if (type.kind === 'OBJECT') {
+      if (type.interfaces && type.interfaces.length > 0) {
+        // we have some interfaces for this object
+        // so we should delete fields that are presented in interface
+        // and also present in object
+        _.each(type.interfaces, oneInterface => {
+          _.each(oneInterface.type.fields, field => {
+            delete type.fields[field.name];
+          });
+        });
+      }
+    }
+  });
+}
+
 function assignTypesAndIDs(schema: SimplifiedIntrospection) {
   (<any>schema).queryType = schema.types[schema.queryType];
   (<any>schema).mutationType = schema.types[schema.mutationType];
@@ -254,6 +271,7 @@ export function getSchema(
   sortByAlphabet: boolean,
   skipRelay: boolean,
   skipDeprecated: boolean,
+  skipInterfaceFields: boolean,
 ) {
   if (!introspection) return null;
 
@@ -272,6 +290,9 @@ export function getSchema(
   }
   if (skipDeprecated) {
     markDeprecated((<any>simpleSchema) as SimplifiedIntrospectionWithIds);
+  }
+  if (skipInterfaceFields) {
+    markInterfaceFields((<any>simpleSchema) as SimplifiedIntrospectionWithIds);
   }
   return simpleSchema;
 }
