@@ -203,15 +203,38 @@ function markDeprecated(schema: SimplifiedIntrospectionWithIds): void {
 }
 
 function markInterfaceFields(schema: SimplifiedIntrospectionWithIds): void {
+  function isFieldOnInterfaceSameAsOnType(objectField, interfaceField) {
+    // rules are described here https://graphql.github.io/graphql-spec/draft/#sel-HAHZhCFHABABiCp7I
+    // we don't need to check for everything as valid rules are enforeced at time of parsing schema
+
+    if (objectField.type.id !== interfaceField.type.id) {
+      // return type of field is not same as in parrent
+      // this case also take care of types wrapped in lists or not null modificator
+      return false;
+    }
+    if (objectField.typeWrappers.length !== interfaceField.typeWrappers.length) {
+      // return type has stricker nullability modificator
+      // list modifier could not be changed as it would be parse error
+      return false;
+    }
+    if (_.keys(objectField.args).length !== _.keys(interfaceField.args).length) {
+      // if there are any aditional args they are not same
+      return false;
+    }
+    return true;
+  }
   _.each(schema.types, type => {
     if (type.kind === 'OBJECT') {
       if (type.interfaces && type.interfaces.length > 0) {
         // we have some interfaces for this object
         // so we should delete fields that are presented in interface
-        // and also present in object
+        // and also present in object and are same
+
         _.each(type.interfaces, oneInterface => {
-          _.each(oneInterface.type.fields, field => {
-            delete type.fields[field.name];
+          _.each(oneInterface.type.fields, interfaceField => {
+            if (isFieldOnInterfaceSameAsOnType(type.fields[interfaceField.name], interfaceField)) {
+              delete type.fields[interfaceField.name];
+            }
           });
         });
       }
