@@ -44,6 +44,7 @@ function normalizeDisplayOptions(options) {
 export interface VoyagerProps {
   introspection: IntrospectionProvider | Object;
   displayOptions?: VoyagerDisplayOptions;
+  onDisplayOptionsChange?: (displayOptions: VoyagerDisplayOptions) => void;
   hideDocs?: boolean;
   hideSettings?: boolean;
   workerURI?: string;
@@ -64,6 +65,7 @@ export default class Voyager extends React.Component<VoyagerProps> {
       hideRoot: PropTypes.bool,
       showLeafFields: PropTypes.bool,
     }),
+    onDisplayOptionsChange: PropTypes.func,
     hideDocs: PropTypes.bool,
     hideSettings: PropTypes.bool,
     workerURI: PropTypes.string,
@@ -232,6 +234,9 @@ export default class Voyager extends React.Component<VoyagerProps> {
 
   handleDisplayOptionsChange = delta => {
     const displayOptions = { ...this.state.displayOptions, ...delta };
+    if (this.props.onDisplayOptionsChange) {
+      this.props.onDisplayOptionsChange(displayOptions);
+    }
     this.updateIntrospection(this.state.introspectionData, displayOptions);
   };
 

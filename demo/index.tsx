@@ -19,10 +19,25 @@ export default class Demo extends React.Component {
     introspection: defaultPreset,
   };
 
+  // not part of state because we parse it in constructor and just use in render
+  displayOptions = {};
+
   constructor(props) {
     super(props);
 
-    const { url, withCredentials } = getQueryParams();
+    const { url, withCredentials, ...restQueryParams } = getQueryParams();
+    // parse rest of query params we expect them to be in JSON format
+    // we might pick also some options that are not valid displayOptions but they will be ignored
+    // by Voyager component
+    for (const [key, value] of Object.entries(restQueryParams)) {
+      try {
+        this.displayOptions[key] = JSON.parse(value);
+      } catch (_) {
+        console.log(
+          `Not expected value for key "${key}" or value >${value}< is not in json format so just ignoring it`,
+        );
+      }
+    }
     if (url) {
       this.state.introspection = introspectionQuery =>
         fetch(url, {
@@ -45,7 +60,11 @@ export default class Demo extends React.Component {
 
     return (
       <MuiThemeProvider theme={theme}>
-        <GraphQLVoyager introspection={introspection}>
+        <GraphQLVoyager
+          introspection={introspection}
+          displayOptions={this.displayOptions}
+          onDisplayOptionsChange={setQueryParamsWithoutRefresh}
+        >
           <GraphQLVoyager.PanelHeader>
             <div className="voyager-panel">
               <Logo />
@@ -68,6 +87,19 @@ export default class Demo extends React.Component {
         />
       </MuiThemeProvider>
     );
+  }
+}
+
+function setQueryParamsWithoutRefresh(displayOptions) {
+  if ('URLSearchParams' in window) {
+    const searchParams = new URLSearchParams(window.location.search);
+    for (const [key, value] of Object.entries(displayOptions)) {
+      searchParams.set(key, JSON.stringify(value));
+    }
+    var newRelativePathQuery = window.location.pathname + '?' + searchParams.toString();
+    history.pushState(null, '', newRelativePathQuery);
+  } else {
+    console.log('Missing URLSearchParams so just printing new displayOptions', displayOptions);
   }
 }
 
