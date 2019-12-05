@@ -43,7 +43,7 @@ export default class TypeList extends React.Component<TypeListProps> {
 
       return (
         <div key={type.id} className={classNames('typelist-item', className)}>
-          <TypeLink type={type} onClick={onTypeLink} filter={filter}/>
+          <TypeLink type={type} onClick={onTypeLink} filter={filter} />
           <FocusTypeButton onClick={() => onFocusType(type)} />
           <Description className="-doc-type" text={type.description} />
         </div>
