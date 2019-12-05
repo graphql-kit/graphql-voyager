@@ -48,7 +48,7 @@
     "postcss-import": "12.0.1",
     "postcss-loader": "3.0.0",
     "postcss-variables-loader": "5.0.1",
-    "prettier": "1.17.0",
+    "prettier": "1.19.1",
     "raw-loader": "1.0.0",
     "react": "16.8.6",
     "react-clipboard.js": "2.0.7",

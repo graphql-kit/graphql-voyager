@@ -46,7 +46,11 @@ if (!Element.prototype.scrollIntoViewIfNeeded) {
       hasScrolled = true;
     }
 
-    if (!hasScrolled && parent.parentNode instanceof HTMLElement && parent.clientHeight === parent.scrollHeight) {
+    if (
+      !hasScrolled &&
+      parent.parentNode instanceof HTMLElement &&
+      parent.clientHeight === parent.scrollHeight
+    ) {
       this.scrollIntoViewIfNeeded.call(this, centerIfNeeded, parent.parentNode);
     }
   };

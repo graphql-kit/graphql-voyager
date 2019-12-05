@@ -24,19 +24,16 @@ export default class Demo extends React.Component {
 
     const { url, withCredentials } = getQueryParams();
     if (url) {
-      this.state.introspection = introspectionQuery => fetch(url, {
-        method: 'post',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ query: introspectionQuery }),
-        ...(
-          withCredentials === 'true'
-            ? { credentials: 'include', mode: 'cors' }
-            : {}
-        ),
-      }).then(response => response.json());
+      this.state.introspection = introspectionQuery =>
+        fetch(url, {
+          method: 'post',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ query: introspectionQuery }),
+          ...(withCredentials === 'true' ? { credentials: 'include', mode: 'cors' } : {}),
+        }).then(response => response.json());
     }
   }
 
@@ -54,7 +51,7 @@ export default class Demo extends React.Component {
               <Logo />
               <Button
                 color="primary"
-                style={{color: 'white'}}
+                style={{ color: 'white' }}
                 variant="contained"
                 className="choosebutton"
                 onClick={openChangeSchema}
@@ -67,7 +64,7 @@ export default class Demo extends React.Component {
         <IntrospectionModal
           open={changeSchemaModalOpen}
           onClose={closeChangeSchema}
-          onChange={(introspection) => this.setState({ introspection })}
+          onChange={introspection => this.setState({ introspection })}
         />
       </MuiThemeProvider>
     );
