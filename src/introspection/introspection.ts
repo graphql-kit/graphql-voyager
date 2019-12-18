@@ -5,6 +5,7 @@ import {
   lexicographicSortSchema,
   IntrospectionSchema,
   IntrospectionType,
+  GraphQLSchema,
 } from 'graphql';
 import { SimplifiedIntrospection, SimplifiedIntrospectionWithIds, SimplifiedType } from './types';
 import { typeNameToId } from './utils';
@@ -138,7 +139,7 @@ function markRelayTypes(schema: SimplifiedIntrospectionWithIds): void {
         return;
       }
 
-      const edgesType = connectionType.fields.edges.type
+      const edgesType = connectionType.fields.edges.type;
       if (edgesType.kind !== 'OBJECT' || !edgesType.fields.node) {
         return;
       }
@@ -257,7 +258,8 @@ export function getSchema(
 ) {
   if (!introspection) return null;
 
-  let schema = buildClientSchema(introspection.data);
+  let schema =
+    introspection instanceof GraphQLSchema ? introspection : buildClientSchema(introspection.data);
   if (sortByAlphabet) {
     schema = lexicographicSortSchema(schema);
   }

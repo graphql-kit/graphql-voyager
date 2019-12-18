@@ -1,4 +1,5 @@
 import { introspectionQuery } from 'graphql/utilities';
+import { GraphQLSchema } from 'graphql';
 
 import { getSchema, extractTypeId } from '../introspection';
 import { SVGRender, getTypeGraph } from '../graph/';
@@ -42,7 +43,7 @@ function normalizeDisplayOptions(options) {
 }
 
 export interface VoyagerProps {
-  introspection: IntrospectionProvider | Object;
+  introspection: IntrospectionProvider | GraphQLSchema | Object;
   displayOptions?: VoyagerDisplayOptions;
   hideDocs?: boolean;
   hideSettings?: boolean;
