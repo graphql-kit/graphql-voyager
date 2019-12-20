@@ -1,7 +1,7 @@
 import { introspectionQuery } from 'graphql/utilities';
 import { GraphQLSchema } from 'graphql';
 
-import { getSchema, extractTypeId } from '../introspection';
+import { getSchema, prepareSchema, extractTypeId } from '../introspection';
 import { SVGRender, getTypeGraph } from '../graph/';
 import { WorkerCallback } from '../utils/types';
 
@@ -43,7 +43,8 @@ function normalizeDisplayOptions(options) {
 }
 
 export interface VoyagerProps {
-  introspection: IntrospectionProvider | GraphQLSchema | Object;
+  introspection?: IntrospectionProvider | Object;
+  schema?: GraphQLSchema;
   displayOptions?: VoyagerDisplayOptions;
   hideDocs?: boolean;
   hideSettings?: boolean;
@@ -55,8 +56,8 @@ export interface VoyagerProps {
 
 export default class Voyager extends React.Component<VoyagerProps> {
   static propTypes = {
-    introspection: PropTypes.oneOfType([PropTypes.func.isRequired, PropTypes.object.isRequired])
-      .isRequired,
+    introspection: PropTypes.oneOfType([PropTypes.func.isRequired, PropTypes.object.isRequired]),
+    schema: PropTypes.object,
     displayOptions: PropTypes.shape({
       rootType: PropTypes.string,
       skipRelay: PropTypes.bool,
@@ -90,7 +91,21 @@ export default class Voyager extends React.Component<VoyagerProps> {
   }
 
   componentDidMount() {
-    this.fetchIntrospection();
+    if (this.props.introspection) {
+      this.fetchIntrospection();
+    } else if (this.props.schema) {
+      const displayOptions = normalizeDisplayOptions(this.props.displayOptions);
+      
+      this.updateSchema(
+        prepareSchema(
+          this.props.schema,
+          displayOptions.sortByAlphabet,
+          displayOptions.skipRelay,
+          displayOptions.skipDeprecated,
+        ),
+        displayOptions,
+      );
+    }
   }
 
   fetchIntrospection() {
@@ -132,10 +147,18 @@ export default class Voyager extends React.Component<VoyagerProps> {
       displayOptions.skipRelay,
       displayOptions.skipDeprecated,
     );
-    const typeGraph = getTypeGraph(schema, displayOptions.rootType, displayOptions.hideRoot);
+
+    this.updateSchema(schema, displayOptions);
 
     this.setState({
       introspectionData,
+    });
+  }
+
+  updateSchema(schema, displayOptions) {
+    const typeGraph = getTypeGraph(schema, displayOptions.rootType, displayOptions.hideRoot);
+
+    this.setState({
       schema,
       typeGraph,
       displayOptions,
@@ -145,9 +168,24 @@ export default class Voyager extends React.Component<VoyagerProps> {
   }
 
   componentDidUpdate(prevProps: VoyagerProps) {
+    const displayOptions = normalizeDisplayOptions(this.props.displayOptions);
+
     if (this.props.introspection !== prevProps.introspection) {
       this.fetchIntrospection();
-    } else if (this.props.displayOptions !== prevProps.displayOptions) {
+    } else if (this.props.schema !== prevProps.schema) {
+      this.updateSchema(
+        prepareSchema(
+          this.props.schema,
+          displayOptions.sortByAlphabet,
+          displayOptions.skipRelay,
+          displayOptions.skipDeprecated,
+        ),
+        displayOptions,
+      );
+    } else if (
+      this.state.introspectionData &&
+      this.props.displayOptions !== prevProps.displayOptions
+    ) {
       this.updateIntrospection(
         this.state.introspectionData,
         normalizeDisplayOptions(this.props.displayOptions),
