@@ -10,7 +10,7 @@ class Test extends React.Component {
 
   render() {
     return (
-      <Voyager introspection={this.introspectionProvider} displayOptions={{skipRelay: false, showLeafFields: true}}/>
+      <Voyager fetcher={this.introspectionProvider} displayOptions={{skipRelay: false, showLeafFields: true}}/>
     )
   }
 

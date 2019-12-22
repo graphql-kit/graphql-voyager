@@ -45,7 +45,7 @@ export default class Demo extends React.Component {
 
     return (
       <MuiThemeProvider theme={theme}>
-        <GraphQLVoyager introspection={introspection}>
+        <GraphQLVoyager fetcher={introspection}>
           <GraphQLVoyager.PanelHeader>
             <div className="voyager-panel">
               <Logo />

@@ -63,7 +63,7 @@ export default function renderVoyagerPage(options: MiddlewareOptions) {
       }
 
       GraphQLVoyager.init(document.getElementById('voyager'), {
-        introspection: introspectionProvider,
+        fetcher: introspectionProvider,
         displayOptions: ${JSON.stringify(displayOptions)},
       })
     })

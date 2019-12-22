@@ -29,7 +29,9 @@ module system it is exported as `GraphQLVoyager` global variable.
 ### Properties
 `Voyager` component accepts the following properties:
 
-+ `introspection` [`object` or function: `(query: string) => Promise`] - the server introspection response. If `function` is provided GraphQL Voyager will pass introspection query as a first function parameter. Function should return `Promise` which resolves to introspection response object.
++ `fetcher` _(optional)_ [function: `(query: string) => Promise`] - a function for fetching an introspection of your schema. GraphQL Voyager will pass an introspection query as a first function parameter. Function should return `Promise` which resolves to introspection response object.
+_This or `schema` below must be provided to GraphQL Voyager._
++ `schema` _(optional)_ [`GraphQLSchema`] - if you have access to your schema instantiated as a `GraphQLSchema`, you can pass that here instead of passing a `fetcher` function as described above.
 + `displayOptions` _(optional)_
   + `displayOptions.skipRelay` [`boolean`, default `true`] - skip relay-related entities
   + `displayOptions.skipDeprecated` [`boolean`, default `true`] - skip deprecated fields and entities that contain only deprecated fields.
@@ -84,7 +86,7 @@ folder as `voyager.min.js`.
 
       // Render <Voyager />
       GraphQLVoyager.init(document.getElementById('voyager'), {
-        introspection: introspectionProvider
+        fetcher: introspectionProvider
       })
     </script>
   </body>
@@ -113,7 +115,7 @@ function introspectionProvider(query) {
   }).then(response => response.json());
 }
 
-ReactDOM.render(<Voyager introspection={introspectionProvider} />, document.getElementById('voyager'));
+ReactDOM.render(<Voyager fetcher={introspectionProvider} />, document.getElementById('voyager'));
 ```
 
 Build for the web with [webpack](https://webpack.js.org/) ([example](./example/webpack-example)) or
