@@ -18,7 +18,7 @@ import Settings from './settings/Settings';
 import './Voyager.css';
 import './viewport.css';
 
-type IntrospectionProvider = (query: string) => Promise<any>;
+type IntrospectionProvider = (query: string) => Promise<Object>;
 
 export interface VoyagerDisplayOptions {
   rootType?: string;
@@ -43,7 +43,7 @@ function normalizeDisplayOptions(options) {
 }
 
 export interface VoyagerProps {
-  introspection?: IntrospectionProvider | Object;
+  fetcher?: IntrospectionProvider;
   schema?: GraphQLSchema;
   displayOptions?: VoyagerDisplayOptions;
   hideDocs?: boolean;
@@ -56,7 +56,7 @@ export interface VoyagerProps {
 
 export default class Voyager extends React.Component<VoyagerProps> {
   static propTypes = {
-    introspection: PropTypes.oneOfType([PropTypes.func.isRequired, PropTypes.object.isRequired]),
+    fetcher: PropTypes.func.isRequired,
     schema: PropTypes.object,
     displayOptions: PropTypes.shape({
       rootType: PropTypes.string,
@@ -91,11 +91,9 @@ export default class Voyager extends React.Component<VoyagerProps> {
   }
 
   componentDidMount() {
-    if (this.props.introspection) {
-      this.fetchIntrospection();
-    } else if (this.props.schema) {
+    if (this.props.schema) {
       const displayOptions = normalizeDisplayOptions(this.props.displayOptions);
-      
+
       this.updateSchema(
         prepareSchema(
           this.props.schema,
@@ -105,18 +103,15 @@ export default class Voyager extends React.Component<VoyagerProps> {
         ),
         displayOptions,
       );
+    } else if (this.props.fetcher) {
+      this.fetchIntrospection();
     }
   }
 
   fetchIntrospection() {
     const displayOptions = normalizeDisplayOptions(this.props.displayOptions);
 
-    if (typeof this.props.introspection !== 'function') {
-      this.updateIntrospection(this.props.introspection, displayOptions);
-      return;
-    }
-
-    let promise = this.props.introspection(introspectionQuery);
+    let promise = this.props.fetcher(introspectionQuery);
 
     if (!isPromise(promise)) {
       throw new Error('SchemaProvider did not return a Promise for introspection.');
@@ -170,9 +165,7 @@ export default class Voyager extends React.Component<VoyagerProps> {
   componentDidUpdate(prevProps: VoyagerProps) {
     const displayOptions = normalizeDisplayOptions(this.props.displayOptions);
 
-    if (this.props.introspection !== prevProps.introspection) {
-      this.fetchIntrospection();
-    } else if (this.props.schema !== prevProps.schema) {
+    if (this.props.schema && this.props.schema !== prevProps.schema) {
       this.updateSchema(
         prepareSchema(
           this.props.schema,
