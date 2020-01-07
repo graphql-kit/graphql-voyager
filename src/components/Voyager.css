@@ -21,6 +21,13 @@
     box-sizing: border-box;
     position: relative;
     z-index: 10;
+
+    & .contents__btn-save {
+      padding: 0px 15px;
+      margin-top: 5px;
+      display: flex;
+      flex-direction: column;
+    }
   }
 
   & > .viewport {
@@ -34,7 +41,8 @@
   }
 
   @media (--small-viewport) {
-    & > .doc-panel, & > .viewport {
+    & > .doc-panel,
+    & > .viewport {
       height: 50%;
       width: 100%;
       max-width: none;

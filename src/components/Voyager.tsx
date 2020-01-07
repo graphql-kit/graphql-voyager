@@ -9,6 +9,9 @@ import * as PropTypes from 'prop-types';
 import { theme } from './MUITheme';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 
+import Button from '@material-ui/core/Button';
+import FileSaver from 'file-saver';
+
 import GraphViewport from './GraphViewport';
 import DocExplorer from './doc-explorer/DocExplorer';
 import PoweredBy from './utils/PoweredBy';
@@ -185,6 +188,16 @@ export default class Voyager extends React.Component<VoyagerProps> {
       <div className="doc-panel">
         <div className="contents">
           {panelHeader}
+          <div className="contents__btn-save">
+            <Button
+              color="primary"
+              style={{ color: 'white' }}
+              variant="contained"
+              onClick={this.saveToSVG}
+            >
+              Save to SVG
+            </Button>
+          </div>
           <DocExplorer
             typeGraph={typeGraph}
             selectedTypeID={selectedTypeID}
@@ -198,6 +211,14 @@ export default class Voyager extends React.Component<VoyagerProps> {
       </div>
     );
   }
+
+  saveToSVG = () => {
+    const { displayOptions, typeGraph } = this.state;
+
+    this.svgRenderer.renderSvg(typeGraph, displayOptions).then(data => {
+      FileSaver.saveAs(new Blob([data], { type: 'image/svg+xml' }), 'schema.svg');
+    });
+  };
 
   renderSettings() {
     const { schema, displayOptions } = this.state;
