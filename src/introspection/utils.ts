@@ -1,18 +1,21 @@
 import * as _ from 'lodash';
 
 export function stringifyWrappers(wrappers) {
-  return _.reduce(
-    wrappers.reverse(),
-    ([left, right], wrapper) => {
-      switch (wrapper) {
-        case 'NON_NULL':
-          return [left, right + '!'];
-        case 'LIST':
-          return ['[' + left, right + ']'];
-      }
-    },
-    ['', ''],
-  );
+  let left = '';
+  let right = '';
+
+  for (const wrapper of wrappers) {
+    switch (wrapper) {
+      case 'NON_NULL':
+        right = '!' + right;
+        break;
+      case 'LIST':
+        left = left + '[';
+        right = ']' + right;
+        break;
+    }
+  }
+  return [left, right];
 }
 
 export function buildId(...parts) {
