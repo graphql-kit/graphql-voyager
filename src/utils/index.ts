@@ -10,6 +10,10 @@ export function isMatch(sourceText: string, searchValue: string) {
     return true;
   }
 
+  if (!sourceText) {
+    return false;
+  }
+
   try {
     const escaped = searchValue.replace(/[^_0-9A-Za-z]/g, ch => '\\' + ch);
     return sourceText.search(new RegExp(escaped, 'i')) !== -1;

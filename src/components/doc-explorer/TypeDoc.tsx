@@ -113,9 +113,15 @@ export default class TypeDoc extends React.Component<TypeDocProps> {
       let fields: any = Object.values(type.fields);
       fields = fields.filter(field => {
         const args: any = Object.values(field.args);
-        const matchingArgs = args.filter(arg => isMatch(arg.name, filter));
+        const matchingArgs = args.filter(
+          arg => isMatch(arg.name, filter) || isMatch(arg.description, filter),
+        );
 
-        return isMatch(field.name, filter) || matchingArgs.length > 0;
+        return (
+          isMatch(field.name, filter) ||
+          isMatch(field.description, filter) ||
+          matchingArgs.length > 0
+        );
       });
 
       if (fields.length === 0) return null;
@@ -148,6 +154,7 @@ export default class TypeDoc extends React.Component<TypeDocProps> {
                           key={arg.name}
                           arg={arg}
                           expanded={field.id === selectedId}
+                          termToHighlight={filter}
                           onTypeLink={onTypeLink}
                         />
                       ))}
@@ -156,7 +163,11 @@ export default class TypeDoc extends React.Component<TypeDocProps> {
                 </span>
                 <WrappedTypeName container={field} onTypeLink={onTypeLink} />
                 {field.isDeprecated && <span className="doc-alert-text"> DEPRECATED</span>}
-                <Markdown text={field.description} className="description-box -field" />
+                <Markdown
+                  text={field.description}
+                  termToHighlight={filter}
+                  className="description-box -field"
+                />
               </div>
             );
           })}

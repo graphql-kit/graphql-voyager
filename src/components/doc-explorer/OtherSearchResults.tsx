@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import { isMatch, highlightTerm } from '../../utils';
+import Markdown from '../utils/Markdown';
 
 interface OtherSearchResultsProps {
   typeGraph: any;
@@ -19,10 +20,15 @@ export default class OtherSearchResults extends React.Component<OtherSearchResul
     const matchedTypes = [];
     if (withinType != null) {
       for (const type of types) {
-        if (isMatch(type.name, searchValue)) {
+        if (isMatch(type.name, searchValue) || isMatch(type.description, searchValue)) {
           matchedTypes.push(
             <div className="item" key={type.name} onClick={() => onTypeLink(type)}>
               <span className="type-name">{highlightTerm(type.name, searchValue)}</span>
+              <Markdown
+                text={type.description}
+                termToHighlight={searchValue}
+                className="description-box -field"
+              />
             </div>,
           );
         }
@@ -41,9 +47,14 @@ export default class OtherSearchResults extends React.Component<OtherSearchResul
       const fields: any = Object.values(type.fields);
       for (const field of fields) {
         const args: any = Object.values(field.args);
-        const matchingArgs = args.filter(arg => isMatch(arg.name, searchValue));
+        const matchingArgs = args.filter(
+          arg => isMatch(arg.name, searchValue) || isMatch(arg.description, searchValue),
+        );
 
-        if (!isMatch(field.name, searchValue) && matchingArgs.length === 0) {
+        if (
+          !(isMatch(field.name, searchValue) || isMatch(field.description, searchValue)) &&
+          matchingArgs.length === 0
+        ) {
           continue;
         }
 
@@ -54,12 +65,28 @@ export default class OtherSearchResults extends React.Component<OtherSearchResul
             {matchingArgs.length > 0 && (
               <span className="args args-wrap">
                 {matchingArgs.map(arg => (
-                  <span key={arg.id} className="arg-wrap">
-                    <span className="arg arg-name">{highlightTerm(arg.name, searchValue)}</span>
+                  <span key={arg.id} className="arg-wrap -expanded">
+                    {/* FIXME: remove inline style */}
+                    <span className="arg arg-name" style={{ paddingLeft: '15px' }}>
+                      {highlightTerm(arg.name, searchValue)}
+                    </span>
+                    {/* FIXME: remove inline style */}
+                    <span style={{ display: 'block', paddingLeft: '15px' }}>
+                      <Markdown
+                        className="arg-description"
+                        text={arg.description}
+                        termToHighlight={searchValue}
+                      />
+                    </span>
                   </span>
                 ))}
               </span>
             )}
+            <Markdown
+              text={field.description}
+              termToHighlight={searchValue}
+              className="description-box -field"
+            />
           </div>,
         );
       }

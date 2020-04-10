@@ -65,11 +65,4 @@
   & .arg-description > p {
     margin: 0;
   }
-
-  & .arg-description:before {
-    display: block;
-    content: "#";
-    float: left;
-    margin-right: var(--spacing-unit);
-  }
 }

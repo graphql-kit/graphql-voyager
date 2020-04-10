@@ -37,7 +37,7 @@ export default class TypeList extends React.Component<TypeListProps> {
     );
 
     function renderItem(type, className?: string) {
-      if (!isMatch(type.name, filter)) {
+      if (!(isMatch(type.name, filter) || isMatch(type.description, filter))) {
         return null;
       }
 
@@ -45,7 +45,7 @@ export default class TypeList extends React.Component<TypeListProps> {
         <div key={type.id} className={classNames('typelist-item', className)}>
           <TypeLink type={type} onClick={onTypeLink} filter={filter} />
           <FocusTypeButton onClick={() => onFocusType(type)} />
-          <Description className="-doc-type" text={type.description} />
+          <Description className="-doc-type" text={type.description} termToHighlight={filter} />
         </div>
       );
     }
