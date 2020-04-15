@@ -23,23 +23,23 @@ export default class Markdown extends React.Component<MarkdownProps> {
     );
   }
 
-  highlightTermInMarkdown(content: string, term: string) {
-    if (!term) {
-      return content;
-    }
-
-    return content.replace(new RegExp(term, 'gi'), match => `<mark>${match}</mark>`);
-  }
-
   render() {
     const { text, termToHighlight, className } = this.props;
 
     if (!text) return null;
 
-    const highlighedText = this.highlightTermInMarkdown(text, termToHighlight);
+    const highlighedText = highlightTermInMarkdown(text, termToHighlight);
     const parsed = this.parser.parse(highlighedText);
     const html = this.renderer.render(parsed);
 
     return <div className={className} dangerouslySetInnerHTML={{ __html: html }} />;
   }
+}
+
+function highlightTermInMarkdown(content: string, term: string) {
+  if (!term) {
+    return content;
+  }
+
+  return content.replace(new RegExp(term, 'gi'), match => `<mark>${match}</mark>`);
 }
