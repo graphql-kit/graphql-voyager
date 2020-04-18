@@ -67,7 +67,7 @@ export class IntrospectionModal extends React.Component<IntrospectionModalProps>
   }
 
   handleCancel = () => {
-    this.setState({ current: { ...this.state.submitted } })
+    this.setState({ current: { ...this.state.submitted } });
     this.props.onClose();
   };
 
@@ -76,8 +76,8 @@ export class IntrospectionModal extends React.Component<IntrospectionModalProps>
       method: 'POST',
       headers: headers,
       body: JSON.stringify({ query: introspectionQuery }),
-    }).then((response) => response.json());
-  }
+    }).then(response => response.json());
+  };
 
   handleSubmit = () => {
     const { inputType, activePreset, urlText, headers, jsonText, sdlText } = this.state.current;
@@ -86,7 +86,7 @@ export class IntrospectionModal extends React.Component<IntrospectionModalProps>
         this.props.onChange(PRESETS[activePreset]);
         break;
       case URL:
-        this.fetchIntrospection(urlText, headers).then((data) => this.props.onChange(data));
+        this.fetchIntrospection(urlText, headers).then(data => this.props.onChange(data));
         break;
       case Introspection:
         this.props.onChange(JSON.parse(jsonText));
@@ -97,35 +97,35 @@ export class IntrospectionModal extends React.Component<IntrospectionModalProps>
         break;
     }
 
-    this.setState({ submitted: { ...this.state.current } })
+    this.setState({ submitted: { ...this.state.current } });
     this.props.onClose();
   };
 
-  handlePresetChange = (activePreset) => {
+  handlePresetChange = activePreset => {
     this.changeCurrent({ activePreset });
-  }
+  };
 
-  handleURLChange = (event) => {
+  handleURLChange = event => {
     let urlText = event.target.value;
     if (urlText === '') urlText = null;
     this.changeCurrent({ urlText });
-  }
+  };
 
-  handleHeadersChange = (headers) => {
+  handleHeadersChange = headers => {
     this.changeCurrent({ headers });
   };
 
-  handleSDLChange = (event) => {
+  handleSDLChange = event => {
     let sdlText = event.target.value;
     if (sdlText === '') sdlText = null;
     this.changeCurrent({ sdlText });
-  }
+  };
 
-  handleIntrospectionChange = (event) => {
+  handleIntrospectionChange = event => {
     let jsonText = event.target.value;
     if (jsonText === '') jsonText = null;
     this.changeCurrent({ jsonText });
-  }
+  };
 
   public render() {
     const { open } = this.props;
@@ -156,7 +156,12 @@ export class IntrospectionModal extends React.Component<IntrospectionModalProps>
             <Button variant="contained" onClick={this.handleCancel}>
               Cancel
             </Button>
-            <Button variant="contained" color="primary"  style={{color: 'white'}} onClick={this.handleSubmit}>
+            <Button
+              variant="contained"
+              color="primary"
+              style={{ color: 'white' }}
+              onClick={this.handleSubmit}
+            >
               Display
             </Button>
           </div>
@@ -190,17 +195,9 @@ export class IntrospectionModal extends React.Component<IntrospectionModalProps>
     const { urlText, headers } = this.state.current;
     return (
       <>
-        <input
-          value={urlText || ''}
-          placeholder="Paste URL here"
-          onChange={this.handleURLChange}
-        />
+        <input value={urlText || ''} placeholder="Paste URL here" onChange={this.handleURLChange} />
         <div>Set headers below:</div>
-        <JSONForm
-          json={headers}
-          autoAddRow={true}
-          onChange={this.handleHeadersChange}
-        />
+        <JSONForm json={headers} autoAddRow={true} onChange={this.handleHeadersChange} />
       </>
     );
   }
