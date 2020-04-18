@@ -74,6 +74,7 @@
     "classnames": "^2.2.6",
     "clipboard": "^2.0.4",
     "commonmark": "^0.29.0",
+    "json-as-form": "^0.0.22",
     "lodash": "^4.17.10",
     "prop-types": "^15.7.2",
     "svg-pan-zoom": "^3.6.0",

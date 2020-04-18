@@ -6,6 +6,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Button from '@material-ui/core/Button';
 import Clipboard from 'react-clipboard.js';
+import JSONForm from 'json-as-form';
 
 import { buildSchema, introspectionQuery, introspectionFromSchema } from 'graphql/utilities';
 import { PRESETS, defaultPresetName } from './presets';
@@ -28,7 +29,10 @@ const initialConfig = {
   inputType: Presets,
   activePreset: defaultPresetName,
   urlText: null,
-  headers: null,
+  headers: {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json',
+  },
   sdlText: null,
   jsonText: null,
 };
@@ -70,11 +74,7 @@ export class IntrospectionModal extends React.Component<IntrospectionModalProps>
   fetchIntrospection = (url, headers) => {
     return fetch(url, {
       method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        ...JSON.parse(headers),
-      },
+      headers: headers,
       body: JSON.stringify({ query: introspectionQuery }),
     }).then((response) => response.json());
   }
@@ -111,11 +111,9 @@ export class IntrospectionModal extends React.Component<IntrospectionModalProps>
     this.changeCurrent({ urlText });
   }
 
-  handleHeadersChange = (event) => {
-    let headers = event.target.value;
-    if (headers === '') headers = null;
+  handleHeadersChange = (headers) => {
     this.changeCurrent({ headers });
-  }
+  };
 
   handleSDLChange = (event) => {
     let sdlText = event.target.value;
@@ -192,17 +190,15 @@ export class IntrospectionModal extends React.Component<IntrospectionModalProps>
     const { urlText, headers } = this.state.current;
     return (
       <>
-        <textarea
+        <input
           value={urlText || ''}
           placeholder="Paste URL here"
           onChange={this.handleURLChange}
         />
-        <div>
-          Paste headers (in JSON format) into the textarea below.
-        </div>
-        <textarea
-          value={headers || ''}
-          placeholder="Paste headers here"
+        <div>Set headers below:</div>
+        <JSONForm
+          json={headers}
+          autoAddRow={true}
           onChange={this.handleHeadersChange}
         />
       </>
