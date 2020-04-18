@@ -40,8 +40,22 @@
     flex: 1;
     outline: none;
     padding: 10px;
+    margin: 10px 0;
     font-size: 14px;
   }
+
+  & > input {
+    padding: 5px;
+    margin: 10px 0;
+  }
+}
+
+.json-as-form {
+  margin: 10px 0 !important;
+}
+
+.json-row {
+  margin-left: 5px;
 }
 
 .copy-button {
