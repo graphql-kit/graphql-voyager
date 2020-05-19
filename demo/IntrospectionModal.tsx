@@ -7,7 +7,7 @@ import Tab from '@material-ui/core/Tab';
 import Button from '@material-ui/core/Button';
 import Clipboard from 'react-clipboard.js';
 
-import { buildSchema, introspectionQuery, introspectionFromSchema } from 'graphql/utilities';
+import { buildSchema, getIntrospectionQuery, introspectionFromSchema } from 'graphql/utilities';
 import { PRESETS, defaultPresetName } from './presets';
 
 import './IntrospectionModal.css';
@@ -180,7 +180,7 @@ export class IntrospectionModal extends React.Component<IntrospectionModalProps>
           component="a"
           className="copy-button"
           options={{ container: this.modalRef.current }}
-          data-clipboard-text={introspectionQuery}
+          data-clipboard-text={getIntrospectionQuery()}
           onClick={() => this.copy()}
         >
           <Button color="primary" size="small">

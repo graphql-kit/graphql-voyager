@@ -1,4 +1,4 @@
-import { introspectionQuery } from 'graphql/utilities';
+import { getIntrospectionQuery } from 'graphql/utilities';
 
 import { getSchema, extractTypeId } from '../introspection';
 import { SVGRender, getTypeGraph } from '../graph/';
@@ -100,7 +100,7 @@ export default class Voyager extends React.Component<VoyagerProps> {
       return;
     }
 
-    let promise = this.props.introspection(introspectionQuery);
+    let promise = this.props.introspection(getIntrospectionQuery());
 
     if (!isPromise(promise)) {
       throw new Error('SchemaProvider did not return a Promise for introspection.');
