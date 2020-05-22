@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { isMatch, highlightTerm } from '../../utils';
 
-interface SearchResultsProps {
+interface OtherSearchResultsProps {
   typeGraph: any;
   withinType: any;
   searchValue: string;
@@ -10,7 +10,7 @@ interface SearchResultsProps {
   onFieldLink: (field: any, type: any) => void;
 }
 
-export default class OtherSearchResults extends React.Component<SearchResultsProps> {
+export default class OtherSearchResults extends React.Component<OtherSearchResultsProps> {
   render() {
     const { typeGraph, withinType, searchValue, onTypeLink, onFieldLink } = this.props;
 
@@ -65,20 +65,17 @@ export default class OtherSearchResults extends React.Component<SearchResultsPro
       }
     }
 
-    if (matchedTypes.length + matchedFields.length === 0) {
-      return (
-        <div className="other-search-results doc-category">
-          <div className="title">other results</div>
-          <div className="doc-alert-text -search">No results found.</div>
-        </div>
-      );
-    }
-
     return (
       <div className="other-search-results doc-category">
         <div className="title">other results</div>
-        {matchedTypes}
-        {matchedFields}
+        {matchedTypes.length + matchedFields.length === 0 ? (
+          <div className="doc-alert-text -search">No results found.</div>
+        ) : (
+          <>
+            {matchedTypes}
+            {matchedFields}
+          </>
+        )}
       </div>
     );
   }

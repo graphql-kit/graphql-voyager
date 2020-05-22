@@ -138,7 +138,7 @@ function markRelayTypes(schema: SimplifiedIntrospectionWithIds): void {
         return;
       }
 
-      const edgesType = connectionType.fields.edges.type
+      const edgesType = connectionType.fields.edges.type;
       if (edgesType.kind !== 'OBJECT' || !edgesType.fields.node) {
         return;
       }
