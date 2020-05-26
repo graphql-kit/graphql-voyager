@@ -5,12 +5,27 @@ import * as animate from '@f/animate';
 import { removeClass, forEachNode, stringToSvg } from '../utils/';
 import { typeNameToId } from '../introspection';
 
+// FIXME: we are waiting for this [PR](https://github.com/ariutta/svg-pan-zoom/pull/379), after that this two interfaces might be removed in favor to `import { Instance, Point } from 'svg-pan-zoom'`
+interface Point {
+  x: number;
+  y: number;
+}
+
+interface Instance {
+  resize(): Instance;
+  zoom(scale: number): void;
+  getPan(): Point;
+  getZoom(): number;
+  pan(point: Point): Instance;
+  destroy(): void;
+}
+
 export class Viewport {
   onSelectNode: (id: string) => void;
   onSelectEdge: (id: string) => void;
 
   $svg: SVGElement;
-  zoomer: SvgPanZoom.Instance;
+  zoomer: Instance;
   offsetLeft: number;
   offsetTop: number;
   maxZoom: number;
