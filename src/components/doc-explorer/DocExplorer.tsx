@@ -64,12 +64,12 @@ export default class DocExplorer extends React.Component<DocExplorerProps> {
     return (
       <div className="type-doc" key={navStack.length}>
         {this.renderNavigation(previousNav, currentNav)}
+        <SearchBox
+          placeholder={`Search ${name}...`}
+          value={currentNav.searchValue}
+          onSearch={this.handleSearch}
+        />
         <div className="scroll-area">
-          <SearchBox
-            placeholder={`Search ${name}...`}
-            value={currentNav.searchValue}
-            onSearch={this.handleSearch}
-          />
           {this.renderCurrentNav(currentNav)}
           {currentNav.searchValue && (
             <OtherSearchResults
