@@ -19,6 +19,7 @@ import Settings from './settings/Settings';
 
 import './Voyager.css';
 import './viewport.css';
+import styles from '!!postcss-loader!./viewport.css';
 
 type IntrospectionProvider = (query: string) => Promise<any>;
 
@@ -216,7 +217,13 @@ export default class Voyager extends React.Component<VoyagerProps> {
     const { displayOptions, typeGraph } = this.state;
 
     this.svgRenderer.renderSvg(typeGraph, displayOptions).then(data => {
-      FileSaver.saveAs(new Blob([data], { type: 'image/svg+xml' }), 'schema.svg');
+      let svgTag = document.createElement('div');
+      svgTag.innerHTML = data;
+      let styleTag = document.createElement('style');
+      styleTag.innerHTML = styles.toString();
+      svgTag.firstElementChild.insertBefore(styleTag, svgTag.firstElementChild.firstElementChild);
+
+      FileSaver.saveAs(new Blob([svgTag.innerHTML], { type: 'image/svg+xml' }), 'schema.svg');
     });
   };
 
