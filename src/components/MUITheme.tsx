@@ -11,7 +11,6 @@ export const theme = createMuiTheme({
   },
   typography: {
     fontSize: 12,
-    useNextVariants: true,
   },
   overrides: {
     MuiCheckbox: {
