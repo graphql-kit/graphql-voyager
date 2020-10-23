@@ -1,0 +1,10 @@
+{
+  "name": "graphql-voyager-example",
+  "description": "GraphQL introspection viewer example",
+  "website": "https://github.com/APIs-guru/graphql-voyager.git",
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    }
+  ]
+}
