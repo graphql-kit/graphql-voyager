@@ -17,7 +17,8 @@
     "build:demo": "npm run clean:demo && NODE_ENV=production webpack -p --config build/webpack.demo.js",
     "deploy": "deploy-to-gh-pages --local --update demo-dist",
     "stats": "NODE_ENV=production webpack --json --mode=production --config build/webpack.js > stats.json",
-    "prettier": "prettier --write \"{,!(node_modules)/**/}*.{ts,tsx}\"",
+    "prettier": "prettier --write --list-different .",
+    "prettier:check": "prettier --check .",
     "declarations": "tsc --emitDeclarationOnly -p tsconfig.lib.json"
   },
   "license": "MIT",
@@ -47,7 +48,7 @@
     "postcss-import": "12.0.1",
     "postcss-loader": "3.0.0",
     "postcss-variables-loader": "5.0.1",
-    "prettier": "1.19.1",
+    "prettier": "2.1.2",
     "raw-loader": "1.0.0",
     "react": "16.8.6",
     "react-clipboard.js": "2.0.16",

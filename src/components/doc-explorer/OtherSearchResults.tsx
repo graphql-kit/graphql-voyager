@@ -10,19 +10,35 @@ interface OtherSearchResultsProps {
   onFieldLink: (field: any, type: any) => void;
 }
 
-export default class OtherSearchResults extends React.Component<OtherSearchResultsProps> {
+export default class OtherSearchResults extends React.Component<
+  OtherSearchResultsProps
+> {
   render() {
-    const { typeGraph, withinType, searchValue, onTypeLink, onFieldLink } = this.props;
+    const {
+      typeGraph,
+      withinType,
+      searchValue,
+      onTypeLink,
+      onFieldLink,
+    } = this.props;
 
-    const types: any = Object.values(typeGraph.nodes).filter(type => type !== withinType);
+    const types: any = Object.values(typeGraph.nodes).filter(
+      (type) => type !== withinType,
+    );
 
     const matchedTypes = [];
     if (withinType != null) {
       for (const type of types) {
         if (isMatch(type.name, searchValue)) {
           matchedTypes.push(
-            <div className="item" key={type.name} onClick={() => onTypeLink(type)}>
-              <span className="type-name">{highlightTerm(type.name, searchValue)}</span>
+            <div
+              className="item"
+              key={type.name}
+              onClick={() => onTypeLink(type)}
+            >
+              <span className="type-name">
+                {highlightTerm(type.name, searchValue)}
+              </span>
             </div>,
           );
         }
@@ -41,21 +57,31 @@ export default class OtherSearchResults extends React.Component<OtherSearchResul
       const fields: any = Object.values(type.fields);
       for (const field of fields) {
         const args: any = Object.values(field.args);
-        const matchingArgs = args.filter(arg => isMatch(arg.name, searchValue));
+        const matchingArgs = args.filter((arg) =>
+          isMatch(arg.name, searchValue),
+        );
 
         if (!isMatch(field.name, searchValue) && matchingArgs.length === 0) {
           continue;
         }
 
         matchedFields.push(
-          <div className="item" key={field.id} onClick={() => onFieldLink(field, type)}>
+          <div
+            className="item"
+            key={field.id}
+            onClick={() => onFieldLink(field, type)}
+          >
             <span className="type-name">{type.name}</span>
-            <span className="field-name">{highlightTerm(field.name, searchValue)}</span>
+            <span className="field-name">
+              {highlightTerm(field.name, searchValue)}
+            </span>
             {matchingArgs.length > 0 && (
               <span className="args args-wrap">
-                {matchingArgs.map(arg => (
+                {matchingArgs.map((arg) => (
                   <span key={arg.id} className="arg-wrap">
-                    <span className="arg arg-name">{highlightTerm(arg.name, searchValue)}</span>
+                    <span className="arg arg-name">
+                      {highlightTerm(arg.name, searchValue)}
+                    </span>
                   </span>
                 ))}
               </span>

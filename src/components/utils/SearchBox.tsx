@@ -14,7 +14,10 @@ interface SearchBoxState {
   value: string;
 }
 
-export default class SearchBox extends React.Component<SearchBoxProps, SearchBoxState> {
+export default class SearchBox extends React.Component<
+  SearchBoxProps,
+  SearchBoxState
+> {
   timeout = null;
 
   constructor(props) {
@@ -54,7 +57,7 @@ export default class SearchBox extends React.Component<SearchBoxProps, SearchBox
     );
   }
 
-  handleChange = event => {
+  handleChange = (event) => {
     const { value } = event.target;
 
     this.setState({ value });

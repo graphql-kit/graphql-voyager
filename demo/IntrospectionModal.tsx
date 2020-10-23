@@ -7,7 +7,11 @@ import Tab from '@material-ui/core/Tab';
 import Button from '@material-ui/core/Button';
 import Clipboard from 'react-clipboard.js';
 
-import { buildSchema, getIntrospectionQuery, introspectionFromSchema } from 'graphql/utilities';
+import {
+  buildSchema,
+  getIntrospectionQuery,
+  introspectionFromSchema,
+} from 'graphql/utilities';
 import { PRESETS, defaultPresetName } from './presets';
 
 import './IntrospectionModal.css';
@@ -30,7 +34,9 @@ const initialConfig = {
   jsonText: null,
 };
 
-export class IntrospectionModal extends React.Component<IntrospectionModalProps> {
+export class IntrospectionModal extends React.Component<
+  IntrospectionModalProps
+> {
   state = {
     submitted: initialConfig,
     current: initialConfig,
@@ -60,7 +66,7 @@ export class IntrospectionModal extends React.Component<IntrospectionModalProps>
   }
 
   handleCancel = () => {
-    this.setState({ current: { ...this.state.submitted } })
+    this.setState({ current: { ...this.state.submitted } });
     this.props.onClose();
   };
 
@@ -79,25 +85,25 @@ export class IntrospectionModal extends React.Component<IntrospectionModalProps>
         break;
     }
 
-    this.setState({ submitted: { ...this.state.current } })
+    this.setState({ submitted: { ...this.state.current } });
     this.props.onClose();
   };
 
   handlePresetChange = (activePreset) => {
     this.changeCurrent({ activePreset });
-  }
+  };
 
   handleSDLChange = (event) => {
     let sdlText = event.target.value;
     if (sdlText === '') sdlText = null;
     this.changeCurrent({ sdlText });
-  }
+  };
 
   handleJSONChange = (event) => {
     let jsonText = event.target.value;
     if (jsonText === '') jsonText = null;
     this.changeCurrent({ jsonText });
-  }
+  };
 
   public render() {
     const { open } = this.props;
@@ -126,7 +132,12 @@ export class IntrospectionModal extends React.Component<IntrospectionModalProps>
             <Button variant="contained" onClick={this.handleCancel}>
               Cancel
             </Button>
-            <Button variant="contained" color="primary"  style={{color: 'white'}} onClick={this.handleSubmit}>
+            <Button
+              variant="contained"
+              color="primary"
+              style={{ color: 'white' }}
+              onClick={this.handleSubmit}
+            >
               Display
             </Button>
           </div>
@@ -141,7 +152,7 @@ export class IntrospectionModal extends React.Component<IntrospectionModalProps>
 
     return (
       <div className="preset-cards">
-        {presetNames.map(name => (
+        {presetNames.map((name) => (
           <div
             key={name}
             className={classNames('preset-card', {
@@ -173,8 +184,8 @@ export class IntrospectionModal extends React.Component<IntrospectionModalProps>
     return (
       <>
         <div>
-          Run the introspection query against a GraphQL endpoint. Paste the result into the textarea
-          below to view the model relationships.
+          Run the introspection query against a GraphQL endpoint. Paste the
+          result into the textarea below to view the model relationships.
         </div>
         <Clipboard
           component="a"

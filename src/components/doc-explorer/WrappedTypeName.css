@@ -1,7 +1,7 @@
 @import '../variables.css';
 
 .wrapped-type-name::before {
-  content: ": ";
+  content: ': ';
 }
 
 .relay-icon {

@@ -1,5 +1,6 @@
 :root {
-  --monospace-font-family: 'Consolas', 'Inconsolata', 'Droid Sans Mono', 'Monaco', monospace;
+  --monospace-font-family: 'Consolas', 'Inconsolata', 'Droid Sans Mono',
+    'Monaco', monospace;
   --base-font-family: 'helvetica neue', helvetica, arial, sans-serif;
   --base-font-size: 14px;
   --spacing-unit: 5px;
@@ -29,7 +30,7 @@
   --doc-panel-item-stripe-color: rgba(158, 158, 158, 0.07);
   --doc-panel-item-hover-color: rgba(214, 236, 238, 0.6);
 
-  --arg-default-color: #0B7FC7;
+  --arg-default-color: #0b7fc7;
   --arg-name-color: #c77f53;
 
   --node-fill-color: #f6f8f8;

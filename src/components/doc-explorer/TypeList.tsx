@@ -32,7 +32,7 @@ export default class TypeList extends React.Component<TypeListProps> {
     return (
       <div className="doc-explorer-type-list">
         {rootType && renderItem(rootType, '-root')}
-        {_.map(types, type => renderItem(type, ''))}
+        {_.map(types, (type) => renderItem(type, ''))}
       </div>
     );
 

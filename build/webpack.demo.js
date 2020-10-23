@@ -6,7 +6,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const root = require('./helpers').root;
 const VERSION = JSON.stringify(require('../package.json').version);
 
-module.exports = function(_, { mode }) {
+module.exports = function (_, { mode }) {
   return {
     performance: {
       hints: false,
@@ -71,20 +71,20 @@ module.exports = function(_, { mode }) {
                 plugins: [
                   '@babel/plugin-transform-block-scoping',
                   '@babel/plugin-transform-arrow-functions',
-                  '@babel/plugin-transform-destructuring'
-                ]
-              }
+                  '@babel/plugin-transform-destructuring',
+                ],
+              },
             },
             {
               loader: 'react-svg-loader',
               options: {
                 jsx: false,
                 svgo: {
-                  plugins: [{mergePaths: false}]
-                }
-              }
-            }
-          ]
+                  plugins: [{ mergePaths: false }],
+                },
+              },
+            },
+          ],
         },
       ],
     },

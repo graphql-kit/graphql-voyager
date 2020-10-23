@@ -1,8 +1,18 @@
 import * as _ from 'lodash';
-import { typeNameToId, isScalarType, isInputObjectType, isSystemType } from '../introspection/';
+import {
+  typeNameToId,
+  isScalarType,
+  isInputObjectType,
+  isSystemType,
+} from '../introspection/';
 
 export function isNode(type) {
-  return !(isScalarType(type) || isInputObjectType(type) || isSystemType(type) || type.isRelayType);
+  return !(
+    isScalarType(type) ||
+    isInputObjectType(type) ||
+    isSystemType(type) ||
+    type.isRelayType
+  );
 }
 
 export function getDefaultRoot(schema) {
@@ -43,7 +53,9 @@ export function getTypeGraph(schema, rootType: string, hideRoot: boolean) {
     }
     return {
       rootId,
-      nodes: hideRoot ? _.omit(_.keyBy(nodes, 'id'), [rootId]) : _.keyBy(nodes, 'id'),
+      nodes: hideRoot
+        ? _.omit(_.keyBy(nodes, 'id'), [rootId])
+        : _.keyBy(nodes, 'id'),
     };
   }
 }

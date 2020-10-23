@@ -3,7 +3,7 @@
 .voyager-panel {
   padding: 0 var(--panel-spacing);
   display: flex;
-  flex-direction: column
+  flex-direction: column;
 }
 
 .voyager-logo {
@@ -52,7 +52,8 @@
     }
   }
 
-  & a, & a:hover {
+  & a,
+  & a:hover {
     text-decoration: none;
     outline: none;
   }

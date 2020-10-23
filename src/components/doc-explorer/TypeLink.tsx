@@ -1,6 +1,10 @@
 import * as React from 'react';
 import * as classNames from 'classnames';
-import { isBuiltInScalarType, isScalarType, isInputObjectType } from '../../introspection';
+import {
+  isBuiltInScalarType,
+  isScalarType,
+  isInputObjectType,
+} from '../../introspection';
 import { highlightTerm } from '../../utils';
 
 import './TypeLink.css';
@@ -26,7 +30,7 @@ export default class TypeLink extends React.Component<TypeLinkProps> {
     return (
       <a
         className={classNames('type-name', className)}
-        onClick={event => {
+        onClick={(event) => {
           event.stopPropagation();
           onClick(type);
         }}

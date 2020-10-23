@@ -97,7 +97,7 @@
   align-content: center;
   justify-content: space-around;
 
-   @media (--small-viewport) {
+  @media (--small-viewport) {
     padding-right: 0;
   }
 
