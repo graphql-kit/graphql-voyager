@@ -50,6 +50,13 @@ export default class Settings extends React.Component<SettingsProps> {
             onChange={event => onChange({ showLeafFields: event.target.checked })}
           />
           <label htmlFor="showLeafFields">Show leaf fields</label>
+          <Checkbox
+            id="skipInterfaceFields"
+            color="primary"
+            checked={!!options.skipInterfaceFields}
+            onChange={event => onChange({ skipInterfaceFields: event.target.checked })}
+          />
+          <label htmlFor="skipInterfaceFields">Skip interface fields</label>
         </div>
       </div>
     );

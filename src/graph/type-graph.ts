@@ -20,6 +20,7 @@ export function getTypeGraph(schema, rootType: string, hideRoot: boolean) {
       ..._.values(type.fields),
       ...(type.derivedTypes || []),
       ...(type.possibleTypes || []),
+      ...(type.interfaces || []),
     ])
       .map('type')
       .filter(isNode)

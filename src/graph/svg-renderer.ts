@@ -125,6 +125,12 @@ function preprocessVizSVG(svgString: string) {
     $possibleType.querySelector('text').classList.add('type-link');
   });
 
+  forEachNode(svg, '.interface', $interface => {
+    // not sure if next line should be here it works without it
+    // $interface.classList.add('edge-source');
+    $interface.querySelector('text').classList.add('type-link');
+  });
+
   const serializer = new XMLSerializer();
   return serializer.serializeToString(svg);
 }

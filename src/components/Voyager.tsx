@@ -23,6 +23,7 @@ export interface VoyagerDisplayOptions {
   rootType?: string;
   skipRelay?: boolean;
   skipDeprecated?: boolean;
+  skipInterfaceFields?: boolean;
   showLeafFields?: boolean;
   sortByAlphabet?: boolean;
   hideRoot?: boolean;
@@ -32,6 +33,7 @@ const defaultDisplayOptions = {
   rootType: undefined,
   skipRelay: true,
   skipDeprecated: true,
+  skipInterfaceFields: false,
   sortByAlphabet: false,
   showLeafFields: true,
   hideRoot: false,
@@ -130,6 +132,7 @@ export default class Voyager extends React.Component<VoyagerProps> {
       displayOptions.sortByAlphabet,
       displayOptions.skipRelay,
       displayOptions.skipDeprecated,
+      displayOptions.skipInterfaceFields,
     );
     const typeGraph = getTypeGraph(schema, displayOptions.rootType, displayOptions.hideRoot);
 

@@ -202,6 +202,46 @@ function markDeprecated(schema: SimplifiedIntrospectionWithIds): void {
   // which are deprecated.
 }
 
+function markInterfaceFields(schema: SimplifiedIntrospectionWithIds): void {
+  function isFieldOnInterfaceSameAsOnType(objectField, interfaceField) {
+    // rules are described here https://graphql.github.io/graphql-spec/draft/#sel-HAHZhCFHABABiCp7I
+    // we don't need to check for everything as valid rules are enforeced at time of parsing schema
+
+    if (objectField.type.id !== interfaceField.type.id) {
+      // return type of field is not same as in parrent
+      // this case also take care of types wrapped in lists or not null modificator
+      return false;
+    }
+    if (objectField.typeWrappers.length !== interfaceField.typeWrappers.length) {
+      // return type has stricker nullability modificator
+      // list modifier could not be changed as it would be parse error
+      return false;
+    }
+    if (_.keys(objectField.args).length !== _.keys(interfaceField.args).length) {
+      // if there are any aditional args they are not same
+      return false;
+    }
+    return true;
+  }
+  _.each(schema.types, type => {
+    if (type.kind === 'OBJECT') {
+      if (type.interfaces && type.interfaces.length > 0) {
+        // we have some interfaces for this object
+        // so we should delete fields that are presented in interface
+        // and also present in object and are same
+
+        _.each(type.interfaces, oneInterface => {
+          _.each(oneInterface.type.fields, interfaceField => {
+            if (isFieldOnInterfaceSameAsOnType(type.fields[interfaceField.name], interfaceField)) {
+              delete type.fields[interfaceField.name];
+            }
+          });
+        });
+      }
+    }
+  });
+}
+
 function assignTypesAndIDs(schema: SimplifiedIntrospection) {
   (<any>schema).queryType = schema.types[schema.queryType];
   (<any>schema).mutationType = schema.types[schema.mutationType];
@@ -254,6 +294,7 @@ export function getSchema(
   sortByAlphabet: boolean,
   skipRelay: boolean,
   skipDeprecated: boolean,
+  skipInterfaceFields: boolean,
 ) {
   if (!introspection) return null;
 
@@ -272,6 +313,9 @@ export function getSchema(
   }
   if (skipDeprecated) {
     markDeprecated((<any>simpleSchema) as SimplifiedIntrospectionWithIds);
+  }
+  if (skipInterfaceFields) {
+    markInterfaceFields((<any>simpleSchema) as SimplifiedIntrospectionWithIds);
   }
   return simpleSchema;
 }
