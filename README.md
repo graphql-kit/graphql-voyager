@@ -220,5 +220,27 @@ app.use(router.allowedMethods());
 app.listen(3001);
 ```
 
+## Docker image
+
+### Build
+
+```
+$ yarn install
+$ yarn run build:release
+```
+
+```
+$ docker build . -f docker-image/Dockerfile -t apisguru/graphql-voyager
+$ docker push apisguru/graphql-voyager
+```
+
+### Configuration
+
+You can config docker image with environment variable
+
+- `PORT` to change listen port
+- `GRAPHQL_ENDPOINT` address of graphql API
+- `HEADER` headers to add to request, formated as 'header1=value1&header2=value2'
+
 ## Credits
 This tool is inspired by [graphql-visualizer](https://github.com/NathanRSmith/graphql-visualizer) project.
