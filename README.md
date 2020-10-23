@@ -37,6 +37,7 @@ module system it is exported as `GraphQLVoyager` global variable.
   + `displayOptions.sortByAlphabet` [`boolean`, default `false`] - sort fields on graph by alphabet
   + `displayOptions.showLeafFields` [`boolean`, default `true`] - show all scalars and enums
   + `displayOptions.hideRoot` [`boolean`, default `false`] - hide the root type
++ `onDisplayOptionsChange` [function: `(displayOptions) => void`] _(optional)_ - called when user change displayOptions with UI. Can be used to save settings into localstorage or query params
 + `hideDocs` [`boolean`, default `false`] - hide the docs sidebar
 + `hideSettings` [`boolean`, default `false`] - hide settings panel
 + `workerURI` [`string`] _(optional)_ - absolute or relative path to Voyager web worker. By default it will try to load it from `voyager.worker.js`.
