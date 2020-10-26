@@ -199,30 +199,6 @@ const init = async () => {
 init();
 ```
 
-#### Legacy Versions
-
-```js
-import hapi from 'hapi';
-import { hapiLegacy as voyagerMiddleware } from 'graphql-voyager/middleware';
-
-const server = new Hapi.Server();
-
-server.connection({
-  port: 3001,
-});
-
-server.register(
-  {
-    register: voyagerMiddleware,
-    options: {
-      path: '/voyager',
-      endpointUrl: '/graphql',
-    },
-  },
-  () => server.start(),
-);
-```
-
 ### Koa
 
 ```js
