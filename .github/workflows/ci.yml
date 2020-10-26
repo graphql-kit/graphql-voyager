@@ -29,23 +29,6 @@ jobs:
       - name: Lint Prettier
         run: npm run prettier:check
 
-  checkForCommonlyIgnoredFiles:
-    name: Check for commonly ignored files
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v2
-
-      - name: Check if commit contains files that should be ignored
-        run: |
-          git clone --depth 1 https://github.com/github/gitignore.git &&
-          cat gitignore/Node.gitignore $(find gitignore/Global -name "*.gitignore" | grep -v ModelSim) > all.gitignore &&
-          if  [[ "$(git ls-files -iX all.gitignore)" != "" ]]; then
-            echo "::error::Please remove these files:"
-            git ls-files -iX all.gitignore
-            exit 1
-          fi
-
   buildDemo:
     name: Build Demo
     runs-on: ubuntu-latest
