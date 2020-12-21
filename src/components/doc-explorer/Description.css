@@ -2,7 +2,7 @@
 
 .description-box {
   & blockquote {
-    border-left: 2px solid color(var(--secondary-color) a( 50%));
+    border-left: 2px solid color(var(--secondary-color) a(50%));
     margin: var(--spacing-unit) calc(var(--spacing-unit) * 3);
     padding-left: calc(var(--spacing-unit) * 2);
   }
@@ -16,11 +16,13 @@
   }
 
   &.-no-description {
-    font-style:italic;
+    font-style: italic;
     color: var(--text-color);
   }
 
-  &.-linked-type, &.-field, &.-enum-value {
+  &.-linked-type,
+  &.-field,
+  &.-enum-value {
     & p {
       margin: 0;
     }

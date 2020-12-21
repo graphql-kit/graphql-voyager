@@ -5,5 +5,5 @@ function root(args) {
 }
 
 module.exports = {
-  root: root
-}
+  root: root,
+};

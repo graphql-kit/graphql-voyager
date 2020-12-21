@@ -34,7 +34,8 @@
   }
 
   @media (--small-viewport) {
-    & > .doc-panel, & > .viewport {
+    & > .doc-panel,
+    & > .viewport {
       height: 50%;
       width: 100%;
       max-width: none;

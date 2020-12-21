@@ -1,7 +1,11 @@
 import * as _ from 'lodash';
 import { getDot } from './dot';
 
-import { forEachNode, loadWorker as defaultLoadWorker, stringToSvg } from '../utils/';
+import {
+  forEachNode,
+  loadWorker as defaultLoadWorker,
+  stringToSvg,
+} from '../utils/';
 
 import { WorkerCallback } from '../utils/types';
 
@@ -16,20 +20,24 @@ const xlinkns = 'http://www.w3.org/1999/xlink';
 export class SVGRender {
   vizPromise: any;
 
-  constructor(workerURI: string, loadWorker: WorkerCallback = defaultLoadWorker) {
-    this.vizPromise = loadWorker(workerURI || defaultWorkerURI, !workerURI).then(
-      worker => new Viz({ worker }),
-    );
+  constructor(
+    workerURI: string,
+    loadWorker: WorkerCallback = defaultLoadWorker,
+  ) {
+    this.vizPromise = loadWorker(
+      workerURI || defaultWorkerURI,
+      !workerURI,
+    ).then((worker) => new Viz({ worker }));
   }
 
   renderSvg(typeGraph, displayOptions) {
     return this.vizPromise
-      .then(viz => {
+      .then((viz) => {
         console.time('Rendering Graph');
         const dot = getDot(typeGraph, displayOptions);
         return viz.renderString(dot);
       })
-      .then(rawSVG => {
+      .then((rawSVG) => {
         const svg = preprocessVizSVG(rawSVG);
         console.timeEnd('Rendering Graph');
         return svg;
@@ -44,7 +52,7 @@ function preprocessVizSVG(svgString: string) {
 
   let svg = stringToSvg(svgString);
 
-  forEachNode(svg, 'a', $a => {
+  forEachNode(svg, 'a', ($a) => {
     let $g = $a.parentNode;
 
     var $docFrag = document.createDocumentFragment();
@@ -58,10 +66,10 @@ function preprocessVizSVG(svgString: string) {
     $g.id = $g.id.replace(/^a_/, '');
   });
 
-  forEachNode(svg, 'title', $el => $el.remove());
+  forEachNode(svg, 'title', ($el) => $el.remove());
 
   var edgesSources = {};
-  forEachNode(svg, '.edge', $edge => {
+  forEachNode(svg, '.edge', ($edge) => {
     let [from, to] = $edge.id.split(' => ');
     $edge.removeAttribute('id');
     $edge.setAttribute('data-from', from);
@@ -69,21 +77,21 @@ function preprocessVizSVG(svgString: string) {
     edgesSources[from] = true;
   });
 
-  forEachNode(svg, '[id]', $el => {
+  forEachNode(svg, '[id]', ($el) => {
     let [tag, ...restOfId] = $el.id.split('::');
     if (_.size(restOfId) < 1) return;
 
     $el.classList.add(tag.toLowerCase().replace(/_/, '-'));
   });
 
-  forEachNode(svg, 'g.edge path', $path => {
+  forEachNode(svg, 'g.edge path', ($path) => {
     let $newPath = $path.cloneNode() as HTMLElement;
     $newPath.classList.add('hover-path');
     $newPath.removeAttribute('stroke-dasharray');
     $path.parentNode.appendChild($newPath);
   });
 
-  forEachNode(svg, '.field', $field => {
+  forEachNode(svg, '.field', ($field) => {
     let texts = $field.querySelectorAll('text');
     texts[0].classList.add('field-name');
     //Remove spaces used for text alligment
@@ -98,7 +106,11 @@ function preprocessVizSVG(svgString: string) {
         const height = 22;
         const width = 22;
         const $useIcon = document.createElementNS(svgns, 'use');
-        $useIcon.setAttributeNS(xlinkns, 'href', str === '{R}' ? '#RelayIcon' : '#DeprecatedIcon');
+        $useIcon.setAttributeNS(
+          xlinkns,
+          'href',
+          str === '{R}' ? '#RelayIcon' : '#DeprecatedIcon',
+        );
         $useIcon.setAttribute('width', `${width}px`);
         $useIcon.setAttribute('height', `${height}px`);
 
@@ -111,16 +123,17 @@ function preprocessVizSVG(svgString: string) {
       }
 
       texts[i].classList.add('field-type');
-      if (edgesSources[$field.id] && !/[\[\]\!]/.test(str)) texts[i].classList.add('type-link');
+      if (edgesSources[$field.id] && !/[\[\]\!]/.test(str))
+        texts[i].classList.add('type-link');
     }
   });
 
-  forEachNode(svg, '.derived-type', $derivedType => {
+  forEachNode(svg, '.derived-type', ($derivedType) => {
     $derivedType.classList.add('edge-source');
     $derivedType.querySelector('text').classList.add('type-link');
   });
 
-  forEachNode(svg, '.possible-type', $possibleType => {
+  forEachNode(svg, '.possible-type', ($possibleType) => {
     $possibleType.classList.add('edge-source');
     $possibleType.querySelector('text').classList.add('type-link');
   });

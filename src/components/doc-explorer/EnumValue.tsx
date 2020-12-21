@@ -11,9 +11,15 @@ export default class EnumValue extends React.Component<EnumValueProps> {
     return (
       <div className="item">
         <div className="enum-value">{value.name}</div>
-        <Markdown className="description-box -enum-value" text={value.description} />
+        <Markdown
+          className="description-box -enum-value"
+          text={value.description}
+        />
         {value.deprecationReason && (
-          <Markdown className="doc-deprecation" text={value.deprecationReason} />
+          <Markdown
+            className="doc-deprecation"
+            text={value.deprecationReason}
+          />
         )}
       </div>
     );

@@ -6,11 +6,15 @@ export function forEachNode(parent: Element, selector: string, fn) {
 }
 
 export function addClass(parent: Element, selector: string, className: string) {
-  forEachNode(parent, selector, node => node.classList.add(className));
+  forEachNode(parent, selector, (node) => node.classList.add(className));
 }
 
-export function removeClass(parent: Element, selector: string, className: string) {
-  forEachNode(parent, selector, node => node.classList.remove(className));
+export function removeClass(
+  parent: Element,
+  selector: string,
+  className: string,
+) {
+  forEachNode(parent, selector, (node) => node.classList.remove(className));
 }
 
 export function stringToSvg(svgString: string): SVGElement {

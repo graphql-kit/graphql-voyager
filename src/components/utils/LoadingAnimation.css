@@ -36,7 +36,7 @@
 }
 
 .loading-box {
-  position: absolute;;
+  position: absolute;
   left: 320px;
   right: 0;
   top: 0;
@@ -69,7 +69,9 @@
     fill: var(--secondary-color);
   }
 
-  & .voyager-signal1, & .voyager-signal2, & .voyager-signal3 {
+  & .voyager-signal1,
+  & .voyager-signal2,
+  & .voyager-signal3 {
     animation: signal-move 1s infinite;
   }
 
@@ -82,7 +84,7 @@
   }
 
   & h1 {
-    text-align: center;;
+    text-align: center;
     color: var(--secondary-color);
     letter-spacing: 4px;
   }

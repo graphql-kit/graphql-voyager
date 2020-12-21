@@ -4,7 +4,7 @@ const { hapi: voyagerMiddleware } = require('graphql-voyager/middleware');
 const schema = require('../schema');
 
 const server = new Hapi.Server({
-  port: 3001
+  port: 3001,
 });
 
 const init = async () => {
@@ -17,16 +17,16 @@ const init = async () => {
           schema,
         },
         route: {
-          cors: true
-        }
-      }
+          cors: true,
+        },
+      },
     },
     {
       plugin: voyagerMiddleware,
       options: {
         path: '/voyager',
         route: {
-          cors: true
+          cors: true,
         },
         endpointUrl: '/graphql',
         displayOptions: {
@@ -36,10 +36,9 @@ const init = async () => {
     },
   ]);
 
-  await server.start()
-    .then(() => {
-      console.log(`Started on ${server.info.uri}/voyager`);
-    });
+  await server.start().then(() => {
+    console.log(`Started on ${server.info.uri}/voyager`);
+  });
 };
 
 init();

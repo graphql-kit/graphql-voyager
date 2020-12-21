@@ -2,12 +2,12 @@
 
 /* common type doc styling */
 .field-name {
-  color: var(--field-name-color)
+  color: var(--field-name-color);
 }
 
 .type-name + .field-name {
   &::before {
-    content: ".";
+    content: '.';
     color: var(--text-color);
   }
 }
@@ -68,11 +68,8 @@
   }
 
   & > .doc-navigation {
-    padding:
-      var(--spacing-unit)
-      calc(var(--panel-spacing) + var(--spacing-unit))
-      var(--spacing-unit)
-      18px;
+    padding: var(--spacing-unit)
+      calc(var(--panel-spacing) + var(--spacing-unit)) var(--spacing-unit) 18px;
   }
 }
 
@@ -123,7 +120,7 @@
         border-right: var(--spacing-unit) solid transparent;
         border-top: var(--spacing-unit) solid var(--field-name-color);
         display: block;
-        content: "";
+        content: '';
         float: right;
         margin-top: var(--panel-items-spacing);
         margin-right: calc(- var(--panel-items-spacing));
@@ -131,8 +128,8 @@
         opacity: 0;
       }
 
-
-      &:hover:before, &.-selected:before {
+      &:hover:before,
+      &.-selected:before {
         opacity: 1;
       }
 

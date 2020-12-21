@@ -19,12 +19,15 @@ export default class TypeDetails extends React.Component<TypeDetailsProps> {
     return (
       <div className="doc-category">
         <div className="title">fields</div>
-        {_.map(type.inputFields, field => {
+        {_.map(type.inputFields, (field) => {
           return (
             <div key={field.id} className="item">
               <a className="field-name">{field.name}</a>
               <WrappedTypeName container={field} onTypeLink={onTypeLink} />
-              <Markdown text={field.description} className="description-box -field" />
+              <Markdown
+                text={field.description}
+                className="description-box -field"
+              />
             </div>
           );
         })}
@@ -38,7 +41,7 @@ export default class TypeDetails extends React.Component<TypeDetailsProps> {
     return (
       <div className="doc-category">
         <div className="title">values</div>
-        {_.map(type.enumValues, value => (
+        {_.map(type.enumValues, (value) => (
           <EnumValue key={value.name} value={value} />
         ))}
       </div>

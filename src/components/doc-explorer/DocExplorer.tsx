@@ -37,7 +37,10 @@ export default class DocExplorer extends React.Component<DocExplorerProps> {
       }
 
       const type = typeGraph.nodes[selectedTypeID];
-      const newNavStack = [...navStack, { title: type.name, type, searchValue: null }];
+      const newNavStack = [
+        ...navStack,
+        { title: type.name, type, searchValue: null },
+      ];
 
       return { navStack: newNavStack, typeForInfoPopover: null };
     }
@@ -84,7 +87,7 @@ export default class DocExplorer extends React.Component<DocExplorerProps> {
         {currentNav.type && (
           <TypeInfoPopover
             type={this.state.typeForInfoPopover}
-            onChange={type => this.setState({ typeForInfoPopover: type })}
+            onChange={(type) => this.setState({ typeForInfoPopover: type })}
           />
         )}
       </div>
@@ -112,7 +115,7 @@ export default class DocExplorer extends React.Component<DocExplorerProps> {
         typeGraph={typeGraph}
         filter={currentNav.searchValue}
         onTypeLink={this.handleTypeLink}
-        onFocusType={type => onFocusNode(type.id)}
+        onFocusType={(type) => onFocusNode(type.id)}
       />
     );
   }
@@ -140,14 +143,14 @@ export default class DocExplorer extends React.Component<DocExplorerProps> {
     );
   }
 
-  handleSearch = value => {
+  handleSearch = (value) => {
     const navStack = this.state.navStack.slice();
     const currentNav = navStack[navStack.length - 1];
     navStack[navStack.length - 1] = { ...currentNav, searchValue: value };
     this.setState({ navStack });
   };
 
-  handleTypeLink = type => {
+  handleTypeLink = (type) => {
     let { onFocusNode, onSelectNode } = this.props;
 
     if (isNode(type)) {

@@ -42,14 +42,13 @@ g.graph > polygon {
 }
 
 /* field */
-.field.selected  {
+.field.selected {
   & > polygon {
     fill: var(--selected-field-bg);
   }
 }
 
 /* Edges Styling */
-
 
 .edge {
   cursor: pointer;
@@ -64,7 +63,9 @@ g.graph > polygon {
     }
   }
 
-  &.highlighted, &.hovered, &:hover {
+  &.highlighted,
+  &.hovered,
+  &:hover {
     & path:not(.hover-path) {
       stroke: var(--highlight-color);
       stroke-width: 3;
@@ -89,7 +90,9 @@ g.graph > polygon {
     display: none;
   }
 
-  &:hover, &.highlighted, &.hovered {
+  &:hover,
+  &.highlighted,
+  &.hovered {
     & text {
       display: block;
     }
@@ -109,7 +112,8 @@ g.graph > polygon {
 
 /* selection fade */
 .selection-active {
-  & .edge, & .node {
+  & .edge,
+  & .node {
     opacity: 0.2;
   }
 

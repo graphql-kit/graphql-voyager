@@ -6,7 +6,9 @@ const hapi = {
   pkg,
   register(server, options: any) {
     if (arguments.length !== 2) {
-      throw new Error(`Voyager middleware expects exactly 3 arguments, got ${arguments.length}`);
+      throw new Error(
+        `Voyager middleware expects exactly 3 arguments, got ${arguments.length}`,
+      );
     }
 
     const { path, route: config = {}, ...middlewareOptions } = options;
@@ -15,7 +17,8 @@ const hapi = {
       method: 'GET',
       path,
       config,
-      handler: (_request, h) => h.response(renderVoyagerPage(<MiddlewareOptions>middlewareOptions)),
+      handler: (_request, h) =>
+        h.response(renderVoyagerPage(<MiddlewareOptions>middlewareOptions)),
     });
   },
 };

@@ -4,5 +4,5 @@
     "declaration": true,
     "declarationDir": "typings"
   },
-  "include": ["./src/**/*.ts", "./src/**/*.tsx", "./manual-types.d.ts" ]
+  "include": ["./src/**/*.ts", "./src/**/*.tsx", "./manual-types.d.ts"]
 }

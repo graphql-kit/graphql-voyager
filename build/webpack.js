@@ -1,7 +1,7 @@
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const nodeExternals = require('webpack-node-externals')({
-  whitelist: ['viz.js/full.render.js']
+  whitelist: ['viz.js/full.render.js'],
 });
 
 const root = require('./helpers').root;
@@ -79,7 +79,7 @@ module.exports = (env = {}, { mode }) => ({
             {
               loader: 'css-loader',
               options: {
-                sourceMap: true
+                sourceMap: true,
               },
             },
             'postcss-loader?sourceMap',

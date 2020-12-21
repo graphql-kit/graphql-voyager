@@ -23,12 +23,12 @@ export function getDot(typeGraph, displayOptions): string {
       ranksep = 2.0
       ${objectValues(
         typeGraph.nodes,
-        node => `
+        (node) => `
         "${node.name}" [
           id = "${node.id}"
           label = ${nodeLabel(node)}
         ]
-        ${objectValues(node.fields, field =>
+        ${objectValues(node.fields, (field) =>
           isNode(field.type)
             ? `
           "${node.name}":"${field.name}" -> "${field.type.name}" [
@@ -65,7 +65,9 @@ export function getDot(typeGraph, displayOptions): string {
   function nodeLabel(node) {
     const htmlID = HtmlId('TYPE_TITLE::' + node.name);
     const kindLabel =
-      node.kind !== 'OBJECT' ? '&lt;&lt;' + node.kind.toLowerCase() + '&gt;&gt;' : '';
+      node.kind !== 'OBJECT'
+        ? '&lt;&lt;' + node.kind.toLowerCase() + '&gt;&gt;'
+        : '';
 
     return `
       <<TABLE ALIGN="LEFT" BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5">
@@ -99,9 +101,9 @@ export function getDot(typeGraph, displayOptions): string {
           <TABLE CELLPADDING="0" CELLSPACING="0" BORDER="0">
             <TR>
               <TD ALIGN="LEFT">${field.name}<FONT>  </FONT></TD>
-              <TD ALIGN="RIGHT">${deprecatedIcon}${relayIcon}${parts[0]}${field.type.name}${
-          parts[1]
-        }</TD>
+              <TD ALIGN="RIGHT">${deprecatedIcon}${relayIcon}${parts[0]}${
+          field.type.name
+        }${parts[1]}</TD>
             </TR>
           </TABLE>
         </TD>
@@ -151,10 +153,11 @@ function derivedTypes(node) {
   `;
 }
 
-function objectValues<X>(object: { [key: string]: X }, stringify: (X) => string): string {
-  return _.values(object)
-    .map(stringify)
-    .join('\n');
+function objectValues<X>(
+  object: { [key: string]: X },
+  stringify: (X) => string,
+): string {
+  return _.values(object).map(stringify).join('\n');
 }
 
 function array<X>(array: [X], stringify: (X) => string): string {

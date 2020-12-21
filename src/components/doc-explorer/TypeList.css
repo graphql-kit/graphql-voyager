@@ -5,7 +5,7 @@
 }
 
 .typelist-item.-root .type-name:after {
-  content: "root";
+  content: 'root';
   display: inline-block;
   vertical-align: middle;
   background: var(--primary-color);

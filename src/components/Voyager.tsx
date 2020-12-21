@@ -38,7 +38,9 @@ const defaultDisplayOptions = {
 };
 
 function normalizeDisplayOptions(options) {
-  return options != null ? { ...defaultDisplayOptions, ...options } : defaultDisplayOptions;
+  return options != null
+    ? { ...defaultDisplayOptions, ...options }
+    : defaultDisplayOptions;
 }
 
 export interface VoyagerProps {
@@ -54,8 +56,10 @@ export interface VoyagerProps {
 
 export default class Voyager extends React.Component<VoyagerProps> {
   static propTypes = {
-    introspection: PropTypes.oneOfType([PropTypes.func.isRequired, PropTypes.object.isRequired])
-      .isRequired,
+    introspection: PropTypes.oneOfType([
+      PropTypes.func.isRequired,
+      PropTypes.object.isRequired,
+    ]).isRequired,
     displayOptions: PropTypes.shape({
       rootType: PropTypes.string,
       skipRelay: PropTypes.bool,
@@ -85,7 +89,10 @@ export default class Voyager extends React.Component<VoyagerProps> {
 
   constructor(props) {
     super(props);
-    this.svgRenderer = new SVGRender(this.props.workerURI, this.props.loadWorker);
+    this.svgRenderer = new SVGRender(
+      this.props.workerURI,
+      this.props.loadWorker,
+    );
   }
 
   componentDidMount() {
@@ -103,7 +110,9 @@ export default class Voyager extends React.Component<VoyagerProps> {
     let promise = this.props.introspection(getIntrospectionQuery());
 
     if (!isPromise(promise)) {
-      throw new Error('SchemaProvider did not return a Promise for introspection.');
+      throw new Error(
+        'SchemaProvider did not return a Promise for introspection.',
+      );
     }
 
     this.setState({
@@ -116,7 +125,7 @@ export default class Voyager extends React.Component<VoyagerProps> {
     });
 
     this.instospectionPromise = promise;
-    promise.then(introspectionData => {
+    promise.then((introspectionData) => {
       if (promise === this.instospectionPromise) {
         this.instospectionPromise = null;
         this.updateIntrospection(introspectionData, displayOptions);
@@ -131,7 +140,11 @@ export default class Voyager extends React.Component<VoyagerProps> {
       displayOptions.skipRelay,
       displayOptions.skipDeprecated,
     );
-    const typeGraph = getTypeGraph(schema, displayOptions.rootType, displayOptions.hideRoot);
+    const typeGraph = getTypeGraph(
+      schema,
+      displayOptions.rootType,
+      displayOptions.hideRoot,
+    );
 
     this.setState({
       introspectionData,
@@ -179,7 +192,7 @@ export default class Voyager extends React.Component<VoyagerProps> {
     );
 
     const { typeGraph, selectedTypeID, selectedEdgeID } = this.state;
-    const onFocusNode = id => this.viewportRef.current.focusNode(id);
+    const onFocusNode = (id) => this.viewportRef.current.focusNode(id);
 
     return (
       <div className="doc-panel">
@@ -214,7 +227,12 @@ export default class Voyager extends React.Component<VoyagerProps> {
   }
 
   renderGraphViewport() {
-    const { displayOptions, typeGraph, selectedTypeID, selectedEdgeID } = this.state;
+    const {
+      displayOptions,
+      typeGraph,
+      selectedTypeID,
+      selectedEdgeID,
+    } = this.state;
 
     return (
       <GraphViewport
@@ -230,18 +248,18 @@ export default class Voyager extends React.Component<VoyagerProps> {
     );
   }
 
-  handleDisplayOptionsChange = delta => {
+  handleDisplayOptionsChange = (delta) => {
     const displayOptions = { ...this.state.displayOptions, ...delta };
     this.updateIntrospection(this.state.introspectionData, displayOptions);
   };
 
-  handleSelectNode = selectedTypeID => {
+  handleSelectNode = (selectedTypeID) => {
     if (selectedTypeID !== this.state.selectedTypeID) {
       this.setState({ selectedTypeID, selectedEdgeID: null });
     }
   };
 
-  handleSelectEdge = selectedEdgeID => {
+  handleSelectEdge = (selectedEdgeID) => {
     if (selectedEdgeID === this.state.selectedEdgeID) {
       // deselect if click again
       this.setState({ selectedEdgeID: null });
@@ -251,7 +269,7 @@ export default class Voyager extends React.Component<VoyagerProps> {
     }
   };
 
-  static PanelHeader = props => {
+  static PanelHeader = (props) => {
     return props.children || null;
   };
 }
