@@ -33,6 +33,7 @@ export class SVGRender {
   renderSvg(typeGraph, displayOptions) {
     return this.vizPromise
       .then((viz) => {
+        debugger
         console.time('Rendering Graph');
         const dot = getDot(typeGraph, displayOptions);
         return viz.renderString(dot);
