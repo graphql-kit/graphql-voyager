@@ -75,10 +75,11 @@
     "classnames": "^2.2.6",
     "clipboard": "^2.0.6",
     "commonmark": "^0.29.2",
+    "dagre": "^0.8.5",
+    "dagre-d3": "^0.6.4",
     "lodash": "^4.17.20",
     "prop-types": "^15.7.2",
-    "svg-pan-zoom": "^3.6.1",
-    "viz.js": "2.1.2"
+    "svg-pan-zoom": "^3.6.1"
   },
   "repository": {
     "type": "git",
