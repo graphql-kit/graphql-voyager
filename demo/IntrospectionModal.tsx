@@ -34,9 +34,7 @@ const initialConfig = {
   jsonText: null,
 };
 
-export class IntrospectionModal extends React.Component<
-  IntrospectionModalProps
-> {
+export class IntrospectionModal extends React.Component<IntrospectionModalProps> {
   state = {
     submitted: initialConfig,
     current: initialConfig,

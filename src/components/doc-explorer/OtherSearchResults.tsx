@@ -10,9 +10,7 @@ interface OtherSearchResultsProps {
   onFieldLink: (field: any, type: any) => void;
 }
 
-export default class OtherSearchResults extends React.Component<
-  OtherSearchResultsProps
-> {
+export default class OtherSearchResults extends React.Component<OtherSearchResultsProps> {
   render() {
     const {
       typeGraph,
