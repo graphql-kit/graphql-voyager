@@ -8,7 +8,7 @@ export interface MiddlewareOptions {
 }
 
 export default function renderVoyagerPage(options: MiddlewareOptions) {
-  const { endpointUrl, displayOptions, credentials = 'same-origin'} = options;
+  const { endpointUrl, displayOptions, credentials = 'same-origin' } = options;
   const headersJS = options.headersJS ? options.headersJS : '{}';
   return `
 <!DOCTYPE html>
