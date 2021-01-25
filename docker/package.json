@@ -1,0 +1,11 @@
+{
+  "description": "Demo server for graphql-voyager",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1",
+    "graphql-voyager": "../"
+  }
+}
