@@ -2,3 +2,6 @@ node_modules
 .github
 demo
 example
+middleware
+dist
+typings
