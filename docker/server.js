@@ -3,22 +3,6 @@ const voyager = require('graphql-voyager/middleware');
 
 const app = express();
 
-const headersJS = (() => {
-  if (!process.env.HEADERS || typeof process.env.HEADERS !== 'string') {
-    return JSON.stringify({});
-  }
-  const headers = {};
-
-  process.env.HEADERS.split('&').forEach((header) => {
-    let headerSplit = header.split('=');
-
-    if (headerSplit.length === 2) {
-      headers[headerSplit[0]] = headerSplit[1];
-    }
-  });
-  return JSON.stringify(headers);
-})();
-
 const DEFAULT_GRAPHQL_ENDPOINT =
   'https://api.st-retrospect.dh-center.ru/graphql';
 const GRAPHQL_ENDPOINT =
@@ -28,7 +12,6 @@ app.use(
   '/',
   voyager.express({
     endpointUrl: GRAPHQL_ENDPOINT,
-    headersJS: headersJS,
   }),
 );
 
@@ -37,13 +20,13 @@ process.on('SIGINT', function () {
   process.exit(1);
 });
 
-const port = process.env.PORT || 3400;
+const PORT = process.env.PORT || 3400;
 
-app.listen(port, function (err) {
+app.listen(PORT, function (err) {
   if (err) {
     throw new Error(
-      `Failed to start listening on ${port}, error: ${err.message}`,
+      `Failed to start listening on ${PORT}, error: ${err.message}`,
     );
   }
-  console.log(`listening on http://0.0.0.0:${port}`);
+  console.log(`listening on http://0.0.0.0:${PORT}`);
 });
