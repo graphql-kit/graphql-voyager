@@ -158,6 +158,7 @@ Middleware supports the following properties:
 - `displayOptions` [`object`] - same as [here](#properties)
 - `headersJS` [`string`, default `"{}"`] - object of headers serialized in string to be used on endpoint url<BR>
   **Note:** You can also use any JS expression which results in an object with header names as keys and strings as values e.g. `{ Authorization: localStorage['Meteor.loginToken'] }`
+- `credentials` [`string`, default `"same-origin"`] - sets `credentials` property for introspection query
 
 ### Express
 
