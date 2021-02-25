@@ -158,6 +158,7 @@ Middleware supports the following properties:
 - `displayOptions` [`object`] - same as [here](#properties)
 - `headersJS` [`string`, default `"{}"`] - object of headers serialized in string to be used on endpoint url<BR>
   **Note:** You can also use any JS expression which results in an object with header names as keys and strings as values e.g. `{ Authorization: localStorage['Meteor.loginToken'] }`
+- `credentials` [`string`, default `include`] - the credentials read-only property of the Request interface indicates whether the user agent should send cookies from the other domain in the case of cross-origin requests. Please refer to the [Request.credentials](https://developer.mozilla.org/en-US/docs/Web/API/Request/credentials) page for more information.
 
 ### Express
 
