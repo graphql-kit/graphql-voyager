@@ -12,7 +12,7 @@ module.exports = function (_, { mode }) {
       hints: false,
     },
     resolve: {
-      extensions: ['.ts', '.tsx', '.mjs', '.js', '.json', '.css', '.svg'],
+      extensions: ['.ts', '.tsx', '.mjs', '.js', '.json', '.css', '.svg', '.less'],
     },
     entry: ['./src/polyfills.ts', './demo/index.tsx'],
     devServer: {
@@ -43,7 +43,7 @@ module.exports = function (_, { mode }) {
           },
         },
         {
-          test: /\.css$/,
+          test: /\.css|\.less\$/,
           exclude: /variables\.css$/,
           use: ExtractTextPlugin.extract({
             fallback: 'style-loader',

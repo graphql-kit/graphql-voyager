@@ -1,0 +1,229 @@
+{
+  "nodes": {
+    "TYPE::Pet": {
+      "id": "TYPE::Pet",
+      "name": "Pet",
+      "description": "Pet all kind of pets, not restricted to animals",
+      "kind": "OBJECT",
+      "interfaces": [],
+      "fields": [
+        {
+          "name": "id",
+          "type": "Int",
+          "id": "FIELD::Pet::id",
+          "description": "",
+          "typeWrappers": [
+            "NON_NULL"
+          ],
+          "isDeprecated": false,
+          "deprecationReason": "",
+          "args": {}
+        },
+        {
+          "name": "name",
+          "type": "String",
+          "id": "FIELD::Pet::name",
+          "description": "",
+          "typeWrappers": [
+            "NON_NULL"
+          ],
+          "isDeprecated": false,
+          "deprecationReason": "",
+          "args": {}
+        },
+        {
+          "name": "photoUrls",
+          "type": "String",
+          "id": "FIELD::Pet::photoUrls",
+          "description": "PhotoURLs contain cute urls",
+          "typeWrappers": [
+            "LIST",
+            "NON_NULL"
+          ],
+          "isDeprecated": false,
+          "deprecationReason": "",
+          "args": {}
+        },
+        {
+          "name": "status",
+          "type": "String",
+          "id": "FIELD::Pet::status",
+          "description": "",
+          "typeWrappers": [
+            "NON_NULL"
+          ],
+          "isDeprecated": false,
+          "deprecationReason": "",
+          "args": {}
+        },
+        {
+          "name": "tags",
+          "type": {
+            "id": "TYPE::Pet::Tag",
+            "name": "Tag",
+            "description": "Tag nametag for pets",
+            "kind": "EMBEDDED",
+            "interfaces": [],
+            "fields": [
+              {
+                "name": "id",
+                "type": "Int",
+                "id": "FIELD::Pet::Tag::id",
+                "description": "",
+                "typeWrappers": [
+                  "NON_NULL"
+                ],
+                "isDeprecated": false,
+                "deprecationReason": "",
+                "args": {}
+              },
+              {
+                "name": "name",
+                "type": "String",
+                "id": "FIELD::Pet::Tag::name",
+                "description": "",
+                "typeWrappers": [
+                  "NON_NULL"
+                ],
+                "isDeprecated": false,
+                "deprecationReason": "",
+                "args": {}
+              }
+            ]
+          },
+          "id": "FIELD::Pet::tags",
+          "description": "",
+          "typeWrappers": [
+            "LIST",
+            "NON_NULL"
+          ],
+          "isDeprecated": false,
+          "deprecationReason": "",
+          "args": {}
+        }
+      ]
+    },
+    "TYPE::User": {
+      "id": "TYPE::User",
+      "name": "User",
+      "description": "",
+      "kind": "OBJECT",
+      "interfaces": [],
+      "fields": [
+        {
+          "name": "id",
+          "type": "Int",
+          "id": "FIELD::User::id",
+          "description": "",
+          "typeWrappers": [
+            "NON_NULL"
+          ],
+          "isDeprecated": false,
+          "deprecationReason": "",
+          "args": {}
+        },
+        {
+          "name": "username",
+          "type": "String",
+          "id": "FIELD::User::username",
+          "description": "",
+          "typeWrappers": [
+            "NON_NULL"
+          ],
+          "isDeprecated": false,
+          "deprecationReason": "",
+          "args": {}
+        },
+        {
+          "name": "first_name",
+          "type": "String",
+          "id": "FIELD::User::first_name",
+          "description": "",
+          "typeWrappers": [
+            "NON_NULL"
+          ],
+          "isDeprecated": false,
+          "deprecationReason": "",
+          "args": {}
+        },
+        {
+          "name": "last_name",
+          "type": "String",
+          "id": "FIELD::User::last_name",
+          "description": "",
+          "typeWrappers": [
+            "NON_NULL"
+          ],
+          "isDeprecated": false,
+          "deprecationReason": "",
+          "args": {}
+        },
+        {
+          "name": "email",
+          "type": "String",
+          "id": "FIELD::User::email",
+          "description": "",
+          "typeWrappers": [
+            "NON_NULL"
+          ],
+          "isDeprecated": false,
+          "deprecationReason": "",
+          "args": {}
+        },
+        {
+          "name": "password",
+          "type": "String",
+          "id": "FIELD::User::password",
+          "description": "",
+          "typeWrappers": [
+            "NON_NULL"
+          ],
+          "isDeprecated": false,
+          "deprecationReason": "",
+          "args": {}
+        },
+        {
+          "name": "phone",
+          "type": "String",
+          "id": "FIELD::User::phone",
+          "description": "",
+          "typeWrappers": [
+            "NON_NULL"
+          ],
+          "isDeprecated": false,
+          "deprecationReason": "",
+          "args": {}
+        },
+        {
+          "name": "user_status",
+          "type": "Int",
+          "id": "FIELD::User::user_status",
+          "description": "",
+          "typeWrappers": [
+            "NON_NULL"
+          ],
+          "isDeprecated": false,
+          "deprecationReason": "",
+          "args": {}
+        },
+        {
+          "name": "pet_ids",
+          "type": "Int",
+          "id": "FIELD::User::pet_ids",
+          "description": "",
+          "typeWrappers": [
+            "LIST",
+            "NON_NULL"
+          ],
+          "isDeprecated": false,
+          "deprecationReason": "",
+          "args": {}
+        }
+      ]
+    }
+  },
+  "rootId": "",
+  "edges": {
+    "FIELD::User::pet_ids": "TYPE::Pet"
+  }
+}

@@ -1,12 +1,8 @@
-import { stringifyWrappers } from '../introspection/';
 import * as _ from 'lodash';
+import { stringifyWrappers } from './utils'
 
 export function getDot(typeGraph, displayOptions): string {
-  function isNode(type) {
-    return typeGraph.nodes[type.id] !== undefined;
-  }
-
-  return (
+  let result = (
     typeGraph &&
     `
     digraph {
@@ -23,63 +19,74 @@ export function getDot(typeGraph, displayOptions): string {
       ranksep = 2.0
       ${objectValues(
         typeGraph.nodes,
-        (node) => `
-        "${node.name}" [
+        node,
+      )};
+      ${nodeEdges(typeGraph.edges)};
+    }
+  `
+  );
+  
+  console.log(result)
+  //result = result.replace(/::/g, '__')
+  
+  return result
+  
+  function node(node) {
+    return `
+        "${node.id}" [
           id = "${node.id}"
-          label = ${nodeLabel(node)}
+          label = <${nodeLabel(node)}>
         ]
-        ${objectValues(node.fields, (field) =>
-          isNode(field.type)
-            ? `
-          "${node.name}":"${field.name}" -> "${field.type.name}" [
-            id = "${field.id} => ${field.type.id}"
-            label = "${node.name}:${field.name}"
-          ]
-        `
-            : '',
-        )};
         ${array(
-          node.possibleTypes,
-          ({ id, type }) => `
+      node.possibleTypes,
+      ({ id, type }) => `
           "${node.name}":"${type.name}" -> "${type.name}" [
             id = "${id} => ${type.id}"
             style = "dashed"
           ]
         `,
-        )}
+    )}
         ${array(
-          node.derivedTypes,
-          ({ id, type }) => `
+      node.derivedTypes,
+      ({ id, type }) => `
           "${node.name}":"${type.name}" -> "${type.name}" [
             id = "${id} => ${type.id}"
             style = "dotted"
           ]
         `,
-        )}
-      `,
-      )}
-    }
-  `
-  );
+    )}
+      `
+  }
 
+  function nodeEdges(edges) {
+    return Object.entries(edges).reduce((result, [from, to]) => {
+      return result + `
+          "TYPE::${from.split('::')[1]}":"${port(from)}" -> "TYPE::${(to as string).split('::')[1]}":"${port(to)}" [
+            id = "${from} => ${to}"
+            label = "${from.split('::').splice(-2).join('.')}"
+          ]
+    `
+    }, "");
+  }
+  
   function nodeLabel(node) {
-    const htmlID = HtmlId('TYPE_TITLE::' + node.name);
+    const htmlID = HtmlId('TYPE_TITLE::' + node.id);
     const kindLabel =
-      node.kind !== 'OBJECT'
+      !['OBJECT', 'EMBEDDED'].includes(node.kind)
         ? '&lt;&lt;' + node.kind.toLowerCase() + '&gt;&gt;'
         : '';
 
     return `
-      <<TABLE ALIGN="LEFT" BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5">
+      <TABLE ALIGN="LEFT" BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="0">
         <TR>
-          <TD CELLPADDING="4" ${htmlID}><FONT POINT-SIZE="18">${
+          <TD  ${htmlID} PORT="${port(node.id)}"><FONT POINT-SIZE="18">${
       node.name
     }</FONT><BR/>${kindLabel}</TD>
         </TR>
         ${objectValues(node.fields, nodeField)}
         ${possibleTypes(node)}
         ${derivedTypes(node)}
-      </TABLE>>
+      </TABLE>
     `;
   }
 
@@ -94,11 +101,32 @@ export function getDot(typeGraph, displayOptions): string {
     const relayIcon = field.relayType ? TEXT('{R}') : '';
     const deprecatedIcon = field.isDeprecated ? TEXT('{D}') : '';
     const parts = stringifyWrappers(field.typeWrappers).map(TEXT);
+    if (field.type.kind === 'EMBEDDED') {
+      //debugger
+      return `
+      <TR>
+        <TD ${HtmlId(field.id)} ALIGN="LEFT" PORT="${port(field.id)}">
+          <TABLE CELLPADDING="5" CELLSPACING="0" BORDER="0">
+            <TR>
+              <TD ALIGN="LEFT">${field.name}<FONT>  </FONT></TD>
+              <TD ALIGN="RIGHT">${deprecatedIcon}${relayIcon}${parts[0]}${
+        field.type.name
+      }${parts[1]}</TD>
+            </TR>
+            <TR>
+              <TD ${HtmlId(field.type.id)} CELLPADDING="10" colspan="2">${nodeLabel(field.type)}</TD>
+            </TR>
+          </TABLE>
+        </TD>
+      </TR>
+    `
+    }
+    
     return canDisplayRow(field.type)
       ? `
       <TR>
-        <TD ${HtmlId(field.id)} ALIGN="LEFT" PORT="${field.name}">
-          <TABLE CELLPADDING="0" CELLSPACING="0" BORDER="0">
+        <TD ${HtmlId(field.id)} ALIGN="LEFT" PORT="${port(field.id)}">
+          <TABLE CELLPADDING="5" CELLSPACING="0" BORDER="0">
             <TR>
               <TD ALIGN="LEFT">${field.name}<FONT>  </FONT></TD>
               <TD ALIGN="RIGHT">${deprecatedIcon}${relayIcon}${parts[0]}${
@@ -126,7 +154,7 @@ function possibleTypes(node) {
       possibleTypes,
       ({ id, type }) => `
       <TR>
-        <TD ${HtmlId(id)} ALIGN="LEFT" PORT="${type.name}">${type.name}</TD>
+        <TD ${HtmlId(id)} ALIGN="LEFT" PORT="${port(id)}">${type.name}</TD>
       </TR>
     `,
     )}
@@ -146,7 +174,7 @@ function derivedTypes(node) {
       derivedTypes,
       ({ id, type }) => `
       <TR>
-        <TD ${HtmlId(id)} ALIGN="LEFT" PORT="${type.name}">${type.name}</TD>
+        <TD ${HtmlId(id)} ALIGN="LEFT" PORT="${port(id)}">${type.name}</TD>
       </TR>
     `,
     )}
@@ -172,4 +200,9 @@ function TEXT(str) {
   if (str === '') return '';
   str = str.replace(/]/, '&#93;');
   return '<FONT>' + str + '</FONT>';
+}
+
+function port(id) {
+  //return id
+  return id.replace(/::/g, '__')
 }

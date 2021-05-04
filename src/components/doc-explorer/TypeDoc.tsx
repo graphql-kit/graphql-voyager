@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
 import * as React from 'react';
-import * as classNames from 'classnames';
+import classNames from 'classnames';
 
 import './TypeDoc.css';
 
@@ -50,13 +50,17 @@ export default class TypeDoc extends React.Component<TypeDocProps> {
       onTypeLink,
     } = this.props;
 
-    return (
-      <>
-        <Description className="-doc-type" text={selectedType.description} />
-        {renderTypesDef(selectedType, selectedEdgeID)}
-        {renderFields(selectedType, selectedEdgeID)}
-      </>
-    );
+    return renderType(selectedType, selectedEdgeID)
+    
+    function renderType(selectedType: SimplifiedTypeWithIDs, selectedEdgeID) {
+      return (
+        <>
+          <Description className="-doc-type" text={selectedType.description} />
+          {renderTypesDef(selectedType, selectedEdgeID)}
+          {renderFields(selectedType, selectedEdgeID)}
+        </>
+      )
+    }
 
     function renderTypesDef(type: SimplifiedTypeWithIDs, selectedId) {
       let typesTitle;
@@ -128,51 +132,61 @@ export default class TypeDoc extends React.Component<TypeDocProps> {
       });
 
       if (fields.length === 0) return null;
-
+      
+      const embedded = type.kind == 'EMBEDDED'
+      
       return (
         <div className="doc-category">
-          <div className="title">fields</div>
+          { !embedded ? (<div className="title">fields</div>) : "" }
           {fields.map((field) => {
+            const fieldEmbedded = field.type.kind === 'EMBEDDED'
+            
             let props: any = {
-              key: field.name,
               className: classNames('item', {
                 '-selected': field.id === selectedId,
                 '-with-args': !_.isEmpty(field.args),
               }),
               onClick: () => onSelectEdge(field.id),
             };
+            
             if (field.id === selectedId) props.ref = 'selectedItem';
+            
             return (
-              <div {...props}>
-                <a className="field-name">
-                  {highlightTerm(field.name, filter)}
-                </a>
-                <span
-                  className={classNames('args-wrap', {
-                    '-empty': _.isEmpty(field.args),
-                  })}
-                >
-                  {!_.isEmpty(field.args) && (
-                    <span key="args" className="args">
-                      {_.map(field.args, (arg) => (
-                        <Argument
-                          key={arg.name}
-                          arg={arg}
-                          expanded={field.id === selectedId}
-                          onTypeLink={onTypeLink}
-                        />
-                      ))}
-                    </span>
+              <div className="field" key={field.name}>
+                <div {...props}>
+                  <a className="field-name">
+                    {highlightTerm(field.name, filter)}
+                  </a>
+                  <span
+                    className={classNames('args-wrap', {
+                      '-empty': _.isEmpty(field.args),
+                    })}
+                  >
+                    {!_.isEmpty(field.args) && (
+                      <span key="args" className="args">
+                        {_.map(field.args, (arg) => (
+                          <Argument
+                            key={arg.name}
+                            arg={arg}
+                            expanded={field.id === selectedId}
+                            onTypeLink={onTypeLink}
+                          />
+                        ))}
+                      </span>
+                    )}
+                  </span>
+                  <WrappedTypeName container={field} onTypeLink={fieldEmbedded ? () => {} : onTypeLink} />
+                  {field.isDeprecated && (
+                    <span className="doc-alert-text"> DEPRECATED</span>
                   )}
-                </span>
-                <WrappedTypeName container={field} onTypeLink={onTypeLink} />
-                {field.isDeprecated && (
-                  <span className="doc-alert-text"> DEPRECATED</span>
-                )}
-                <Markdown
-                  text={field.description}
-                  className="description-box -field"
-                />
+                  <Markdown
+                    text={field.description}
+                    className="description-box -field"
+                  />
+                </div>
+                {
+                  fieldEmbedded ? renderType(field.type, selectedId) : ""
+                }
               </div>
             );
           })}

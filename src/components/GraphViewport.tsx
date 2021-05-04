@@ -108,7 +108,6 @@ export default class GraphViewport extends React.Component<GraphViewportProps> {
         this._currentTypeGraph = null;
         this._currentDisplayOptions = null;
 
-        error.message = error.message || 'Unknown error';
         this.setState(() => {
           throw error;
         });

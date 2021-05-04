@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
 import * as React from 'react';
-import * as classNames from 'classnames';
+import classNames from 'classnames';
 import { isMatch } from '../../utils';
 
 import './TypeList.css';

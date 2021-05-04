@@ -10,3 +10,5 @@ npm-debug.log
 /lib
 /middleware
 /typings
+
+.idea

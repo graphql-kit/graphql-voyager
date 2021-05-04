@@ -14,7 +14,7 @@ export type SimplifiedField<T> = {
   id?: string;
   relayType: T;
   description: string;
-  typeWrappers: ('NON_NULL' | 'LIST')[];
+  typeWrappers: ('NON_NULL' | 'LIST' | 'EMBEDDED')[];
   isDeprecated: boolean;
   deprecationReason?: string;
   args: {
@@ -28,7 +28,7 @@ export type SimplifiedField<T> = {
 export type SimplifiedInputField = SimplifiedArg;
 
 export type SimplifiedTypeBase = {
-  kind: 'OBJECT' | 'INTERFACE' | 'UNION' | 'ENUM' | 'INPUT_OBJECT' | 'SCALAR';
+  kind: 'OBJECT' | 'INTERFACE' | 'UNION' | 'ENUM' | 'INPUT_OBJECT' | 'SCALAR' | 'EMBEDDED';
   name: string;
   description: string;
   enumValues?: IntrospectionEnumValue[];

@@ -93,6 +93,7 @@ function preprocessVizSVG(svgString: string) {
 
   forEachNode(svg, '.field', ($field) => {
     let texts = $field.querySelectorAll('text');
+    //debugger
     texts[0].classList.add('field-name');
     //Remove spaces used for text alligment
     texts[1].remove();

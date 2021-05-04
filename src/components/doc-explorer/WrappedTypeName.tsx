@@ -3,7 +3,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
 import './WrappedTypeName.css';
 
-import { stringifyWrappers } from '../../introspection/';
+import { stringifyWrappers } from '../../graph/';
 import TypeLink from './TypeLink';
 
 import RelayIcon from '../icons/relay-icon.svg';

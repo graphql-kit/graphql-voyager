@@ -1,5 +1,3 @@
-import { isNode } from '../../graph';
-
 import * as React from 'react';
 import TypeList from './TypeList';
 import TypeDoc from './TypeDoc';
@@ -184,4 +182,8 @@ export default class DocExplorer extends React.Component<DocExplorerProps> {
     onFocusNode(newCurrentNode.type.id);
     onSelectNode(newCurrentNode.type.id);
   };
+}
+
+export function isNode(type) {
+  return type.kind === 'OBJECT' || type.kind === 'EMBEDDED'
 }

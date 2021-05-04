@@ -36,6 +36,15 @@
   --node-fill-color: #f6f8f8;
   --node-header-color: var(--secondary-color);
   --node-header-text-color: white;
+  
+  --node-color-2: firebrick;
+  --node-color-3: darkslateblue;
+  --node-color-4: darkorange;
+  --node-color-5: green;
+  --node-color-8: dodgerblue;
+  --node-color-6: crimson;
+  --node-color-7: cornflowerblue;
+  --node-color-9: burlywood;
 
   --edge-color: color(var(--secondary-color) l(- 15%));
   --selected-edge-color: red;

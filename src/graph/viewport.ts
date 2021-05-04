@@ -3,7 +3,6 @@ import * as svgPanZoom from 'svg-pan-zoom';
 import * as animate from '@f/animate';
 
 import { removeClass, forEachNode, stringToSvg } from '../utils/';
-import { typeNameToId } from '../introspection';
 
 // FIXME: we are waiting for this [PR](https://github.com/ariutta/svg-pan-zoom/pull/379), after that this two interfaces might be removed in favor to `import { Instance, Point } from 'svg-pan-zoom'`
 interface Point {
@@ -91,7 +90,7 @@ export class Viewport {
 
       var target = event.target as Element;
       if (isLink(target)) {
-        const typeId = typeNameToId(target.textContent);
+        const typeId = `TYPE::${target.textContent}`;
         this.focusElement(typeId);
       } else if (isNode(target)) {
         let $node = getParent(target, 'node');

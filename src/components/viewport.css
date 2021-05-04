@@ -39,6 +39,81 @@ g.graph > polygon {
   &.selected .type-title polygon {
     fill: var(--highlight-color);
   }
+   
+  & .type {
+    & polygon {
+      stroke: var(--node-color-2);
+    }
+    & .type-title polygon {
+      fill: var(--node-color-2);
+    }
+  }
+
+  & .type .type {
+    & polygon {
+      stroke: var(--node-color-3);
+    }
+    & .type-title polygon {
+      fill: var(--node-color-3);
+    }
+  }
+
+  & .type .type .type {
+    & polygon {
+      stroke: var(--node-color-4);
+    }
+    & .type-title polygon {
+      fill: var(--node-color-4);
+    }
+  }
+  
+  & .type .type .type .type {
+    & polygon {
+      stroke: var(--node-color-5);
+    }
+    & .type-title polygon {
+      fill: var(--node-color-5);
+    }
+  }
+  
+  & .type .type .type .type .type {
+    & polygon {
+      stroke: var(--node-color-6);
+    }
+    & .type-title polygon {
+      fill: var(--node-color-6);
+    }
+  }
+  
+  & .type .type .type .type .type .type {
+    & polygon {
+      stroke: var(--node-color-7);
+    }
+    
+    & .type-title polygon {
+      fill: var(--node-color-7);
+    }
+  }
+  
+  & .type .type .type .type .type .type .type {
+    & polygon {
+      stroke: var(--node-color-8);
+    }
+    
+    & .type-title polygon {
+      fill: var(--node-color-8);
+    }
+  }
+  
+  & .type .type .type .type .type .type .type .type {
+    & polygon {
+      stroke: var(--node-color-9);
+    }
+    
+    & .type-title polygon {
+      fill: var(--node-color-9);
+    }
+  }
 }
 
 /* field */

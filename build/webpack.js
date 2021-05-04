@@ -22,7 +22,7 @@ module.exports = (env = {}, { mode }) => ({
   },
 
   resolve: {
-    extensions: ['.ts', '.tsx', '.mjs', '.js', '.json', '.css', '.svg'],
+    extensions: ['.ts', '.tsx', '.mjs', '.js', '.json', '.css', '.less', '.svg'],
     alias: {
       clipboard: 'clipboard/dist/clipboard.min.js',
     },
@@ -72,7 +72,7 @@ module.exports = (env = {}, { mode }) => ({
         ],
       },
       {
-        test: /\.css$/,
+        test: /\.css|\.less$/,
         use: ExtractTextPlugin.extract({
           fallback: 'style-loader',
           use: [

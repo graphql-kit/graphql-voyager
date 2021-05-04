@@ -1,10 +1,10 @@
 import * as React from 'react';
-import * as classNames from 'classnames';
+import classNames from 'classnames';
 import {
   isBuiltInScalarType,
   isScalarType,
   isInputObjectType,
-} from '../../introspection';
+} from '../../graph';
 import { highlightTerm } from '../../utils';
 
 import './TypeLink.css';
