@@ -33,14 +33,11 @@ export class SVGRender {
 
   renderSvg(typeGraph, displayOptions) {
     const typeGraphMd5 = md5(typeGraph)
-    // console.log('MD5:', typeGraphMd5)
     const cachedSVG = localStorage.getItem(typeGraphMd5)
     if (cachedSVG) {
-      // console.log('found in cache')
       return Promise.resolve(cachedSVG)
     }
 
-    // console.log('rendering')
     return this.vizPromise
       .then((viz) => {
         console.time('Rendering Graph');
