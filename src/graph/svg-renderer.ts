@@ -1,5 +1,6 @@
 import * as _ from 'lodash';
 import { getDot } from './dot';
+import md5 from 'md5'
 
 import {
   forEachNode,
@@ -31,6 +32,15 @@ export class SVGRender {
   }
 
   renderSvg(typeGraph, displayOptions) {
+    const typeGraphMd5 = md5(typeGraph)
+    // console.log('MD5:', typeGraphMd5)
+    const cachedSVG = localStorage.getItem(typeGraphMd5)
+    if (cachedSVG) {
+      // console.log('found in cache')
+      return Promise.resolve(cachedSVG)
+    }
+
+    // console.log('rendering')
     return this.vizPromise
       .then((viz) => {
         console.time('Rendering Graph');
@@ -40,6 +50,7 @@ export class SVGRender {
       .then((rawSVG) => {
         const svg = preprocessVizSVG(rawSVG);
         console.timeEnd('Rendering Graph');
+        localStorage.setItem(typeGraphMd5, svg)
         return svg;
       });
   }
