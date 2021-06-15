@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
 import { getDot } from './dot';
-import md5 from 'md5'
+import hash from 'object-hash';
 
 import {
   forEachNode,
@@ -32,10 +32,13 @@ export class SVGRender {
   }
 
   renderSvg(typeGraph, displayOptions) {
-    const typeGraphMd5 = md5(JSON.stringify(typeGraph))
-    const cachedSVG = localStorage.getItem(typeGraphMd5)
-    if (cachedSVG) {
-      return Promise.resolve(cachedSVG)
+    const typeGraphMd5 = hash.MD5(typeGraph);
+    const latestHash = localStorage.getItem('latestHash');
+
+    // trying to store multiple SVGs blows the storage quota really quickly. So we only store the most recent one
+    if (typeGraphMd5 === latestHash) {
+      const cachedSVG = localStorage.getItem('latestSVG');
+      return Promise.resolve(cachedSVG);
     }
 
     return this.vizPromise
@@ -47,7 +50,8 @@ export class SVGRender {
       .then((rawSVG) => {
         const svg = preprocessVizSVG(rawSVG);
         console.timeEnd('Rendering Graph');
-        localStorage.setItem(typeGraphMd5, svg)
+        localStorage.setItem('latestHash', typeGraphMd5);
+        localStorage.setItem('latestSVG', svg);
         return svg;
       });
   }
