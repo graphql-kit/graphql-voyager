@@ -32,7 +32,7 @@ export class SVGRender {
   }
 
   renderSvg(typeGraph, displayOptions) {
-    const typeGraphMd5 = md5(typeGraph)
+    const typeGraphMd5 = md5(JSON.stringify(typeGraph))
     const cachedSVG = localStorage.getItem(typeGraphMd5)
     if (cachedSVG) {
       return Promise.resolve(cachedSVG)
