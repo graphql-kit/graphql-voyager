@@ -38,7 +38,7 @@ module system it is exported as `GraphQLVoyager` global variable.
 - `displayOptions` _(optional)_
   - `displayOptions.skipRelay` [`boolean`, default `true`] - skip relay-related entities
   - `displayOptions.skipDeprecated` [`boolean`, default `true`] - skip deprecated fields and entities that contain only deprecated fields.
-  - `displayOptions.rootType` [`string []`] - name of the type to be used as a root
+  - `displayOptions.rootType` [`string[]`] - name of the type to be used as a root
   - `displayOptions.sortByAlphabet` [`boolean`, default `false`] - sort fields on graph by alphabet
   - `displayOptions.showLeafFields` [`boolean`, default `true`] - show all scalars and enums
   - `displayOptions.hideRoot` [`boolean`, default `false`] - hide the root type
