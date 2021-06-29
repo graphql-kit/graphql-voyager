@@ -19,7 +19,7 @@ export function getDefaultRoot(schema) {
   return schema.queryType.name;
 }
 
-export function getTypeGraph(schema, rootType: string, hideRoot: boolean) {
+export function getTypeGraph(schema, rootType: string[], hideRoot: boolean) {
   if (schema === null) return null;
 
   const rootId = typeNameToId(rootType || getDefaultRoot(schema));

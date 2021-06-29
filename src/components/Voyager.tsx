@@ -17,10 +17,10 @@ import Settings from './settings/Settings';
 import './Voyager.css';
 import './viewport.css';
 
-type IntrospectionProvider = (query: string) => Promise<any>;
+type IntrospectionProvider = (query: string[]) => Promise<any>;
 
 export interface VoyagerDisplayOptions {
-  rootType?: string;
+  rootType?: string[];
   skipRelay?: boolean;
   skipDeprecated?: boolean;
   showLeafFields?: boolean;

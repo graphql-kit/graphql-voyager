@@ -8,7 +8,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import './RootSelector.css';
 
 interface RootSelectorProps {
-  rootType?: string;
+  rootType?: string[];
   schema: any;
   onChange: any;
 }
