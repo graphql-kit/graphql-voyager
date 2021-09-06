@@ -85,7 +85,7 @@ export default class Voyager extends React.Component<VoyagerProps> {
 
   svgRenderer: SVGRender;
   viewportRef = React.createRef<GraphViewport>();
-  instospectionPromise = null;
+  introspectionPromise = null;
 
   constructor(props) {
     super(props);
@@ -124,10 +124,10 @@ export default class Voyager extends React.Component<VoyagerProps> {
       selectedEdgeID: null,
     });
 
-    this.instospectionPromise = promise;
+    this.introspectionPromise = promise;
     promise.then((introspectionData) => {
-      if (promise === this.instospectionPromise) {
-        this.instospectionPromise = null;
+      if (promise === this.introspectionPromise) {
+        this.introspectionPromise = null;
         this.updateIntrospection(introspectionData, displayOptions);
       }
     });
