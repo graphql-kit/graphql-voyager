@@ -94,7 +94,7 @@ function preprocessVizSVG(svgString: string) {
   forEachNode(svg, '.field', ($field) => {
     let texts = $field.querySelectorAll('text');
     texts[0].classList.add('field-name');
-    //Remove spaces used for text alligment
+    //Remove spaces used for text alignment
     texts[1].remove();
 
     if (edgesSources[$field.id]) $field.classList.add('edge-source');
