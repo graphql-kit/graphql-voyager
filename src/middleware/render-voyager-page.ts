@@ -1,4 +1,4 @@
-const { version } = require('../package.json');
+const { version } = require("../package.json");
 
 export interface MiddlewareOptions {
   endpointUrl: string;
@@ -9,8 +9,10 @@ export interface MiddlewareOptions {
 
 export default function renderVoyagerPage(options: MiddlewareOptions) {
   const { endpointUrl, displayOptions } = options;
-  const headersJS = options.headersJS ? options.headersJS : '{}';
-  const operationName = option.operationName ? options.operationName : 'IntrospectionQuery'
+  const headersJS = options.headersJS ? options.headersJS : "{}";
+  const operationName = option.operationName
+    ? options.operationName
+    : "IntrospectionQuery";
   return `
 <!DOCTYPE html>
 <html>
