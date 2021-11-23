@@ -4,11 +4,13 @@ export interface MiddlewareOptions {
   endpointUrl: string;
   displayOptions?: object;
   headersJS?: string;
+  operationName?: string;
 }
 
 export default function renderVoyagerPage(options: MiddlewareOptions) {
   const { endpointUrl, displayOptions } = options;
   const headersJS = options.headersJS ? options.headersJS : '{}';
+  const operationName = option.operationName ? options.operationName : 'IntrospectionQuery'
   return `
 <!DOCTYPE html>
 <html>
@@ -49,7 +51,7 @@ export default function renderVoyagerPage(options: MiddlewareOptions) {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
           }, ${headersJS}),
-          body: JSON.stringify({query: introspectionQuery }),
+          body: JSON.stringify({operationName: '${operationName}', query: introspectionQuery }),
           credentials: 'include',
         }).then(function (response) {
           return response.text();
