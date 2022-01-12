@@ -50,7 +50,11 @@ export class Viewport {
     this.bindHover();
 
     this.resize();
-    window.addEventListener('resize', () => this.resize());
+    window.addEventListener('resize', this.resizeHandler);
+  }
+
+  resizeHandler() {
+    this.resize.bind(this);
   }
 
   resize() {
@@ -180,6 +184,7 @@ export class Viewport {
   }
 
   focusElement(id: string) {
+    if (this.zoomer === undefined) return null;
     let bbBox = document.getElementById(id).getBoundingClientRect();
     let currentPan = this.zoomer.getPan();
     let viewPortSizes = (<any>this.zoomer).getSizes();
@@ -217,7 +222,7 @@ export class Viewport {
   }
 
   destroy() {
-    window.removeEventListener('resize', this.resize);
+    window.removeEventListener('resize', this.resizeHandler);
     try {
       this.zoomer.destroy();
     } catch (e) {
