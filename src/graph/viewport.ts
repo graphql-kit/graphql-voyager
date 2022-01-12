@@ -49,13 +49,12 @@ export class Viewport {
     this.bindClick();
     this.bindHover();
 
+    this.resize = this.resize.bind(this)
     this.resize();
-    window.addEventListener('resize', this.resizeHandler);
+    window.addEventListener('resize', this.resize);
   }
 
-  resizeHandler() {
-    this.resize.bind(this);
-  }
+
 
   resize() {
     let bbRect = this.container.getBoundingClientRect();
@@ -222,7 +221,7 @@ export class Viewport {
   }
 
   destroy() {
-    window.removeEventListener('resize', this.resizeHandler);
+    window.removeEventListener('resize', this.resize);
     try {
       this.zoomer.destroy();
     } catch (e) {
