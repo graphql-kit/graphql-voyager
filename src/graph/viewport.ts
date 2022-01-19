@@ -49,9 +49,12 @@ export class Viewport {
     this.bindClick();
     this.bindHover();
 
+    this.resize = this.resize.bind(this)
     this.resize();
-    window.addEventListener('resize', () => this.resize());
+    window.addEventListener('resize', this.resize);
   }
+
+
 
   resize() {
     let bbRect = this.container.getBoundingClientRect();
@@ -180,6 +183,7 @@ export class Viewport {
   }
 
   focusElement(id: string) {
+    if (this.zoomer === undefined) return null;
     let bbBox = document.getElementById(id).getBoundingClientRect();
     let currentPan = this.zoomer.getPan();
     let viewPortSizes = (<any>this.zoomer).getSizes();
