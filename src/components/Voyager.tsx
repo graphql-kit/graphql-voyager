@@ -5,7 +5,6 @@ import { SVGRender, getTypeGraph } from '../graph/';
 import { WorkerCallback } from '../utils/types';
 
 import * as React from 'react';
-import * as PropTypes from 'prop-types';
 import { theme } from './MUITheme';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 
@@ -55,25 +54,6 @@ export interface VoyagerProps {
 }
 
 export default class Voyager extends React.Component<VoyagerProps> {
-  static propTypes = {
-    introspection: PropTypes.oneOfType([
-      PropTypes.func.isRequired,
-      PropTypes.object.isRequired,
-    ]).isRequired,
-    displayOptions: PropTypes.shape({
-      rootType: PropTypes.string,
-      skipRelay: PropTypes.bool,
-      skipDeprecated: PropTypes.bool,
-      sortByAlphabet: PropTypes.bool,
-      hideRoot: PropTypes.bool,
-      showLeafFields: PropTypes.bool,
-    }),
-    hideDocs: PropTypes.bool,
-    hideSettings: PropTypes.bool,
-    workerURI: PropTypes.string,
-    loadWorker: PropTypes.func,
-  };
-
   state = {
     introspectionData: null,
     schema: null,
