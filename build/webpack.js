@@ -94,17 +94,6 @@ module.exports = (env = {}, { mode }) => ({
         test: /\.svg$/,
         use: [
           {
-            loader: 'babel-loader',
-            options: {
-              plugins: [
-                '@babel/plugin-transform-classes',
-                '@babel/plugin-transform-block-scoping',
-                '@babel/plugin-transform-arrow-functions',
-                '@babel/plugin-transform-destructuring',
-              ],
-            },
-          },
-          {
             loader: 'react-svg-loader',
             options: {
               jsx: false,

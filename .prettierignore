@@ -1,0 +1,13 @@
+# Copied from '.gitignore', please keep it in sync.
+node_modules
+.tmp
+dist
+demo-dist
+.ghpages-tmp/
+
+stats.json
+npm-debug.log
+
+/lib
+/middleware
+/typings
