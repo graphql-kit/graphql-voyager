@@ -10,17 +10,10 @@ interface OtherSearchResultsProps {
   onFieldLink: (field: any, type: any) => void;
 }
 
-export default class OtherSearchResults extends React.Component<
-  OtherSearchResultsProps
-> {
+export default class OtherSearchResults extends React.Component<OtherSearchResultsProps> {
   render() {
-    const {
-      typeGraph,
-      withinType,
-      searchValue,
-      onTypeLink,
-      onFieldLink,
-    } = this.props;
+    const { typeGraph, withinType, searchValue, onTypeLink, onFieldLink } =
+      this.props;
 
     const types: any = Object.values(typeGraph.nodes).filter(
       (type) => type !== withinType,

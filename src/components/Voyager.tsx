@@ -227,12 +227,8 @@ export default class Voyager extends React.Component<VoyagerProps> {
   }
 
   renderGraphViewport() {
-    const {
-      displayOptions,
-      typeGraph,
-      selectedTypeID,
-      selectedEdgeID,
-    } = this.state;
+    const { displayOptions, typeGraph, selectedTypeID, selectedEdgeID } =
+      this.state;
 
     return (
       <GraphViewport

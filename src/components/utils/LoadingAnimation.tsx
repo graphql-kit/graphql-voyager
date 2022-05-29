@@ -9,9 +9,7 @@ interface LoadingAnimationProps {
   loading: boolean;
 }
 
-export default class LoadingAnimation extends React.Component<
-  LoadingAnimationProps
-> {
+export default class LoadingAnimation extends React.Component<LoadingAnimationProps> {
   render() {
     const { loading } = this.props;
     return (

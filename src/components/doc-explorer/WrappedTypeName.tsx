@@ -13,9 +13,7 @@ interface WrappedTypeNameProps {
   onTypeLink: (any) => void;
 }
 
-export default class WrappedTypeName extends React.Component<
-  WrappedTypeNameProps
-> {
+export default class WrappedTypeName extends React.Component<WrappedTypeNameProps> {
   render() {
     const { container, onTypeLink } = this.props;
 
