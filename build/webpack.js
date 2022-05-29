@@ -23,9 +23,6 @@ module.exports = (env = {}, { mode }) => ({
 
   resolve: {
     extensions: ['.ts', '.tsx', '.mjs', '.js', '.json', '.css', '.svg'],
-    alias: {
-      clipboard: 'clipboard/dist/clipboard.min.js',
-    },
   },
 
   externals: env.lib

@@ -43,7 +43,6 @@
     "prettier": "2.6.2",
     "raw-loader": "1.0.0",
     "react": "16.8.6",
-    "react-clipboard.js": "2.0.16",
     "react-dom": "16.8.6",
     "react-svg-loader": "2.1.0",
     "style-loader": "0.23.1",
