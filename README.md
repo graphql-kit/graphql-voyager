@@ -115,7 +115,6 @@ And then use it:
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { Voyager } from 'graphql-voyager';
-import fetch from 'isomorphic-fetch';
 
 function introspectionProvider(query) {
   return fetch(window.location.origin + '/graphql', {
