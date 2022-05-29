@@ -1,10 +1,11 @@
+const path = require('node:path');
+
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
-const root = require('./helpers').root;
-const VERSION = JSON.stringify(require('../package.json').version);
+const VERSION = JSON.stringify(require('./package.json').version);
 
 module.exports = function (_, { mode }) {
   return {
@@ -16,13 +17,13 @@ module.exports = function (_, { mode }) {
     },
     entry: ['./src/polyfills.ts', './demo/index.tsx'],
     devServer: {
-      contentBase: root('demo'),
+      contentBase: path.resolve(__dirname, 'demo'),
       watchContentBase: true,
       port: 9090,
       stats: 'errors-only',
     },
     output: {
-      path: root('demo-dist'),
+      path: path.resolve(__dirname, 'demo-dist'),
       filename: '[name].js',
       sourceMapFilename: '[name].[id].map',
     },

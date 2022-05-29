@@ -1,11 +1,12 @@
+const path = require('node:path');
+
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const nodeExternals = require('webpack-node-externals')({
   whitelist: ['viz.js/full.render.js'],
 });
 
-const root = require('./helpers').root;
-const VERSION = JSON.stringify(require('../package.json').version);
+const VERSION = JSON.stringify(require('./package.json').version);
 
 const BANNER = `GraphQL Voyager - Represent any GraphQL API as an interactive graph
 -------------------------------------------------------------
@@ -43,7 +44,7 @@ module.exports = (env = {}, { mode }) => ({
       },
   entry: ['./src/polyfills.ts', './src/index.tsx'],
   output: {
-    path: root('dist'),
+    path: path.resolve(__dirname, 'dist'),
     filename: env.lib ? 'voyager.lib.js' : 'voyager.min.js',
     sourceMapFilename: '[file].map',
     library: 'GraphQLVoyager',
