@@ -87,14 +87,7 @@ export default class Voyager extends React.Component<VoyagerProps> {
       return;
     }
 
-    let promise = this.props.introspection(getIntrospectionQuery());
-
-    if (!isPromise(promise)) {
-      throw new Error(
-        'SchemaProvider did not return a Promise for introspection.',
-      );
-    }
-
+    const promise = this.props.introspection(getIntrospectionQuery());
     this.setState({
       introspectionData: null,
       schema: null,
@@ -248,9 +241,4 @@ export default class Voyager extends React.Component<VoyagerProps> {
   static PanelHeader = (props) => {
     return props.children || null;
   };
-}
-
-// Duck-type promise detection.
-function isPromise(value) {
-  return typeof value === 'object' && typeof value.then === 'function';
 }
