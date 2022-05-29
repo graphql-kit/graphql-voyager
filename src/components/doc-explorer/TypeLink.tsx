@@ -1,5 +1,4 @@
 import * as React from 'react';
-import classNames from 'classnames';
 import {
   isBuiltInScalarType,
   isScalarType,
@@ -29,7 +28,7 @@ export default class TypeLink extends React.Component<TypeLinkProps> {
 
     return (
       <a
-        className={classNames('type-name', className)}
+        className={`type-name ${className}`}
         onClick={(event) => {
           event.stopPropagation();
           onClick(type);

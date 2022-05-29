@@ -1,5 +1,4 @@
 import * as React from 'react';
-import classNames from 'classnames';
 
 import './Description.css';
 
@@ -16,16 +15,11 @@ export default class Description extends React.Component<DescriptionProps> {
 
     if (text)
       return (
-        <Markdown
-          text={text}
-          className={classNames('description-box', className)}
-        />
+        <Markdown text={text} className={`description-box ${className}`} />
       );
 
     return (
-      <div
-        className={classNames('description-box', className, '-no-description')}
-      >
+      <div className={`description-box ${className} -no-description`}>
         <p>No Description</p>
       </div>
     );

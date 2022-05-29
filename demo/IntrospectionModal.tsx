@@ -1,5 +1,4 @@
 import * as React from 'react';
-import classNames from 'classnames';
 
 import Grid from '@material-ui/core/Grid';
 import Modal from '@material-ui/core/Modal';
@@ -154,9 +153,7 @@ export class IntrospectionModal extends React.Component<IntrospectionModalProps>
         {presetNames.map((name) => (
           <div
             key={name}
-            className={classNames('preset-card', {
-              '-active': name === activePreset,
-            })}
+            className={`preset-card ${name === activePreset ? '-active' : ''}`}
             onClick={() => this.handlePresetChange(name)}
           >
             <h2>{name}</h2>

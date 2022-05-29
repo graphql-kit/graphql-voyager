@@ -1,6 +1,5 @@
 import * as _ from 'lodash';
 import * as React from 'react';
-import classNames from 'classnames';
 
 import './TypeDoc.css';
 
@@ -88,18 +87,17 @@ export default class TypeDoc extends React.Component<TypeDocProps> {
 
       if (types.length === 0) return null;
 
+      const isSelected = type.id === selectedId;
       return (
         <div className="doc-category">
           <div className="title">{typesTitle}</div>
           {_.map(types, (type) => {
             let props: any = {
               key: type.id,
-              className: classNames('item', {
-                '-selected': type.id === selectedId,
-              }),
+              className: `item ${isSelected ? '-selected' : ''}`,
               onClick: () => onSelectEdge(type.id),
             };
-            if (type.id === selectedId) props.ref = 'selectedItem';
+            if (isSelected) props.ref = 'selectedItem';
             return (
               <div {...props}>
                 <TypeLink
@@ -133,25 +131,23 @@ export default class TypeDoc extends React.Component<TypeDocProps> {
         <div className="doc-category">
           <div className="title">fields</div>
           {fields.map((field) => {
+            const hasArgs = !_.isEmpty(field.args);
+            const isSelected = field.id === selectedId;
+
             let props: any = {
               key: field.name,
-              className: classNames('item', {
-                '-selected': field.id === selectedId,
-                '-with-args': !_.isEmpty(field.args),
-              }),
+              className: `item ${isSelected ? '-selected' : ''} ${
+                hasArgs ? '-with-args' : ''
+              }`,
               onClick: () => onSelectEdge(field.id),
             };
-            if (field.id === selectedId) props.ref = 'selectedItem';
+            if (isSelected) props.ref = 'selectedItem';
             return (
               <div {...props}>
                 <a className="field-name">
                   {highlightTerm(field.name, filter)}
                 </a>
-                <span
-                  className={classNames('args-wrap', {
-                    '-empty': _.isEmpty(field.args),
-                  })}
-                >
+                <span className={`args-wrap ${hasArgs ? '' : '-empty'}`}>
                   {!_.isEmpty(field.args) && (
                     <span key="args" className="args">
                       {_.map(field.args, (arg) => (

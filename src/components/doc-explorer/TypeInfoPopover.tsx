@@ -1,5 +1,4 @@
 import * as React from 'react';
-import classNames from 'classnames';
 
 import './TypeInfoPopover.css';
 
@@ -43,11 +42,7 @@ export default class ScalarDetails extends React.Component<
       });
     }
     return (
-      <div
-        className={classNames('type-info-popover', {
-          '-opened': !!type,
-        })}
-      >
+      <div className={`type-info-popover ${type != null ? '-opened' : ''}`}>
         <IconButton className="closeButton" onClick={() => this.close()}>
           <CloseIcon />
         </IconButton>

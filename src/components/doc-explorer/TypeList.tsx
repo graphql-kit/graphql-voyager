@@ -1,6 +1,5 @@
 import * as _ from 'lodash';
 import * as React from 'react';
-import classNames from 'classnames';
 import { isMatch } from '../../utils';
 
 import './TypeList.css';
@@ -42,7 +41,7 @@ export default class TypeList extends React.Component<TypeListProps> {
       }
 
       return (
-        <div key={type.id} className={classNames('typelist-item', className)}>
+        <div key={type.id} className={`typelist-item ${className}`}>
           <TypeLink type={type} onClick={onTypeLink} filter={filter} />
           <FocusTypeButton onClick={() => onFocusType(type)} />
           <Description className="-doc-type" text={type.description} />
