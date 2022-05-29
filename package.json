@@ -7,8 +7,8 @@
   "scripts": {
     "test": "npm run check && npm run prettier:check",
     "start": "webpack-dev-server --config build/webpack.demo.js --hot --inline --mode=development",
-    "clean:release": "rimraf dist middleware",
-    "clean:demo": "rimraf demo-dist",
+    "clean:release": "rm -rf dist middleware",
+    "clean:demo": "rm -rf demo-dist",
     "bundle:standalone": "webpack --mode=production --config build/webpack.js -p",
     "bundle:lib": "webpack --env.lib --mode=production --config build/webpack.js",
     "bundle": "npm run bundle:lib && npm run bundle:standalone",
@@ -49,7 +49,6 @@
     "react-clipboard.js": "2.0.16",
     "react-dom": "16.8.6",
     "react-svg-loader": "2.1.0",
-    "rimraf": "3.0.2",
     "style-loader": "0.23.1",
     "svg-as-symbol-loader": "1.2.1",
     "ts-loader": "5.3.3",
