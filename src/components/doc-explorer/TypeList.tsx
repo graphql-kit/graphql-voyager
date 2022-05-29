@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
 import * as React from 'react';
-import * as classNames from 'classnames';
+import classNames from 'classnames';
 import { isMatch } from '../../utils';
 
 import './TypeList.css';
@@ -32,7 +32,7 @@ export default class TypeList extends React.Component<TypeListProps> {
     return (
       <div className="doc-explorer-type-list">
         {rootType && renderItem(rootType, '-root')}
-        {_.map(types, type => renderItem(type, ''))}
+        {_.map(types, (type) => renderItem(type, ''))}
       </div>
     );
 

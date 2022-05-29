@@ -1,5 +1,4 @@
-Example GraphQL-Voyager Install
-========================
+# Example GraphQL-Voyager Install
 
 This example uses the version of GraphQL-Voyager found in the parent directory, rather
 than depending on npm, so that it is easier to test new changes. In order to use

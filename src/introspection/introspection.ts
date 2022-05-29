@@ -6,7 +6,11 @@ import {
   IntrospectionSchema,
   IntrospectionType,
 } from 'graphql';
-import { SimplifiedIntrospection, SimplifiedIntrospectionWithIds, SimplifiedType } from './types';
+import {
+  SimplifiedIntrospection,
+  SimplifiedIntrospectionWithIds,
+  SimplifiedType,
+} from './types';
 import { typeNameToId } from './utils';
 
 function unwrapType(type, wrappers) {
@@ -42,12 +46,10 @@ function convertField(inField) {
 
   outField.type = unwrapType(inField.type, outField.typeWrappers);
 
-  outField.args = _(inField.args)
-    .map(convertArg)
-    .keyBy('name')
-    .value();
+  outField.args = _(inField.args).map(convertArg).keyBy('name').value();
 
-  if (outField.isDeprecated) outField.deprecationReason = inField.deprecationReason;
+  if (outField.isDeprecated)
+    outField.deprecationReason = inField.deprecationReason;
 
   return outField;
 }
@@ -61,24 +63,12 @@ function convertType(inType: IntrospectionType): SimplifiedType {
 
   switch (inType.kind) {
     case 'OBJECT':
-      outType.interfaces = _(inType.interfaces)
-        .map('name')
-        .uniq()
-        .value();
-      outType.fields = _(inType.fields)
-        .map(convertField)
-        .keyBy('name')
-        .value();
+      outType.interfaces = _(inType.interfaces).map('name').uniq().value();
+      outType.fields = _(inType.fields).map(convertField).keyBy('name').value();
       break;
     case 'INTERFACE':
-      outType.derivedTypes = _(inType.possibleTypes)
-        .map('name')
-        .uniq()
-        .value();
-      outType.fields = _(inType.fields)
-        .map(convertField)
-        .keyBy('name')
-        .value();
+      outType.derivedTypes = _(inType.possibleTypes).map('name').uniq().value();
+      outType.fields = _(inType.fields).map(convertField).keyBy('name').value();
       break;
     case 'UNION':
       outType.possibleTypes = _(inType.possibleTypes)
@@ -100,12 +90,11 @@ function convertType(inType: IntrospectionType): SimplifiedType {
   return outType;
 }
 
-function simplifySchema(inSchema: IntrospectionSchema): SimplifiedIntrospection {
+function simplifySchema(
+  inSchema: IntrospectionSchema,
+): SimplifiedIntrospection {
   return {
-    types: _(inSchema.types)
-      .map(convertType)
-      .keyBy('name')
-      .value(),
+    types: _(inSchema.types).map(convertType).keyBy('name').value(),
     queryType: inSchema.queryType.name,
     mutationType: _.get(inSchema, 'mutationType.name', null),
     subscriptionType: _.get(inSchema, 'subscriptionType.name', null),
@@ -123,12 +112,15 @@ function markRelayTypes(schema: SimplifiedIntrospectionWithIds): void {
 
   const edgeTypesMap = {};
 
-  _.each(schema.types, type => {
+  _.each(schema.types, (type) => {
     if (!_.isEmpty(type.interfaces)) {
-      type.interfaces = _.reject(type.interfaces, baseType => baseType.type.name === 'Node');
+      type.interfaces = _.reject(
+        type.interfaces,
+        (baseType) => baseType.type.name === 'Node',
+      );
     }
 
-    _.each(type.fields, field => {
+    _.each(type.fields, (field) => {
       const connectionType = field.type;
       if (
         !/.Connection$/.test(connectionType.name) ||
@@ -155,14 +147,14 @@ function markRelayTypes(schema: SimplifiedIntrospectionWithIds): void {
       field.typeWrappers = ['LIST'];
 
       const relayArgNames = ['first', 'last', 'before', 'after'];
-      const isRelayArg = arg => relayArgNames.includes(arg.name);
+      const isRelayArg = (arg) => relayArgNames.includes(arg.name);
       field.relayArgs = _.pickBy(field.args, isRelayArg);
       field.args = _.omitBy(field.args, isRelayArg);
     });
   });
 
-  _.each(schema.types, type => {
-    _.each(type.fields, field => {
+  _.each(schema.types, (type) => {
+    _.each(type.fields, (field) => {
       var realType = edgeTypesMap[field.type.name];
       if (realType === undefined) return;
 
@@ -190,8 +182,8 @@ function markRelayTypes(schema: SimplifiedIntrospectionWithIds): void {
 
 function markDeprecated(schema: SimplifiedIntrospectionWithIds): void {
   // Remove deprecated fields.
-  _.each(schema.types, type => {
-    type.fields = _.pickBy(type.fields, field => !field.isDeprecated);
+  _.each(schema.types, (type) => {
+    type.fields = _.pickBy(type.fields, (field) => !field.isDeprecated);
   });
 
   // We can't remove types that end up being empty
@@ -225,10 +217,13 @@ function assignTypesAndIDs(schema: SimplifiedIntrospection) {
     });
 
     if (!_.isEmpty(type.possibleTypes)) {
-      type.possibleTypes = _.map(type.possibleTypes, (possibleType: string) => ({
-        id: `POSSIBLE_TYPE::${type.name}::${possibleType}`,
-        type: schema.types[possibleType],
-      }));
+      type.possibleTypes = _.map(
+        type.possibleTypes,
+        (possibleType: string) => ({
+          id: `POSSIBLE_TYPE::${type.name}::${possibleType}`,
+          type: schema.types[possibleType],
+        }),
+      );
     }
 
     if (!_.isEmpty(type.derivedTypes)) {

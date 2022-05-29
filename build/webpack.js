@@ -1,7 +1,9 @@
 const webpack = require('webpack');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const path = require('path');
+const CopyPlugin = require("copy-webpack-plugin");
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const nodeExternals = require('webpack-node-externals')({
-  whitelist: ['viz.js/full.render.js']
+  allowlist: ['viz.js/full.render.js'],
 });
 
 const root = require('./helpers').root;
@@ -23,27 +25,23 @@ module.exports = (env = {}, { mode }) => ({
 
   resolve: {
     extensions: ['.ts', '.tsx', '.mjs', '.js', '.json', '.css', '.svg'],
+    fallback: { path: require.resolve('path-browserify') },
     alias: {
       clipboard: 'clipboard/dist/clipboard.min.js',
     },
   },
 
+  devServer: {
+    static: { 
+      directory: path.resolve(__dirname, '../demo'), 
+      publicPath: '/'
+    },
+  },
+
   externals: env.lib
     ? nodeExternals
-    : {
-        react: {
-          root: 'React',
-          commonjs2: 'react',
-          commonjs: 'react',
-          amd: 'react',
-        },
-        'react-dom': {
-          root: 'ReactDOM',
-          commonjs2: 'react-dom',
-          commonjs: 'react-dom',
-          amd: 'react-dom',
-        },
-      },
+    : {},
+
   entry: ['./src/polyfills.ts', './src/index.tsx'],
   output: {
     path: root('dist'),
@@ -72,24 +70,25 @@ module.exports = (env = {}, { mode }) => ({
         ],
       },
       {
-        test: /\.css$/,
-        use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: [
-            {
-              loader: 'css-loader',
-              options: {
-                sourceMap: true
-              },
-            },
-            'postcss-loader?sourceMap',
-          ],
-        }),
+        test: /\.css$/i,
         exclude: /variables\.css$/,
+        use: [MiniCssExtractPlugin.loader, 
+          {
+            loader: 'css-loader',
+            options: {
+              sourceMap: true,
+            },
+          },
+          { loader: "postcss-loader", options: { sourceMap: true } },
+        ],
       },
       {
         test: /variables\.css$/,
-        loader: 'postcss-variables-loader?es5=1',
+        use: [
+          {
+            loader: 'postcss-variables-loader?es5=1',
+          },
+        ],
       },
       {
         test: /\.svg$/,
@@ -124,10 +123,7 @@ module.exports = (env = {}, { mode }) => ({
       VERSION: VERSION,
     }),
 
-    new ExtractTextPlugin({
-      filename: 'voyager.css',
-      allChunks: true,
-    }),
+    new MiniCssExtractPlugin({ filename: 'voyager.css' }),
 
     new webpack.BannerPlugin(BANNER),
   ],

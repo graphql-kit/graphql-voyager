@@ -13,9 +13,21 @@
     "pretty": true,
     "types": ["webpack"],
     "lib": ["es2017", "dom", "esnext.asynciterable"],
-    "jsx": "react"
+    "jsx": "react",
+    "skipLibCheck": true
   },
   "compileOnSave": false,
-  "exclude": ["node_modules", ".tmp", "dist", "demo-dist", "**/**/voyager.worker.js"],
-  "include": ["./src/**/*.ts", "./src/**/*.tsx", "./manual-types.d.ts", "demo/**/*.tsx"]
+  "exclude": [
+    "node_modules",
+    ".tmp",
+    "dist",
+    "demo-dist",
+    "**/**/voyager.worker.js"
+  ],
+  "include": [
+    "./src/**/*.ts",
+    "./src/**/*.tsx",
+    "./manual-types.d.ts",
+    "demo/**/*.tsx"
+  ]
 }

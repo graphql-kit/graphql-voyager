@@ -27,6 +27,8 @@ export default class Markdown extends React.Component<MarkdownProps> {
     const parsed = this.parser.parse(text);
     const html = this.renderer.render(parsed);
 
-    return <div className={className} dangerouslySetInnerHTML={{ __html: html }} />;
+    return (
+      <div className={className} dangerouslySetInnerHTML={{ __html: html }} />
+    );
   }
 }

@@ -1,6 +1,6 @@
 @import '../variables.css';
 
-.type-doc  > .type-info-popover {
+.type-doc > .type-info-popover {
   z-index: 0;
   position: absolute;
 }
@@ -27,6 +27,6 @@
   }
   & > button {
     position: absolute;
-    right: calc(var(--spacing-unit) * 2)
+    right: calc(var(--spacing-unit) * 2);
   }
 }

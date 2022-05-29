@@ -2,8 +2,8 @@ import * as React from 'react';
 
 import { isNode, getDefaultRoot } from '../../graph/';
 
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
 
 import './RootSelector.css';
 
@@ -20,20 +20,24 @@ export default class RootSelector extends React.Component<RootSelectorProps> {
 
     const rootTypeNames = getRootTypeNames(schema);
     const otherTypeNames = Object.keys(schema.types)
-      .map(id => schema.types[id])
+      .map((id) => schema.types[id])
       .filter(isNode)
-      .map(type => type.name)
-      .filter(name => rootTypeNames.indexOf(name) === -1)
+      .map((type) => type.name)
+      .filter((name) => rootTypeNames.indexOf(name) === -1)
       .sort();
 
     return (
-      <Select className="root-selector" onChange={handleChange} value={rootType}>
-        {rootTypeNames.map(name => (
+      <Select
+        className="root-selector"
+        onChange={handleChange}
+        value={rootType}
+      >
+        {rootTypeNames.map((name) => (
           <MenuItem value={name} key={name}>
             <strong>{name}</strong>
           </MenuItem>
         ))}
-        {otherTypeNames.map(name => (
+        {otherTypeNames.map((name) => (
           <MenuItem value={name} key={name}>
             {name}
           </MenuItem>

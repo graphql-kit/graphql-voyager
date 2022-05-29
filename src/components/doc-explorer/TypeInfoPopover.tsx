@@ -1,10 +1,10 @@
 import * as React from 'react';
-import * as classNames from 'classnames';
+import classNames from 'classnames';
 
 import './TypeInfoPopover.css';
 
 import CloseIcon from '../icons/close-black.svg';
-import IconButton from '@material-ui/core/IconButton';
+import IconButton from '@mui/material/IconButton';
 
 import TypeDetails from '../doc-explorer/TypeDetails';
 
@@ -17,7 +17,10 @@ interface ScalarDetailsState {
   localType: any;
 }
 
-export default class ScalarDetails extends React.Component<ScalarDetailsProps, ScalarDetailsState> {
+export default class ScalarDetails extends React.Component<
+  ScalarDetailsProps,
+  ScalarDetailsState
+> {
   constructor(props) {
     super(props);
     this.state = { localType: null };
@@ -48,7 +51,9 @@ export default class ScalarDetails extends React.Component<ScalarDetailsProps, S
         <IconButton className="closeButton" onClick={() => this.close()}>
           <CloseIcon />
         </IconButton>
-        {(type || localType) && <TypeDetails type={type || localType} onTypeLink={onChange} />}
+        {(type || localType) && (
+          <TypeDetails type={type || localType} onTypeLink={onChange} />
+        )}
       </div>
     );
   }

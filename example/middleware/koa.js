@@ -9,16 +9,19 @@ const router = new KoaRouter();
 const PORT = 3001;
 
 router.all('/graphql', graphqlHTTP({ schema }));
-router.all('/voyager', voyagerMiddleware({
-  endpointUrl: '/graphql',
-  displayOptions: {
-    sortByAlphabet: true,
-  },
-}));
+router.all(
+  '/voyager',
+  voyagerMiddleware({
+    endpointUrl: '/graphql',
+    displayOptions: {
+      sortByAlphabet: true,
+    },
+  }),
+);
 
 app.use(router.routes());
 app.use(router.allowedMethods());
-app.listen(PORT, function() {
+app.listen(PORT, function () {
   const port = this.address().port;
 
   console.log(`Started on http://localhost:${port}/voyager`);

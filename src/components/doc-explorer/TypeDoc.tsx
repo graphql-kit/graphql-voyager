@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
 import * as React from 'react';
-import * as classNames from 'classnames';
+import classNames from 'classnames';
 
 import './TypeDoc.css';
 
@@ -82,14 +82,16 @@ export default class TypeDoc extends React.Component<TypeDocProps> {
           return null;
       }
 
-      types = types.filter(({ type }) => typeGraph.nodes[type.id] && isMatch(type.name, filter));
+      types = types.filter(
+        ({ type }) => typeGraph.nodes[type.id] && isMatch(type.name, filter),
+      );
 
       if (types.length === 0) return null;
 
       return (
         <div className="doc-category">
           <div className="title">{typesTitle}</div>
-          {_.map(types, type => {
+          {_.map(types, (type) => {
             let props: any = {
               key: type.id,
               className: classNames('item', {
@@ -100,8 +102,15 @@ export default class TypeDoc extends React.Component<TypeDocProps> {
             if (type.id === selectedId) props.ref = 'selectedItem';
             return (
               <div {...props}>
-                <TypeLink type={type.type} onClick={onTypeLink} filter={filter} />
-                <Description text={type.type.description} className="-linked-type" />
+                <TypeLink
+                  type={type.type}
+                  onClick={onTypeLink}
+                  filter={filter}
+                />
+                <Description
+                  text={type.type.description}
+                  className="-linked-type"
+                />
               </div>
             );
           })}
@@ -111,9 +120,9 @@ export default class TypeDoc extends React.Component<TypeDocProps> {
 
     function renderFields(type: SimplifiedTypeWithIDs, selectedId: string) {
       let fields: any = Object.values(type.fields);
-      fields = fields.filter(field => {
+      fields = fields.filter((field) => {
         const args: any = Object.values(field.args);
-        const matchingArgs = args.filter(arg => isMatch(arg.name, filter));
+        const matchingArgs = args.filter((arg) => isMatch(arg.name, filter));
 
         return isMatch(field.name, filter) || matchingArgs.length > 0;
       });
@@ -123,7 +132,7 @@ export default class TypeDoc extends React.Component<TypeDocProps> {
       return (
         <div className="doc-category">
           <div className="title">fields</div>
-          {fields.map(field => {
+          {fields.map((field) => {
             let props: any = {
               key: field.name,
               className: classNames('item', {
@@ -135,7 +144,9 @@ export default class TypeDoc extends React.Component<TypeDocProps> {
             if (field.id === selectedId) props.ref = 'selectedItem';
             return (
               <div {...props}>
-                <a className="field-name">{highlightTerm(field.name, filter)}</a>
+                <a className="field-name">
+                  {highlightTerm(field.name, filter)}
+                </a>
                 <span
                   className={classNames('args-wrap', {
                     '-empty': _.isEmpty(field.args),
@@ -143,7 +154,7 @@ export default class TypeDoc extends React.Component<TypeDocProps> {
                 >
                   {!_.isEmpty(field.args) && (
                     <span key="args" className="args">
-                      {_.map(field.args, arg => (
+                      {_.map(field.args, (arg) => (
                         <Argument
                           key={arg.name}
                           arg={arg}
@@ -155,8 +166,13 @@ export default class TypeDoc extends React.Component<TypeDocProps> {
                   )}
                 </span>
                 <WrappedTypeName container={field} onTypeLink={onTypeLink} />
-                {field.isDeprecated && <span className="doc-alert-text"> DEPRECATED</span>}
-                <Markdown text={field.description} className="description-box -field" />
+                {field.isDeprecated && (
+                  <span className="doc-alert-text"> DEPRECATED</span>
+                )}
+                <Markdown
+                  text={field.description}
+                  className="description-box -field"
+                />
               </div>
             );
           })}

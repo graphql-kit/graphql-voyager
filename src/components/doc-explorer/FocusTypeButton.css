@@ -10,7 +10,7 @@
   & svg {
     line-height: var(--icons-size);
     height: var(--icons-size);
-    width: 20px;
+
 
     & path:not([fill]) {
       fill: var(--primary-color);

@@ -1,20 +1,19 @@
 @import '../variables.css';
 
 .args-wrap {
-
   &:before {
-    content: "( ";
+    content: '( ';
     display: inline;
   }
 
-
   &:after {
-    content: " )";
+    content: ' )';
     display: inline;
   }
 
   &.-empty {
-    &:before, &:after {
+    &:before,
+    &:after {
       display: none !important;
     }
   }
@@ -44,7 +43,8 @@
 }
 
 .arg-wrap.-expanded {
-  &:before, &:after {
+  &:before,
+  &:after {
     display: none;
   }
 
@@ -68,7 +68,7 @@
 
   & .arg-description:before {
     display: block;
-    content: "#";
+    content: '#';
     float: left;
     margin-right: var(--spacing-unit);
   }

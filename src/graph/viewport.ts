@@ -30,7 +30,12 @@ export class Viewport {
   offsetTop: number;
   maxZoom: number;
 
-  constructor(svgString, public container: HTMLElement, onSelectNode, onSelectEdge) {
+  constructor(
+    svgString,
+    public container: HTMLElement,
+    onSelectNode,
+    onSelectEdge,
+  ) {
     this.onSelectNode = onSelectNode;
     this.onSelectEdge = onSelectEdge;
 
@@ -80,7 +85,7 @@ export class Viewport {
       dragged = false;
       setTimeout(() => this.$svg.addEventListener('mousemove', moveHandler));
     });
-    this.$svg.addEventListener('mouseup', event => {
+    this.$svg.addEventListener('mouseup', (event) => {
       this.$svg.removeEventListener('mousemove', moveHandler);
       if (dragged) return;
 
@@ -109,7 +114,7 @@ export class Viewport {
       if ($prevHoveredEdge) $prevHoveredEdge.classList.remove('hovered');
     }
 
-    this.$svg.addEventListener('mousemove', event => {
+    this.$svg.addEventListener('mousemove', (event) => {
       let target = event.target as Element;
       if (isEdgeSource(target)) {
         let $sourceGroup = getParent(target, 'edge-source');
@@ -142,12 +147,12 @@ export class Viewport {
   selectNode(node: Element) {
     node.classList.add('selected');
 
-    _.each(edgesFromNode(node), $edge => {
+    _.each(edgesFromNode(node), ($edge) => {
       $edge.classList.add('highlighted');
       edgeTarget($edge).classList.add('selected-reachable');
     });
 
-    _.each(edgesTo(node.id), $edge => {
+    _.each(edgesTo(node.id), ($edge) => {
       $edge.classList.add('highlighted');
       edgeSource($edge).parentElement.classList.add('selected-reachable');
     });
@@ -183,7 +188,11 @@ export class Viewport {
     currentPan.y += viewPortSizes.height / 2 - bbBox.height / 2;
 
     let zoomUpdateToFit =
-      1.2 * Math.max(bbBox.height / viewPortSizes.height, bbBox.width / viewPortSizes.width);
+      1.2 *
+      Math.max(
+        bbBox.height / viewPortSizes.height,
+        bbBox.width / viewPortSizes.width,
+      );
     let newZoom = this.zoomer.getZoom() / zoomUpdateToFit;
     let recomendedZoom = this.maxZoom * 0.6;
     if (newZoom > recomendedZoom) newZoom = recomendedZoom;
@@ -196,11 +205,11 @@ export class Viewport {
   animatePanAndZoom(x, y, zoomEnd) {
     let pan = this.zoomer.getPan();
     let panEnd = { x, y };
-    animate(pan, panEnd, props => {
+    animate(pan, panEnd, (props) => {
       this.zoomer.pan({ x: props.x, y: props.y });
       if (props === panEnd) {
         let zoom = this.zoomer.getZoom();
-        animate({ zoom }, { zoom: zoomEnd }, props => {
+        animate({ zoom }, { zoom: zoomEnd }, (props) => {
           this.zoomer.zoom(props.zoom);
         });
       }
@@ -260,7 +269,7 @@ function edgeFrom(id: String) {
 
 function edgesFromNode($node) {
   var edges = [];
-  forEachNode($node, '.edge-source', $source => {
+  forEachNode($node, '.edge-source', ($source) => {
     const $edge = edgeFrom($source.id);
     edges.push($edge);
   });
