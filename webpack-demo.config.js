@@ -15,7 +15,7 @@ module.exports = function (_, { mode }) {
     resolve: {
       extensions: ['.ts', '.tsx', '.mjs', '.js', '.json', '.css', '.svg'],
     },
-    entry: ['./src/polyfills.ts', './demo/index.tsx'],
+    entry: './demo/index.tsx',
     devServer: {
       contentBase: path.resolve(__dirname, 'demo'),
       watchContentBase: true,

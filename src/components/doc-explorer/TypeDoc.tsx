@@ -36,7 +36,7 @@ export default class TypeDoc extends React.Component<TypeDocProps> {
     let itemComponent = this.refs['selectedItem'] as HTMLElement;
     if (!itemComponent) return;
 
-    itemComponent.scrollIntoViewIfNeeded();
+    itemComponent.scrollIntoView();
   }
 
   render() {

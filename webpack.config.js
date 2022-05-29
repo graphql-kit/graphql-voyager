@@ -42,7 +42,7 @@ module.exports = (env = {}, { mode }) => ({
           amd: 'react-dom',
         },
       },
-  entry: ['./src/polyfills.ts', './src/index.tsx'],
+  entry: './src/index.tsx',
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: env.lib ? 'voyager.lib.js' : 'voyager.min.js',
