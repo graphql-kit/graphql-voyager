@@ -1,10 +1,10 @@
 import * as React from 'react';
 
-import Grid from '@material-ui/core/Grid';
-import Modal from '@material-ui/core/Modal';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import Button from '@material-ui/core/Button';
+import Grid from '@mui/material/Grid';
+import Modal from '@mui/material/Modal';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import Button from '@mui/material/Button';
 
 import {
   buildSchema,
@@ -183,7 +183,7 @@ export class IntrospectionModal extends React.Component<IntrospectionModalProps>
           Run the introspection query against a GraphQL endpoint. Paste the
           result into the textarea below to view the model relationships.
         </div>
-        <Grid container justify="center">
+        <Grid container>
           <Button
             color="primary"
             size="small"

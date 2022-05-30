@@ -53,6 +53,7 @@
 
     & > .setting-other-options {
       display: flex;
+      padding-top: 10px;
 
       & > label:first-of-type {
         padding-right: var(--spacing-unit);

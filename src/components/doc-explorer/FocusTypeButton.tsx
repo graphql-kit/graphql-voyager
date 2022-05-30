@@ -1,5 +1,5 @@
 import * as React from 'react';
-import IconButton from '@material-ui/core/IconButton';
+import IconButton from '@mui/material/IconButton';
 import EyeIcon from '../icons/remove-red-eye.svg';
 
 import './FocusTypeButton.css';

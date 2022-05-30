@@ -6,7 +6,7 @@ import { WorkerCallback } from '../utils/types';
 
 import * as React from 'react';
 import { theme } from './MUITheme';
-import { MuiThemeProvider } from '@material-ui/core/styles';
+import { ThemeProvider } from '@mui/material/styles';
 
 import GraphViewport from './GraphViewport';
 import DocExplorer from './doc-explorer/DocExplorer';
@@ -148,13 +148,13 @@ export default class Voyager extends React.Component<VoyagerProps> {
     const { hideDocs = false, hideSettings = false } = this.props;
 
     return (
-      <MuiThemeProvider theme={theme}>
+      <ThemeProvider theme={theme}>
         <div className="graphql-voyager">
           {!hideDocs && this.renderPanel()}
           {!hideSettings && this.renderSettings()}
           {this.renderGraphViewport()}
         </div>
-      </MuiThemeProvider>
+      </ThemeProvider>
     );
   }
 

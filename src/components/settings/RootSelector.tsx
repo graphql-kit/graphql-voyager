@@ -2,8 +2,8 @@ import * as React from 'react';
 
 import { isNode, getDefaultRoot } from '../../graph/';
 
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
 
 import './RootSelector.css';
 

@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { render } from 'react-dom';
 
-import Button from '@material-ui/core/Button';
-import { MuiThemeProvider } from '@material-ui/core/styles';
+import Button from '@mui/material/Button';
+import { ThemeProvider } from '@mui/material/styles';
 
 import { theme } from '../src/components/MUITheme';
 import { GraphQLVoyager } from '../src';
@@ -48,7 +48,7 @@ export default class Demo extends React.Component {
       this.setState({ changeSchemaModalOpen: false });
 
     return (
-      <MuiThemeProvider theme={theme}>
+      <ThemeProvider theme={theme}>
         <GraphQLVoyager introspection={introspection}>
           <GraphQLVoyager.PanelHeader>
             <div className="voyager-panel">
@@ -70,7 +70,7 @@ export default class Demo extends React.Component {
           onClose={closeChangeSchema}
           onChange={(introspection) => this.setState({ introspection })}
         />
-      </MuiThemeProvider>
+      </ThemeProvider>
     );
   }
 }
