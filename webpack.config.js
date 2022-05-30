@@ -6,11 +6,9 @@ const nodeExternals = require('webpack-node-externals')({
   whitelist: ['viz.js/full.render.js'],
 });
 
-const VERSION = JSON.stringify(require('./package.json').version);
-
 const BANNER = `GraphQL Voyager - Represent any GraphQL API as an interactive graph
 -------------------------------------------------------------
-  Version: ${VERSION}
+  Version: ${require('./package.json').version}
   Repo: https://github.com/APIs-guru/graphql-voyager`;
 
 module.exports = (env = {}, { mode }) => ({
@@ -107,10 +105,6 @@ module.exports = (env = {}, { mode }) => ({
   },
 
   plugins: [
-    new webpack.DefinePlugin({
-      VERSION: VERSION,
-    }),
-
     new ExtractTextPlugin({
       filename: 'voyager.css',
       allChunks: true,

@@ -5,8 +5,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
-const VERSION = JSON.stringify(require('./package.json').version);
-
 module.exports = function (_, { mode }) {
   return {
     performance: {
@@ -87,10 +85,6 @@ module.exports = function (_, { mode }) {
             filename: '[name].worker.js',
           },
         },
-      }),
-
-      new webpack.DefinePlugin({
-        VERSION: VERSION,
       }),
 
       new HtmlWebpackPlugin({
