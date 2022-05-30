@@ -1,6 +1,5 @@
 import * as _ from 'lodash';
 import * as svgPanZoom from 'svg-pan-zoom';
-import * as animate from '@f/animate';
 
 import { removeClass, forEachNode, stringToSvg } from '../utils/';
 import { typeNameToId } from '../introspection';
@@ -278,4 +277,38 @@ function edgesFromNode($node) {
 
 function edgesTo(id: String) {
   return _.toArray(document.querySelectorAll(`.edge[data-to='${id}']`));
+}
+
+function animate(startObj, endObj, render) {
+  const defaultDuration = 350;
+  const fps60 = 1000 / 60;
+  const totalFrames = defaultDuration / fps60;
+  const startTime = new Date().getTime();
+
+  window.requestAnimationFrame(ticker);
+
+  function ticker() {
+    const timeElapsed = new Date().getTime() - startTime;
+    const framesElapsed = timeElapsed / fps60;
+
+    if (totalFrames - framesElapsed < 1) {
+      render(endObj);
+      return;
+    }
+
+    const t = framesElapsed / totalFrames;
+
+    const frame = Object.fromEntries(
+      Object.keys(startObj).map((key) => {
+        const start = startObj[key];
+        const end = endObj[key];
+
+        return [key, start + t * (end - start)];
+      }),
+    );
+
+    render(frame);
+
+    window.requestAnimationFrame(ticker);
+  }
 }
