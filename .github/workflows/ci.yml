@@ -97,6 +97,9 @@ jobs:
 
       - name: Build demo
         run: npm run build:demo
+        env:
+          # Temporary hack to fix webpack@4, see https://github.com/webpack/webpack/issues/14532
+          NODE_OPTIONS: '--openssl-legacy-provider'
 
   buildRelease:
     name: Build release
@@ -118,3 +121,6 @@ jobs:
 
       - name: Build release
         run: npm run build:release
+        env:
+          # Temporary hack to fix webpack@4, see https://github.com/webpack/webpack/issues/14532
+          NODE_OPTIONS: '--openssl-legacy-provider'
