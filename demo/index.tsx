@@ -90,7 +90,7 @@ class Logo extends React.Component {
   render() {
     return (
       <div className="voyager-logo">
-        <a href="https://github.com/APIs-guru/graphql-voyager" target="_blank">
+        <a href="https://github.com/IvanGoncharov/graphql-voyager" target="_blank">
           <div className="logo">
             <LogoIcon />
             <h2 className="title">

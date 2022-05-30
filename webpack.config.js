@@ -6,10 +6,11 @@ const nodeExternals = require('webpack-node-externals')({
   whitelist: ['viz.js/full.render.js'],
 });
 
+const packageJSON = require('./package.json');
 const BANNER = `GraphQL Voyager - Represent any GraphQL API as an interactive graph
 -------------------------------------------------------------
-  Version: ${require('./package.json').version}
-  Repo: https://github.com/APIs-guru/graphql-voyager`;
+  Version: ${packageJSON.version}
+  Repo: ${packageJSON.repository.url}`;
 
 module.exports = (env = {}, { mode }) => ({
   performance: {

@@ -7,7 +7,7 @@ export default class PoweredBy extends React.Component {
     return (
       <div className="powered-by">
         🛰 Powered by{' '}
-        <a href="https://github.com/APIs-guru/graphql-voyager" target="_blank">
+        <a href="https://github.com/IvanGoncharov/graphql-voyager" target="_blank">
           GraphQL Voyager
         </a>
       </div>
