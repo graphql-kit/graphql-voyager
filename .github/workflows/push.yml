@@ -12,10 +12,10 @@ jobs:
       url: ${{ github.server_url }}/${{ github.repository }}/tree/gh_pages
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout `gh_pages` branch
+      - name: Checkout `gh-pages` branch
         uses: actions/checkout@v3
         with:
-          ref: gh_pages
+          ref: gh-pages
 
       - name: Remove existing files first
         run: git rm -r .
