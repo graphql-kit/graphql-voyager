@@ -4,10 +4,11 @@ export interface MiddlewareOptions {
   endpointUrl: string;
   displayOptions?: object;
   headersJS?: string;
+  credentials?: RequestCredentials;
 }
 
 export default function renderVoyagerPage(options: MiddlewareOptions) {
-  const { endpointUrl, displayOptions } = options;
+  const { endpointUrl, displayOptions, credentials = 'same-origin' } = options;
   const headersJS = options.headersJS ? options.headersJS : '{}';
   return `
 <!DOCTYPE html>
@@ -49,7 +50,7 @@ export default function renderVoyagerPage(options: MiddlewareOptions) {
             'Content-Type': 'application/json',
           }, ${headersJS}),
           body: JSON.stringify({query: introspectionQuery }),
-          credentials: 'include',
+          credentials: '${credentials}'
         }).then(function (response) {
           return response.text();
         }).then(function (responseBody) {
