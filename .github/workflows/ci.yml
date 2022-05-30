@@ -1,5 +1,5 @@
 name: CI
-on: [push, pull_request]
+on: workflow_call
 jobs:
   lint:
     name: Lint source files
@@ -100,6 +100,12 @@ jobs:
         env:
           # Temporary hack to fix webpack@4, see https://github.com/webpack/webpack/issues/14532
           NODE_OPTIONS: '--openssl-legacy-provider'
+
+      - name: Upload demo-dist folder
+        uses: actions/upload-artifact@v3
+        with:
+          name: demo-dist
+          path: ./demo-dist
 
   buildRelease:
     name: Build release
