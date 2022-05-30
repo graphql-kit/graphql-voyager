@@ -10,6 +10,7 @@ jobs:
     environment:
       name: github-pages
       url: ${{ github.server_url }}/${{ github.repository }}/tree/gh_pages
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout `gh_pages` branch
         uses: actions/checkout@v3
