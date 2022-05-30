@@ -9,7 +9,7 @@ jobs:
     if: github.ref == 'refs/heads/main'
     environment:
       name: github-pages
-      url: ${{ github.server_url }}/${{ github.repository }}/tree/gh_pages
+      url: ${{ github.server_url }}/${{ github.repository }}/tree/gh-pages
     runs-on: ubuntu-latest
     steps:
       - name: Checkout `gh-pages` branch

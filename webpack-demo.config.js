@@ -96,6 +96,7 @@ module.exports = function (_, { mode }) {
       }),
 
       new CopyWebpackPlugin([
+        { from: '.nojekyll', context: './demo' },
         { from: '**/*.png', context: './demo' },
         { from: '**/*.ico', context: './demo' },
       ]),
