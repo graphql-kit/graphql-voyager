@@ -1,10 +1,5 @@
 # GraphQL Voyager
 
-[![jsDelivr](https://data.jsdelivr.com/v1/package/npm/graphql-voyager/badge)](https://www.jsdelivr.com/package/npm/graphql-voyager)
-[![David](https://img.shields.io/david/APIs-guru/graphql-voyager.svg)](https://david-dm.org/APIs-guru/graphql-voyager)
-[![David](https://img.shields.io/david/dev/APIs-guru/graphql-voyager.svg)](https://david-dm.org/APIs-guru/graphql-voyager?type=dev)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-
 ![graphql-voyager logo](./docs/cover.png)
 
 Represent any GraphQL API as an interactive graph. It's time to finally see **the graph** behind GraphQL.
@@ -62,7 +57,7 @@ The signature of the `init` function:
 
 You can get GraphQL Voyager bundle from the following places:
 
-- jsDelivr CDN
+- [![jsDelivr](https://data.jsdelivr.com/v1/package/npm/graphql-voyager/badge)](https://www.jsdelivr.com/package/npm/graphql-voyager)
   - some exact version - https://cdn.jsdelivr.net/npm/graphql-voyager/v1.0.0-rc.15/voyager.min.js
   - latest version - https://cdn.jsdelivr.net/npm/graphql-voyager/dist/voyager.min.js
 - from `dist` folder of the npm package `graphql-voyager`
