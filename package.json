@@ -25,7 +25,6 @@
   "devDependencies": {
     "@types/commonmark": "0.27.5",
     "@types/lodash": "4.14.182",
-    "@types/prop-types": "^15.7.5",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
     "copy-webpack-plugin": "5.0.2",
