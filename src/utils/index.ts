@@ -5,6 +5,14 @@ export var __dirname;
 export * from './dom-helpers';
 export * from './highlight';
 
+export function isMatchDescription(sourceDescription: string, searchValue: string) {
+  if (!sourceDescription || !searchValue) {
+    return true;
+  }
+
+  return sourceDescription.toLowerCase().indexOf(searchValue.toLowerCase()) !== -1;
+}
+
 export function isMatch(sourceText: string, searchValue: string) {
   if (!searchValue) {
     return true;

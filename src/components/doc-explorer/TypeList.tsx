@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
 import * as React from 'react';
-import { isMatch } from '../../utils';
+import { isMatch, isMatchDescription } from '../../utils';
 
 import './TypeList.css';
 
@@ -36,7 +36,7 @@ export default class TypeList extends React.Component<TypeListProps> {
     );
 
     function renderItem(type, className?: string) {
-      if (!isMatch(type.name, filter)) {
+      if (!isMatch(type.name, filter) && !isMatchDescription(type.description, filter)) {
         return null;
       }
 
