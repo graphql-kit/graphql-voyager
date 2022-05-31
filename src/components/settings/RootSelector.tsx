@@ -28,6 +28,7 @@ export default class RootSelector extends React.Component<RootSelectorProps> {
 
     return (
       <Select
+        variant="standard"
         className="root-selector"
         onChange={handleChange}
         value={rootType}
