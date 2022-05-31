@@ -5,8 +5,6 @@ import { isNode, getDefaultRoot } from '../../graph/';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 
-import './RootSelector.css';
-
 interface RootSelectorProps {
   rootType?: string;
   schema: any;
@@ -28,6 +26,7 @@ export default class RootSelector extends React.Component<RootSelectorProps> {
 
     return (
       <Select
+        fullWidth
         variant="standard"
         className="root-selector"
         onChange={handleChange}

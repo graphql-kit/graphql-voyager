@@ -111,6 +111,7 @@ export class IntrospectionModal extends React.Component<IntrospectionModalProps>
       <Modal open={open} onClose={this.handleCancel}>
         <div className="modal-paper" tabIndex={-1} ref={this.modalRef}>
           <Tabs
+            variant="fullWidth"
             value={tabNames.indexOf(inputType)}
             indicatorColor="primary"
             textColor="primary"
@@ -132,7 +133,6 @@ export class IntrospectionModal extends React.Component<IntrospectionModalProps>
             </Button>
             <Button
               variant="contained"
-              color="primary"
               style={{ color: 'white' }}
               onClick={this.handleSubmit}
             >
