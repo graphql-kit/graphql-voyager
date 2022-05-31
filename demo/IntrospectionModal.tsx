@@ -183,7 +183,7 @@ export class IntrospectionModal extends React.Component<IntrospectionModalProps>
           Run the introspection query against a GraphQL endpoint. Paste the
           result into the textarea below to view the model relationships.
         </div>
-        <Grid container>
+        <Grid container justifyContent="center">
           <Button
             color="primary"
             size="small"
