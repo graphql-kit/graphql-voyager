@@ -47,10 +47,10 @@ export const theme = createTheme({
     MuiMenuItem: {
       styleOverrides: {
         root: {
-          padding: '11px 16px'
-        }
-    }
-  },
+          padding: '11px 16px',
+        },
+      },
+    },
     MuiSnackbar: {
       styleOverrides: {
         anchorOriginBottomLeft: {
