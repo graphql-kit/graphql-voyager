@@ -128,7 +128,11 @@ export class IntrospectionModal extends React.Component<IntrospectionModalProps>
           </div>
 
           <div className="model-footer">
-            <Button variant="contained" onClick={this.handleCancel}>
+            <Button
+              variant="contained"
+              style={{ background: '#eeeeee' }}
+              onClick={this.handleCancel}
+            >
               Cancel
             </Button>
             <Button
