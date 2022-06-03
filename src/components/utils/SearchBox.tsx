@@ -1,6 +1,6 @@
 import * as React from 'react';
-import Input from '@material-ui/core/Input';
-import InputAdornment from '@material-ui/core/InputAdornment';
+import Input from '@mui/material/Input';
+import InputAdornment from '@mui/material/InputAdornment';
 
 import './SearchBox.css';
 

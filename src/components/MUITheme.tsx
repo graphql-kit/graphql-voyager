@@ -1,56 +1,73 @@
-import { createMuiTheme } from '@material-ui/core/styles';
-import cyan from '@material-ui/core/colors/cyan';
-import yellow from '@material-ui/core/colors/yellow';
+import { createTheme } from '@mui/material/styles';
+import { cyan, yellow } from '@mui/material/colors';
 
 import variables from './variables.css';
 
-export const theme = createMuiTheme({
+export const theme = createTheme({
   palette: {
     primary: cyan,
     secondary: yellow,
   },
   typography: {
     fontSize: 12,
-    useNextVariants: true,
   },
-  overrides: {
+  components: {
     MuiCheckbox: {
-      root: {
-        width: '30px',
-        height: '15px',
-        padding: 0,
+      styleOverrides: {
+        root: {
+          width: '30px',
+          height: '15px',
+          padding: 0,
+        },
       },
     },
     MuiIconButton: {
-      root: {
-        width: variables.iconsSize,
-        height: variables.iconSize,
-        padding: 0,
+      styleOverrides: {
+        root: {
+          width: variables.iconsSize,
+          height: variables.iconSize,
+          padding: 0,
+        },
       },
     },
     MuiInput: {
-      root: {
-        marginBottom: '10px',
+      styleOverrides: {
+        root: {
+          marginBottom: '10px',
+        },
       },
     },
     MuiTooltip: {
-      tooltip: {
-        fontSize: variables.baseFontSize - 2,
+      styleOverrides: {
+        tooltip: {
+          fontSize: variables.baseFontSize - 2,
+        },
+      },
+    },
+    MuiMenuItem: {
+      styleOverrides: {
+        root: {
+          padding: '11px 16px',
+        },
       },
     },
     MuiSnackbar: {
-      anchorOriginBottomLeft: {
-        [variables.bigViewport]: {
-          left: '340px',
-          right: '20px',
-          bottom: '20px',
+      styleOverrides: {
+        anchorOriginBottomLeft: {
+          [variables.bigViewport]: {
+            left: '340px',
+            right: '20px',
+            bottom: '20px',
+          },
         },
       },
     },
     MuiSnackbarContent: {
-      root: {
-        width: '50%',
-        backgroundColor: variables.alertColor,
+      styleOverrides: {
+        root: {
+          width: '50%',
+          backgroundColor: variables.alertColor,
+        },
       },
     },
   },

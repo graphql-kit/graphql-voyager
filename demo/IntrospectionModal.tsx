@@ -1,10 +1,10 @@
 import * as React from 'react';
 
-import Grid from '@material-ui/core/Grid';
-import Modal from '@material-ui/core/Modal';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import Button from '@material-ui/core/Button';
+import Grid from '@mui/material/Grid';
+import Modal from '@mui/material/Modal';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import Button from '@mui/material/Button';
 
 import {
   buildSchema,
@@ -111,6 +111,7 @@ export class IntrospectionModal extends React.Component<IntrospectionModalProps>
       <Modal open={open} onClose={this.handleCancel}>
         <div className="modal-paper" tabIndex={-1} ref={this.modalRef}>
           <Tabs
+            variant="fullWidth"
             value={tabNames.indexOf(inputType)}
             indicatorColor="primary"
             textColor="primary"
@@ -127,12 +128,15 @@ export class IntrospectionModal extends React.Component<IntrospectionModalProps>
           </div>
 
           <div className="model-footer">
-            <Button variant="contained" onClick={this.handleCancel}>
+            <Button
+              variant="contained"
+              style={{ background: '#eeeeee' }}
+              onClick={this.handleCancel}
+            >
               Cancel
             </Button>
             <Button
               variant="contained"
-              color="primary"
               style={{ color: 'white' }}
               onClick={this.handleSubmit}
             >
@@ -183,7 +187,7 @@ export class IntrospectionModal extends React.Component<IntrospectionModalProps>
           Run the introspection query against a GraphQL endpoint. Paste the
           result into the textarea below to view the model relationships.
         </div>
-        <Grid container justify="center">
+        <Grid container justifyContent="center">
           <Button
             color="primary"
             size="small"
