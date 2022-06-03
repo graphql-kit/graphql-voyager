@@ -29,6 +29,7 @@ export class Viewport {
   offsetLeft: number;
   offsetTop: number;
   maxZoom: number;
+  isDestroyed = false;
 
   constructor(
     svgString,
@@ -49,12 +50,10 @@ export class Viewport {
     this.bindClick();
     this.bindHover();
 
-    this.resize = this.resize.bind(this)
+    this.resize = this.resize.bind(this);
     this.resize();
     window.addEventListener('resize', this.resize);
   }
-
-
 
   resize() {
     let bbRect = this.container.getBoundingClientRect();
@@ -183,7 +182,9 @@ export class Viewport {
   }
 
   focusElement(id: string) {
-    if (this.zoomer === undefined) return null;
+    if (this.isDestroyed || this.zoomer === undefined) {
+      return;
+    }
     let bbBox = document.getElementById(id).getBoundingClientRect();
     let currentPan = this.zoomer.getPan();
     let viewPortSizes = (<any>this.zoomer).getSizes();
@@ -210,10 +211,16 @@ export class Viewport {
     let pan = this.zoomer.getPan();
     let panEnd = { x, y };
     animate(pan, panEnd, (props) => {
+      if (this.isDestroyed || this.zoomer === undefined) {
+        return;
+      }
       this.zoomer.pan({ x: props.x, y: props.y });
       if (props === panEnd) {
         let zoom = this.zoomer.getZoom();
         animate({ zoom }, { zoom: zoomEnd }, (props) => {
+          if (this.isDestroyed || this.zoomer === undefined) {
+            return;
+          }
           this.zoomer.zoom(props.zoom);
         });
       }
@@ -221,6 +228,7 @@ export class Viewport {
   }
 
   destroy() {
+    this.isDestroyed = true;
     window.removeEventListener('resize', this.resize);
     try {
       this.zoomer.destroy();
