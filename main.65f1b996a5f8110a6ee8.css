@@ -234,96 +234,6 @@
   text-decoration: none;
   outline: none;
 }
-.root-selector {
-  width: 100%;
-}
-/* fix height of element */
-
-[data-reactroot] {
-  height: 100%;
-}
-
-.graphql-voyager {
-  font: 14px 'helvetica neue', helvetica, arial, sans-serif;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  height: 100%;
-}
-
-@media (max-width: 780px) {
-
-  .graphql-voyager {
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-        -ms-flex-direction: column;
-            flex-direction: column;
-  }
-}
-
-.graphql-voyager > .doc-panel {
-  width: 320px;
-  min-width: 320px;
-  background: #fff;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
-  position: relative;
-  z-index: 10;
-}
-
-.graphql-voyager > .viewport {
-  -webkit-box-flex: 1;
-      -ms-flex: 1;
-          flex: 1;
-  max-height: 100vh;
-}
-
-.graphql-voyager > .viewport > svg {
-  width: 100%;
-  height: 100%;
-}
-
-@media (max-width: 780px) {
-
-  .graphql-voyager > .doc-panel,
-    .graphql-voyager > .viewport {
-    height: 50%;
-    width: 100%;
-    max-width: none;
-  }
-}
-
-.graphql-voyager > .menu-content {
-  position: absolute;
-  bottom: 15px;
-  left: 335px;
-  background: #fff;
-  -webkit-box-shadow: 0 4px 4px -2px rgba(0, 0, 0, .1);
-          box-shadow: 0 4px 4px -2px rgba(0, 0, 0, .1);
-  border: 1px solid rgba(0, 0, 0, .1);
-  padding: 5px;
-}
-
-.graphql-voyager > .menu-content > .setting-other-options {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-}
-
-.graphql-voyager > .menu-content > .setting-other-options > label:first-of-type {
-  padding-right: 5px;
-}
-
-.graphql-voyager > .menu-content > .setting-other-options > label {
-  margin-bottom: 10px;
-}
-
-@media (max-width: 780px) {
-
-  .graphql-voyager > .menu-content {
-    left: 10px;
-  }
-}
 g.graph > polygon {
   fill: transparent;
 }
@@ -430,6 +340,93 @@ g.graph > polygon {
   .selection-active .node.selected,
   .selection-active .edge.highlighted {
   opacity: 1;
+}
+/* fix height of element */
+
+[data-reactroot] {
+  height: 100%;
+}
+
+.graphql-voyager {
+  font: 14px 'helvetica neue', helvetica, arial, sans-serif;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  height: 100%;
+}
+
+@media (max-width: 780px) {
+
+  .graphql-voyager {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+}
+
+.graphql-voyager > .doc-panel {
+  width: 320px;
+  min-width: 320px;
+  background: #fff;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  position: relative;
+  z-index: 10;
+}
+
+.graphql-voyager > .viewport {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  max-height: 100vh;
+}
+
+.graphql-voyager > .viewport > svg {
+  width: 100%;
+  height: 100%;
+}
+
+@media (max-width: 780px) {
+
+  .graphql-voyager > .doc-panel,
+    .graphql-voyager > .viewport {
+    height: 50%;
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.graphql-voyager > .menu-content {
+  position: absolute;
+  bottom: 15px;
+  left: 335px;
+  background: #fff;
+  -webkit-box-shadow: 0 4px 4px -2px rgba(0, 0, 0, .1);
+          box-shadow: 0 4px 4px -2px rgba(0, 0, 0, .1);
+  border: 1px solid rgba(0, 0, 0, .1);
+  padding: 5px;
+}
+
+.graphql-voyager > .menu-content > .setting-other-options {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.graphql-voyager > .menu-content > .setting-other-options > label:first-of-type {
+  padding-right: 5px;
+}
+
+.graphql-voyager > .menu-content > .setting-other-options > label {
+  margin-bottom: 10px;
+}
+
+@media (max-width: 780px) {
+
+  .graphql-voyager > .menu-content {
+    left: 10px;
+  }
 }
 @-webkit-keyframes voyager-shake {
   0% {
@@ -681,8 +678,7 @@ g.graph > polygon {
 
 .eye-button svg {
   line-height: 24px;
-  height: 24px;
-  width: 20px
+  height: 24px
 }
 
 .eye-button svg path:not([fill]) {
