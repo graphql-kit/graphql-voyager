@@ -19,7 +19,7 @@ export function isMatch(sourceText: string, searchValue: string) {
 }
 
 export function loadWorker(path: string, relative: boolean): Promise<Worker> {
-  const url = relative ? __dirname + '/' + path : path;
+  const url = relative ? path : path;
   return fetch(url)
     .then((response) => response.text())
     .then((payload) => {
