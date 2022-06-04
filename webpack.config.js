@@ -1,9 +1,9 @@
 const path = require('node:path');
 
 const webpack = require('webpack');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const nodeExternals = require('webpack-node-externals')({
-  whitelist: ['viz.js/full.render.js'],
+  allowlist: ['viz.js/full.render.js'],
 });
 
 const packageJSON = require('./package.json');
@@ -23,6 +23,7 @@ module.exports = (env = {}) => ({
 
   resolve: {
     extensions: ['.ts', '.tsx', '.mjs', '.js', '.json', '.css', '.svg'],
+    fallback: { path: require.resolve('path-browserify') },
   },
 
   externals: env.lib
@@ -73,23 +74,19 @@ module.exports = (env = {}) => ({
       },
       {
         test: /\.css$/,
-        use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: [
-            {
-              loader: 'css-loader',
-              options: {
-                sourceMap: true,
-              },
-            },
-            'postcss-loader?sourceMap',
-          ],
-        }),
         exclude: /variables\.css$/,
+        use: [
+          MiniCssExtractPlugin.loader,
+          {
+            loader: 'css-loader',
+            options: { sourceMap: true },
+          },
+          { loader: 'postcss-loader', options: { sourceMap: true } },
+        ],
       },
       {
         test: /variables\.css$/,
-        loader: 'postcss-variables-loader?es5=1',
+        use: [{ loader: 'postcss-variables-loader?es5=1' }],
       },
       {
         test: /\.svg$/,
@@ -109,9 +106,8 @@ module.exports = (env = {}) => ({
   },
 
   plugins: [
-    new ExtractTextPlugin({
+    new MiniCssExtractPlugin({
       filename: 'voyager.css',
-      allChunks: true,
     }),
 
     new webpack.BannerPlugin(BANNER),
