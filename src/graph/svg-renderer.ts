@@ -14,8 +14,8 @@ import defaultWorkerURI from 'viz.js/full.render.js';
 
 const RelayIconSvg = require('!!svg-as-symbol-loader?id=RelayIcon!../components/icons/relay-icon.svg');
 const DeprecatedIconSvg = require('!!svg-as-symbol-loader?id=DeprecatedIcon!../components/icons/deprecated-icon.svg');
-const svgns = 'http://www.w3.org/2000/svg';
-const xlinkns = 'http://www.w3.org/1999/xlink';
+const svgNS = 'http://www.w3.org/2000/svg';
+const xlinkNS = 'http://www.w3.org/1999/xlink';
 
 export class SVGRender {
   vizPromise: any;
@@ -105,9 +105,9 @@ function preprocessVizSVG(svgString: string) {
         const $iconPlaceholder = texts[i];
         const height = 22;
         const width = 22;
-        const $useIcon = document.createElementNS(svgns, 'use');
+        const $useIcon = document.createElementNS(svgNS, 'use');
         $useIcon.setAttributeNS(
-          xlinkns,
+          xlinkNS,
           'href',
           str === '{R}' ? '#RelayIcon' : '#DeprecatedIcon',
         );

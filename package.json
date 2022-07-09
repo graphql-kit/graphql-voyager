@@ -5,7 +5,7 @@
   "main": "dist/voyager.lib.js",
   "types": "typings/index.d.ts",
   "scripts": {
-    "test": "npm run check && npm run prettier:check",
+    "test": "npm run check && npm run prettier:check && npm run check:spelling",
     "start": "webpack-dev-server --config webpack-demo.config.js --hot --inline --mode=development",
     "clean:release": "rm -rf dist middleware",
     "clean:demo": "rm -rf demo-dist",
@@ -19,6 +19,7 @@
     "check": "tsc",
     "prettier": "prettier --write --list-different .",
     "prettier:check": "prettier --check .",
+    "check:spelling": "cspell --cache --no-progress '**/*'",
     "declarations": "tsc --emitDeclarationOnly -p tsconfig.lib.json"
   },
   "license": "MIT",
@@ -62,6 +63,7 @@
     "@f/animate": "^1.0.1",
     "@mui/material": "^5.8.1",
     "commonmark": "0.30.0",
+    "cspell": "^6.2.3",
     "lodash": "4.17.21",
     "svg-pan-zoom": "^3.6.1",
     "viz.js": "2.1.2"

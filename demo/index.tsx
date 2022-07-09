@@ -57,7 +57,6 @@ export default class Demo extends React.Component {
                 color="primary"
                 style={{ color: 'white' }}
                 variant="contained"
-                className="choosebutton"
                 onClick={openChangeSchema}
               >
                 Change Schema
