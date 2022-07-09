@@ -18,7 +18,7 @@ import './IntrospectionModal.css';
 export interface IntrospectionModalProps {
   open: boolean;
   onClose: () => void;
-  onChange: (introspectin: any) => void;
+  onChange: (introspection: any) => void;
 }
 
 const Presets = 'Presets';

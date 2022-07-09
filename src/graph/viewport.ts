@@ -193,8 +193,8 @@ export class Viewport {
         bbBox.width / viewPortSizes.width,
       );
     let newZoom = this.zoomer.getZoom() / zoomUpdateToFit;
-    let recomendedZoom = this.maxZoom * 0.6;
-    if (newZoom > recomendedZoom) newZoom = recomendedZoom;
+    let recommendedZoom = this.maxZoom * 0.6;
+    if (newZoom > recommendedZoom) newZoom = recommendedZoom;
 
     let newX = currentPan.x - bbBox.left + this.offsetLeft;
     let newY = currentPan.y - bbBox.top + this.offsetTop;
