@@ -3,6 +3,7 @@ node_modules
 dist
 demo-dist
 .ghpages-tmp/
+.cspellcache
 
 stats.json
 npm-debug.log

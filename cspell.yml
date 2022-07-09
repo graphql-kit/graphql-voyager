@@ -1,0 +1,30 @@
+language: en
+useGitignore: true
+ignorePaths:
+  # Excluded from spelling check
+  - cspell.yml
+  - package.json
+  - demo/presets
+dictionaries:
+  - html
+
+words:
+  - reactroot # FIXME https://github.com/facebook/react/issues/10971
+  - zoomer # FIXME
+  - typelist # FIXME
+  - fontname
+  - rankdir
+  - asynciterable
+  - commonmark
+  - swapi
+  - cssnext
+  - ranksep
+  - CELLBORDER
+  - QLID # GraphQLID
+  - Goncharov
+  - octo
+  - octocat
+  - pageview
+  - jsdelivr
+  - GraphiQL
+  - nojekyll
