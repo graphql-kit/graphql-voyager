@@ -12,7 +12,7 @@ export type SimplifiedField<T> = {
   name: string;
   type: T;
   id?: string;
-  relayType: T;
+  relayType?: T;
   description: string;
   typeWrappers: ('NON_NULL' | 'LIST')[];
   isDeprecated: boolean;
@@ -20,7 +20,7 @@ export type SimplifiedField<T> = {
   args: {
     [name: string]: SimplifiedArg;
   };
-  relayArgs: {
+  relayArgs?: {
     [name: string]: SimplifiedArg;
   };
 };

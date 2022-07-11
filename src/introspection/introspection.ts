@@ -1,103 +1,144 @@
 import * as _ from 'lodash';
 import {
+  GraphQLNamedType,
+  GraphQLSchema,
+  GraphQLArgument,
+  GraphQLInputField,
+  GraphQLField,
+  isWrappingType,
+  isNonNullType,
+  isUnionType,
+  isEnumType,
+  isInputObjectType,
+  isObjectType,
+  isInterfaceType,
+  isScalarType,
   buildClientSchema,
-  introspectionFromSchema,
   lexicographicSortSchema,
-  IntrospectionSchema,
-  IntrospectionType,
 } from 'graphql';
 import {
   SimplifiedIntrospection,
   SimplifiedIntrospectionWithIds,
   SimplifiedType,
+  SimplifiedInputField,
+  SimplifiedField,
 } from './types';
 import { typeNameToId } from './utils';
 
-function unwrapType(type, wrappers) {
-  while (type.kind === 'NON_NULL' || type.kind == 'LIST') {
-    wrappers.push(type.kind);
-    type = type.ofType;
+function unwrapType(type) {
+  let unwrappedType = type;
+  const typeWrappers = [];
+
+  while (isWrappingType(unwrappedType)) {
+    typeWrappers.push(isNonNullType(unwrappedType) ? 'NON_NULL' : 'LIST');
+    unwrappedType = unwrappedType.ofType;
   }
 
-  return type.name;
-}
-
-function convertArg(inArg) {
-  var outArg = <any>{
-    name: inArg.name,
-    description: inArg.description,
-    defaultValue: inArg.defaultValue,
-    typeWrappers: [],
-  };
-  outArg.type = unwrapType(inArg.type, outArg.typeWrappers);
-
-  return outArg;
-}
-
-let convertInputField = convertArg;
-
-function convertField(inField) {
-  var outField = <any>{
-    name: inField.name,
-    description: inField.description,
-    typeWrappers: [],
-    isDeprecated: inField.isDeprecated,
-  };
-
-  outField.type = unwrapType(inField.type, outField.typeWrappers);
-
-  outField.args = _(inField.args).map(convertArg).keyBy('name').value();
-
-  if (outField.isDeprecated)
-    outField.deprecationReason = inField.deprecationReason;
-
-  return outField;
-}
-
-function convertType(inType: IntrospectionType): SimplifiedType {
-  const outType: SimplifiedType = {
-    kind: inType.kind,
-    name: inType.name,
-    description: inType.description,
-  };
-
-  switch (inType.kind) {
-    case 'OBJECT':
-      outType.interfaces = _(inType.interfaces).map('name').uniq().value();
-      outType.fields = _(inType.fields).map(convertField).keyBy('name').value();
-      break;
-    case 'INTERFACE':
-      outType.derivedTypes = _(inType.possibleTypes).map('name').uniq().value();
-      outType.fields = _(inType.fields).map(convertField).keyBy('name').value();
-      break;
-    case 'UNION':
-      outType.possibleTypes = _(inType.possibleTypes)
-        .map('name')
-        .uniq()
-        .value();
-      break;
-    case 'ENUM':
-      outType.enumValues = inType.enumValues.slice();
-      break;
-    case 'INPUT_OBJECT':
-      outType.inputFields = _(inType.inputFields)
-        .map(convertInputField)
-        .keyBy('name')
-        .value();
-      break;
-  }
-
-  return outType;
-}
-
-function simplifySchema(
-  inSchema: IntrospectionSchema,
-): SimplifiedIntrospection {
   return {
-    types: _(inSchema.types).map(convertType).keyBy('name').value(),
-    queryType: inSchema.queryType.name,
-    mutationType: _.get(inSchema, 'mutationType.name', null),
-    subscriptionType: _.get(inSchema, 'subscriptionType.name', null),
+    type: unwrappedType.name,
+    typeWrappers,
+  };
+}
+
+function convertInputValue(
+  inputValue: GraphQLArgument | GraphQLInputField,
+): SimplifiedInputField {
+  return {
+    name: inputValue.name,
+    description: inputValue.description,
+    ...unwrapType(inputValue.type),
+    defaultValue: inputValue.defaultValue,
+  };
+}
+
+function convertField(
+  field: GraphQLField<unknown, unknown>,
+): SimplifiedField<string> {
+  return {
+    name: field.name,
+    description: field.description,
+    ...unwrapType(field.type),
+    args: Object.fromEntries(
+      field.args.map((arg) => [arg.name, convertInputValue(arg)]),
+    ),
+    isDeprecated: field.deprecationReason != null,
+    deprecationReason: field.deprecationReason,
+  };
+}
+
+function convertType(
+  schema: GraphQLSchema,
+  type: GraphQLNamedType,
+): SimplifiedType {
+  if (isObjectType(type)) {
+    return {
+      kind: 'OBJECT',
+      name: type.name,
+      description: type.description,
+      interfaces: type.getInterfaces().map(({ name }) => name),
+      fields: mapValues(type.getFields(), convertField),
+    };
+  } else if (isInterfaceType(type)) {
+    return {
+      kind: 'INTERFACE',
+      name: type.name,
+      description: type.description,
+      interfaces: type.getInterfaces().map(({ name }) => name),
+      fields: mapValues(type.getFields(), convertField),
+      derivedTypes: schema
+        .getImplementations(type)
+        .objects.map(({ name }) => name),
+    };
+  } else if (isUnionType(type)) {
+    return {
+      kind: 'UNION',
+      name: type.name,
+      description: type.description,
+      possibleTypes: type.getTypes().map(({ name }) => name),
+    };
+  } else if (isEnumType(type)) {
+    return {
+      kind: 'ENUM',
+      name: type.name,
+      description: type.description,
+      enumValues: type.getValues().map((value) => ({
+        name: value.name,
+        description: value.description,
+        isDeprecated: value.deprecationReason != null,
+        deprecationReason: value.deprecationReason,
+      })),
+    };
+  } else if (isInputObjectType(type)) {
+    return {
+      kind: 'INTERFACE',
+      name: type.name,
+      description: type.description,
+      inputFields: mapValues(type.getFields(), convertInputValue),
+    };
+  } else if (isScalarType(type)) {
+    return {
+      kind: 'SCALAR',
+      name: type.name,
+      description: type.description,
+    };
+  }
+}
+
+function mapValues<T, R>(
+  obj: { [key: string]: T },
+  mapper: (value: T) => R,
+): { [key: string]: R } {
+  return Object.fromEntries(
+    Object.entries(obj).map(([key, value]) => [key, mapper(value)]),
+  );
+}
+
+function simplifySchema(schema: GraphQLSchema): SimplifiedIntrospection {
+  return {
+    types: mapValues(schema.getTypeMap(), (type) => convertType(schema, type)),
+    queryType: schema.getQueryType().name,
+    mutationType: schema.getMutationType()?.name ?? null,
+    subscriptionType: schema.getSubscriptionType()?.name ?? null,
     //FIXME:
     //directives:
   };
@@ -257,8 +298,7 @@ export function getSchema(
     schema = lexicographicSortSchema(schema);
   }
 
-  introspection = introspectionFromSchema(schema, { descriptions: true });
-  let simpleSchema = simplifySchema(introspection.__schema);
+  let simpleSchema = simplifySchema(schema);
 
   assignTypesAndIDs(simpleSchema);
 
