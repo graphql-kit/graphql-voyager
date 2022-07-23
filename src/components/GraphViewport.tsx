@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { Component } from 'react';
 import LoadingAnimation from './utils/LoadingAnimation';
 
 import { Viewport } from './../graph/';
@@ -15,7 +15,7 @@ interface GraphViewportProps {
   onSelectEdge: (id: string) => void;
 }
 
-export default class GraphViewport extends React.Component<GraphViewportProps> {
+export default class GraphViewport extends Component<GraphViewportProps> {
   state = { typeGraph: null, displayOptions: null, svgViewport: null };
 
   // Handle async graph rendering based on this example

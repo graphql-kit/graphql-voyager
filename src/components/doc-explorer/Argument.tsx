@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { Component } from 'react';
 
 import './Argument.css';
 
@@ -11,7 +11,7 @@ interface ArgumentProps {
   onTypeLink: (any) => void;
 }
 
-export default class Argument extends React.Component<ArgumentProps> {
+export default class Argument extends Component<ArgumentProps> {
   render() {
     const { arg, expanded, onTypeLink } = this.props;
     return (

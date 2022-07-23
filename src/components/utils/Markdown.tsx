@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { Component } from 'react';
 import { HtmlRenderer, Parser } from 'commonmark';
 
 interface MarkdownProps {
@@ -6,7 +6,7 @@ interface MarkdownProps {
   className: string;
 }
 
-export default class Markdown extends React.Component<MarkdownProps> {
+export default class Markdown extends Component<MarkdownProps> {
   renderer: HtmlRenderer;
   parser: Parser;
 

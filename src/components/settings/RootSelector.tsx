@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { Component } from 'react';
 
 import { isNode, getDefaultRoot } from '../../graph/';
 
@@ -11,7 +11,7 @@ interface RootSelectorProps {
   onChange: any;
 }
 
-export default class RootSelector extends React.Component<RootSelectorProps> {
+export default class RootSelector extends Component<RootSelectorProps> {
   render() {
     const { schema, onChange } = this.props;
     const rootType = this.props.rootType || getDefaultRoot(schema);

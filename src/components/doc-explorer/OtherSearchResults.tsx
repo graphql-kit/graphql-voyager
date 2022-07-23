@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { Component } from 'react';
 
 import { isMatch, highlightTerm } from '../../utils';
 
@@ -10,7 +10,7 @@ interface OtherSearchResultsProps {
   onFieldLink: (field: any, type: any) => void;
 }
 
-export default class OtherSearchResults extends React.Component<OtherSearchResultsProps> {
+export default class OtherSearchResults extends Component<OtherSearchResultsProps> {
   render() {
     const { typeGraph, withinType, searchValue, onTypeLink, onFieldLink } =
       this.props;

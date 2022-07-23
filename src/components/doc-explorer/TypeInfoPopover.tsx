@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { Component } from 'react';
 
 import './TypeInfoPopover.css';
 
@@ -16,7 +16,7 @@ interface ScalarDetailsState {
   localType: any;
 }
 
-export default class ScalarDetails extends React.Component<
+export default class ScalarDetails extends Component<
   ScalarDetailsProps,
   ScalarDetailsState
 > {

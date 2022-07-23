@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { Component } from 'react';
 import Input from '@mui/material/Input';
 import InputAdornment from '@mui/material/InputAdornment';
 
@@ -14,7 +14,7 @@ interface SearchBoxState {
   value: string;
 }
 
-export default class SearchBox extends React.Component<
+export default class SearchBox extends Component<
   SearchBoxProps,
   SearchBoxState
 > {

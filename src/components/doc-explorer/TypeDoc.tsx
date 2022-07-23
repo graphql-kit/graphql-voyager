@@ -1,5 +1,5 @@
 import * as _ from 'lodash';
-import * as React from 'react';
+import { Component } from 'react';
 
 import './TypeDoc.css';
 
@@ -21,7 +21,7 @@ interface TypeDocProps {
   onTypeLink: (any) => void;
 }
 
-export default class TypeDoc extends React.Component<TypeDocProps> {
+export default class TypeDoc extends Component<TypeDocProps> {
   componentDidUpdate(prevProps: TypeDocProps) {
     if (this.props.selectedEdgeID !== prevProps.selectedEdgeID) {
       this.ensureActiveVisible();

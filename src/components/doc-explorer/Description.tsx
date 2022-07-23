@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { Component } from 'react';
 
 import './Description.css';
 
@@ -9,7 +9,7 @@ interface DescriptionProps {
   className: string;
 }
 
-export default class Description extends React.Component<DescriptionProps> {
+export default class Description extends Component<DescriptionProps> {
   render() {
     const { text, className } = this.props;
 

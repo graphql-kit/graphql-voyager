@@ -1,6 +1,6 @@
 import { SimplifiedTypeWithIDs } from '../../introspection/types';
 import * as _ from 'lodash';
-import * as React from 'react';
+import { Component } from 'react';
 
 import Markdown from '../utils/Markdown';
 import Description from './Description';
@@ -12,7 +12,7 @@ interface TypeDetailsProps {
   onTypeLink: (any) => void;
 }
 
-export default class TypeDetails extends React.Component<TypeDetailsProps> {
+export default class TypeDetails extends Component<TypeDetailsProps> {
   renderFields(type: SimplifiedTypeWithIDs, onTypeLink) {
     if (_.isEmpty(type.inputFields)) return null;
 

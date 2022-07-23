@@ -1,6 +1,6 @@
 import { isNode } from '../../graph';
 
-import * as React from 'react';
+import { Component } from 'react';
 import TypeList from './TypeList';
 import TypeDoc from './TypeDoc';
 import FocusTypeButton from './FocusTypeButton';
@@ -22,7 +22,7 @@ interface DocExplorerProps {
 
 const initialNav = { title: 'Type List', type: null, searchValue: null };
 
-export default class DocExplorer extends React.Component<DocExplorerProps> {
+export default class DocExplorer extends Component<DocExplorerProps> {
   state = { navStack: [initialNav], typeForInfoPopover: null };
 
   static getDerivedStateFromProps(props, state) {

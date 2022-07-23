@@ -13,7 +13,7 @@
     "outDir": "lib",
     "pretty": true,
     "lib": ["es2017", "dom", "esnext.asynciterable"],
-    "jsx": "react"
+    "jsx": "react-jsx"
   },
   "compileOnSave": false,
   "exclude": [

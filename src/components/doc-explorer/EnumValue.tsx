@@ -1,11 +1,11 @@
-import * as React from 'react';
+import { Component } from 'react';
 import Markdown from '../utils/Markdown';
 
 interface EnumValueProps {
   value: any;
 }
 
-export default class EnumValue extends React.Component<EnumValueProps> {
+export default class EnumValue extends Component<EnumValueProps> {
   render() {
     const { value } = this.props;
     return (

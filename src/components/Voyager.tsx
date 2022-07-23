@@ -4,7 +4,14 @@ import { getSchema, extractTypeId } from '../introspection';
 import { SVGRender, getTypeGraph } from '../graph/';
 import { WorkerCallback } from '../utils/types';
 
-import * as React from 'react';
+import {
+  createRef,
+  Children,
+  Component,
+  type ReactNode,
+  type ReactElement,
+} from 'react';
+import type {} from 'react';
 import { theme } from './MUITheme';
 import { ThemeProvider } from '@mui/material/styles';
 
@@ -50,10 +57,10 @@ export interface VoyagerProps {
   workerURI?: string;
   loadWorker?: WorkerCallback;
 
-  children?: React.ReactNode;
+  children?: ReactNode;
 }
 
-export default class Voyager extends React.Component<VoyagerProps> {
+export default class Voyager extends Component<VoyagerProps> {
   state = {
     introspectionData: null,
     schema: null,
@@ -64,7 +71,7 @@ export default class Voyager extends React.Component<VoyagerProps> {
   };
 
   svgRenderer: SVGRender;
-  viewportRef = React.createRef<GraphViewport>();
+  viewportRef = createRef<GraphViewport>();
   introspectionPromise = null;
 
   constructor(props) {
@@ -159,9 +166,9 @@ export default class Voyager extends React.Component<VoyagerProps> {
   }
 
   renderPanel() {
-    const children = React.Children.toArray(this.props.children);
+    const children = Children.toArray(this.props.children);
     const panelHeader = children.find(
-      (child: React.ReactElement<any>) => child.type === Voyager.PanelHeader,
+      (child: ReactElement<any>) => child.type === Voyager.PanelHeader,
     );
 
     const { typeGraph, selectedTypeID, selectedEdgeID } = this.state;

@@ -1,5 +1,5 @@
 import * as _ from 'lodash';
-import * as React from 'react';
+import { Component } from 'react';
 import { isMatch } from '../../utils';
 
 import './TypeList.css';
@@ -15,7 +15,7 @@ interface TypeListProps {
   onTypeLink: (any) => void;
 }
 
-export default class TypeList extends React.Component<TypeListProps> {
+export default class TypeList extends Component<TypeListProps> {
   render() {
     const { typeGraph, filter, onFocusType, onTypeLink } = this.props;
 

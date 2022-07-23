@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { Component } from 'react';
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import './WrappedTypeName.css';
@@ -13,7 +13,7 @@ interface WrappedTypeNameProps {
   onTypeLink: (any) => void;
 }
 
-export default class WrappedTypeName extends React.Component<WrappedTypeNameProps> {
+export default class WrappedTypeName extends Component<WrappedTypeNameProps> {
   render() {
     const { container, onTypeLink } = this.props;
 

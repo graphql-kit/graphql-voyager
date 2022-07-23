@@ -1,4 +1,3 @@
-import * as React from 'react';
 import * as _ from 'lodash';
 
 export function highlightTerm(content: string, term: string) {

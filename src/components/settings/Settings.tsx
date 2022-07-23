@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { Component } from 'react';
 import Checkbox from '@mui/material/Checkbox';
 import RootSelector from './RootSelector';
 
@@ -8,7 +8,7 @@ interface SettingsProps {
   onChange: (any) => void;
 }
 
-export default class Settings extends React.Component<SettingsProps> {
+export default class Settings extends Component<SettingsProps> {
   render() {
     let { schema, options, onChange } = this.props;
 

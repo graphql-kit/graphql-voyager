@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { Component } from 'react';
 import {
   isBuiltInScalarType,
   isScalarType,
@@ -16,7 +16,7 @@ interface TypeLinkProps {
   filter?: string;
 }
 
-export default class TypeLink extends React.Component<TypeLinkProps> {
+export default class TypeLink extends Component<TypeLinkProps> {
   render() {
     const { type, onClick, filter } = this.props;
 
