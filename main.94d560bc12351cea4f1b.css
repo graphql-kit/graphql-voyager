@@ -863,6 +863,55 @@ g.graph > polygon {
   width: 24px;
   min-height: 24px;
 }
+.type-doc > .type-info-popover {
+  z-index: 0;
+  position: absolute;
+}
+
+.type-info-popover {
+  left: 320px;
+  top: 35px;
+  bottom: 75px;
+  overflow-y: auto;
+
+  -webkit-transform: translateX(-110%);
+
+          transform: translateX(-110%);
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  width: 320px;
+  padding: 10px 15px;
+  position: absolute;
+  background: white;
+  -webkit-box-shadow: 0px 0 10px 3px rgba(0, 0, 0, .1);
+          box-shadow: 0px 0 10px 3px rgba(0, 0, 0, .1);
+  border: 1px solid rgba(0, 0, 0, .1);
+  border-left: 0px;
+
+  -webkit-transition: all 0.45s ease-out;
+
+  transition: all 0.45s ease-out
+}
+
+.type-info-popover.-opened {
+  -webkit-transform: none;
+          transform: none;
+}
+
+.type-info-popover > button {
+  position: absolute;
+  right: 10px;
+}
+.search-box-wrapper {
+  padding: 0 15px;
+}
+
+.search-box-clear {
+  cursor: pointer;
+  border: none;
+  padding: 5px;
+  opacity: 0.8;
+}
 .args-wrap:before {
 
     content: '( ';
@@ -948,55 +997,6 @@ g.graph > polygon {
     float: left;
 
     margin-right: 5px;
-}
-.type-doc > .type-info-popover {
-  z-index: 0;
-  position: absolute;
-}
-
-.type-info-popover {
-  left: 320px;
-  top: 35px;
-  bottom: 75px;
-  overflow-y: auto;
-
-  -webkit-transform: translateX(-110%);
-
-          transform: translateX(-110%);
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
-  width: 320px;
-  padding: 10px 15px;
-  position: absolute;
-  background: white;
-  -webkit-box-shadow: 0px 0 10px 3px rgba(0, 0, 0, .1);
-          box-shadow: 0px 0 10px 3px rgba(0, 0, 0, .1);
-  border: 1px solid rgba(0, 0, 0, .1);
-  border-left: 0px;
-
-  -webkit-transition: all 0.45s ease-out;
-
-  transition: all 0.45s ease-out
-}
-
-.type-info-popover.-opened {
-  -webkit-transform: none;
-          transform: none;
-}
-
-.type-info-popover > button {
-  position: absolute;
-  right: 10px;
-}
-.search-box-wrapper {
-  padding: 0 15px;
-}
-
-.search-box-clear {
-  cursor: pointer;
-  border: none;
-  padding: 5px;
-  opacity: 0.8;
 }
 .doc-wrapper {
   position: relative;
