@@ -1,6 +1,6 @@
 import * as svgPanZoom from 'svg-pan-zoom';
 
-import { removeClass, stringToSvg } from '../utils/';
+import { stringToSvg } from '../utils/';
 import { typeNameToId } from '../introspection';
 
 // FIXME: we are waiting for this [PR](https://github.com/ariutta/svg-pan-zoom/pull/379), after that this two interfaces might be removed in favor to `import { Instance, Point } from 'svg-pan-zoom'`
@@ -130,7 +130,9 @@ export class Viewport {
   }
 
   selectNodeById(id: string) {
-    this.deselectNode();
+    this.removeClass('.node.selected', 'selected');
+    this.removeClass('.highlighted', 'highlighted');
+    this.removeClass('.selected-reachable', 'selected-reachable');
 
     if (id === null) {
       this.$svg.classList.remove('selection-active');
@@ -157,9 +159,9 @@ export class Viewport {
   }
 
   selectEdgeById(id: string) {
-    removeClass(this.$svg, '.edge.selected', 'selected');
-    removeClass(this.$svg, '.edge-source.selected', 'selected');
-    removeClass(this.$svg, '.field.selected', 'selected');
+    this.removeClass('.edge.selected', 'selected');
+    this.removeClass('.edge-source.selected', 'selected');
+    this.removeClass('.field.selected', 'selected');
 
     if (id === null) return;
 
@@ -171,10 +173,9 @@ export class Viewport {
     }
   }
 
-  deselectNode() {
-    removeClass(this.$svg, '.node.selected', 'selected');
-    removeClass(this.$svg, '.highlighted', 'highlighted');
-    removeClass(this.$svg, '.selected-reachable', 'selected-reachable');
+  removeClass(selector: string, className: string) {
+    this.$svg.querySelectorAll(selector)
+      .forEach((node) => node.classList.remove(className));
   }
 
   focusElement(id: string) {
