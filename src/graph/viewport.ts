@@ -147,15 +147,15 @@ export class Viewport {
   selectNode(node: Element) {
     node.classList.add('selected');
 
-    edgesFromNode(node).forEach(($edge) => {
+    for (const $edge of edgesFromNode(node)) {
       $edge.classList.add('highlighted');
       edgeTarget($edge).classList.add('selected-reachable');
-    });
+    }
 
-    edgesTo(node.id).forEach(($edge) => {
+    for (const $edge of edgesTo(node.id)) {
       $edge.classList.add('highlighted');
       edgeSource($edge).parentElement.classList.add('selected-reachable');
-    });
+    }
   }
 
   selectEdgeById(id: string) {
@@ -174,9 +174,9 @@ export class Viewport {
   }
 
   removeClass(selector: string, className: string) {
-    this.$svg
-      .querySelectorAll(selector)
-      .forEach((node) => node.classList.remove(className));
+    for (const node of this.$svg.querySelectorAll(selector)) {
+      node.classList.remove(className);
+    }
   }
 
   focusElement(id: string) {
@@ -269,10 +269,10 @@ function edgeFrom(id: String) {
 
 function edgesFromNode($node) {
   var edges = [];
-  $node.querySelectorAll('.edge-source').forEach(($source) => {
+  for (const $source of $node.querySelectorAll('.edge-source')) {
     const $edge = edgeFrom($source.id);
     edges.push($edge);
-  });
+  }
   return edges;
 }
 
