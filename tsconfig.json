@@ -4,7 +4,7 @@
     "emitDecoratorMetadata": true,
     "module": "es2015",
     "moduleResolution": "node",
-    "target": "es5",
+    "target": "es2019",
     "noImplicitAny": false,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
@@ -12,7 +12,7 @@
     "sourceMap": true,
     "outDir": "lib",
     "pretty": true,
-    "lib": ["es2017", "dom", "esnext.asynciterable"],
+    "lib": ["es2019", "dom"],
     "jsx": "react-jsx"
   },
   "compileOnSave": false,
