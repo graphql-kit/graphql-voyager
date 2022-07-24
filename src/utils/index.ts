@@ -32,7 +32,10 @@ export function loadWorker(path: string, relative: boolean): Promise<Worker> {
 
 function relativeToJsUrlPathname(path: string): string {
   try {
-    const url = new URL(path, (document.currentScript as HTMLScriptElement).src);
+    const url = new URL(
+      path,
+      (document.currentScript as HTMLScriptElement).src,
+    );
     return url.pathname;
   } catch (e) {
     return path;

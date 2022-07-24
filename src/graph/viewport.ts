@@ -174,7 +174,8 @@ export class Viewport {
   }
 
   removeClass(selector: string, className: string) {
-    this.$svg.querySelectorAll(selector)
+    this.$svg
+      .querySelectorAll(selector)
       .forEach((node) => node.classList.remove(className));
   }
 
