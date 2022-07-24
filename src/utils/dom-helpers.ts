@@ -1,4 +1,5 @@
 export function stringToSvg(svgString: string): SVGElement {
-  var svgDoc = new DOMParser().parseFromString(svgString, 'image/svg+xml');
+  const svgDoc = new DOMParser().parseFromString(svgString, 'image/svg+xml');
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return <SVGElement>(document.importNode(svgDoc.documentElement, true) as any);
 }
