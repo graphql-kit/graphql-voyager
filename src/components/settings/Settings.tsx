@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { Component } from 'react';
 import Checkbox from '@mui/material/Checkbox';
 import RootSelector from './RootSelector';

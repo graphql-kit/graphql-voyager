@@ -1,3 +1,4 @@
+/* eslint-disable */
 const githubIntrospection = require('./presets/github_introspection.json');
 const swapiIntrospection = require('./presets/swapi_introspection.json');
 const yelpIntrospection = require('./presets/yelp_introspection.json');

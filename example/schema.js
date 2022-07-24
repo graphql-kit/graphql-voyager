@@ -3,6 +3,8 @@
  *  All rights reserved.
  */
 
+/* eslint-disable */
+
 const {
   GraphQLSchema,
   GraphQLObjectType,

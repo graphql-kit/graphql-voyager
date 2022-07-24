@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { Component } from 'react';
 
 import { isNode, getDefaultRoot } from '../../graph/';

@@ -1,3 +1,4 @@
+/* eslint-disable */
 const Koa = require('koa');
 const KoaRouter = require('koa-router');
 const graphqlHTTP = require('koa-graphql');

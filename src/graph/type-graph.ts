@@ -1,3 +1,4 @@
+/* eslint-disable */
 import * as _ from 'lodash';
 import {
   typeNameToId,

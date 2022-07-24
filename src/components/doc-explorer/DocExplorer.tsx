@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { isNode } from '../../graph';
 
 import { Component } from 'react';

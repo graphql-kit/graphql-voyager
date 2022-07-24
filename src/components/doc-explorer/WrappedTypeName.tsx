@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { Component } from 'react';
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';

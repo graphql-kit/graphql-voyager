@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { getIntrospectionQuery } from 'graphql/utilities';
 
 import { getSchema, extractTypeId } from '../introspection';

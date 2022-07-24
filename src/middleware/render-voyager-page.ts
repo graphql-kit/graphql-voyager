@@ -1,3 +1,4 @@
+/* eslint-disable */
 const { version } = require('../package.json');
 
 export interface MiddlewareOptions {

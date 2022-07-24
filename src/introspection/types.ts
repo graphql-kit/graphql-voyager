@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { IntrospectionEnumValue } from 'graphql';
 
 export type SimplifiedArg = {

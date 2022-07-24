@@ -1,3 +1,4 @@
+/* eslint-disable */
 import renderVoyagerPage, { MiddlewareOptions } from './render-voyager-page';
 
 const pkg = require('../package.json');
