@@ -1,4 +1,3 @@
-import * as _ from 'lodash';
 import * as svgPanZoom from 'svg-pan-zoom';
 
 import { removeClass, stringToSvg } from '../utils/';
@@ -146,12 +145,12 @@ export class Viewport {
   selectNode(node: Element) {
     node.classList.add('selected');
 
-    _.each(edgesFromNode(node), ($edge) => {
+    edgesFromNode(node).forEach(($edge) => {
       $edge.classList.add('highlighted');
       edgeTarget($edge).classList.add('selected-reachable');
     });
 
-    _.each(edgesTo(node.id), ($edge) => {
+    edgesTo(node.id).forEach(($edge) => {
       $edge.classList.add('highlighted');
       edgeSource($edge).parentElement.classList.add('selected-reachable');
     });
@@ -276,7 +275,7 @@ function edgesFromNode($node) {
 }
 
 function edgesTo(id: String) {
-  return _.toArray(document.querySelectorAll(`.edge[data-to='${id}']`));
+  return document.querySelectorAll(`.edge[data-to='${id}']`);
 }
 
 function animate(startObj, endObj, render) {
