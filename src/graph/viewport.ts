@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 import * as svgPanZoom from 'svg-pan-zoom';
 
-import { removeClass, forEachNode, stringToSvg } from '../utils/';
+import { removeClass, stringToSvg } from '../utils/';
 import { typeNameToId } from '../introspection';
 
 // FIXME: we are waiting for this [PR](https://github.com/ariutta/svg-pan-zoom/pull/379), after that this two interfaces might be removed in favor to `import { Instance, Point } from 'svg-pan-zoom'`
@@ -268,7 +268,7 @@ function edgeFrom(id: String) {
 
 function edgesFromNode($node) {
   var edges = [];
-  forEachNode($node, '.edge-source', ($source) => {
+  $node.querySelectorAll('.edge-source').forEach(($source) => {
     const $edge = edgeFrom($source.id);
     edges.push($edge);
   });

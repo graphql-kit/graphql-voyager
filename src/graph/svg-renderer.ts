@@ -1,11 +1,7 @@
 import * as _ from 'lodash';
 import { getDot } from './dot';
 
-import {
-  forEachNode,
-  loadWorker as defaultLoadWorker,
-  stringToSvg,
-} from '../utils/';
+import { loadWorker as defaultLoadWorker, stringToSvg } from '../utils/';
 
 import { WorkerCallback } from '../utils/types';
 
@@ -52,7 +48,7 @@ function preprocessVizSVG(svgString: string) {
 
   let svg = stringToSvg(svgString);
 
-  forEachNode(svg, 'a', ($a) => {
+  svg.querySelectorAll('a').forEach(($a) => {
     let $g = $a.parentNode;
 
     var $docFrag = document.createDocumentFragment();
@@ -63,13 +59,14 @@ function preprocessVizSVG(svgString: string) {
 
     $g.replaceChild($docFrag, $a);
 
+    // @ts-ignore
     $g.id = $g.id.replace(/^a_/, '');
   });
 
-  forEachNode(svg, 'title', ($el) => $el.remove());
+  svg.querySelectorAll('title').forEach(($el) => $el.remove());
 
   var edgesSources = {};
-  forEachNode(svg, '.edge', ($edge) => {
+  svg.querySelectorAll('.edge').forEach(($edge) => {
     let [from, to] = $edge.id.split(' => ');
     $edge.removeAttribute('id');
     $edge.setAttribute('data-from', from);
@@ -77,21 +74,21 @@ function preprocessVizSVG(svgString: string) {
     edgesSources[from] = true;
   });
 
-  forEachNode(svg, '[id]', ($el) => {
+  svg.querySelectorAll('[id]').forEach(($el) => {
     let [tag, ...restOfId] = $el.id.split('::');
     if (_.size(restOfId) < 1) return;
 
     $el.classList.add(tag.toLowerCase().replace(/_/, '-'));
   });
 
-  forEachNode(svg, 'g.edge path', ($path) => {
+  svg.querySelectorAll('g.edge path').forEach(($path) => {
     let $newPath = $path.cloneNode() as HTMLElement;
     $newPath.classList.add('hover-path');
     $newPath.removeAttribute('stroke-dasharray');
     $path.parentNode.appendChild($newPath);
   });
 
-  forEachNode(svg, '.field', ($field) => {
+  svg.querySelectorAll('.field').forEach(($field) => {
     let texts = $field.querySelectorAll('text');
     texts[0].classList.add('field-name');
     //Remove spaces used for text alignment
@@ -128,12 +125,12 @@ function preprocessVizSVG(svgString: string) {
     }
   });
 
-  forEachNode(svg, '.derived-type', ($derivedType) => {
+  svg.querySelectorAll('.derived-type').forEach(($derivedType) => {
     $derivedType.classList.add('edge-source');
     $derivedType.querySelector('text').classList.add('type-link');
   });
 
-  forEachNode(svg, '.possible-type', ($possibleType) => {
+  svg.querySelectorAll('.possible-type').forEach(($possibleType) => {
     $possibleType.classList.add('edge-source');
     $possibleType.querySelector('text').classList.add('type-link');
   });
