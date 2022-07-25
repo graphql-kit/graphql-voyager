@@ -40,4 +40,3 @@ overrides:
       '@typescript-eslint/ban-types': off
       '@typescript-eslint/unbound-method': off
       '@typescript-eslint/no-unnecessary-type-arguments': off
-      '@typescript-eslint/ban-ts-comment': off
