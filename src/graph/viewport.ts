@@ -217,7 +217,7 @@ export class Viewport {
   }
 
   destroy() {
-    window.removeEventListener('resize', this.resize);
+    window.removeEventListener('resize', () => this.resize());
     try {
       this.zoomer.destroy();
     } catch (e) {

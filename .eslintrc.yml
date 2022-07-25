@@ -38,4 +38,3 @@ overrides:
       '@typescript-eslint/dot-notation': off
       '@typescript-eslint/restrict-plus-operands': off
       '@typescript-eslint/ban-types': off
-      '@typescript-eslint/unbound-method': off
