@@ -5,8 +5,10 @@
 # https://help.github.com/articles/ignoring-files/#create-a-global-gitignore
 # https://www.gitignore.io/
 
+/.eslintcache
 /.cspellcache
 /node_modules
 /dist
 /demo-dist
 /middleware
+/typings
