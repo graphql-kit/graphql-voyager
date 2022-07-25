@@ -12,7 +12,7 @@ const BANNER = `GraphQL Voyager - Represent any GraphQL API as an interactive gr
   Version: ${packageJSON.version}
   Repo: ${packageJSON.repository.url}`;
 
-module.exports = (env = {}, { mode }) => ({
+module.exports = (env = {}) => ({
   performance: {
     hints: false,
   },

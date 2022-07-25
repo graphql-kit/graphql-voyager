@@ -5,10 +5,6 @@ env:
   browser: true
 extends:
   - 'eslint:recommended'
-rules:
-  # FIXME: remove below rules
-  no-var: off
-  no-unused-vars: off
 overrides:
   - files: '**/*.js'
     env:
