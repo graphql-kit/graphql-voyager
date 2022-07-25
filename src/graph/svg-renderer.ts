@@ -119,7 +119,7 @@ function preprocessVizSVG(svgString: string) {
       }
 
       texts[i].classList.add('field-type');
-      if (edgesSources[$field.id] && !/[\[\]\!]/.test(str))
+      if (edgesSources[$field.id] && !/[[\]!]/.test(str))
         texts[i].classList.add('type-link');
     }
   }
