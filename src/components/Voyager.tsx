@@ -168,7 +168,7 @@ export default class Voyager extends Component<VoyagerProps> {
   renderPanel() {
     const children = Children.toArray(this.props.children);
     const panelHeader = children.find(
-      (child: ReactElement<any>) => child.type === Voyager.PanelHeader,
+      (child: ReactElement) => child.type === Voyager.PanelHeader,
     );
 
     const { typeGraph, selectedTypeID, selectedEdgeID } = this.state;
