@@ -24,7 +24,7 @@ export default class TypeList extends Component<TypeListProps> {
     const rootType = typeGraph.nodes[typeGraph.rootId];
     const types = _(typeGraph.nodes)
       .values()
-      .reject({ id: rootType && rootType.id })
+      .reject({ id: rootType?.id })
       .sortBy('name')
       .value();
 
