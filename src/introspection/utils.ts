@@ -36,7 +36,7 @@ export function isSystemType(type) {
 }
 
 export function isBuiltInScalarType(type) {
-  return ['Int', 'Float', 'String', 'Boolean', 'ID'].indexOf(type.name) !== -1;
+  return ['Int', 'Float', 'String', 'Boolean', 'ID'].includes(type.name);
 }
 
 export function isScalarType(type) {

@@ -21,7 +21,7 @@ export default class RootSelector extends Component<RootSelectorProps> {
       .map((id) => schema.types[id])
       .filter(isNode)
       .map((type) => type.name)
-      .filter((name) => rootTypeNames.indexOf(name) === -1)
+      .filter((name) => !rootTypeNames.includes(name))
       .sort();
 
     return (
