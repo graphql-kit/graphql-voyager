@@ -58,7 +58,7 @@ function preprocessVizSVG(svgString: string) {
 
     $g.replaceChild($docFrag, $a);
 
-    // @ts-ignore
+    // @ts-expect-error
     $g.id = $g.id.replace(/^a_/, '');
   }
 
