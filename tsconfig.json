@@ -10,7 +10,7 @@
     "noUnusedParameters": true,
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
-    "outDir": "lib",
+    "noEmit": true,
     "pretty": true,
     "lib": ["es2019", "dom", "dom.iterable"],
     "jsx": "react-jsx"
