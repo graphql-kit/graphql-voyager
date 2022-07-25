@@ -1,14 +1,14 @@
 import { IntrospectionEnumValue } from 'graphql';
 
-export type SimplifiedArg = {
+export interface SimplifiedArg {
   name: string;
   description: string;
   defaultValue: any;
   typeWrappers: ('NON_NULL' | 'LIST')[];
   id?: string;
-};
+}
 
-export type SimplifiedField<T> = {
+export interface SimplifiedField<T> {
   name: string;
   type: T;
   id?: string;
@@ -23,11 +23,11 @@ export type SimplifiedField<T> = {
   relayArgs?: {
     [name: string]: SimplifiedArg;
   };
-};
+}
 
 export type SimplifiedInputField = SimplifiedArg;
 
-export type SimplifiedTypeBase = {
+export interface SimplifiedTypeBase {
   kind: 'OBJECT' | 'INTERFACE' | 'UNION' | 'ENUM' | 'INPUT_OBJECT' | 'SCALAR';
   name: string;
   description: string;
@@ -37,7 +37,7 @@ export type SimplifiedTypeBase = {
   };
 
   isRelayType?: boolean;
-};
+}
 
 export type SimplifiedType = SimplifiedTypeBase & {
   fields?: {
@@ -67,20 +67,20 @@ export type SimplifiedTypeWithIDs = SimplifiedTypeBase & {
   }[];
 };
 
-export type SimplifiedIntrospection = {
+export interface SimplifiedIntrospection {
   types: {
     [typeName: string]: SimplifiedType;
   };
   queryType: string;
   mutationType: string | null;
   subscriptionType: string | null;
-};
+}
 
-export type SimplifiedIntrospectionWithIds = {
+export interface SimplifiedIntrospectionWithIds {
   types: {
     [typeName: string]: SimplifiedTypeWithIDs;
   };
   queryType: SimplifiedTypeWithIDs;
   mutationType: SimplifiedTypeWithIDs | null;
   subscriptionType: SimplifiedTypeWithIDs | null;
-};
+}

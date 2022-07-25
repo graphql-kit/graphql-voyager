@@ -26,7 +26,6 @@ overrides:
       # FIXME: remove below rules
       '@typescript-eslint/consistent-type-assertions': off
       '@typescript-eslint/no-var-requires': off
-      '@typescript-eslint/consistent-type-definitions': off
       '@typescript-eslint/no-misused-promises': off
 
       # FIXME: blocked by improper type checking should be fixed
