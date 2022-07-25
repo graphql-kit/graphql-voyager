@@ -263,7 +263,7 @@ function edgeTarget(edge: Element) {
   return document.getElementById(edge['dataset']['to']);
 }
 
-function edgeFrom(id: String) {
+function edgeFrom(id: string) {
   return document.querySelector(`.edge[data-from='${id}']`);
 }
 
@@ -276,7 +276,7 @@ function edgesFromNode($node) {
   return edges;
 }
 
-function edgesTo(id: String) {
+function edgesTo(id: string) {
   return document.querySelectorAll(`.edge[data-to='${id}']`);
 }
 

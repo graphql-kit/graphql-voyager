@@ -50,7 +50,7 @@ function normalizeDisplayOptions(options) {
 }
 
 export interface VoyagerProps {
-  introspection: IntrospectionProvider | Object;
+  introspection: IntrospectionProvider | unknown;
   displayOptions?: VoyagerDisplayOptions;
   hideDocs?: boolean;
   hideSettings?: boolean;

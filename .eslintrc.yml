@@ -39,4 +39,3 @@ overrides:
       '@typescript-eslint/no-dynamic-delete': off
       '@typescript-eslint/dot-notation': off
       '@typescript-eslint/restrict-plus-operands': off
-      '@typescript-eslint/ban-types': off
