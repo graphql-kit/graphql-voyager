@@ -24,18 +24,21 @@ overrides:
         [error, index-signature]
 
       # FIXME: remove below rules
+      '@typescript-eslint/consistent-type-assertions': off
+      '@typescript-eslint/no-var-requires': off
+      '@typescript-eslint/consistent-type-definitions': off
+      '@typescript-eslint/no-misused-promises': off
+
+      # FIXME: blocked by improper type checking should be fixed
+      # after we switch TSC in strict mode
+      '@typescript-eslint/no-explicit-any': off
+      '@typescript-eslint/dot-notation': off
+      '@typescript-eslint/no-dynamic-delete': off
+      '@typescript-eslint/restrict-plus-operands': off
+      '@typescript-eslint/no-unsafe-call': off
       '@typescript-eslint/no-unsafe-return': off
+      '@typescript-eslint/no-unsafe-argument': off
       '@typescript-eslint/no-unsafe-assignment': off
       '@typescript-eslint/no-unsafe-member-access': off
       '@typescript-eslint/no-unnecessary-condition': off
-      '@typescript-eslint/consistent-type-assertions': off
-      '@typescript-eslint/no-explicit-any': off
-      '@typescript-eslint/no-var-requires': off
       '@typescript-eslint/restrict-template-expressions': off
-      '@typescript-eslint/consistent-type-definitions': off
-      '@typescript-eslint/no-unsafe-call': off
-      '@typescript-eslint/no-misused-promises': off
-      '@typescript-eslint/no-unsafe-argument': off
-      '@typescript-eslint/no-dynamic-delete': off
-      '@typescript-eslint/dot-notation': off
-      '@typescript-eslint/restrict-plus-operands': off
