@@ -50,7 +50,7 @@ function preprocessVizSVG(svgString: string) {
   for (const $a of svg.querySelectorAll('a')) {
     let $g = $a.parentNode;
 
-    var $docFrag = document.createDocumentFragment();
+    let $docFrag = document.createDocumentFragment();
     while ($a.firstChild) {
       let $child = $a.firstChild;
       $docFrag.appendChild($child);
@@ -66,7 +66,7 @@ function preprocessVizSVG(svgString: string) {
     $el.remove();
   }
 
-  var edgesSources = {};
+  let edgesSources = {};
   for (const $edge of svg.querySelectorAll('.edge')) {
     let [from, to] = $edge.id.split(' => ');
     $edge.removeAttribute('id');
@@ -95,8 +95,8 @@ function preprocessVizSVG(svgString: string) {
 
     if (edgesSources[$field.id]) $field.classList.add('edge-source');
 
-    for (var i = 2; i < texts.length; ++i) {
-      var str = texts[i].innerHTML;
+    for (let i = 2; i < texts.length; ++i) {
+      let str = texts[i].innerHTML;
       if (str === '{R}' || str == '{D}') {
         const $iconPlaceholder = texts[i];
         const height = 22;

@@ -87,7 +87,7 @@ export class Viewport {
       this.$svg.removeEventListener('mousemove', moveHandler);
       if (dragged) return;
 
-      var target = event.target as Element;
+      let target = event.target as Element;
       if (isLink(target)) {
         const typeId = typeNameToId(target.textContent);
         this.focusElement(typeId);
@@ -140,7 +140,7 @@ export class Viewport {
     }
 
     this.$svg.classList.add('selection-active');
-    var $selected = document.getElementById(id);
+    let $selected = document.getElementById(id);
     this.selectNode($selected);
   }
 
@@ -165,7 +165,7 @@ export class Viewport {
 
     if (id === null) return;
 
-    var $selected = document.getElementById(id);
+    let $selected = document.getElementById(id);
     if ($selected) {
       let $edge = edgeFrom($selected.id);
       if ($edge) $edge.classList.add('selected');
@@ -268,7 +268,7 @@ function edgeFrom(id: String) {
 }
 
 function edgesFromNode($node) {
-  var edges = [];
+  let edges = [];
   for (const $source of $node.querySelectorAll('.edge-source')) {
     const $edge = edgeFrom($source.id);
     edges.push($edge);

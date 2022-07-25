@@ -196,7 +196,7 @@ function markRelayTypes(schema: SimplifiedIntrospectionWithIds): void {
 
   _.each(schema.types, (type) => {
     _.each(type.fields, (field) => {
-      var realType = edgeTypesMap[field.type.name];
+      let realType = edgeTypesMap[field.type.name];
       if (realType === undefined) return;
 
       field.relayType = field.type;
