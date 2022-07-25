@@ -20,6 +20,9 @@ overrides:
       - 'plugin:@typescript-eslint/recommended'
       - 'plugin:@typescript-eslint/recommended-requiring-type-checking'
     rules:
+      '@typescript-eslint/consistent-indexed-object-style':
+        [error, index-signature]
+
       # FIXME: remove below rules
       '@typescript-eslint/no-unsafe-return': off
       '@typescript-eslint/no-unsafe-assignment': off
@@ -30,7 +33,6 @@ overrides:
       '@typescript-eslint/no-var-requires': off
       '@typescript-eslint/restrict-template-expressions': off
       '@typescript-eslint/consistent-type-definitions': off
-      '@typescript-eslint/consistent-indexed-object-style': off
       '@typescript-eslint/no-unsafe-call': off
       '@typescript-eslint/no-misused-promises': off
       '@typescript-eslint/no-unsafe-argument': off
