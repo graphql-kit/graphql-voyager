@@ -33,7 +33,7 @@ export default class TypeDoc extends Component<TypeDocProps> {
   }
 
   ensureActiveVisible() {
-    let itemComponent = this.refs['selectedItem'] as HTMLElement;
+    const itemComponent = this.refs['selectedItem'] as HTMLElement;
     if (!itemComponent) return;
 
     itemComponent.scrollIntoView();
@@ -92,7 +92,7 @@ export default class TypeDoc extends Component<TypeDocProps> {
         <div className="doc-category">
           <div className="title">{typesTitle}</div>
           {_.map(types, (type) => {
-            let props: any = {
+            const props: any = {
               key: type.id,
               className: `item ${isSelected ? '-selected' : ''}`,
               onClick: () => onSelectEdge(type.id),
@@ -134,7 +134,7 @@ export default class TypeDoc extends Component<TypeDocProps> {
             const hasArgs = !_.isEmpty(field.args);
             const isSelected = field.id === selectedId;
 
-            let props: any = {
+            const props: any = {
               key: field.name,
               className: `item ${isSelected ? '-selected' : ''} ${
                 hasArgs ? '-with-args' : ''

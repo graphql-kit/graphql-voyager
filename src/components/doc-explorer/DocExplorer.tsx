@@ -151,7 +151,7 @@ export default class DocExplorer extends Component<DocExplorerProps> {
   };
 
   handleTypeLink = (type) => {
-    let { onFocusNode, onSelectNode } = this.props;
+    const { onFocusNode, onSelectNode } = this.props;
 
     if (isNode(type)) {
       onFocusNode(type.id);
@@ -162,7 +162,7 @@ export default class DocExplorer extends Component<DocExplorerProps> {
   };
 
   handleFieldLink = (field, type) => {
-    let { onFocusNode, onSelectNode, onSelectEdge } = this.props;
+    const { onFocusNode, onSelectNode, onSelectEdge } = this.props;
 
     onFocusNode(type.id);
     onSelectNode(type.id);

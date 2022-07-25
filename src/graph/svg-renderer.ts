@@ -45,14 +45,14 @@ function preprocessVizSVG(svgString: string) {
   svgString = svgString.replace(/<svg [^>]*>/, '$&' + RelayIconSvg);
   svgString = svgString.replace(/<svg [^>]*>/, '$&' + DeprecatedIconSvg);
 
-  let svg = stringToSvg(svgString);
+  const svg = stringToSvg(svgString);
 
   for (const $a of svg.querySelectorAll('a')) {
-    let $g = $a.parentNode;
+    const $g = $a.parentNode;
 
-    let $docFrag = document.createDocumentFragment();
+    const $docFrag = document.createDocumentFragment();
     while ($a.firstChild) {
-      let $child = $a.firstChild;
+      const $child = $a.firstChild;
       $docFrag.appendChild($child);
     }
 
@@ -66,9 +66,9 @@ function preprocessVizSVG(svgString: string) {
     $el.remove();
   }
 
-  let edgesSources = {};
+  const edgesSources = {};
   for (const $edge of svg.querySelectorAll('.edge')) {
-    let [from, to] = $edge.id.split(' => ');
+    const [from, to] = $edge.id.split(' => ');
     $edge.removeAttribute('id');
     $edge.setAttribute('data-from', from);
     $edge.setAttribute('data-to', to);
@@ -81,14 +81,14 @@ function preprocessVizSVG(svgString: string) {
   }
 
   for (const $path of svg.querySelectorAll('g.edge path')) {
-    let $newPath = $path.cloneNode() as HTMLElement;
+    const $newPath = $path.cloneNode() as HTMLElement;
     $newPath.classList.add('hover-path');
     $newPath.removeAttribute('stroke-dasharray');
     $path.parentNode.appendChild($newPath);
   }
 
   for (const $field of svg.querySelectorAll('.field')) {
-    let texts = $field.querySelectorAll('text');
+    const texts = $field.querySelectorAll('text');
     texts[0].classList.add('field-name');
     //Remove spaces used for text alignment
     texts[1].remove();
@@ -96,7 +96,7 @@ function preprocessVizSVG(svgString: string) {
     if (edgesSources[$field.id]) $field.classList.add('edge-source');
 
     for (let i = 2; i < texts.length; ++i) {
-      let str = texts[i].innerHTML;
+      const str = texts[i].innerHTML;
       if (str === '{R}' || str == '{D}') {
         const $iconPlaceholder = texts[i];
         const height = 22;

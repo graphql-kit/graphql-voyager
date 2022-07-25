@@ -21,7 +21,6 @@ overrides:
       - 'plugin:@typescript-eslint/recommended-requiring-type-checking'
     rules:
       # FIXME: remove below rules
-      prefer-const: off
       no-useless-escape: off
       no-case-declarations: off
       '@typescript-eslint/prefer-includes': off

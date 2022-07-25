@@ -10,7 +10,7 @@ interface SettingsProps {
 
 export default class Settings extends Component<SettingsProps> {
   render() {
-    let { schema, options, onChange } = this.props;
+    const { schema, options, onChange } = this.props;
 
     return (
       <div className="menu-content">

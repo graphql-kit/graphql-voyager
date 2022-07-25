@@ -55,7 +55,7 @@ export default class RootSelector extends Component<RootSelectorProps> {
 }
 
 function getRootTypeNames(schema) {
-  let { queryType, mutationType, subscriptionType } = schema;
+  const { queryType, mutationType, subscriptionType } = schema;
   const names = [];
   if (queryType) {
     names.push(queryType.name);

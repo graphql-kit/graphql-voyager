@@ -5,8 +5,8 @@ export function highlightTerm(content: string, term: string) {
     return content;
   }
 
-  let re = new RegExp('(' + _.escapeRegExp(term) + ')', 'gi');
-  let result: any = content.split(re);
+  const re = new RegExp('(' + _.escapeRegExp(term) + ')', 'gi');
+  const result: any = content.split(re);
 
   // Apply highlight to all odd elements
   for (let i = 1, length = result.length; i < length; i += 2) {

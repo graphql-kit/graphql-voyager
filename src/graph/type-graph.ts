@@ -38,15 +38,15 @@ export function getTypeGraph(schema, rootType: string, hideRoot: boolean) {
   }
 
   function buildGraph(rootId) {
-    let typeIds = [rootId];
-    let nodes = [];
-    let types = _.keyBy(schema.types, 'id');
+    const typeIds = [rootId];
+    const nodes = [];
+    const types = _.keyBy(schema.types, 'id');
 
     for (let i = 0; i < typeIds.length; ++i) {
-      let id = typeIds[i];
+      const id = typeIds[i];
       if (typeIds.indexOf(id) < i) continue;
 
-      let type = types[id];
+      const type = types[id];
 
       nodes.push(type);
       typeIds.push(...getEdgeTargets(type));

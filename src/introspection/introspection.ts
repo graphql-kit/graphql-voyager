@@ -196,7 +196,7 @@ function markRelayTypes(schema: SimplifiedIntrospectionWithIds): void {
 
   _.each(schema.types, (type) => {
     _.each(type.fields, (field) => {
-      let realType = edgeTypesMap[field.type.name];
+      const realType = edgeTypesMap[field.type.name];
       if (realType === undefined) return;
 
       field.relayType = field.type;
@@ -205,7 +205,7 @@ function markRelayTypes(schema: SimplifiedIntrospectionWithIds): void {
   });
 
   const { queryType } = schema;
-  let query = schema.types[queryType.id];
+  const query = schema.types[queryType.id];
 
   if (_.get(query, 'fields.node.type.isRelayType')) {
     delete query.fields['node'];
@@ -298,7 +298,7 @@ export function getSchema(
     schema = lexicographicSortSchema(schema);
   }
 
-  let simpleSchema = simplifySchema(schema);
+  const simpleSchema = simplifySchema(schema);
 
   assignTypesAndIDs(simpleSchema);
 

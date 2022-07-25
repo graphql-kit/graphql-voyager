@@ -52,7 +52,7 @@ export class Viewport {
   }
 
   resize() {
-    let bbRect = this.container.getBoundingClientRect();
+    const bbRect = this.container.getBoundingClientRect();
     this.offsetLeft = bbRect.left;
     this.offsetTop = bbRect.top;
     if (this.zoomer !== undefined) {
@@ -78,7 +78,7 @@ export class Viewport {
   bindClick() {
     let dragged = false;
 
-    let moveHandler = () => (dragged = true);
+    const moveHandler = () => (dragged = true);
     this.$svg.addEventListener('mousedown', () => {
       dragged = false;
       setTimeout(() => this.$svg.addEventListener('mousemove', moveHandler));
@@ -87,15 +87,15 @@ export class Viewport {
       this.$svg.removeEventListener('mousemove', moveHandler);
       if (dragged) return;
 
-      let target = event.target as Element;
+      const target = event.target as Element;
       if (isLink(target)) {
         const typeId = typeNameToId(target.textContent);
         this.focusElement(typeId);
       } else if (isNode(target)) {
-        let $node = getParent(target, 'node');
+        const $node = getParent(target, 'node');
         this.onSelectNode($node.id);
       } else if (isEdge(target)) {
-        let $edge = getParent(target, 'edge');
+        const $edge = getParent(target, 'edge');
         this.onSelectEdge(edgeSource($edge).id);
       } else if (!isControl(target)) {
         this.onSelectNode(null);
@@ -113,14 +113,14 @@ export class Viewport {
     }
 
     this.$svg.addEventListener('mousemove', (event) => {
-      let target = event.target as Element;
+      const target = event.target as Element;
       if (isEdgeSource(target)) {
-        let $sourceGroup = getParent(target, 'edge-source');
+        const $sourceGroup = getParent(target, 'edge-source');
         if ($sourceGroup.classList.contains('hovered')) return;
         clearSelection();
         $sourceGroup.classList.add('hovered');
         $prevHovered = $sourceGroup;
-        let $edge = edgeFrom($sourceGroup.id);
+        const $edge = edgeFrom($sourceGroup.id);
         $edge.classList.add('hovered');
         $prevHoveredEdge = $edge;
       } else {
@@ -140,7 +140,7 @@ export class Viewport {
     }
 
     this.$svg.classList.add('selection-active');
-    let $selected = document.getElementById(id);
+    const $selected = document.getElementById(id);
     this.selectNode($selected);
   }
 
@@ -165,9 +165,9 @@ export class Viewport {
 
     if (id === null) return;
 
-    let $selected = document.getElementById(id);
+    const $selected = document.getElementById(id);
     if ($selected) {
-      let $edge = edgeFrom($selected.id);
+      const $edge = edgeFrom($selected.id);
       if ($edge) $edge.classList.add('selected');
       $selected.classList.add('selected');
     }
@@ -180,35 +180,35 @@ export class Viewport {
   }
 
   focusElement(id: string) {
-    let bbBox = document.getElementById(id).getBoundingClientRect();
-    let currentPan = this.zoomer.getPan();
-    let viewPortSizes = (<any>this.zoomer).getSizes();
+    const bbBox = document.getElementById(id).getBoundingClientRect();
+    const currentPan = this.zoomer.getPan();
+    const viewPortSizes = (<any>this.zoomer).getSizes();
 
     currentPan.x += viewPortSizes.width / 2 - bbBox.width / 2;
     currentPan.y += viewPortSizes.height / 2 - bbBox.height / 2;
 
-    let zoomUpdateToFit =
+    const zoomUpdateToFit =
       1.2 *
       Math.max(
         bbBox.height / viewPortSizes.height,
         bbBox.width / viewPortSizes.width,
       );
     let newZoom = this.zoomer.getZoom() / zoomUpdateToFit;
-    let recommendedZoom = this.maxZoom * 0.6;
+    const recommendedZoom = this.maxZoom * 0.6;
     if (newZoom > recommendedZoom) newZoom = recommendedZoom;
 
-    let newX = currentPan.x - bbBox.left + this.offsetLeft;
-    let newY = currentPan.y - bbBox.top + this.offsetTop;
+    const newX = currentPan.x - bbBox.left + this.offsetLeft;
+    const newY = currentPan.y - bbBox.top + this.offsetTop;
     this.animatePanAndZoom(newX, newY, newZoom);
   }
 
   animatePanAndZoom(x, y, zoomEnd) {
-    let pan = this.zoomer.getPan();
-    let panEnd = { x, y };
+    const pan = this.zoomer.getPan();
+    const panEnd = { x, y };
     animate(pan, panEnd, (props) => {
       this.zoomer.pan({ x: props.x, y: props.y });
       if (props === panEnd) {
-        let zoom = this.zoomer.getZoom();
+        const zoom = this.zoomer.getZoom();
         animate({ zoom }, { zoom: zoomEnd }, (props) => {
           this.zoomer.zoom(props.zoom);
         });
@@ -268,7 +268,7 @@ function edgeFrom(id: String) {
 }
 
 function edgesFromNode($node) {
-  let edges = [];
+  const edges = [];
   for (const $source of $node.querySelectorAll('.edge-source')) {
     const $edge = edgeFrom($source.id);
     edges.push($edge);

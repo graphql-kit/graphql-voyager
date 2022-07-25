@@ -31,11 +31,11 @@ export default class ScalarDetails extends Component<
     }, 450);
   }
   render() {
-    let { type, onChange } = this.props;
+    const { type, onChange } = this.props;
 
     //FIXME: implement animation correctly
     //https://facebook.github.io/react/docs/animation.html
-    let { localType } = this.state;
+    const { localType } = this.state;
     if (type && (!localType || type.name !== localType.name)) {
       setTimeout(() => {
         this.setState({ localType: type });
