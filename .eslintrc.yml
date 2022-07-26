@@ -24,7 +24,6 @@ overrides:
         [error, index-signature]
 
       # FIXME: remove below rules
-      '@typescript-eslint/consistent-type-assertions': off
       '@typescript-eslint/no-var-requires': off
       '@typescript-eslint/no-misused-promises': off
 

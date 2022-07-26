@@ -182,7 +182,7 @@ export class Viewport {
   focusElement(id: string) {
     const bbBox = document.getElementById(id).getBoundingClientRect();
     const currentPan = this.zoomer.getPan();
-    const viewPortSizes = (<any>this.zoomer).getSizes();
+    const viewPortSizes = (this.zoomer as any).getSizes();
 
     currentPan.x += viewPortSizes.width / 2 - bbBox.width / 2;
     currentPan.y += viewPortSizes.height / 2 - bbBox.height / 2;

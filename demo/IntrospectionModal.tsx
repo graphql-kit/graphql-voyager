@@ -192,7 +192,7 @@ export class IntrospectionModal extends React.Component<IntrospectionModalProps>
           <Button
             color="primary"
             size="small"
-            onClick={async () => this.copyIntrospectionQuery()}
+            onClick={() => this.copyIntrospectionQuery()}
           >
             {recentlyCopied ? 'Copied!' : 'Copy Introspection Query'}
           </Button>

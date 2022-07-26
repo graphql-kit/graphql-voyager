@@ -236,9 +236,9 @@ function markDeprecated(schema: SimplifiedIntrospectionWithIds): void {
 }
 
 function assignTypesAndIDs(schema: SimplifiedIntrospection) {
-  (<any>schema).queryType = schema.types[schema.queryType];
-  (<any>schema).mutationType = schema.types[schema.mutationType];
-  (<any>schema).subscriptionType = schema.types[schema.subscriptionType];
+  (schema as any).queryType = schema.types[schema.queryType];
+  (schema as any).mutationType = schema.types[schema.mutationType];
+  (schema as any).subscriptionType = schema.types[schema.subscriptionType];
 
   _.each(schema.types, (type: any) => {
     type.id = typeNameToId(type.name);
@@ -303,10 +303,10 @@ export function getSchema(
   assignTypesAndIDs(simpleSchema);
 
   if (skipRelay) {
-    markRelayTypes((<any>simpleSchema) as SimplifiedIntrospectionWithIds);
+    markRelayTypes(simpleSchema as any as SimplifiedIntrospectionWithIds);
   }
   if (skipDeprecated) {
-    markDeprecated((<any>simpleSchema) as SimplifiedIntrospectionWithIds);
+    markDeprecated(simpleSchema as any as SimplifiedIntrospectionWithIds);
   }
   return simpleSchema;
 }

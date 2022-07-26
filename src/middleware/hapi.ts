@@ -18,7 +18,7 @@ const hapi = {
       path,
       config,
       handler: (_request, h) =>
-        h.response(renderVoyagerPage(<MiddlewareOptions>middlewareOptions)),
+        h.response(renderVoyagerPage(middlewareOptions as MiddlewareOptions)),
     });
   },
 };
