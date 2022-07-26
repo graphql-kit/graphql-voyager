@@ -192,7 +192,10 @@ export class IntrospectionModal extends React.Component<IntrospectionModalProps>
           <Button
             color="primary"
             size="small"
-            onClick={() => this.copyIntrospectionQuery()}
+            onClick={() => {
+              // eslint-disable-next-line @typescript-eslint/no-floating-promises
+              this.copyIntrospectionQuery();
+            }}
           >
             {recentlyCopied ? 'Copied!' : 'Copy Introspection Query'}
           </Button>

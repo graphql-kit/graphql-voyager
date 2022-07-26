@@ -2,7 +2,7 @@ import renderVoyagerPage, { MiddlewareOptions } from './render-voyager-page';
 
 export default function koaMiddleware(
   options: MiddlewareOptions,
-): (ctx, next) => void {
+): (ctx, next) => Promise<void> {
   return async function voyager(ctx, next) {
     try {
       ctx.body = renderVoyagerPage(options);
