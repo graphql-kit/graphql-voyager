@@ -23,7 +23,6 @@ module.exports = (env = {}) => ({
 
   resolve: {
     extensions: ['.ts', '.tsx', '.mjs', '.js', '.json', '.css', '.svg'],
-    fallback: { path: require.resolve('path-browserify') },
   },
 
   externals: env.lib

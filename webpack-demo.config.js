@@ -12,7 +12,6 @@ module.exports = function () {
     },
     resolve: {
       extensions: ['.ts', '.tsx', '.mjs', '.js', '.json', '.css', '.svg'],
-      fallback: { path: require.resolve('path-browserify') },
     },
     entry: './demo/index.tsx',
     devServer: {
@@ -20,6 +19,7 @@ module.exports = function () {
       static: {
         directory: path.resolve(__dirname, '../demo'),
       },
+      liveReload: true,
     },
     stats: 'errors-only',
     output: {
