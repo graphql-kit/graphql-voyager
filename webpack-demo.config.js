@@ -2,7 +2,7 @@ const path = require('node:path');
 
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = function () {
@@ -15,11 +15,13 @@ module.exports = function () {
     },
     entry: './demo/index.tsx',
     devServer: {
-      contentBase: path.resolve(__dirname, 'demo'),
-      watchContentBase: true,
       port: 9090,
-      stats: 'errors-only',
+      static: {
+        directory: path.resolve(__dirname, '../demo'),
+      },
+      liveReload: true,
     },
+    stats: 'errors-only',
     output: {
       path: path.resolve(__dirname, 'demo-dist'),
       filename: '[name].js',
@@ -47,22 +49,18 @@ module.exports = function () {
         {
           test: /\.css$/,
           exclude: /variables\.css$/,
-          use: ExtractTextPlugin.extract({
-            fallback: 'style-loader',
-            use: [
-              {
-                loader: 'css-loader',
-                options: {
-                  sourceMap: true,
-                },
-              },
-              'postcss-loader',
-            ],
-          }),
+          use: [
+            MiniCssExtractPlugin.loader,
+            {
+              loader: 'css-loader',
+              options: { sourceMap: true },
+            },
+            { loader: 'postcss-loader', options: { sourceMap: true } },
+          ],
         },
         {
           test: /variables\.css$/,
-          loader: 'postcss-variables-loader?es5=1',
+          use: [{ loader: 'postcss-variables-loader?es5=1' }],
         },
         {
           test: /\.svg$/,
@@ -94,15 +92,15 @@ module.exports = function () {
         template: './demo/index.html',
       }),
 
-      new ExtractTextPlugin({
-        filename: '[name].[hash].css',
-      }),
+      new MiniCssExtractPlugin({ filename: '[name].[contenthash].css' }),
 
-      new CopyWebpackPlugin([
-        { from: '.nojekyll', context: './demo' },
-        { from: '**/*.png', context: './demo' },
-        { from: '**/*.ico', context: './demo' },
-      ]),
+      new CopyWebpackPlugin({
+        patterns: [
+          { from: '.nojekyll', context: './demo' },
+          { from: '**/*.png', context: './demo' },
+          { from: '**/*.ico', context: './demo' },
+        ],
+      }),
     ],
   };
 };
