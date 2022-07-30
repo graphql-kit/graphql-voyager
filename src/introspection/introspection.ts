@@ -110,7 +110,7 @@ function convertType(
     };
   } else if (isInputObjectType(type)) {
     return {
-      kind: 'INTERFACE',
+      kind: 'INPUT_OBJECT',
       name: type.name,
       description: type.description,
       inputFields: mapValues(type.getFields(), convertInputValue),
