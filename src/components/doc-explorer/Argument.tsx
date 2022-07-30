@@ -20,7 +20,7 @@ export default class Argument extends Component<ArgumentProps> {
         <span className="arg">
           <span className="arg-name">{arg.name}</span>
           <WrappedTypeName container={arg} onTypeLink={onTypeLink} />
-          {arg.defaultValue !== null && (
+          {arg.defaultValue != null && (
             <span>
               {' = '}
               <span className="default-value">{arg.defaultValue}</span>
