@@ -27,6 +27,8 @@
     "./src/**/*.ts",
     "./src/**/*.tsx",
     "./manual-types.d.ts",
-    "demo/**/*.tsx"
+    "demo/**/*.tsx",
+    "tests/**/*.ts",
+    "playwright.config.ts"
   ]
 }

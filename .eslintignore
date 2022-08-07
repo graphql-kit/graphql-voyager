@@ -6,3 +6,5 @@
 /demo-dist
 /middleware
 /typings
+/test-results
+/playwright-report

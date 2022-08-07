@@ -5,7 +5,7 @@
   "main": "dist/voyager.lib.js",
   "types": "typings/index.d.ts",
   "scripts": {
-    "test": "npm run lint && npm run check && npm run prettier:check && npm run check:spelling",
+    "test": "npm run lint && npm run check && npm run testonly && npm run prettier:check && npm run check:spelling",
     "start": "webpack-dev-server --config=webpack-demo.config.js --mode=development",
     "clean:release": "rm -rf dist middleware",
     "clean:demo": "rm -rf demo-dist",
@@ -21,10 +21,12 @@
     "prettier": "prettier --cache --cache-strategy metadata --write --list-different .",
     "prettier:check": "prettier --cache --cache-strategy metadata --check .",
     "check:spelling": "cspell --cache --no-progress '**/*'",
+    "testonly": "playwright test",
     "declarations": "tsc --emitDeclarationOnly -p tsconfig.lib.json"
   },
   "license": "MIT",
   "devDependencies": {
+    "@playwright/test": "1.24.2",
     "@types/commonmark": "0.27.5",
     "@types/lodash": "4.14.182",
     "@types/react": "^17.0.0",
