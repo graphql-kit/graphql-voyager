@@ -8,10 +8,16 @@ ignorePaths:
 dictionaries:
   - html
 
+overrides:
+  - filename: '**/Dockerfile.*'
+    dictionaries:
+      - docker
+
 words:
   - reactroot # FIXME https://github.com/facebook/react/issues/10971
   - zoomer # FIXME
   - typelist # FIXME
+  - positionals
   - fontname
   - rankdir
   - asynciterable

@@ -2,8 +2,7 @@ name: CI
 on: workflow_call
 jobs:
   test:
-    timeout-minutes: 5
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
@@ -18,9 +17,6 @@ jobs:
 
       - name: Install Dependencies
         run: npm ci --ignore-scripts
-
-      - name: Install Playwright Browsers
-        run: npx playwright install --with-deps
 
       - name: Run tests
         run: npm run testonly

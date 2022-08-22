@@ -46,7 +46,7 @@ const config: PlaywrightTestConfig = {
   ],
   outputDir: 'test-results/',
   webServer: {
-    command: 'npm run start',
+    command: 'npm run serve',
     url: 'http://localhost:9090/',
   },
 };

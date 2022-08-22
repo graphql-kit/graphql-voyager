@@ -1,0 +1,16 @@
+version: '3'
+services:
+  test:
+    build:
+      context: .
+      dockerfile: scripts/Dockerfile.playwright
+    volumes:
+      - ./:/app/
+    command: npx playwright test
+  update-snapshots:
+    build:
+      context: .
+      dockerfile: scripts/Dockerfile.playwright
+    volumes:
+      - ./:/app/
+    command: npx playwright test --update-snapshots

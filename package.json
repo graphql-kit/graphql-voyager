@@ -7,6 +7,7 @@
   "scripts": {
     "test": "npm run lint && npm run check && npm run testonly && npm run prettier:check && npm run check:spelling",
     "start": "webpack serve --config=webpack-demo.config.js --mode=development",
+    "serve": "node ./scripts/serve-directory.js -p 9090 demo-dist",
     "clean:release": "rm -rf dist middleware",
     "clean:demo": "rm -rf demo-dist",
     "bundle:standalone": "webpack --config=webpack.config.js --mode=production",
@@ -21,7 +22,7 @@
     "prettier": "prettier --cache --cache-strategy metadata --write --list-different .",
     "prettier:check": "prettier --cache --cache-strategy metadata --check .",
     "check:spelling": "cspell --cache --no-progress '**/*'",
-    "testonly": "playwright test",
+    "testonly": "npm run build:demo && docker-compose up --build test",
     "declarations": "tsc --emitDeclarationOnly -p tsconfig.lib.json"
   },
   "license": "MIT",
