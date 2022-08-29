@@ -109,6 +109,25 @@ jobs:
       - name: Check that package-lock.json is in sync with package.json
         run: git diff --exit-code package-lock.json
 
+  codeql:
+    name: Run CodeQL security scan
+    runs-on: ubuntu-latest
+    permissions:
+      security-events: write
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+        with:
+          persist-credentials: false
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v2
+        with:
+          languages: 'javascript, typescript'
+
+      - name: Perform CodeQL analysis
+        uses: github/codeql-action/analyze@v2
+
   buildDemo:
     name: Build Demo
     runs-on: ubuntu-latest
