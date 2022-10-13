@@ -76,6 +76,9 @@ export class Viewport {
       maxZoom: this.maxZoom,
       controlIconsEnabled: true,
     });
+    if (this.isDestroyed || this.zoomer === undefined) {
+      return;
+    }
     this.zoomer.zoom(0.95);
   }
 
