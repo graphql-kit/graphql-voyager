@@ -13,6 +13,21 @@ _[GraphQL Weekly #42](https://graphqlweekly.com/issues/42)_
 
 [![voyager demo](./docs/demo-gif.gif)](https://IvanGoncharov.github.io/graphql-voyager/)
 
+## Local Demo
+
+### Run on localhost
+
+To run GraphQL Voyager locally, clone the current repo and run the following `npm` commands 
+
+```
+npm install
+npm start
+```
+
+The application is served on http://localhost:9090
+
+
+
 ## Features
 
 - Quick navigation on graph
