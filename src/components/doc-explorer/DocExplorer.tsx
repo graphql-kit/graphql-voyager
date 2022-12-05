@@ -54,7 +54,7 @@ export default class DocExplorer extends Component<DocExplorerProps> {
     if (!typeGraph) {
       return (
         <div className="type-doc" key={0}>
-          <span className="loading"> Loading... </span>;
+          <span className="loading"> Loading... </span>
         </div>
       );
     }
