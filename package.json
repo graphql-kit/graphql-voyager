@@ -65,7 +65,6 @@
     "react-dom": ">=18.0.0"
   },
   "dependencies": {
-    "@f/animate": "^1.0.1",
     "@mui/material": "^5.8.1",
     "commonmark": "0.30.0",
     "cspell": "^6.2.3",
