@@ -19,7 +19,7 @@ const options = {
   directory: parsedArgs.positionals[0],
   port: parsedArgs.values.port,
 };
- 
+
 http
   .createServer((request, response) => {
     console.log(`request ${request.url}`);
