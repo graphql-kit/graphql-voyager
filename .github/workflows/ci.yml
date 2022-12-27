@@ -77,6 +77,7 @@ jobs:
 
           rm gitignore/Global/ModelSim.gitignore
           rm gitignore/Global/Images.gitignore
+          rm gitignore/Global/VirtualEnv.gitignore
           cat gitignore/Node.gitignore gitignore/Global/*.gitignore > all.gitignore
 
           IGNORED_FILES=$(git ls-files --cached --ignored --exclude-from=all.gitignore)
