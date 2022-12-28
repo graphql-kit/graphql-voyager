@@ -22,7 +22,7 @@
     "prettier": "prettier --cache --cache-strategy metadata --write --list-different .",
     "prettier:check": "prettier --cache --cache-strategy metadata --check .",
     "check:spelling": "cspell --cache --no-progress '**/*'",
-    "testonly": "npm run build:demo && docker-compose up --build test",
+    "testonly": "docker-compose up --build test",
     "declarations": "tsc --emitDeclarationOnly -p tsconfig.lib.json"
   },
   "license": "MIT",

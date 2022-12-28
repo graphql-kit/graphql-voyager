@@ -4,15 +4,9 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.playwright
-    volumes:
-      - ./:/app/
     command: npx playwright test
-    environment:
-      - DEBUG=pw:webserver
   update-snapshots:
     build:
       context: .
       dockerfile: Dockerfile.playwright
-    volumes:
-      - ./:/app/
     command: npx playwright test --update-snapshots
