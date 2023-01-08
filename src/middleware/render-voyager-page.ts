@@ -1,8 +1,9 @@
 const { version } = require('../package.json');
+import { VoyagerDisplayOptions } from '../utils/types';
 
 export interface MiddlewareOptions {
   endpointUrl: string;
-  displayOptions?: object;
+  displayOptions?: VoyagerDisplayOptions;
   headersJS?: string;
 }
 

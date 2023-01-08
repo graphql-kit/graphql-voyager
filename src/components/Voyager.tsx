@@ -2,7 +2,7 @@ import { getIntrospectionQuery } from 'graphql/utilities';
 
 import { getSchema, extractTypeId } from '../introspection';
 import { SVGRender, getTypeGraph } from '../graph/';
-import { WorkerCallback } from '../utils/types';
+import { WorkerCallback, VoyagerDisplayOptions } from '../utils/types';
 
 import {
   createRef,
@@ -25,16 +25,7 @@ import './viewport.css';
 
 type IntrospectionProvider = (query: string) => Promise<any>;
 
-export interface VoyagerDisplayOptions {
-  rootType?: string;
-  skipRelay?: boolean;
-  skipDeprecated?: boolean;
-  showLeafFields?: boolean;
-  sortByAlphabet?: boolean;
-  hideRoot?: boolean;
-}
-
-const defaultDisplayOptions = {
+const defaultDisplayOptions: VoyagerDisplayOptions = {
   rootType: undefined,
   skipRelay: true,
   skipDeprecated: true,
