@@ -1,12 +1,12 @@
 import { createTheme } from '@mui/material/styles';
-import { cyan, yellow } from '@mui/material/colors';
+import { cyan, grey } from '@mui/material/colors';
 
 import variables from './variables.css';
 
 export const theme = createTheme({
   palette: {
     primary: cyan,
-    secondary: yellow,
+    secondary: grey,
   },
   typography: {
     fontSize: 12,

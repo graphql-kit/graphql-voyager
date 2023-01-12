@@ -15,6 +15,7 @@ module.exports = function () {
     },
     entry: './demo/index.tsx',
     devServer: {
+      https: true,
       port: 9090,
       static: {
         directory: path.resolve(__dirname, '../demo'),
