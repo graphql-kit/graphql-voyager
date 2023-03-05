@@ -13,30 +13,23 @@ const svgNS = 'http://www.w3.org/2000/svg';
 const xlinkNS = 'http://www.w3.org/1999/xlink';
 
 export class SVGRender {
-  vizPromise: any;
+  viz: Viz;
 
   constructor(
     workerURI: string,
     loadWorker: WorkerCallback = defaultLoadWorker,
   ) {
-    this.vizPromise = loadWorker(
-      workerURI || defaultWorkerURI,
-      !workerURI,
-    ).then((worker) => new Viz({ worker }));
+    const worker = loadWorker(workerURI || defaultWorkerURI, !workerURI);
+    this.viz = new Viz({ worker });
   }
 
-  renderSvg(typeGraph, displayOptions) {
-    return this.vizPromise
-      .then((viz) => {
-        console.time('Rendering Graph');
-        const dot = getDot(typeGraph, displayOptions);
-        return viz.renderString(dot);
-      })
-      .then((rawSVG) => {
-        const svg = preprocessVizSVG(rawSVG);
-        console.timeEnd('Rendering Graph');
-        return svg;
-      });
+  async renderSvg(typeGraph, displayOptions) {
+    console.time('Rendering Graph');
+    const dot = getDot(typeGraph, displayOptions);
+    const rawSVG = await this.viz.renderString(dot);
+    const svg = preprocessVizSVG(rawSVG);
+    console.timeEnd('Rendering Graph');
+    return svg;
   }
 }
 

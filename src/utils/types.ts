@@ -1,4 +1,1 @@
-export type WorkerCallback = (
-  path: string,
-  relative: boolean,
-) => Promise<Worker>;
+export type WorkerCallback = (path: string, relative: boolean) => Worker;
