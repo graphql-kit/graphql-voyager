@@ -15,7 +15,7 @@ export function getDot(typeGraph, displayOptions): string {
       ];
       node [
         fontsize = "16"
-        fontname = "helvetica, open-sans"
+        fontname = "helvetica"
         shape = "plaintext"
       ];
       edge [
