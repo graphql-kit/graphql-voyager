@@ -10,6 +10,7 @@
 /node_modules
 /dist
 /demo-dist
+/worker-dist
 /middleware
 /typings
 /test-results

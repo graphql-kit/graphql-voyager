@@ -1,12 +1,33 @@
 version: '3'
 services:
+  build-worker:
+    build:
+      context: .
+      dockerfile: Dockerfile.worker
+    volumes:
+      - ./worker:/home/worker:ro
+      - ./worker-dist:/home/worker-dist
+    stdin_open: true
+    tty: true
   test:
     build:
       context: .
       dockerfile: Dockerfile.playwright
+    volumes:
+      - ./scripts:/app/scripts:ro
+      - ./demo-dist:/app/demo-dist:ro
+      - ./playwright.config.ts:/app/playwright.config.ts:ro
+      - ./tests:/app/tests
+      - ./test-results:/app/test-results
+      - ./playwright-report:/app/playwright-report
     command: npx playwright test
   update-snapshots:
     build:
       context: .
       dockerfile: Dockerfile.playwright
+    volumes:
+      - ./scripts:/app/scripts:ro
+      - ./demo-dist:/app/demo-dist:ro
+      - ./playwright.config.ts:/app/playwright.config.ts:ro
+      - ./tests:/app/tests
     command: npx playwright test --update-snapshots

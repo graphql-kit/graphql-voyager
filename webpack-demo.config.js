@@ -39,15 +39,6 @@ module.exports = function () {
           exclude: [/\.(spec|e2e)\.ts$/],
         },
         {
-          test: /\.render\.js$/,
-          use: {
-            loader: 'file-loader',
-            options: {
-              name: 'voyager.worker.js',
-            },
-          },
-        },
-        {
           test: /\.css$/,
           exclude: /variables\.css$/,
           use: [
@@ -97,6 +88,7 @@ module.exports = function () {
 
       new CopyWebpackPlugin({
         patterns: [
+          { from: 'voyager.worker.js', context: './worker-dist' },
           { from: '.nojekyll', context: './demo' },
           { from: '**/*.png', context: './demo' },
           { from: '**/*.ico', context: './demo' },

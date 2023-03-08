@@ -4,32 +4,80 @@ import { loadWorker as defaultLoadWorker, stringToSvg } from '../utils/';
 
 import { WorkerCallback } from '../utils/types';
 
-import Viz from 'viz.js';
-import defaultWorkerURI from 'viz.js/full.render.js';
-
 const RelayIconSvg = require('!!svg-as-symbol-loader?id=RelayIcon!../components/icons/relay-icon.svg');
 const DeprecatedIconSvg = require('!!svg-as-symbol-loader?id=DeprecatedIcon!../components/icons/deprecated-icon.svg');
 const svgNS = 'http://www.w3.org/2000/svg';
 const xlinkNS = 'http://www.w3.org/1999/xlink';
 
+interface SerializedError {
+  message: string;
+  lineNumber?: number;
+  fileName?: string;
+  stack?: string;
+}
+
+type RenderRequestListener = (error: SerializedError, result?: string) => void;
+
+interface RenderRequest {
+  id: number;
+  src: string;
+}
+
+interface RenderResponse {
+  id: number;
+  error?: SerializedError;
+  result?: string;
+}
+
 export class SVGRender {
-  viz: Viz;
+  private _worker: Worker;
+
+  private _listeners: RenderRequestListener[] = [];
+  private _nextId = 0;
 
   constructor(
     workerURI: string,
     loadWorker: WorkerCallback = defaultLoadWorker,
   ) {
-    const worker = loadWorker(workerURI || defaultWorkerURI, !workerURI);
-    this.viz = new Viz({ worker });
+    const worker = loadWorker(workerURI || './voyager.worker.js', !workerURI);
+    this._worker = worker;
+
+    this._worker.addEventListener('message', (event) => {
+      const { id, error, result } = event.data as RenderResponse;
+
+      this._listeners[id](error, result);
+      delete this._listeners[id];
+    });
   }
 
   async renderSvg(typeGraph, displayOptions) {
     console.time('Rendering Graph');
     const dot = getDot(typeGraph, displayOptions);
-    const rawSVG = await this.viz.renderString(dot);
+    console.log(dot);
+    const rawSVG = await this._renderString(dot);
     const svg = preprocessVizSVG(rawSVG);
     console.timeEnd('Rendering Graph');
     return svg;
+  }
+
+  _renderString(src: string): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const id = this._nextId++;
+
+      this._listeners[id] = function (error, result): void {
+        if (error) {
+          const e = new Error(error.message);
+          if (error.fileName) (e as any).fileName = error.fileName;
+          if (error.lineNumber) (e as any).lineNumber = error.lineNumber;
+          if (error.stack) (e as any).stack = error.stack;
+          return reject(e);
+        }
+        resolve(result);
+      };
+
+      const renderRequest: RenderRequest = { id, src };
+      this._worker.postMessage(renderRequest);
+    });
   }
 }
 

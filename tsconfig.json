@@ -16,13 +16,7 @@
     "jsx": "react-jsx"
   },
   "compileOnSave": false,
-  "exclude": [
-    "node_modules",
-    ".tmp",
-    "dist",
-    "demo-dist",
-    "**/**/voyager.worker.js"
-  ],
+  "exclude": ["node_modules", ".tmp", "dist", "demo-dist", "worker-dist"],
   "include": [
     "./src/**/*.ts",
     "./src/**/*.tsx",

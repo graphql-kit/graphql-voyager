@@ -5,6 +5,8 @@ ignorePaths:
   - cspell.yml
   - package.json
   - demo/presets
+  - worker/viz.cpp
+  - Dockerfile.worker
 dictionaries:
   - html
 

@@ -2,9 +2,8 @@ const path = require('node:path');
 
 const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const nodeExternals = require('webpack-node-externals')({
-  allowlist: ['viz.js/full.render.js'],
-});
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const nodeExternals = require('webpack-node-externals')();
 
 const packageJSON = require('./package.json');
 const BANNER = `GraphQL Voyager - Represent any GraphQL API as an interactive graph
@@ -61,17 +60,6 @@ module.exports = (env = {}) => ({
         exclude: [/\.(spec|e2e)\.ts$/],
       },
       {
-        test: /\.render\.js$/,
-        use: [
-          {
-            loader: 'file-loader',
-            options: {
-              name: 'voyager.worker.js',
-            },
-          },
-        ],
-      },
-      {
         test: /\.css$/,
         exclude: /variables\.css$/,
         use: [
@@ -110,5 +98,9 @@ module.exports = (env = {}) => ({
     }),
 
     new webpack.BannerPlugin(BANNER),
+
+    new CopyWebpackPlugin({
+      patterns: [{ from: 'voyager.worker.js', context: './worker-dist' }],
+    }),
   ],
 });
