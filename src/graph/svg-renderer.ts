@@ -53,7 +53,6 @@ export class SVGRender {
   async renderSvg(typeGraph, displayOptions) {
     console.time('Rendering Graph');
     const dot = getDot(typeGraph, displayOptions);
-    console.log(dot);
     const rawSVG = await this._renderString(dot);
     const svg = preprocessVizSVG(rawSVG);
     console.timeEnd('Rendering Graph');
