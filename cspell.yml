@@ -6,12 +6,12 @@ ignorePaths:
   - package.json
   - demo/presets
   - worker/viz.cpp
-  - Dockerfile.worker
+  - worker/Dockerfile
 dictionaries:
   - html
 
 overrides:
-  - filename: '**/Dockerfile.*'
+  - filename: '**/Dockerfile'
     dictionaries:
       - docker
 

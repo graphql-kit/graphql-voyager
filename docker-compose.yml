@@ -3,7 +3,7 @@ services:
   build-worker:
     build:
       context: .
-      dockerfile: Dockerfile.worker
+      dockerfile: ./worker/Dockerfile
     volumes:
       - ./worker:/home/worker:ro
       - ./worker-dist:/home/worker-dist
@@ -12,7 +12,7 @@ services:
   test:
     build:
       context: .
-      dockerfile: Dockerfile.playwright
+      dockerfile: ./tests/Dockerfile
     volumes:
       - ./scripts:/app/scripts:ro
       - ./demo-dist:/app/demo-dist:ro

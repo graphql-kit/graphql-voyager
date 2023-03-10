@@ -72,6 +72,7 @@ CMD	emcc \
   -s TEXTDECODER=2 \
   -s MODULARIZE=0 \
   -s INCOMING_MODULE_JS_API=[] \
-  -o worker-dist/voyager.worker.js \
+  -o tmp.js \
   --post-js worker/post.js \
-  worker/viz.cpp
+  worker/viz.cpp ; \
+node worker/bundle.js < tmp.js > worker-dist/voyager.worker.js
