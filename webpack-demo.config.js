@@ -12,6 +12,7 @@ module.exports = function () {
     },
     resolve: {
       extensions: ['.ts', '.tsx', '.mjs', '.js', '.json', '.css', '.svg'],
+      alias: { '../../worker': '../../worker-dist' },
     },
     entry: './demo/index.tsx',
     devServer: {
@@ -88,7 +89,6 @@ module.exports = function () {
 
       new CopyWebpackPlugin({
         patterns: [
-          { from: 'voyager.worker.js', context: './worker-dist' },
           { from: '.nojekyll', context: './demo' },
           { from: '**/*.png', context: './demo' },
           { from: '**/*.ico', context: './demo' },

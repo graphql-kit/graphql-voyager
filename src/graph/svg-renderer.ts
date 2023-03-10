@@ -1,8 +1,7 @@
 import { getDot } from './dot';
 
-import { loadWorker as defaultLoadWorker, stringToSvg } from '../utils/';
-
-import { WorkerCallback } from '../utils/types';
+import VizWorker from '../../worker/voyager.worker.js';
+import { stringToSvg } from '../utils/';
 
 const RelayIconSvg = require('!!svg-as-symbol-loader?id=RelayIcon!../components/icons/relay-icon.svg');
 const DeprecatedIconSvg = require('!!svg-as-symbol-loader?id=DeprecatedIcon!../components/icons/deprecated-icon.svg');
@@ -35,12 +34,8 @@ export class SVGRender {
   private _listeners: RenderRequestListener[] = [];
   private _nextId = 0;
 
-  constructor(
-    workerURI: string,
-    loadWorker: WorkerCallback = defaultLoadWorker,
-  ) {
-    const worker = loadWorker(workerURI || './voyager.worker.js', !workerURI);
-    this._worker = worker;
+  constructor() {
+    this._worker = VizWorker;
 
     this._worker.addEventListener('message', (event) => {
       const { id, error, result } = event.data as RenderResponse;

@@ -2,7 +2,6 @@ import { getIntrospectionQuery } from 'graphql/utilities';
 
 import { getSchema, extractTypeId } from '../introspection';
 import { SVGRender, getTypeGraph } from '../graph/';
-import { WorkerCallback } from '../utils/types';
 
 import {
   createRef,
@@ -54,8 +53,6 @@ export interface VoyagerProps {
   displayOptions?: VoyagerDisplayOptions;
   hideDocs?: boolean;
   hideSettings?: boolean;
-  workerURI?: string;
-  loadWorker?: WorkerCallback;
 
   children?: ReactNode;
 }
@@ -76,10 +73,7 @@ export default class Voyager extends Component<VoyagerProps> {
 
   constructor(props) {
     super(props);
-    this.svgRenderer = new SVGRender(
-      this.props.workerURI,
-      this.props.loadWorker,
-    );
+    this.svgRenderer = new SVGRender();
   }
 
   componentDidMount() {

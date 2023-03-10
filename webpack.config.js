@@ -2,7 +2,6 @@ const path = require('node:path');
 
 const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
 const nodeExternals = require('webpack-node-externals')();
 
 const packageJSON = require('./package.json');
@@ -22,6 +21,7 @@ module.exports = (env = {}) => ({
 
   resolve: {
     extensions: ['.ts', '.tsx', '.mjs', '.js', '.json', '.css', '.svg'],
+    alias: { '../../worker': '../../worker-dist' },
   },
 
   externals: env.lib
@@ -98,9 +98,5 @@ module.exports = (env = {}) => ({
     }),
 
     new webpack.BannerPlugin(BANNER),
-
-    new CopyWebpackPlugin({
-      patterns: [{ from: 'voyager.worker.js', context: './worker-dist' }],
-    }),
   ],
 });

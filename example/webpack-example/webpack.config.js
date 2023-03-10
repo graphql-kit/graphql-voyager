@@ -1,7 +1,6 @@
 const path = require('node:path');
 
 const webpack = require('webpack');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   devtool: 'cheap-source-map',
@@ -46,8 +45,5 @@ module.exports = {
       minimize: true,
       debug: false,
     }),
-    new CopyWebpackPlugin([
-      { from: './node_modules/graphql-voyager/dist/voyager.worker.js' },
-    ]),
   ],
 };

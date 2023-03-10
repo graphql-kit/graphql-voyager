@@ -13,20 +13,3 @@ export function isMatch(sourceText: string, searchValue: string) {
     return sourceText.toLowerCase().includes(searchValue.toLowerCase());
   }
 }
-
-export function loadWorker(path: string, relative: boolean): Worker {
-  const url = relative ? relativeToJsUrlPathname(path) : path;
-  return new Worker(url);
-}
-
-function relativeToJsUrlPathname(path: string): string {
-  try {
-    const url = new URL(
-      path,
-      (document.currentScript as HTMLScriptElement).src,
-    );
-    return url.pathname;
-  } catch (e) {
-    return path;
-  }
-}

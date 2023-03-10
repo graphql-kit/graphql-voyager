@@ -39,8 +39,6 @@ module system it is exported as `GraphQLVoyager` global variable.
   - `displayOptions.hideRoot` [`boolean`, default `false`] - hide the root type
 - `hideDocs` [`boolean`, default `false`] - hide the docs sidebar
 - `hideSettings` [`boolean`, default `false`] - hide settings panel
-- `workerURI` [`string`] _(optional)_ - absolute or relative path to Voyager web worker. By default it will try to load it from `voyager.worker.js`.
-- `loadWorker` [function: `(path: string, relative: boolean) => Promise<Worker>`] _(optional)_ - If provided GraphQL Voyager will use this function to load the worker. By default it will use the internal callback in `utils/index.ts`
 
 ### `init` function
 
@@ -61,9 +59,6 @@ You can get GraphQL Voyager bundle from the following places:
   - some exact version - https://cdn.jsdelivr.net/npm/graphql-voyager/v1.0.0-rc.15/voyager.min.js
   - latest version - https://cdn.jsdelivr.net/npm/graphql-voyager/dist/voyager.min.js
 - from `dist` folder of the npm package `graphql-voyager`
-
-**Important:** for the latest two options make sure to copy `voyager.worker.js` to the same
-folder as `voyager.min.js`.
 
 **The HTML with minimal setup** (see the full [example](./example))
 
@@ -127,18 +122,6 @@ ReactDOM.render(
 
 Build for the web with [webpack](https://webpack.js.org/) ([example](./example/webpack-example)) or
 [browserify](http://browserify.org/)
-
-**Important:** make sure to copy `voyager.worker.js` from `node_modules/graphql-voyager/dist` to the same folder as your main bundle or use [`workerURI`](#properties) property to specify other path.
-
-**NOTE** if you use it with `create-react-app`, copy worker file to `public` folder and use `workerURI` property like this:
-
-```jsx
-<Voyager
-  // ...
-  workerURI={process.env.PUBLIC_URL + '/voyager.worker.js'}
-  // ...
-/>
-```
 
 ## Middleware
 

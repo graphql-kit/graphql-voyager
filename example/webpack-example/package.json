@@ -14,7 +14,6 @@
     "@babel/preset-env": "7.4.3",
     "@babel/preset-react": "7.0.0",
     "babel-loader": "8.0.5",
-    "copy-webpack-plugin": "5.0.3",
     "webpack": "4.30.0",
     "webpack-dev-server": "3.3.1"
   }
