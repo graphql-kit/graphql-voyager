@@ -12,7 +12,7 @@ export default class LoadingAnimation extends Component<LoadingAnimationProps> {
   render() {
     const { loading } = this.props;
     return (
-      <div className={`loading-box ${loading ? 'visible' : ''}`}>
+      <div role="status" className={`loading-box ${loading ? 'visible' : ''}`}>
         <span className="loading-animation">
           <VoyagerIcon />
           <h1> Transmitting... </h1>

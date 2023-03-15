@@ -24,10 +24,12 @@ services:
   update-snapshots:
     build:
       context: .
-      dockerfile: Dockerfile.playwright
+      dockerfile: ./tests/Dockerfile
     volumes:
       - ./scripts:/app/scripts:ro
       - ./demo-dist:/app/demo-dist:ro
       - ./playwright.config.ts:/app/playwright.config.ts:ro
       - ./tests:/app/tests
+      - ./test-results:/app/test-results
+      - ./playwright-report:/app/playwright-report
     command: npx playwright test --update-snapshots
