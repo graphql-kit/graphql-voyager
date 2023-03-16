@@ -21,8 +21,8 @@
     "stats": "NODE_ENV=production webpack --json --config=webpack.config.js --mode=production > stats.json",
     "lint": "eslint --cache --max-warnings 0 .",
     "check": "tsc",
-    "prettier": "prettier --cache --cache-strategy metadata --write --list-different .",
-    "prettier:check": "prettier --cache --cache-strategy metadata --check .",
+    "prettier": "prettier --cache --cache-strategy metadata --write --list-different . **/*.svg",
+    "prettier:check": "prettier --cache --cache-strategy metadata --check . **/*.svg",
     "check:spelling": "cspell --cache --no-progress '**/*'",
     "testonly": "npm run build:demo && docker-compose up --abort-on-container-exit --build test",
     "declarations": "tsc --emitDeclarationOnly -p tsconfig.lib.json"
