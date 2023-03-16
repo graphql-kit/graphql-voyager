@@ -10,6 +10,61 @@
   style="enable-background: new 0 0 470.8 438.1"
   xml:space="preserve"
 >
+  <style type="text/css">
+    svg {
+      animation: voyager-shake 2s infinite;
+    }
+
+    .voyager-signal1 {
+      animation: signal-move 1s infinite;
+    }
+
+    .voyager-signal2 {
+      animation: signal-move 1s infinite;
+      animation-delay: 0.2s;
+    }
+
+    .voyager-signal3 {
+      animation: signal-move 1s infinite;
+      animation-delay: 0.4s;
+    }
+
+    @keyframes voyager-shake {
+      0% {
+        transform: rotateZ(0deg);
+      }
+
+      50% {
+        transform: rotateZ(2deg);
+      }
+
+      100% {
+        transform: rotateZ(0deg);
+      }
+    }
+
+    @keyframes signal-move {
+      0% {
+        opacity: 0.1;
+        transform: translate3d(0, 0, 0);
+      }
+
+      25% {
+        opacity: 1;
+        transform: translate3d(3px, -3px, 0);
+      }
+
+      50% {
+        opacity: 0.1;
+        transform: translate3d(0, 0, 0);
+      }
+
+      100% {
+        opacity: 0.1;
+        transform: translate3d(0, 0, 0);
+      }
+    }
+  </style>
   <g>
     <path
       d="M334.2,285c-2.3-2.3-6.1-2.3-8.5,0l-6.5,6.5l-10.1-10.1l2.9-2.9c4.7-4.7,4.7-12.3,0-17l-2.6-2.6

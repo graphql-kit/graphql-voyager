@@ -14,8 +14,12 @@ overrides:
   - filename: '**/Dockerfile'
     dictionaries:
       - docker
+  - filename: '**/*.svg'
+    dictionaries:
+      - css
 
 words:
+  - svgr
   - reactroot # FIXME https://github.com/facebook/react/issues/10971
   - zoomer # FIXME
   - typelist # FIXME

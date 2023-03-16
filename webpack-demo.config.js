@@ -57,17 +57,8 @@ module.exports = function () {
         },
         {
           test: /\.svg$/,
-          use: [
-            {
-              loader: 'react-svg-loader',
-              options: {
-                jsx: false,
-                svgo: {
-                  plugins: [{ mergePaths: false }],
-                },
-              },
-            },
-          ],
+          issuer: /\.tsx?$/,
+          use: [{ loader: '@svgr/webpack' }],
         },
       ],
     },
