@@ -186,7 +186,7 @@ test('use custom SDL', async ({ page }) => {
   await expect(voyagerPage.page).toHaveScreenshot('display-sdl.png');
 });
 
-test('use custom intospection', async ({ page }) => {
+test('use custom introspection', async ({ page }) => {
   const voyagerPage = await gotoVoyagerPage(page);
   const { changeSchemaDialog } = voyagerPage;
   const { introspectionTab } = changeSchemaDialog;
@@ -197,7 +197,7 @@ test('use custom intospection', async ({ page }) => {
 
   await introspectionTab.tab.click();
   await expect(voyagerPage.page).toHaveScreenshot(
-    'switch-to-intospection-tab.png',
+    'switch-to-introspection-tab.png',
   );
 
   await introspectionTab.copyIntrospectionQueryButton.click();
@@ -217,5 +217,5 @@ test('use custom intospection', async ({ page }) => {
 
   await changeSchemaDialog.displayButton.click();
   await voyagerPage.waitForGraphToBeLoaded();
-  await expect(voyagerPage.page).toHaveScreenshot('display-intospection.png');
+  await expect(voyagerPage.page).toHaveScreenshot('display-introspection.png');
 });

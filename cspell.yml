@@ -11,9 +11,6 @@ dictionaries:
   - html
 
 overrides:
-  - filename: '**/Dockerfile'
-    dictionaries:
-      - docker
   - filename: '**/*.svg'
     dictionaries:
       - css
