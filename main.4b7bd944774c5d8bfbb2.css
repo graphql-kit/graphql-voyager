@@ -1,87 +1,3 @@
-@-webkit-keyframes voyager-shake {
-  0% {
-    -webkit-transform: rotateZ(0deg);
-            transform: rotateZ(0deg);
-  }
-
-  50% {
-    -webkit-transform: rotateZ(2deg);
-            transform: rotateZ(2deg);
-  }
-
-  100% {
-    -webkit-transform: rotateZ(0deg);
-            transform: rotateZ(0deg);
-  }
-}
-
-@keyframes voyager-shake {
-  0% {
-    -webkit-transform: rotateZ(0deg);
-            transform: rotateZ(0deg);
-  }
-
-  50% {
-    -webkit-transform: rotateZ(2deg);
-            transform: rotateZ(2deg);
-  }
-
-  100% {
-    -webkit-transform: rotateZ(0deg);
-            transform: rotateZ(0deg);
-  }
-}
-
-@-webkit-keyframes signal-move {
-  0 {
-    opacity: 0.1;
-    -webkit-transform: translate3d(0, 0, 0);
-            transform: translate3d(0, 0, 0);
-  }
-
-  25% {
-    opacity: 1;
-    -webkit-transform: translate3d(3px, -3px, 0);
-            transform: translate3d(3px, -3px, 0);
-  }
-
-  50% {
-    opacity: 0.1;
-    -webkit-transform: translate3d(0, 0, 0);
-            transform: translate3d(0, 0, 0);
-  }
-  100% {
-    opacity: 0.1;
-    -webkit-transform: translate3d(0, 0, 0);
-            transform: translate3d(0, 0, 0);
-  }
-}
-
-@keyframes signal-move {
-  0 {
-    opacity: 0.1;
-    -webkit-transform: translate3d(0, 0, 0);
-            transform: translate3d(0, 0, 0);
-  }
-
-  25% {
-    opacity: 1;
-    -webkit-transform: translate3d(3px, -3px, 0);
-            transform: translate3d(3px, -3px, 0);
-  }
-
-  50% {
-    opacity: 0.1;
-    -webkit-transform: translate3d(0, 0, 0);
-            transform: translate3d(0, 0, 0);
-  }
-  100% {
-    opacity: 0.1;
-    -webkit-transform: translate3d(0, 0, 0);
-            transform: translate3d(0, 0, 0);
-  }
-}
-
 .loading-box {
   position: absolute;
   left: 320px;
@@ -105,6 +21,7 @@
 }
 
 @media (max-width: 780px) {
+
   .loading-box {
     left: 0;
     top: 50%;
@@ -121,30 +38,8 @@
   width: 180px
 }
 
-.loading-animation svg {
-  -webkit-animation: voyager-shake 2s infinite;
-          animation: voyager-shake 2s infinite;
-}
-
 .loading-animation path {
   fill: #548f9e;
-}
-
-.loading-animation .voyager-signal1,
-  .loading-animation .voyager-signal2,
-  .loading-animation .voyager-signal3 {
-  -webkit-animation: signal-move 1s infinite;
-          animation: signal-move 1s infinite;
-}
-
-.loading-animation .voyager-signal2 {
-  -webkit-animation-delay: 0.2s;
-          animation-delay: 0.2s;
-}
-
-.loading-animation .voyager-signal3 {
-  -webkit-animation-delay: 0.4s;
-          animation-delay: 0.4s;
 }
 
 .loading-animation h1 {
@@ -154,12 +49,15 @@
 }
 
 @media (max-width: 780px) {
+
   .loading-animation {
     text-align: center;
   }
+
   .loading-animation svg {
     max-width: 40%;
   }
+
   .loading-animation h1 {
     font-size: 1.5em;
   }
