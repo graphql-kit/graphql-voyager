@@ -4,15 +4,10 @@ import './LoadingAnimation.css';
 
 import VoyagerIcon from '../icons/logo-with-signals.svg';
 
-interface LoadingAnimationProps {
-  loading: boolean;
-}
-
-export default class LoadingAnimation extends Component<LoadingAnimationProps> {
+export default class LoadingAnimation extends Component {
   render() {
-    const { loading } = this.props;
     return (
-      <div role="status" className={`loading-box ${loading ? 'visible' : ''}`}>
+      <div role="status" className="loading-box">
         <span className="loading-animation">
           <VoyagerIcon />
           <h1> Transmitting... </h1>

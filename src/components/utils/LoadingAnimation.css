@@ -12,17 +12,13 @@
   align-items: center;
   justify-content: center;
 
-  display: none;
+  display: flex;
   color: white;
 
   @media (--small-viewport) {
     left: 0;
     top: 50%;
   }
-}
-
-.loading-box.visible {
-  display: flex;
 }
 
 .loading-animation {

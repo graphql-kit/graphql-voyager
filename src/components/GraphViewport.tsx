@@ -120,7 +120,7 @@ export default class GraphViewport extends Component<GraphViewportProps> {
     return (
       <>
         <div ref="viewport" className="viewport" />
-        <LoadingAnimation loading={isLoading} />
+        {isLoading && <LoadingAnimation />}
       </>
     );
   }
