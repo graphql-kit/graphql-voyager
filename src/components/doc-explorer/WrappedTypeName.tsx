@@ -1,4 +1,3 @@
-import { Component } from 'react';
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import './WrappedTypeName.css';
@@ -13,22 +12,20 @@ interface WrappedTypeNameProps {
   onTypeLink: (any) => void;
 }
 
-export default class WrappedTypeName extends Component<WrappedTypeNameProps> {
-  render() {
-    const { container, onTypeLink } = this.props;
+export default function WrappedTypeName(props: WrappedTypeNameProps) {
+  const { container, onTypeLink } = props;
 
-    const type = container.type;
-    const wrappers = container.typeWrappers || [];
-    const [leftWrap, rightWrap] = stringifyWrappers(wrappers);
+  const type = container.type;
+  const wrappers = container.typeWrappers || [];
+  const [leftWrap, rightWrap] = stringifyWrappers(wrappers);
 
-    return (
-      <span className="wrapped-type-name">
-        {leftWrap}
-        <TypeLink type={type} onClick={onTypeLink} />
-        {rightWrap} {container.relayType && wrapRelayIcon()}
-      </span>
-    );
-  }
+  return (
+    <span className="wrapped-type-name">
+      {leftWrap}
+      <TypeLink type={type} onClick={onTypeLink} />
+      {rightWrap} {container.relayType && wrapRelayIcon()}
+    </span>
+  );
 }
 
 function wrapRelayIcon() {

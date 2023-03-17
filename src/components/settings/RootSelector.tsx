@@ -1,5 +1,3 @@
-import { Component } from 'react';
-
 import { isNode, getDefaultRoot } from '../../graph/';
 
 import Select from '@mui/material/Select';
@@ -11,45 +9,43 @@ interface RootSelectorProps {
   onChange: any;
 }
 
-export default class RootSelector extends Component<RootSelectorProps> {
-  render() {
-    const { schema, onChange } = this.props;
-    const rootType = this.props.rootType || getDefaultRoot(schema);
+export default function RootSelector(props: RootSelectorProps) {
+  const { schema, onChange } = props;
+  const rootType = props.rootType || getDefaultRoot(schema);
 
-    const rootTypeNames = getRootTypeNames(schema);
-    const otherTypeNames = Object.keys(schema.types)
-      .map((id) => schema.types[id])
-      .filter(isNode)
-      .map((type) => type.name)
-      .filter((name) => !rootTypeNames.includes(name))
-      .sort();
+  const rootTypeNames = getRootTypeNames(schema);
+  const otherTypeNames = Object.keys(schema.types)
+    .map((id) => schema.types[id])
+    .filter(isNode)
+    .map((type) => type.name)
+    .filter((name) => !rootTypeNames.includes(name))
+    .sort();
 
-    return (
-      <Select
-        fullWidth
-        variant="standard"
-        className="root-selector"
-        onChange={handleChange}
-        value={rootType}
-      >
-        {rootTypeNames.map((name) => (
-          <MenuItem value={name} key={name}>
-            <strong>{name}</strong>
-          </MenuItem>
-        ))}
-        {otherTypeNames.map((name) => (
-          <MenuItem value={name} key={name}>
-            {name}
-          </MenuItem>
-        ))}
-      </Select>
-    );
+  return (
+    <Select
+      fullWidth
+      variant="standard"
+      className="root-selector"
+      onChange={handleChange}
+      value={rootType}
+    >
+      {rootTypeNames.map((name) => (
+        <MenuItem value={name} key={name}>
+          <strong>{name}</strong>
+        </MenuItem>
+      ))}
+      {otherTypeNames.map((name) => (
+        <MenuItem value={name} key={name}>
+          {name}
+        </MenuItem>
+      ))}
+    </Select>
+  );
 
-    function handleChange(event) {
-      const newRootType = event.target.value;
-      if (newRootType !== rootType) {
-        onChange(newRootType);
-      }
+  function handleChange(event) {
+    const newRootType = event.target.value;
+    if (newRootType !== rootType) {
+      onChange(newRootType);
     }
   }
 }

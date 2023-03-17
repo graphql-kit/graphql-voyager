@@ -1,4 +1,3 @@
-import { Component } from 'react';
 import {
   isBuiltInScalarType,
   isScalarType,
@@ -16,26 +15,24 @@ interface TypeLinkProps {
   filter?: string;
 }
 
-export default class TypeLink extends Component<TypeLinkProps> {
-  render() {
-    const { type, onClick, filter } = this.props;
+export default function TypeLink(props: TypeLinkProps) {
+  const { type, onClick, filter } = props;
 
-    let className;
-    if (isBuiltInScalarType(type)) className = '-built-in';
-    else if (isScalarType(type)) className = '-scalar';
-    else if (isInputObjectType(type)) className = '-input-obj';
-    else className = '-object';
+  let className;
+  if (isBuiltInScalarType(type)) className = '-built-in';
+  else if (isScalarType(type)) className = '-scalar';
+  else if (isInputObjectType(type)) className = '-input-obj';
+  else className = '-object';
 
-    return (
-      <a
-        className={`type-name ${className}`}
-        onClick={(event) => {
-          event.stopPropagation();
-          onClick(type);
-        }}
-      >
-        {highlightTerm(type.name, filter)}
-      </a>
-    );
-  }
+  return (
+    <a
+      className={`type-name ${className}`}
+      onClick={(event) => {
+        event.stopPropagation();
+        onClick(type);
+      }}
+    >
+      {highlightTerm(type.name, filter)}
+    </a>
+  );
 }
