@@ -5,6 +5,7 @@
   "main": "dist/voyager.lib.js",
   "types": "typings/index.d.ts",
   "scripts": {
+    "preversion": "npm ci --ignore-scripts && npm test",
     "test": "npm run lint && npm run check && npm run testonly && npm run prettier:check && npm run check:spelling",
     "start": "npm run build:worker && webpack serve --config=webpack-demo.config.js --mode=development",
     "serve": "node ./scripts/serve-directory.js -p 9090 demo-dist",
