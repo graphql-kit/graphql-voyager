@@ -16,7 +16,11 @@
       -ms-flex-pack: center;
           justify-content: center;
 
-  display: none;
+  display: -webkit-box;
+
+  display: -ms-flexbox;
+
+  display: flex;
   color: white;
 }
 
@@ -26,12 +30,6 @@
     left: 0;
     top: 50%;
   }
-}
-
-.loading-box.visible {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
 }
 
 .loading-animation {
