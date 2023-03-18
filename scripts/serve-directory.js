@@ -20,10 +20,12 @@ const options = {
   port: parsedArgs.values.port,
 };
 
+function consoleError(msg) {
+  console.error('\x1b[31m%s\x1b[0m', msg);
+}
+
 http
   .createServer((request, response) => {
-    console.log(`request ${request.url}`);
-
     let filePath = `.${request.url}`;
     if (filePath === './') {
       filePath = './index.html';
@@ -40,6 +42,7 @@ http
       '.jpg': 'image/jpg',
       '.svg': 'image/svg+xml',
       '.wasm': 'application/wasm',
+      '.map': 'application/json',
     };
 
     const contentType = mimeTypes[extname] ?? 'application/octet-stream';
@@ -47,19 +50,23 @@ http
     fs.readFile(filePath, (error, content) => {
       if (error) {
         if (error.code === 'ENOENT') {
+          consoleError(`${request.url} => 404`);
           response.writeHead(404);
           response.end('Sorry, missing file ..\n');
         } else {
+          consoleError(`${request.url} => 500`);
           response.writeHead(500);
           response.end(
             `Sorry, check with the site admin for error: ${error.code} ..\n`,
           );
         }
       } else {
+        console.log(`${request.url} => ${contentType}`);
         response.writeHead(200, { 'Content-Type': contentType });
         response.end(content, 'utf-8');
       }
     });
   })
   .listen(options.port);
+
 console.log(`Server running at http://127.0.0.1:${options.port}/`);
