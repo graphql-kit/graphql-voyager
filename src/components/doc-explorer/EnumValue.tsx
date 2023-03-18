@@ -15,10 +15,7 @@ export default function EnumValue(props: EnumValueProps) {
         text={value.description}
       />
       {value.deprecationReason && (
-        <Markdown
-          className="doc-deprecation"
-          text={value.deprecationReason}
-        />
+        <Markdown className="doc-deprecation" text={value.deprecationReason} />
       )}
     </div>
   );
