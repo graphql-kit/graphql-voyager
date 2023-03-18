@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { render } from 'react-dom';
+import * as ReactDOMClient from 'react-dom/client';
 
 import Button from '@mui/material/Button';
 import { ThemeProvider } from '@mui/material/styles';
@@ -105,4 +105,5 @@ class Logo extends React.Component {
   }
 }
 
-render(<Demo />, document.getElementById('root'));
+const reactRoot = ReactDOMClient.createRoot(document.getElementById('root'));
+reactRoot.render(<Demo />);

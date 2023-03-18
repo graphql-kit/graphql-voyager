@@ -1,5 +1,6 @@
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
+import * as ReactDOMClient from 'react-dom/client';
+
 import { Voyager } from 'graphql-voyager';
 import fetch from 'isomorphic-fetch';
 
@@ -29,4 +30,5 @@ class Test extends React.Component {
   }
 }
 
-ReactDOM.render(<Test />, document.getElementById('voyager'));
+const reactRoot = ReactDOMClient.createRoot(document.getElementById('voyager'));
+reactRoot.render(<Test />);
