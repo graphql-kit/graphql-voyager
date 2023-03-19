@@ -92,6 +92,7 @@ class Logo extends React.Component {
         <a
           href="https://github.com/IvanGoncharov/graphql-voyager"
           target="_blank"
+          rel="noreferrer"
         >
           <div className="logo">
             <LogoIcon />

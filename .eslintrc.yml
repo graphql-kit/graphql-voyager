@@ -14,8 +14,14 @@ overrides:
     parserOptions:
       sourceType: module
       project: ['tsconfig.json']
-    plugins: ['@typescript-eslint']
+    plugins: ['react', 'react-hooks', '@typescript-eslint']
+    settings:
+      react:
+        version: detect
     extends:
+      - 'plugin:react/recommended'
+      - 'plugin:react/jsx-runtime'
+      - 'plugin:react-hooks/recommended'
       - 'plugin:@typescript-eslint/strict'
       - 'plugin:@typescript-eslint/recommended'
       - 'plugin:@typescript-eslint/recommended-requiring-type-checking'
@@ -24,6 +30,8 @@ overrides:
         [error, index-signature]
 
       # FIXME: remove below rules
+      'react/jsx-key': off
+      'react/no-string-refs': off
       '@typescript-eslint/no-var-requires': off
 
       # FIXME: blocked by improper type checking should be fixed

@@ -121,7 +121,15 @@ export function IntrospectionModal(props: IntrospectionModalProps) {
   }
 }
 
-function IntrospectionDialog({ open, onCancel, onSubmit, children }) {
+interface IntrospectionDialogProps {
+  open: boolean;
+  onCancel: () => void;
+  onSubmit: () => void;
+  children: JSX.Element;
+}
+
+function IntrospectionDialog(props: IntrospectionDialogProps) {
+  const { open, onCancel, onSubmit, children } = props;
   return (
     <Dialog
       open={open}
@@ -159,7 +167,13 @@ function IntrospectionDialog({ open, onCancel, onSubmit, children }) {
   );
 }
 
-function PresetsTab({ activePreset, onPresetChange }) {
+interface PresetsTabProps {
+  activePreset: string;
+  onPresetChange: (presetName: string) => void;
+}
+
+function PresetsTab(props: PresetsTabProps) {
+  const { activePreset, onPresetChange } = props;
   const presetNames = Object.keys(PRESETS);
 
   return (
@@ -197,7 +211,13 @@ function PresetsTab({ activePreset, onPresetChange }) {
   );
 }
 
-function SDLTab({ sdlText, onSDLTextChange }) {
+interface SDLTabProps {
+  sdlText: string;
+  onSDLTextChange: (sdl: string) => void;
+}
+
+function SDLTab(props: SDLTabProps) {
+  const { sdlText, onSDLTextChange } = props;
   return (
     <TextField
       required
@@ -211,7 +231,13 @@ function SDLTab({ sdlText, onSDLTextChange }) {
   );
 }
 
-function IntrospectionTab({ jsonText, onJSONTextChange }) {
+interface IntrospectionTabProps {
+  jsonText: string;
+  onJSONTextChange: (json: string) => void;
+}
+
+function IntrospectionTab(props: IntrospectionTabProps) {
+  const { jsonText, onJSONTextChange } = props;
   const [isCopied, setIsCopied] = React.useState(false);
   return (
     <Stack spacing={1} justifyContent="flex-start" alignItems="center">

@@ -7,6 +7,7 @@ export default function PoweredBy() {
       <a
         href="https://github.com/IvanGoncharov/graphql-voyager"
         target="_blank"
+        rel="noreferrer"
       >
         GraphQL Voyager
       </a>
