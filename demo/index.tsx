@@ -85,25 +85,23 @@ function getQueryParams(): { [key: string]: string } {
   return params;
 }
 
-class Logo extends React.Component {
-  render() {
-    return (
-      <div className="voyager-logo">
-        <a
-          href="https://github.com/IvanGoncharov/graphql-voyager"
-          target="_blank"
-          rel="noreferrer"
-        >
-          <div className="logo">
-            <LogoIcon />
-            <h2 className="title">
-              <strong>GraphQL</strong> Voyager
-            </h2>
-          </div>
-        </a>
-      </div>
-    );
-  }
+function Logo() {
+  return (
+    <div className="voyager-logo">
+      <a
+        href="https://github.com/IvanGoncharov/graphql-voyager"
+        target="_blank"
+        rel="noreferrer"
+      >
+        <div className="logo">
+          <LogoIcon />
+          <h2 className="title">
+            <strong>GraphQL</strong> Voyager
+          </h2>
+        </div>
+      </a>
+    </div>
+  );
 }
 
 const reactRoot = ReactDOMClient.createRoot(document.getElementById('root'));
