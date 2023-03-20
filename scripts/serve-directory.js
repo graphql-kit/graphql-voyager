@@ -26,9 +26,10 @@ function consoleError(msg) {
 
 http
   .createServer((request, response) => {
-    let filePath = `.${request.url}`;
-    if (filePath === './') {
-      filePath = './index.html';
+    const url = new URL(request.url, 'file:');
+    let filePath = url.pathname;
+    if (filePath === '/') {
+      filePath = '/index.html';
     }
     filePath = path.join(options.directory, filePath);
 

@@ -2,8 +2,24 @@ import { test, expect, type Page, type Locator } from '@playwright/test';
 
 import { buildSchema, graphqlSync } from 'graphql';
 
-async function gotoVoyagerPage(page: Page) {
-  await page.goto('/');
+interface VoyagerURLSearchParams {
+  url?: string;
+  withCredential?: boolean;
+}
+
+async function gotoVoyagerPage(
+  page: Page,
+  searchParams?: VoyagerURLSearchParams,
+) {
+  const search = new URLSearchParams();
+  if (searchParams?.url != null) {
+    search.append('url', searchParams.url);
+  }
+  if (searchParams?.withCredential != null) {
+    search.append('withCredential', searchParams.withCredential.toString());
+  }
+
+  await page.goto('/?' + search.toString());
   return new PlaywrightVoyagerPage(page);
 }
 
@@ -218,4 +234,22 @@ test('use custom introspection', async ({ page }) => {
   await changeSchemaDialog.displayButton.click();
   await voyagerPage.waitForGraphToBeLoaded();
   await expect(voyagerPage.page).toHaveScreenshot('display-introspection.png');
+});
+
+test('use search params to pass url', async ({ page }) => {
+  const url = 'https://example.com/graphql';
+  const schema = buildSchema('type Query { foo: String }');
+
+  await page.route(url, async (route, request) => {
+    const { query: source } = request.postDataJSON();
+    const json = graphqlSync({ source, schema });
+    await route.fulfill({ json });
+  });
+
+  const voyagerPage = await gotoVoyagerPage(page, { url });
+  await voyagerPage.waitForGraphToBeLoaded();
+
+  await expect(voyagerPage.page).toHaveScreenshot(
+    'display-schema-from-url.png',
+  );
 });
