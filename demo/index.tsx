@@ -22,7 +22,10 @@ export default class Demo extends React.Component {
   constructor(props) {
     super(props);
 
-    const { url, withCredentials } = getQueryParams();
+    const currentUrl = new URL(window.location.href);
+    const url = currentUrl.searchParams.get('url');
+    const withCredentials = currentUrl.searchParams.get('withCredentials');
+
     if (url) {
       this.state.introspection = (introspectionQuery) =>
         fetch(url, {
@@ -72,17 +75,6 @@ export default class Demo extends React.Component {
       </ThemeProvider>
     );
   }
-}
-
-function getQueryParams(): { [key: string]: string } {
-  const query = window.location.search.substring(1);
-  const params = {};
-
-  for (const param of query.split('&')) {
-    const [key, value] = param.split('=');
-    params[key] = value ? decodeURIComponent(value.replace(/\+/g, ' ')) : '';
-  }
-  return params;
 }
 
 function Logo() {
