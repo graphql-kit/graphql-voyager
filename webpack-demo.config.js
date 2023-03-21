@@ -1,6 +1,5 @@
 const path = require('node:path');
 
-const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
@@ -66,14 +65,6 @@ module.exports = function () {
     },
 
     plugins: [
-      new webpack.LoaderOptionsPlugin({
-        worker: {
-          output: {
-            filename: '[name].worker.js',
-          },
-        },
-      }),
-
       new HtmlWebpackPlugin({
         template: './demo/index.html',
       }),
