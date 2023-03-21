@@ -42,7 +42,6 @@ module.exports = (env = {}) => ({
       },
   entry: './src/index.tsx',
   output: {
-    clean: true,
     path: path.resolve(__dirname, 'dist'),
     filename: env.lib ? 'voyager.lib.js' : 'voyager.min.js',
     sourceMapFilename: '[file].map',

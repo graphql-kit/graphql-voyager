@@ -18,7 +18,7 @@
     "clean:worker": "rm -rf worker-dist",
     "bundle:standalone": "webpack --config=webpack.config.js --mode=production",
     "bundle:lib": "NODE_ENV=lib webpack --config=webpack.config.js --mode=production",
-    "bundle": "npm run bundle:lib && npm run bundle:standalone",
+    "bundle": "rm -rf dist && npm run bundle:lib && npm run bundle:standalone",
     "compile:middleware": "tsc -d src/middleware/index.ts --outDir middleware --lib ES6,DOM,esnext.asynciterable",
     "build:worker": "npm run clean:worker && docker-compose up --abort-on-container-exit --build build-worker",
     "build:release": "npm run build:worker && npm run bundle && npm run compile:middleware && npm run declarations",
