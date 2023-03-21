@@ -2,6 +2,11 @@
   "name": "graphql-voyager",
   "version": "1.0.0",
   "description": "GraphQL introspection viewer",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/IvanGoncharov/graphql-voyager.git"
+  },
   "main": "dist/voyager.lib.js",
   "types": "typings/index.d.ts",
   "scripts": {
@@ -27,7 +32,18 @@
     "testonly": "npm run build:demo && docker-compose up --abort-on-container-exit --build test",
     "declarations": "tsc --emitDeclarationOnly -p tsconfig.lib.json"
   },
-  "license": "MIT",
+  "peerDependencies": {
+    "graphql": ">=16.5.0",
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0"
+  },
+  "dependencies": {
+    "@mui/material": "^5.8.1",
+    "commonmark": "0.30.0",
+    "cspell": "^6.2.3",
+    "lodash": "4.17.21",
+    "svg-pan-zoom": "^3.6.1"
+  },
   "devDependencies": {
     "@emotion/react": "11.10.5",
     "@emotion/styled": "11.10.5",
@@ -65,21 +81,5 @@
     "webpack-cli": "4.10.0",
     "webpack-dev-server": "4.9.1",
     "webpack-node-externals": "3.0.0"
-  },
-  "peerDependencies": {
-    "graphql": ">=16.5.0",
-    "react": ">=18.0.0",
-    "react-dom": ">=18.0.0"
-  },
-  "dependencies": {
-    "@mui/material": "^5.8.1",
-    "commonmark": "0.30.0",
-    "cspell": "^6.2.3",
-    "lodash": "4.17.21",
-    "svg-pan-zoom": "^3.6.1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/IvanGoncharov/graphql-voyager.git"
   }
 }
