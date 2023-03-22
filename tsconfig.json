@@ -23,6 +23,13 @@
     "./manual-types.d.ts",
     "demo/**/*.tsx",
     "tests/**/*.ts",
-    "playwright.config.ts"
-  ]
+    "playwright.config.ts",
+    "webpack.config.ts",
+    "webpack-demo.config.ts"
+  ],
+  "ts-node": {
+    "compilerOptions": {
+      "module": "CommonJS"
+    }
+  }
 }

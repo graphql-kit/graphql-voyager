@@ -1,10 +1,12 @@
-const path = require('node:path');
+import * as path from 'node:path';
 
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
+import 'webpack-dev-server';
+import * as webpack from 'webpack';
+import * as HtmlWebpackPlugin from 'html-webpack-plugin';
+import * as MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import * as CopyWebpackPlugin from 'copy-webpack-plugin';
 
-module.exports = function buildWebpackConfig() {
+export default function buildWebpackConfig(): webpack.Configuration {
   return {
     performance: {
       hints: false,
@@ -80,4 +82,4 @@ module.exports = function buildWebpackConfig() {
       }),
     ],
   };
-};
+}

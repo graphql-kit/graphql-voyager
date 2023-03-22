@@ -1,8 +1,8 @@
-const path = require('node:path');
+import * as path from 'node:path';
 
-const webpack = require('webpack');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const NodeExternals = require('webpack-node-externals');
+import * as webpack from 'webpack';
+import * as MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import * as NodeExternals from 'webpack-node-externals';
 
 const packageJSON = require('./package.json');
 const BANNER = `GraphQL Voyager - Represent any GraphQL API as an interactive graph
@@ -10,7 +10,11 @@ const BANNER = `GraphQL Voyager - Represent any GraphQL API as an interactive gr
   Version: ${packageJSON.version}
   Repo: ${packageJSON.repository.url}`;
 
-module.exports = function buildWebpackConfig(env = {}) {
+interface Env {
+  lib?: boolean;
+}
+
+export default function buildWebpackConfig(env: Env): webpack.Configuration {
   return {
     performance: {
       hints: false,
@@ -92,4 +96,4 @@ module.exports = function buildWebpackConfig(env = {}) {
       new webpack.BannerPlugin(BANNER),
     ],
   };
-};
+}
