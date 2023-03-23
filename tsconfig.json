@@ -23,6 +23,7 @@
     "./manual-types.d.ts",
     "demo/**/*.tsx",
     "tests/**/*.ts",
+    "scripts/**/*.ts",
     "playwright.config.ts",
     "webpack.config.ts",
     "webpack-demo.config.ts"

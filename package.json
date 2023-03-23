@@ -13,7 +13,7 @@
     "preversion": "npm ci --ignore-scripts && npm test",
     "test": "npm run lint && npm run check && npm run testonly && npm run prettier:check && npm run check:spelling",
     "start": "npm run build:worker && webpack serve --config=webpack-demo.config.ts --mode=development",
-    "serve": "node ./scripts/serve-directory.js -p 9090 demo-dist",
+    "serve": "ts-node ./scripts/serve-directory.ts -p 9090 demo-dist",
     "clean:release": "rm -rf middleware",
     "clean:worker": "rm -rf worker-dist",
     "bundle:standalone": "webpack --config=webpack.config.ts --mode=production",

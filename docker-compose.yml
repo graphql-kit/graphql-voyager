@@ -14,7 +14,6 @@ services:
       context: .
       dockerfile: ./tests/Dockerfile
     volumes:
-      - ./scripts:/app/scripts:ro
       - ./demo-dist:/app/demo-dist:ro
       - ./playwright.config.ts:/app/playwright.config.ts:ro
       - ./tests:/app/tests
@@ -26,7 +25,6 @@ services:
       context: .
       dockerfile: ./tests/Dockerfile
     volumes:
-      - ./scripts:/app/scripts:ro
       - ./demo-dist:/app/demo-dist:ro
       - ./playwright.config.ts:/app/playwright.config.ts:ro
       - ./tests:/app/tests

@@ -1,8 +1,8 @@
 // Copied from https://developer.mozilla.org/en-US/docs/Learn/Server-side/Node_server_without_framework
-const http = require('node:http');
-const fs = require('node:fs');
-const path = require('node:path');
-const util = require('node:util');
+import * as http from 'node:http';
+import * as fs from 'node:fs';
+import * as path from 'node:path';
+import * as util from 'node:util';
 
 const parsedArgs = util.parseArgs({
   strict: true,
@@ -20,7 +20,7 @@ const options = {
   port: parsedArgs.values.port,
 };
 
-function consoleError(msg) {
+function consoleError(msg: string) {
   console.error('\x1b[31m%s\x1b[0m', msg);
 }
 
