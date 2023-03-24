@@ -3,8 +3,15 @@ parserOptions:
 env:
   es2022: true
   browser: true
+plugins: ['react', 'react-hooks']
+settings:
+  react:
+    version: detect
 extends:
   - 'eslint:recommended'
+  - 'plugin:react/recommended'
+  - 'plugin:react/jsx-runtime'
+  - 'plugin:react-hooks/recommended'
 overrides:
   - files: '**/*.js'
     env:
@@ -14,14 +21,8 @@ overrides:
     parserOptions:
       sourceType: module
       project: ['tsconfig.json']
-    plugins: ['react', 'react-hooks', '@typescript-eslint']
-    settings:
-      react:
-        version: detect
+    plugins: ['@typescript-eslint']
     extends:
-      - 'plugin:react/recommended'
-      - 'plugin:react/jsx-runtime'
-      - 'plugin:react-hooks/recommended'
       - 'plugin:@typescript-eslint/strict'
       - 'plugin:@typescript-eslint/recommended'
       - 'plugin:@typescript-eslint/recommended-requiring-type-checking'
