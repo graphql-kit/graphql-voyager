@@ -9,9 +9,13 @@ settings:
     version: detect
 extends:
   - 'eslint:recommended'
+  - 'plugin:import/recommended'
   - 'plugin:react/recommended'
   - 'plugin:react/jsx-runtime'
   - 'plugin:react-hooks/recommended'
+rules:
+  'import/no-extraneous-dependencies':
+    [error, { devDependencies: ['**/*.config.{js,ts}', 'tests/**'] }]
 overrides:
   - files: '**/*.js'
     env:
@@ -23,6 +27,7 @@ overrides:
       project: ['tsconfig.json']
     plugins: ['@typescript-eslint']
     extends:
+      - 'plugin:import/typescript'
       - 'plugin:@typescript-eslint/strict'
       - 'plugin:@typescript-eslint/recommended'
       - 'plugin:@typescript-eslint/recommended-requiring-type-checking'

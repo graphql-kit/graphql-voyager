@@ -1,5 +1,6 @@
 import { getDot } from './dot';
 
+// eslint-disable-next-line import/no-unresolved
 import VizWorker from '../../worker/voyager.worker.js';
 import { stringToSvg } from '../utils/';
 

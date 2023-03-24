@@ -38,17 +38,17 @@
     "react-dom": ">=18.0.0"
   },
   "dependencies": {
-    "@mui/material": "^5.8.1",
+    "@mui/material": "5.11.2",
+    "@mui/lab": "5.0.0-alpha.114",
+    "@mui/icons-material": "5.11.0",
     "commonmark": "0.30.0",
-    "cspell": "^6.2.3",
     "lodash": "4.17.21",
-    "svg-pan-zoom": "^3.6.1"
+    "svg-pan-zoom": "3.6.1"
   },
   "devDependencies": {
+    "cspell": "6.2.3",
     "@emotion/react": "11.10.5",
     "@emotion/styled": "11.10.5",
-    "@mui/icons-material": "5.11.0",
-    "@mui/lab": "5.0.0-alpha.114",
     "@playwright/test": "1.32.0",
     "@svgr/webpack": "6.5.1",
     "@types/commonmark": "0.27.5",
@@ -61,6 +61,7 @@
     "copy-webpack-plugin": "11.0.0",
     "css-loader": "6.7.1",
     "eslint": "8.20.0",
+    "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-react": "7.32.2",
     "eslint-plugin-react-hooks": "4.6.0",
     "graphql": "16.5.0",

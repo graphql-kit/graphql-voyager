@@ -4,6 +4,8 @@ import 'webpack-dev-server';
 import * as webpack from 'webpack';
 import * as HtmlWebpackPlugin from 'html-webpack-plugin';
 import * as MiniCssExtractPlugin from 'mini-css-extract-plugin';
+
+// eslint-disable-next-line import/namespace
 import * as CopyWebpackPlugin from 'copy-webpack-plugin';
 
 export default function buildWebpackConfig(): webpack.Configuration {

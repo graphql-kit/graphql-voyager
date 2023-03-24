@@ -10,7 +10,6 @@ import {
   type ReactNode,
   type ReactElement,
 } from 'react';
-import type {} from 'react';
 import { theme } from './MUITheme';
 import { ThemeProvider } from '@mui/material/styles';
 
