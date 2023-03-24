@@ -38,6 +38,8 @@
     "react-dom": ">=18.0.0"
   },
   "dependencies": {
+    "@emotion/react": "11.10.5",
+    "@emotion/styled": "11.10.5",
     "@mui/material": "5.11.2",
     "@mui/lab": "5.0.0-alpha.114",
     "@mui/icons-material": "5.11.0",
@@ -47,8 +49,6 @@
   },
   "devDependencies": {
     "cspell": "6.2.3",
-    "@emotion/react": "11.10.5",
-    "@emotion/styled": "11.10.5",
     "@playwright/test": "1.32.0",
     "@svgr/webpack": "6.5.1",
     "@types/commonmark": "0.27.5",

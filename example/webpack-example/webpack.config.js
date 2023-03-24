@@ -9,17 +9,16 @@ module.exports = {
     hints: false,
   },
   devServer: {
-    contentBase: __dirname,
-    watchContentBase: true,
+    https: true,
     port: 9090,
-    stats: 'errors-only',
+    static: {
+      directory: __dirname,
+    },
+    liveReload: true,
   },
+  stats: 'errors-only',
   resolve: {
     extensions: ['.ts', '.tsx', '.mjs', '.js', '.json', '.css', '.svg'],
-    alias: {
-      // fix "duplicated react" issue when using npm link
-      react: require.resolve('react'),
-    },
   },
   entry: ['./index.jsx'],
   output: {

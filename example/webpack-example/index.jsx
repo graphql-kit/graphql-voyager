@@ -2,7 +2,6 @@ import * as React from 'react';
 import * as ReactDOMClient from 'react-dom/client';
 
 import { Voyager } from 'graphql-voyager';
-import fetch from 'isomorphic-fetch';
 
 class Test extends React.Component {
   constructor() {
@@ -18,15 +17,17 @@ class Test extends React.Component {
     );
   }
 
-  introspectionProvider(query) {
-    return fetch('http://swapi.apis.guru', {
+  async introspectionProvider(query) {
+    const response = await fetch('https://swapi-graphql.netlify.app/.netlify/functions/index', {
       method: 'post',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ query }),
-    }).then((response) => response.json());
+      credentials: 'omit',
+    });
+    return response.json();
   }
 }
 
