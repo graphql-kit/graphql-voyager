@@ -1,9 +1,8 @@
-import * as React from 'react';
 import * as ReactDOMClient from 'react-dom/client';
 
 import { Voyager } from 'graphql-voyager';
 
-async function introspectionProvider(query) {
+async function introspectionProvider(query: string) {
   const response = await fetch(
     'https://swapi-graphql.netlify.app/.netlify/functions/index',
     {

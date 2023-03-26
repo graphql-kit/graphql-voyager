@@ -1,13 +1,6 @@
 const path = require('node:path');
 
-const webpack = require('webpack');
-
 module.exports = {
-  devtool: 'cheap-source-map',
-
-  performance: {
-    hints: false,
-  },
   devServer: {
     https: true,
     port: 9090,
@@ -16,33 +9,24 @@ module.exports = {
     },
     liveReload: true,
   },
-  stats: 'errors-only',
   resolve: {
-    extensions: ['.ts', '.tsx', '.mjs', '.js', '.json', '.css', '.svg'],
+    extensions: ['.ts', '.tsx', '.js'],
   },
-  entry: ['./index.jsx'],
+  entry: ['./index.tsx'],
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'main.js',
-    sourceMapFilename: '[file].map',
   },
   module: {
     rules: [
       {
-        test: /.jsx?$/,
-        loader: 'babel-loader',
-        exclude: /node_modules/,
-        options: {
-          presets: ['@babel/env', '@babel/react'],
+        test: /\.tsx?$/,
+        use: {
+          loader: 'ts-loader',
+          options: { compilerOptions: { noEmit: false } },
         },
+        exclude: /node_modules/,
       },
     ],
   },
-
-  plugins: [
-    new webpack.LoaderOptionsPlugin({
-      minimize: true,
-      debug: false,
-    }),
-  ],
 };
