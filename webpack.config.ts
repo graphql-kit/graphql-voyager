@@ -78,7 +78,16 @@ export default function buildWebpackConfig(env: Env): webpack.Configuration {
         },
         {
           test: /variables\.css$/,
-          use: [{ loader: 'postcss-variables-loader?es5=1' }],
+          use: {
+            loader: 'css-loader',
+
+            options: {
+              modules: {
+                mode: 'icss',
+              },
+              sourceMap: true,
+            },
+          },
         },
         {
           test: /\.svg$/,

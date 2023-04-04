@@ -36,10 +36,17 @@
   --node-header-color: var(--secondary-color);
   --node-header-text-color: white;
 
-  --edge-color: color(var(--secondary-color) l(- 15%));
+  --edge-color: rgb(56, 97, 107);
   --selected-edge-color: red;
   --selected-field-bg: rgba(255, 0, 0, 0.18);
 }
 
 @custom-media --small-viewport (max-width: 780px);
 @custom-media --big-viewport (min-width: 781px);
+
+:export {
+  iconsSize: var(--icons-size);
+  baseFontSize: var(--base-font-size);
+  bigViewport: 'min-width: 781px';
+  alertColor: var(--alert-color);
+}

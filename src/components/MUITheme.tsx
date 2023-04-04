@@ -1,7 +1,7 @@
 import { createTheme } from '@mui/material/styles';
 import { cyan, grey } from '@mui/material/colors';
 
-import variables from './variables.css';
+import css from './variables.css';
 
 declare module '@mui/material/styles' {
   interface Palette {
@@ -42,8 +42,8 @@ export const theme = createTheme({
     MuiIconButton: {
       styleOverrides: {
         root: {
-          width: variables.iconsSize,
-          height: variables.iconSize,
+          width: css.iconsSize,
+          height: css.iconsSize,
           padding: 0,
         },
       },
@@ -58,7 +58,7 @@ export const theme = createTheme({
     MuiTooltip: {
       styleOverrides: {
         tooltip: {
-          fontSize: variables.baseFontSize - 2,
+          fontSize: css.baseFontSize - 2,
         },
       },
     },
@@ -72,7 +72,7 @@ export const theme = createTheme({
     MuiSnackbar: {
       styleOverrides: {
         anchorOriginBottomLeft: {
-          [variables.bigViewport]: {
+          [css.bigViewport]: {
             left: '340px',
             right: '20px',
             bottom: '20px',
@@ -84,7 +84,7 @@ export const theme = createTheme({
       styleOverrides: {
         root: {
           width: '50%',
-          backgroundColor: variables.alertColor,
+          backgroundColor: css.alertColor,
         },
       },
     },

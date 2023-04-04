@@ -51,14 +51,26 @@ export default function buildWebpackConfig(): webpack.Configuration {
             MiniCssExtractPlugin.loader,
             {
               loader: 'css-loader',
-              options: { sourceMap: true },
+              options: {
+                importLoaders: 1,
+                sourceMap: true,
+              },
             },
             { loader: 'postcss-loader', options: { sourceMap: true } },
           ],
         },
         {
           test: /variables\.css$/,
-          use: [{ loader: 'postcss-variables-loader?es5=1' }],
+          use: {
+            loader: 'css-loader',
+
+            options: {
+              modules: {
+                mode: 'icss',
+              },
+              sourceMap: true,
+            },
+          },
         },
         {
           test: /\.svg$/,
