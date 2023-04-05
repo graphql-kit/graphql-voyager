@@ -32,6 +32,7 @@ overrides:
       - 'plugin:@typescript-eslint/recommended'
       - 'plugin:@typescript-eslint/recommended-requiring-type-checking'
     rules:
+      '@typescript-eslint/array-type': [error, { default: generic }]
       '@typescript-eslint/consistent-indexed-object-style':
         [error, index-signature]
 
@@ -54,7 +55,3 @@ overrides:
       '@typescript-eslint/no-unsafe-member-access': off
       '@typescript-eslint/no-unnecessary-condition': off
       '@typescript-eslint/restrict-template-expressions': off
-
-  - files: ['scripts/**/*.ts']
-    rules:
-      '@typescript-eslint/array-type': [error, { default: generic }]
