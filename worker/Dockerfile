@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 
-FROM emscripten/emsdk:3.1.32
+FROM emscripten/emsdk:3.1.35
 
 ENV GRAPHVIZ_VERSION=5.0.0
 ENV EXPAT_VERSION=2.4.8
