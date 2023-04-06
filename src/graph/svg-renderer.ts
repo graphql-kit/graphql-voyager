@@ -32,7 +32,7 @@ interface RenderResponse {
 export class SVGRender {
   private _worker: Worker;
 
-  private _listeners: RenderRequestListener[] = [];
+  private _listeners: Array<RenderRequestListener> = [];
   private _nextId = 0;
 
   constructor() {

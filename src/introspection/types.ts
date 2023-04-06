@@ -4,7 +4,7 @@ export interface SimplifiedArg {
   name: string;
   description: string;
   defaultValue: any;
-  typeWrappers: ('NON_NULL' | 'LIST')[];
+  typeWrappers: Array<'NON_NULL' | 'LIST'>;
   id?: string;
 }
 
@@ -14,7 +14,7 @@ export interface SimplifiedField<T> {
   id?: string;
   relayType?: T;
   description: string;
-  typeWrappers: ('NON_NULL' | 'LIST')[];
+  typeWrappers: Array<'NON_NULL' | 'LIST'>;
   isDeprecated: boolean;
   deprecationReason?: string;
   args: {
@@ -31,7 +31,7 @@ export interface SimplifiedTypeBase {
   kind: 'OBJECT' | 'INTERFACE' | 'UNION' | 'ENUM' | 'INPUT_OBJECT' | 'SCALAR';
   name: string;
   description: string;
-  enumValues?: IntrospectionEnumValue[];
+  enumValues?: Array<IntrospectionEnumValue>;
   inputFields?: {
     [name: string]: SimplifiedInputField;
   };
@@ -43,9 +43,9 @@ export type SimplifiedType = SimplifiedTypeBase & {
   fields?: {
     [name: string]: SimplifiedField<string>;
   };
-  interfaces?: string[];
-  derivedTypes?: string[];
-  possibleTypes?: string[];
+  interfaces?: Array<string>;
+  derivedTypes?: Array<string>;
+  possibleTypes?: Array<string>;
 };
 
 export type SimplifiedTypeWithIDs = SimplifiedTypeBase & {
@@ -53,18 +53,18 @@ export type SimplifiedTypeWithIDs = SimplifiedTypeBase & {
   fields?: {
     [name: string]: SimplifiedField<SimplifiedTypeWithIDs>;
   };
-  interfaces?: {
+  interfaces?: Array<{
     id: string;
     type: SimplifiedTypeWithIDs;
-  }[];
-  derivedTypes?: {
+  }>;
+  derivedTypes?: Array<{
     id: string;
     type: SimplifiedTypeWithIDs;
-  }[];
-  possibleTypes?: {
+  }>;
+  possibleTypes?: Array<{
     id: string;
     type: SimplifiedTypeWithIDs;
-  }[];
+  }>;
 };
 
 export interface SimplifiedIntrospection {

@@ -59,10 +59,10 @@ export default class TypeDoc extends Component<TypeDocProps> {
 
     function renderTypesDef(type: SimplifiedTypeWithIDs, selectedId) {
       let typesTitle;
-      let types: {
+      let types: Array<{
         id: string;
         type: SimplifiedTypeWithIDs;
-      }[];
+      }>;
 
       switch (type.kind) {
         case 'UNION':
