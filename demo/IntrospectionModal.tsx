@@ -141,7 +141,7 @@ function IntrospectionDialog(props: IntrospectionDialogProps) {
             width: 0.9,
             height: 0.9,
             maxWidth: 800,
-            maxHeight: 400,
+            maxHeight: 450,
           },
         },
       }}
@@ -219,15 +219,18 @@ interface SDLTabProps {
 function SDLTab(props: SDLTabProps) {
   const { sdlText, onSDLTextChange } = props;
   return (
-    <TextField
-      required
-      multiline
-      fullWidth
-      rows={9}
-      value={sdlText}
-      placeholder="Paste SDL Here"
-      onChange={(event) => onSDLTextChange(event.target.value)}
-    />
+    <Stack spacing={1} justifyContent="flex-start" alignItems="center">
+      <TextField
+        required
+        multiline
+        fullWidth
+        rows={9}
+        value={sdlText}
+        placeholder="Paste SDL Here"
+        onChange={(event) => onSDLTextChange(event.target.value)}
+      />
+      <PrivacyNote />
+    </Stack>
   );
 }
 
@@ -274,6 +277,20 @@ function IntrospectionTab(props: IntrospectionTabProps) {
         placeholder="Paste Introspection Here"
         onChange={(event) => onJSONTextChange(event.target.value)}
       />
+      <PrivacyNote />
     </Stack>
+  );
+}
+
+function PrivacyNote() {
+  return (
+    <Box>
+      <u>
+        <b>Privacy note: </b>
+      </u>
+      When you provide your GraphQL schema to GraphQL Voyager, it is fully
+      processed within your browser and is not transmitted to any external
+      servers or third parties.
+    </Box>
   );
 }
