@@ -141,12 +141,14 @@ function IntrospectionDialog(props: IntrospectionDialogProps) {
             width: 0.9,
             height: 0.9,
             maxWidth: 800,
-            maxHeight: 450,
+            maxHeight: 400,
           },
         },
       }}
     >
-      <DialogContent>{children}</DialogContent>
+      <DialogContent style={{ paddingTop: 10, paddingBottom: 0 }}>
+        {children}
+      </DialogContent>
       <DialogActions>
         <Button
           variant="contained"
@@ -244,10 +246,10 @@ function IntrospectionTab(props: IntrospectionTabProps) {
   const [isCopied, setIsCopied] = React.useState(false);
   return (
     <Stack spacing={1} justifyContent="flex-start" alignItems="center">
-      <Box>
+      <Typography>
         Run the introspection query against a GraphQL endpoint. Paste the result
         into the textarea below to view the model relationships.
-      </Box>
+      </Typography>
       <Tooltip
         title="Copied!"
         open={isCopied}
@@ -272,7 +274,7 @@ function IntrospectionTab(props: IntrospectionTabProps) {
         required
         multiline
         fullWidth
-        rows={5}
+        rows={4}
         value={jsonText}
         placeholder="Paste Introspection Here"
         onChange={(event) => onJSONTextChange(event.target.value)}
@@ -284,13 +286,10 @@ function IntrospectionTab(props: IntrospectionTabProps) {
 
 function PrivacyNote() {
   return (
-    <Box>
-      <u>
-        <b>Privacy note: </b>
-      </u>
-      When you provide your GraphQL schema to GraphQL Voyager, it is fully
-      processed within your browser and is not transmitted to any external
+    <Typography>
+      <b>Privacy note: </b>
+      Your schema is processed within browser and is not transmitted to external
       servers or third parties.
-    </Box>
+    </Typography>
   );
 }
