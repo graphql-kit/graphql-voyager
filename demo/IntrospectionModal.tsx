@@ -3,7 +3,7 @@ import * as React from 'react';
 import Tab from '@mui/material/Tab';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import Box from '@mui/material/Box';
+import Grid from '@mui/material/Unstable_Grid2';
 import Stack from '@mui/material/Stack';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
@@ -179,37 +179,27 @@ function PresetsTab(props: PresetsTabProps) {
   const presetNames = Object.keys(PRESETS);
 
   return (
-    <Box
-      sx={{
-        display: 'grid',
-        gridTemplateColumns: {
-          xs: '1fr',
-          sm: '1fr 1fr',
-        },
-        gridTemplateRows: {
-          xs: '1fr',
-          sm: '100% 100%',
-        },
-        gap: '30px',
-      }}
-    >
+    <Grid container spacing={4}>
       {presetNames.map((name) => (
-        <Button
-          color={activePreset === name ? 'primary' : 'secondary'}
-          variant="outlined"
-          key={name}
-          onClick={() => onPresetChange(name)}
-          sx={{
-            boxShadow: '0px 0 8px 2px',
-            textTransform: 'none',
-          }}
-        >
-          <Typography component="span" variant="h5">
-            {name}
-          </Typography>
-        </Button>
+        <Grid xs={12} sm={6} key={name}>
+          <Button
+            fullWidth
+            color={activePreset === name ? 'primary' : 'secondary'}
+            variant="outlined"
+            onClick={() => onPresetChange(name)}
+            sx={{
+              height: { sm: 100 },
+              boxShadow: '0px 0 8px 2px',
+              textTransform: 'none',
+            }}
+          >
+            <Typography component="span" variant="h5">
+              {name}
+            </Typography>
+          </Button>
+        </Grid>
       ))}
-    </Box>
+    </Grid>
   );
 }
 
