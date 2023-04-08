@@ -228,7 +228,7 @@ test('use custom introspection', async ({ page }) => {
   const result = graphqlSync({ source: clipboardText, schema });
   const jsonResult = JSON.stringify(result, null, 2);
 
-  await introspectionTab.introspectionTextArea.fill(jsonResult);
+  await introspectionTab.introspectionTextArea.fill(jsonResult, { timeout: 0 });
   await expect(voyagerPage.page).toHaveScreenshot('fill-introspection.png');
 
   await changeSchemaDialog.displayButton.click();
