@@ -40,10 +40,7 @@ class PlaywrightVoyagerPage {
   }
 
   async waitForGraphToBeLoaded() {
-    await this.graphLoadingAnimation.waitFor({
-      state: 'hidden',
-      timeout: 5000,
-    });
+    await this.graphLoadingAnimation.waitFor({ state: 'hidden' });
   }
 }
 
@@ -228,7 +225,7 @@ test('use custom introspection', async ({ page }) => {
   const result = graphqlSync({ source: clipboardText, schema });
   const jsonResult = JSON.stringify(result, null, 2);
 
-  await introspectionTab.introspectionTextArea.fill(jsonResult, { timeout: 0 });
+  await introspectionTab.introspectionTextArea.fill(jsonResult);
   await expect(voyagerPage.page).toHaveScreenshot('fill-introspection.png');
 
   await changeSchemaDialog.displayButton.click();
