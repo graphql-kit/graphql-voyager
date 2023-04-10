@@ -1,7 +1,7 @@
-import { isNode, getDefaultRoot } from '../../graph/';
-
-import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
+
+import { getDefaultRoot, isNode } from '../../graph/';
 
 interface RootSelectorProps {
   rootType?: string;

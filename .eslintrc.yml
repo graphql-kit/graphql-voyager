@@ -3,7 +3,7 @@ parserOptions:
 env:
   es2022: true
   browser: true
-plugins: ['react', 'react-hooks']
+plugins: ['simple-import-sort', 'react', 'react-hooks']
 settings:
   react:
     version: detect
@@ -14,6 +14,8 @@ extends:
   - 'plugin:react/jsx-runtime'
   - 'plugin:react-hooks/recommended'
 rules:
+  'simple-import-sort/imports': error
+  'simple-import-sort/exports': error
   'import/no-extraneous-dependencies':
     [error, { devDependencies: ['**/*.config.{js,ts}', 'tests/**'] }]
 overrides:

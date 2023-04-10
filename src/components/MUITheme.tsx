@@ -1,5 +1,5 @@
-import { createTheme } from '@mui/material/styles';
 import { cyan, grey } from '@mui/material/colors';
+import { createTheme } from '@mui/material/styles';
 
 import variables from './variables.css';
 

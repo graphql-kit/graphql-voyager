@@ -1,5 +1,6 @@
-import { stringifyWrappers } from '../introspection/';
 import * as _ from 'lodash';
+
+import { stringifyWrappers } from '../introspection/';
 
 export function getDot(typeGraph, displayOptions): string {
   function isNode(type) {

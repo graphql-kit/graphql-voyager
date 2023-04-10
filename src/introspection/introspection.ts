@@ -1,27 +1,28 @@
-import * as _ from 'lodash';
 import {
+  buildClientSchema,
+  GraphQLArgument,
+  GraphQLField,
+  GraphQLInputField,
   GraphQLNamedType,
   GraphQLSchema,
-  GraphQLArgument,
-  GraphQLInputField,
-  GraphQLField,
-  isWrappingType,
-  isNonNullType,
-  isUnionType,
   isEnumType,
   isInputObjectType,
-  isObjectType,
   isInterfaceType,
+  isNonNullType,
+  isObjectType,
   isScalarType,
-  buildClientSchema,
+  isUnionType,
+  isWrappingType,
   lexicographicSortSchema,
 } from 'graphql';
+import * as _ from 'lodash';
+
 import {
+  SimplifiedField,
+  SimplifiedInputField,
   SimplifiedIntrospection,
   SimplifiedIntrospectionWithIds,
   SimplifiedType,
-  SimplifiedInputField,
-  SimplifiedField,
 } from './types';
 import { typeNameToId } from './utils';
 

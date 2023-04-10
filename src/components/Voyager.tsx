@@ -1,25 +1,23 @@
-import { getIntrospectionQuery } from 'graphql/utilities';
-
-import { getSchema, extractTypeId } from '../introspection';
-import { SVGRender, getTypeGraph } from '../graph/';
-
-import {
-  createRef,
-  Children,
-  Component,
-  type ReactNode,
-  type ReactElement,
-} from 'react';
-import { theme } from './MUITheme';
-import { ThemeProvider } from '@mui/material/styles';
-
-import GraphViewport from './GraphViewport';
-import DocExplorer from './doc-explorer/DocExplorer';
-import PoweredBy from './utils/PoweredBy';
-import Settings from './settings/Settings';
-
 import './Voyager.css';
 import './viewport.css';
+
+import { ThemeProvider } from '@mui/material/styles';
+import { getIntrospectionQuery } from 'graphql/utilities';
+import {
+  Children,
+  Component,
+  createRef,
+  type ReactElement,
+  type ReactNode,
+} from 'react';
+
+import { getTypeGraph, SVGRender } from '../graph/';
+import { extractTypeId, getSchema } from '../introspection';
+import DocExplorer from './doc-explorer/DocExplorer';
+import GraphViewport from './GraphViewport';
+import { theme } from './MUITheme';
+import Settings from './settings/Settings';
+import PoweredBy from './utils/PoweredBy';
 
 type IntrospectionProvider = (query: string) => Promise<any>;
 

@@ -1,8 +1,8 @@
-import { Component } from 'react';
+import './SearchBox.css';
+
 import Input from '@mui/material/Input';
 import InputAdornment from '@mui/material/InputAdornment';
-
-import './SearchBox.css';
+import { Component } from 'react';
 
 interface SearchBoxProps {
   placeholder: string;

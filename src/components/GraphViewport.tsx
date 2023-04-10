@@ -1,7 +1,7 @@
 import { Component } from 'react';
-import LoadingAnimation from './utils/LoadingAnimation';
 
 import { Viewport } from './../graph/';
+import LoadingAnimation from './utils/LoadingAnimation';
 
 interface GraphViewportProps {
   svgRenderer: any;

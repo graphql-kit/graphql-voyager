@@ -1,11 +1,11 @@
+import './TypeLink.css';
+
 import {
   isBuiltInScalarType,
-  isScalarType,
   isInputObjectType,
+  isScalarType,
 } from '../../introspection';
 import { highlightTerm } from '../../utils';
-
-import './TypeLink.css';
 
 interface TypeLinkProps {
   type: {

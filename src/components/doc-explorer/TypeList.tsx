@@ -1,11 +1,11 @@
-import * as _ from 'lodash';
-import { isMatch } from '../../utils';
-
 import './TypeList.css';
 
-import TypeLink from './TypeLink';
+import * as _ from 'lodash';
+
+import { isMatch } from '../../utils';
 import Description from './Description';
 import FocusTypeButton from './FocusTypeButton';
+import TypeLink from './TypeLink';
 
 interface TypeListProps {
   typeGraph: any;

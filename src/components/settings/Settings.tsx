@@ -1,4 +1,5 @@
 import Checkbox from '@mui/material/Checkbox';
+
 import RootSelector from './RootSelector';
 
 interface SettingsProps {
