@@ -3,14 +3,32 @@ import { cyan, grey } from '@mui/material/colors';
 
 import variables from './variables.css';
 
+declare module '@mui/material/styles' {
+  interface Palette {
+    logoColor: PaletteOptions['primary'];
+  }
+  interface PaletteOptions {
+    logoColor: PaletteOptions['primary'];
+  }
+
+  interface Theme {
+    panelSpacing?: string;
+  }
+  interface ThemeOptions {
+    panelSpacing?: string;
+  }
+}
+
 export const theme = createTheme({
   palette: {
     primary: cyan,
     secondary: grey,
+    logoColor: { main: '#27535e' },
   },
   typography: {
     fontSize: 12,
   },
+  panelSpacing: '15px',
   components: {
     MuiCheckbox: {
       styleOverrides: {
