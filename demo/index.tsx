@@ -3,6 +3,11 @@ import * as ReactDOMClient from 'react-dom/client';
 
 import Button from '@mui/material/Button';
 import { ThemeProvider } from '@mui/material/styles';
+import SvgIcon from '@mui/material/SvgIcon';
+import Link from '@mui/material/Link';
+import Typography from '@mui/material/Typography';
+import Stack from '@mui/material/Stack';
+import Box from '@mui/material/Box';
 
 import { theme } from '../src/components/MUITheme';
 import { GraphQLVoyager } from '../src';
@@ -10,8 +15,6 @@ import LogoIcon from './icons/logo-small.svg';
 
 import { IntrospectionModal } from './IntrospectionModal';
 import { defaultPreset } from './presets';
-
-import './components.css';
 
 export default class Demo extends React.Component {
   state = {
@@ -54,7 +57,7 @@ export default class Demo extends React.Component {
       <ThemeProvider theme={theme}>
         <GraphQLVoyager introspection={introspection}>
           <GraphQLVoyager.PanelHeader>
-            <div className="voyager-panel">
+            <Stack padding={({ panelSpacing }) => `0 ${panelSpacing}`}>
               <Logo />
               <Button
                 color="primary"
@@ -64,7 +67,7 @@ export default class Demo extends React.Component {
               >
                 Change Schema
               </Button>
-            </div>
+            </Stack>
           </GraphQLVoyager.PanelHeader>
         </GraphQLVoyager>
         <IntrospectionModal
@@ -79,20 +82,36 @@ export default class Demo extends React.Component {
 
 function Logo() {
   return (
-    <div className="voyager-logo">
-      <a
-        href="https://github.com/IvanGoncharov/graphql-voyager"
-        target="_blank"
-        rel="noreferrer"
-      >
-        <div className="logo">
-          <LogoIcon />
-          <h2 className="title">
-            <strong>GraphQL</strong> Voyager
-          </h2>
-        </div>
-      </a>
-    </div>
+    <Link
+      href="https://github.com/IvanGoncharov/graphql-voyager"
+      target="_blank"
+      rel="noreferrer"
+      color="logoColor.main"
+      underline="none"
+      margin={2}
+    >
+      <Stack direction="row" justifyContent="center" spacing={1}>
+        <Box>
+          <SvgIcon
+            inheritViewBox
+            component={LogoIcon}
+            sx={{ width: 50, height: 50, transform: 'rotateZ(16deg)' }}
+          />
+        </Box>
+        <Stack
+          alignItems="center"
+          justifyContent="center"
+          textTransform="uppercase"
+        >
+          <Typography fontSize="21px" lineHeight={1} fontWeight="bold">
+            GraphQL
+          </Typography>
+          <Typography fontSize="15px" lineHeight={1} letterSpacing={5}>
+            Voyager
+          </Typography>
+        </Stack>
+      </Stack>
+    </Link>
   );
 }
 
