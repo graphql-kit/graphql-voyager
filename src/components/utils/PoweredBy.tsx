@@ -1,16 +1,23 @@
-import './PoweredBy.css';
+import Link from '@mui/material/Link';
+import Typography from '@mui/material/Typography';
 
 export default function PoweredBy() {
   return (
-    <div className="powered-by">
+    <Typography
+      textAlign="center"
+      padding={1}
+      color={({ palette }) => palette.logoColor.main}
+      borderTop="1px solid"
+      borderColor={({ palette }) => palette.shadowColor.main}
+    >
       🛰 Powered by{' '}
-      <a
+      <Link
         href="https://github.com/IvanGoncharov/graphql-voyager"
         target="_blank"
         rel="noreferrer"
       >
         GraphQL Voyager
-      </a>
-    </div>
+      </Link>
+    </Typography>
   );
 }
