@@ -1,12 +1,12 @@
-import * as path from 'node:path';
-
 import 'webpack-dev-server';
-import * as webpack from 'webpack';
-import * as HtmlWebpackPlugin from 'html-webpack-plugin';
-import * as MiniCssExtractPlugin from 'mini-css-extract-plugin';
+
+import * as path from 'node:path';
 
 // eslint-disable-next-line import/namespace
 import * as CopyWebpackPlugin from 'copy-webpack-plugin';
+import * as HtmlWebpackPlugin from 'html-webpack-plugin';
+import * as MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import * as webpack from 'webpack';
 
 export default function buildWebpackConfig(): webpack.Configuration {
   return {

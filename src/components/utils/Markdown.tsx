@@ -1,5 +1,5 @@
-import { Component } from 'react';
 import { HtmlRenderer, Parser } from 'commonmark';
+import { Component } from 'react';
 
 interface MarkdownProps {
   text: string;

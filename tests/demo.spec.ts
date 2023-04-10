@@ -1,5 +1,4 @@
-import { test, expect, type Page, type Locator } from '@playwright/test';
-
+import { expect, type Locator, type Page, test } from '@playwright/test';
 import { buildSchema, graphqlSync } from 'graphql';
 
 interface VoyagerURLSearchParams {

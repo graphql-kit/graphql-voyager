@@ -1,16 +1,15 @@
+import './TypeDoc.css';
+
 import * as _ from 'lodash';
 import { Component } from 'react';
 
-import './TypeDoc.css';
-
 import { SimplifiedTypeWithIDs } from '../../introspection/types';
-import { isMatch, highlightTerm } from '../../utils';
-
+import { highlightTerm, isMatch } from '../../utils';
 import Markdown from '../utils/Markdown';
+import Argument from './Argument';
 import Description from './Description';
 import TypeLink from './TypeLink';
 import WrappedTypeName from './WrappedTypeName';
-import Argument from './Argument';
 
 interface TypeDocProps {
   selectedType: any;

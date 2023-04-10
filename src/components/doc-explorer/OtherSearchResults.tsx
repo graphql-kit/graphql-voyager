@@ -1,4 +1,4 @@
-import { isMatch, highlightTerm } from '../../utils';
+import { highlightTerm, isMatch } from '../../utils';
 
 interface OtherSearchResultsProps {
   typeGraph: any;

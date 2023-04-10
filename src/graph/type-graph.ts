@@ -1,9 +1,10 @@
 import * as _ from 'lodash';
+
 import {
-  typeNameToId,
-  isScalarType,
   isInputObjectType,
+  isScalarType,
   isSystemType,
+  typeNameToId,
 } from '../introspection/';
 
 export function isNode(type) {

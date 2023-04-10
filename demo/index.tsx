@@ -1,18 +1,16 @@
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Link from '@mui/material/Link';
+import Stack from '@mui/material/Stack';
+import { ThemeProvider } from '@mui/material/styles';
+import SvgIcon from '@mui/material/SvgIcon';
+import Typography from '@mui/material/Typography';
 import * as React from 'react';
 import * as ReactDOMClient from 'react-dom/client';
 
-import Button from '@mui/material/Button';
-import { ThemeProvider } from '@mui/material/styles';
-import SvgIcon from '@mui/material/SvgIcon';
-import Link from '@mui/material/Link';
-import Typography from '@mui/material/Typography';
-import Stack from '@mui/material/Stack';
-import Box from '@mui/material/Box';
-
-import { theme } from '../src/components/MUITheme';
 import { GraphQLVoyager } from '../src';
+import { theme } from '../src/components/MUITheme';
 import LogoIcon from './icons/logo-small.svg';
-
 import { IntrospectionModal } from './IntrospectionModal';
 import { defaultPreset } from './presets';
 

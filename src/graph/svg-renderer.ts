@@ -1,8 +1,7 @@
-import { getDot } from './dot';
-
 // eslint-disable-next-line import/no-unresolved
 import VizWorker from '../../worker/voyager.worker.js';
 import { stringToSvg } from '../utils/';
+import { getDot } from './dot';
 
 const RelayIconSvg = require('!!svg-as-symbol-loader?id=RelayIcon!../components/icons/relay-icon.svg');
 const DeprecatedIconSvg = require('!!svg-as-symbol-loader?id=DeprecatedIcon!../components/icons/deprecated-icon.svg');

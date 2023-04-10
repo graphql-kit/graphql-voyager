@@ -1,10 +1,10 @@
-import { SimplifiedTypeWithIDs } from '../../introspection/types';
 import * as _ from 'lodash';
 
+import { SimplifiedTypeWithIDs } from '../../introspection/types';
 import Markdown from '../utils/Markdown';
 import Description from './Description';
-import WrappedTypeName from './WrappedTypeName';
 import EnumValue from './EnumValue';
+import WrappedTypeName from './WrappedTypeName';
 
 interface TypeDetailsProps {
   type: SimplifiedTypeWithIDs;

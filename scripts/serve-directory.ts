@@ -1,6 +1,6 @@
 // Copied from https://developer.mozilla.org/en-US/docs/Learn/Server-side/Node_server_without_framework
-import * as http from 'node:http';
 import * as fs from 'node:fs';
+import * as http from 'node:http';
 import * as path from 'node:path';
 import * as util from 'node:util';
 

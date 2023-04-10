@@ -1,7 +1,7 @@
 import * as path from 'node:path';
 
-import * as webpack from 'webpack';
 import * as MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import * as webpack from 'webpack';
 import * as NodeExternals from 'webpack-node-externals';
 
 const packageJSON = require('./package.json');

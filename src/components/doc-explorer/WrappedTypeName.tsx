@@ -1,11 +1,11 @@
-import Tooltip from '@mui/material/Tooltip';
-import IconButton from '@mui/material/IconButton';
 import './WrappedTypeName.css';
 
-import { stringifyWrappers } from '../../introspection/';
-import TypeLink from './TypeLink';
+import IconButton from '@mui/material/IconButton';
+import Tooltip from '@mui/material/Tooltip';
 
+import { stringifyWrappers } from '../../introspection/';
 import RelayIcon from '../icons/relay-icon.svg';
+import TypeLink from './TypeLink';
 
 interface WrappedTypeNameProps {
   container: any;

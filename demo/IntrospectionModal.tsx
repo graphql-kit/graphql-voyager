@@ -1,28 +1,25 @@
-import * as React from 'react';
-
-import Tab from '@mui/material/Tab';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import Grid from '@mui/material/Unstable_Grid2';
-import Stack from '@mui/material/Stack';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
+import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
-import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import Stack from '@mui/material/Stack';
+import Tab from '@mui/material/Tab';
+import TextField from '@mui/material/TextField';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
-
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-
+import Grid from '@mui/material/Unstable_Grid2';
 import {
   buildSchema,
   getIntrospectionQuery,
   introspectionFromSchema,
 } from 'graphql/utilities';
+import * as React from 'react';
 
-import { PRESETS, defaultPresetName } from './presets';
+import { defaultPresetName, PRESETS } from './presets';
 
 enum InputType {
   Presets = 'Presets',

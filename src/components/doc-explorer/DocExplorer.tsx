@@ -1,14 +1,14 @@
-import { isNode } from '../../graph';
+import './DocExplorer.css';
 
 import { Component } from 'react';
-import TypeList from './TypeList';
-import TypeDoc from './TypeDoc';
-import FocusTypeButton from './FocusTypeButton';
-import TypeInfoPopover from './TypeInfoPopover';
-import OtherSearchResults from './OtherSearchResults';
-import SearchBox from '../utils/SearchBox';
 
-import './DocExplorer.css';
+import { isNode } from '../../graph';
+import SearchBox from '../utils/SearchBox';
+import FocusTypeButton from './FocusTypeButton';
+import OtherSearchResults from './OtherSearchResults';
+import TypeDoc from './TypeDoc';
+import TypeInfoPopover from './TypeInfoPopover';
+import TypeList from './TypeList';
 
 interface DocExplorerProps {
   typeGraph: any;

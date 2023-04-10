@@ -1,11 +1,10 @@
-import { Component } from 'react';
-
 import './TypeInfoPopover.css';
 
-import CloseIcon from '../icons/close-black.svg';
 import IconButton from '@mui/material/IconButton';
+import { Component } from 'react';
 
 import TypeDetails from '../doc-explorer/TypeDetails';
+import CloseIcon from '../icons/close-black.svg';
 
 interface ScalarDetailsProps {
   type: any;
