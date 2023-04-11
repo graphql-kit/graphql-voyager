@@ -5,10 +5,12 @@ import variables from './variables.css';
 
 declare module '@mui/material/styles' {
   interface Palette {
-    logoColor: PaletteOptions['primary'];
+    logoColor: Palette['primary'];
+    shadowColor: Palette['primary'];
   }
   interface PaletteOptions {
     logoColor: PaletteOptions['primary'];
+    shadowColor: PaletteOptions['primary'];
   }
 
   interface Theme {
@@ -24,6 +26,7 @@ export const theme = createTheme({
     primary: cyan,
     secondary: grey,
     logoColor: { main: '#27535e' },
+    shadowColor: { main: 'rgba(0, 0, 0, 0.1)' },
   },
   typography: {
     fontSize: 12,
