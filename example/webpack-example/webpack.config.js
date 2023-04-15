@@ -2,7 +2,6 @@ const path = require('node:path');
 
 module.exports = {
   devServer: {
-    https: true,
     port: 9090,
     static: {
       directory: __dirname,
