@@ -14,68 +14,41 @@ import LogoIcon from './icons/logo-small.svg';
 import { IntrospectionModal } from './IntrospectionModal';
 import { defaultPreset } from './presets';
 
-export default class Demo extends React.Component {
-  state = {
-    changeSchemaModalOpen: false,
-    introspection: defaultPreset,
-  };
+interface DemoProps {
+  introspection: any;
+}
 
-  constructor(props) {
-    super(props);
+function Demo(props: DemoProps) {
+  const [introspection, setIntrospection] = React.useState(
+    () => props.introspection,
+  );
+  const [changeSchemaModalOpen, setChangeSchemaModalOpen] =
+    React.useState(false);
 
-    const currentUrl = new URL(window.location.href);
-    const url = currentUrl.searchParams.get('url');
-    const withCredentials = currentUrl.searchParams.get('withCredentials');
-
-    if (url) {
-      this.state.introspection = (introspectionQuery) =>
-        fetch(url, {
-          method: 'post',
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ query: introspectionQuery }),
-          ...(withCredentials === 'true'
-            ? { credentials: 'include', mode: 'cors' }
-            : {}),
-        }).then((response) => response.json());
-    }
-  }
-
-  public render() {
-    const { changeSchemaModalOpen, introspection } = this.state;
-
-    const openChangeSchema = () =>
-      this.setState({ changeSchemaModalOpen: true });
-    const closeChangeSchema = () =>
-      this.setState({ changeSchemaModalOpen: false });
-
-    return (
-      <ThemeProvider theme={theme}>
-        <GraphQLVoyager introspection={introspection}>
-          <GraphQLVoyager.PanelHeader>
-            <Stack padding={({ panelSpacing }) => `0 ${panelSpacing}`}>
-              <Logo />
-              <Button
-                color="primary"
-                style={{ color: 'white' }}
-                variant="contained"
-                onClick={openChangeSchema}
-              >
-                Change Schema
-              </Button>
-            </Stack>
-          </GraphQLVoyager.PanelHeader>
-        </GraphQLVoyager>
-        <IntrospectionModal
-          open={changeSchemaModalOpen}
-          onClose={closeChangeSchema}
-          onChange={(introspection) => this.setState({ introspection })}
-        />
-      </ThemeProvider>
-    );
-  }
+  return (
+    <ThemeProvider theme={theme}>
+      <GraphQLVoyager introspection={introspection}>
+        <GraphQLVoyager.PanelHeader>
+          <Stack padding={({ panelSpacing }) => `0 ${panelSpacing}`}>
+            <Logo />
+            <Button
+              color="primary"
+              style={{ color: 'white' }}
+              variant="contained"
+              onClick={() => setChangeSchemaModalOpen(true)}
+            >
+              Change Schema
+            </Button>
+          </Stack>
+        </GraphQLVoyager.PanelHeader>
+      </GraphQLVoyager>
+      <IntrospectionModal
+        open={changeSchemaModalOpen}
+        onClose={() => setChangeSchemaModalOpen(false)}
+        onChange={setIntrospection}
+      />
+    </ThemeProvider>
+  );
 }
 
 function Logo() {
@@ -113,5 +86,27 @@ function Logo() {
   );
 }
 
+const currentUrl = new URL(window.location.href);
+const url = currentUrl.searchParams.get('url');
+const withCredentials = currentUrl.searchParams.get('withCredentials');
+
+const introspection =
+  url != null
+    ? async (introspectionQuery: string) => {
+        const response = await fetch(url, {
+          method: 'post',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ query: introspectionQuery }),
+          ...(withCredentials === 'true'
+            ? { credentials: 'include', mode: 'cors' }
+            : {}),
+        });
+        return response.json();
+      }
+    : defaultPreset;
+
 const reactRoot = ReactDOMClient.createRoot(document.getElementById('root'));
-reactRoot.render(<Demo />);
+reactRoot.render(<Demo introspection={introspection} />);
