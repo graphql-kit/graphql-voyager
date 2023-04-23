@@ -19,31 +19,30 @@ import {
 } from 'graphql/utilities';
 import * as React from 'react';
 
-import { defaultPresetName, PRESETS } from './presets';
-
 enum InputType {
   Presets = 'Presets',
   SDL = 'SDL',
   Introspection = 'Introspection',
 }
 
-const initialConfig = {
-  inputType: InputType.Presets,
-  activePreset: defaultPresetName,
-  sdlText: '',
-  jsonText: '',
-};
-
 interface IntrospectionModalProps {
   open: boolean;
+  presets?: { [name: string]: any };
   onClose: () => void;
   onChange: (introspection: any) => void;
 }
 
 export function IntrospectionModal(props: IntrospectionModalProps) {
-  const { open, onChange, onClose } = props;
+  const { open, presets, onChange, onClose } = props;
+  const presetNames = presets != null ? Object.keys(presets) : [];
+  const hasPresets = presetNames.length > 0;
 
-  const [submitted, setSubmitted] = React.useState(initialConfig);
+  const [submitted, setSubmitted] = React.useState({
+    inputType: hasPresets ? InputType.Presets : InputType.SDL,
+    activePreset: presetNames.at(0) ?? '',
+    sdlText: '',
+    jsonText: '',
+  });
 
   const [inputType, setInputType] = React.useState(submitted.inputType);
   const [sdlText, setSDLText] = React.useState(submitted.sdlText);
@@ -65,19 +64,24 @@ export function IntrospectionModal(props: IntrospectionModalProps) {
           textColor="primary"
           onChange={(_, activeTab) => setInputType(activeTab)}
         >
-          <Tab value={InputType.Presets} label={InputType.Presets} />
+          {hasPresets && (
+            <Tab value={InputType.Presets} label={InputType.Presets} />
+          )}
           <Tab value={InputType.SDL} label={InputType.SDL} />
           <Tab
             value={InputType.Introspection}
             label={InputType.Introspection}
           />
         </TabList>
-        <TabPanel value={InputType.Presets}>
-          <PresetsTab
-            activePreset={activePreset}
-            onPresetChange={setActivePreset}
-          />
-        </TabPanel>
+        {hasPresets && (
+          <TabPanel value={InputType.Presets}>
+            <PresetsTab
+              presets={presets}
+              activePreset={activePreset}
+              onPresetChange={setActivePreset}
+            />
+          </TabPanel>
+        )}
         <TabPanel value={InputType.SDL}>
           <SDLTab sdlText={sdlText} onSDLTextChange={setSDLText} />
         </TabPanel>
@@ -102,7 +106,7 @@ export function IntrospectionModal(props: IntrospectionModalProps) {
   function handleSubmit() {
     switch (inputType) {
       case InputType.Presets:
-        onChange(PRESETS[activePreset]);
+        onChange(presets[activePreset]);
         break;
       case InputType.Introspection:
         onChange(JSON.parse(jsonText));
@@ -167,13 +171,14 @@ function IntrospectionDialog(props: IntrospectionDialogProps) {
 }
 
 interface PresetsTabProps {
+  presets: { [name: string]: any };
   activePreset: string;
   onPresetChange: (presetName: string) => void;
 }
 
 function PresetsTab(props: PresetsTabProps) {
-  const { activePreset, onPresetChange } = props;
-  const presetNames = Object.keys(PRESETS);
+  const { presets, activePreset, onPresetChange } = props;
+  const presetNames = Object.keys(presets);
 
   return (
     <Grid container spacing={4}>

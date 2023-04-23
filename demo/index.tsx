@@ -12,10 +12,11 @@ import { GraphQLVoyager } from '../src';
 import { theme } from '../src/components/MUITheme';
 import LogoIcon from './icons/logo-small.svg';
 import { IntrospectionModal } from './IntrospectionModal';
-import { defaultPreset } from './presets';
+import { defaultPreset, PRESETS } from './presets';
 
 interface DemoProps {
   introspection: any;
+  presets?: { [name: string]: any };
 }
 
 function Demo(props: DemoProps) {
@@ -44,6 +45,7 @@ function Demo(props: DemoProps) {
       </GraphQLVoyager>
       <IntrospectionModal
         open={changeSchemaModalOpen}
+        presets={props.presets}
         onClose={() => setChangeSchemaModalOpen(false)}
         onChange={setIntrospection}
       />
@@ -109,4 +111,4 @@ const introspection =
     : defaultPreset;
 
 const reactRoot = ReactDOMClient.createRoot(document.getElementById('root'));
-reactRoot.render(<Demo introspection={introspection} />);
+reactRoot.render(<Demo introspection={introspection} presets={PRESETS} />);
