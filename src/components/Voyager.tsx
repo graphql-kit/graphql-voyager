@@ -18,6 +18,7 @@ import GraphViewport from './GraphViewport';
 import { theme } from './MUITheme';
 import Settings from './settings/Settings';
 import PoweredBy from './utils/PoweredBy';
+import { VoyagerLogo } from './utils/VoyagerLogo';
 
 type IntrospectionProvider = (query: string) => Promise<any>;
 
@@ -50,6 +51,7 @@ export interface VoyagerProps {
   displayOptions?: VoyagerDisplayOptions;
   hideDocs?: boolean;
   hideSettings?: boolean;
+  hideVoyagerLogo?: boolean;
 
   children?: ReactNode;
 }
@@ -147,12 +149,17 @@ export default class Voyager extends Component<VoyagerProps> {
   }
 
   render() {
-    const { hideDocs = false, hideSettings = false } = this.props;
+    const {
+      hideDocs = false,
+      hideSettings = false,
+      // TODO: switch to false in the next major version
+      hideVoyagerLogo = true,
+    } = this.props;
 
     return (
       <ThemeProvider theme={theme}>
         <div className="graphql-voyager">
-          {!hideDocs && this.renderPanel()}
+          {!hideDocs && this.renderPanel(hideVoyagerLogo)}
           {!hideSettings && this.renderSettings()}
           {this.renderGraphViewport()}
         </div>
@@ -160,7 +167,7 @@ export default class Voyager extends Component<VoyagerProps> {
     );
   }
 
-  renderPanel() {
+  renderPanel(hideVoyagerLogo: boolean) {
     const children = Children.toArray(this.props.children);
     const panelHeader = children.find(
       (child: ReactElement) => child.type === Voyager.PanelHeader,
@@ -172,6 +179,7 @@ export default class Voyager extends Component<VoyagerProps> {
     return (
       <div className="doc-panel">
         <div className="contents">
+          {!hideVoyagerLogo && <VoyagerLogo />}
           {panelHeader}
           <DocExplorer
             typeGraph={typeGraph}

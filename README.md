@@ -39,6 +39,7 @@ module system it is exported as `GraphQLVoyager` global variable.
   - `displayOptions.hideRoot` [`boolean`, default `false`] - hide the root type
 - `hideDocs` [`boolean`, default `false`] - hide the docs sidebar
 - `hideSettings` [`boolean`, default `false`] - hide settings panel
+- `hideVoyagerLogo` [`boolean`, default `true`] - hide voyager logo
 
 ### `init` function
 
