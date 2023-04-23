@@ -1,27 +1,24 @@
 import * as ReactDOMClient from 'react-dom/client';
 
-import { Voyager } from 'graphql-voyager';
+import { Voyager, voyagerIntrospectionQuery } from 'graphql-voyager';
 
-async function introspectionProvider(query: string) {
-  const response = await fetch(
-    'https://swapi-graphql.netlify.app/.netlify/functions/index',
-    {
-      method: 'post',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ query }),
-      credentials: 'omit',
+const introspection = fetch(
+  'https://swapi-graphql.netlify.app/.netlify/functions/index',
+  {
+    method: 'post',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
     },
-  );
-  return response.json();
-}
+    body: JSON.stringify({ query: voyagerIntrospectionQuery }),
+    credentials: 'omit',
+  },
+).then((response) => response.json());
 
 const reactRoot = ReactDOMClient.createRoot(document.getElementById('voyager'));
 reactRoot.render(
   <Voyager
-    introspection={introspectionProvider}
+    introspection={introspection}
     displayOptions={{ skipRelay: false, showLeafFields: true }}
   />,
 );
