@@ -29,7 +29,7 @@ module system it is exported as `GraphQLVoyager` global variable.
 
 `Voyager` component accepts the following properties:
 
-- `introspection` [`object` or function: `(query: string) => Promise`] - the server introspection response. If `function` is provided GraphQL Voyager will pass introspection query as a first function parameter. Function should return `Promise` which resolves to introspection response object.
+- `introspection` [`object`] - the server introspection response. If `function` is provided GraphQL Voyager will pass introspection query as a first function parameter. Function should return `Promise` which resolves to introspection response object.
 - `displayOptions` _(optional)_
   - `displayOptions.skipRelay` [`boolean`, default `true`] - skip relay-related entities
   - `displayOptions.skipDeprecated` [`boolean`, default `true`] - skip deprecated fields and entities that contain only deprecated fields.
@@ -79,14 +79,22 @@ You can get GraphQL Voyager bundle from the following places:
   <body>
     <div id="voyager">Loading...</div>
     <script>
-      function introspectionProvider(introspectionQuery) {
-        // ... do a call to server using introspectionQuery provided
-        // or just return pre-fetched introspection
-      }
+      // do a call to server using voyagerIntrospectionQuery provided
+      const query = GraphQLVoyager.voyagerIntrospectionQuery;
+      const introspection = fetch('<server url>', {
+        method: 'post',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ query }),
+        // ...
+      }).then((response) => response.json());
+      // or just return pre-fetched introspection
 
       // Render <Voyager />
       GraphQLVoyager.init(document.getElementById('voyager'), {
-        introspection: introspectionProvider,
+        introspection: introspection,
       });
     </script>
   </body>
@@ -105,18 +113,16 @@ And then use it:
 ```js
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { Voyager } from 'graphql-voyager';
+import { Voyager, voyagerIntrospectionQuery } from 'graphql-voyager';
 
-function introspectionProvider(query) {
-  return fetch(window.location.origin + '/graphql', {
-    method: 'post',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ query: query }),
-  }).then((response) => response.json());
-}
+const introspection = fetch(window.location.origin + '/graphql', {
+  method: 'post',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ query: voyagerIntrospectionQuery }),
+}).then((response) => response.json());
 
 ReactDOM.render(
-  <Voyager introspection={introspectionProvider} />,
+  <Voyager introspection={introspection} />,
   document.getElementById('voyager'),
 );
 ```

@@ -83,13 +83,14 @@ export default class Voyager extends Component<VoyagerProps> {
     const displayOptions = normalizeDisplayOptions(this.props.displayOptions);
 
     if (typeof this.props.introspection !== 'function') {
-      console.warn(
-        'GraphQLVoyager: Passing function as "introspection" is deprecated.' +
-          'To access introspection query, please use "voyagerIntrospectionQuery".',
-      );
       this.updateIntrospection(this.props.introspection, displayOptions);
       return;
     }
+
+    console.warn(
+      'GraphQLVoyager: Passing function as "introspection" is deprecated.' +
+        'To access introspection query, please use "voyagerIntrospectionQuery".',
+    );
 
     const promise = this.props.introspection(getIntrospectionQuery());
     this.setState({
