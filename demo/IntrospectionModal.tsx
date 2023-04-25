@@ -13,7 +13,7 @@ import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Unstable_Grid2';
 import { buildSchema, introspectionFromSchema } from 'graphql/utilities';
-import * as React from 'react';
+import { useState } from 'react';
 
 import { voyagerIntrospectionQuery } from '../src/utils/introspection-query';
 
@@ -35,19 +35,17 @@ export function IntrospectionModal(props: IntrospectionModalProps) {
   const presetNames = presets != null ? Object.keys(presets) : [];
   const hasPresets = presetNames.length > 0;
 
-  const [submitted, setSubmitted] = React.useState({
+  const [submitted, setSubmitted] = useState({
     inputType: hasPresets ? InputType.Presets : InputType.SDL,
     activePreset: presetNames.at(0) ?? '',
     sdlText: '',
     jsonText: '',
   });
 
-  const [inputType, setInputType] = React.useState(submitted.inputType);
-  const [sdlText, setSDLText] = React.useState(submitted.sdlText);
-  const [jsonText, setJSONText] = React.useState(submitted.jsonText);
-  const [activePreset, setActivePreset] = React.useState(
-    submitted.activePreset,
-  );
+  const [inputType, setInputType] = useState(submitted.inputType);
+  const [sdlText, setSDLText] = useState(submitted.sdlText);
+  const [jsonText, setJSONText] = useState(submitted.jsonText);
+  const [activePreset, setActivePreset] = useState(submitted.activePreset);
 
   return (
     <IntrospectionDialog
@@ -233,7 +231,7 @@ interface IntrospectionTabProps {
 
 function IntrospectionTab(props: IntrospectionTabProps) {
   const { jsonText, onJSONTextChange } = props;
-  const [isCopied, setIsCopied] = React.useState(false);
+  const [isCopied, setIsCopied] = useState(false);
   return (
     <Stack spacing={1} justifyContent="flex-start" alignItems="center">
       <Typography>

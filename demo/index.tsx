@@ -1,7 +1,7 @@
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import { ThemeProvider } from '@mui/material/styles';
-import * as React from 'react';
+import { useState } from 'react';
 import * as ReactDOMClient from 'react-dom/client';
 
 import { GraphQLVoyager } from '../src';
@@ -15,11 +15,8 @@ interface DemoProps {
 }
 
 function Demo(props: DemoProps) {
-  const [introspection, setIntrospection] = React.useState(
-    () => props.introspection,
-  );
-  const [changeSchemaModalOpen, setChangeSchemaModalOpen] =
-    React.useState(false);
+  const [introspection, setIntrospection] = useState(() => props.introspection);
+  const [changeSchemaModalOpen, setChangeSchemaModalOpen] = useState(false);
 
   return (
     <ThemeProvider theme={theme}>
