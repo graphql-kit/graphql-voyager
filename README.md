@@ -37,6 +37,7 @@ module system it is exported as `GraphQLVoyager` global variable.
   - `displayOptions.sortByAlphabet` [`boolean`, default `false`] - sort fields on graph by alphabet
   - `displayOptions.showLeafFields` [`boolean`, default `true`] - show all scalars and enums
   - `displayOptions.hideRoot` [`boolean`, default `false`] - hide the root type
+- `allowToChangeSchema` [`boolean`, default `false`] - allow users to change schema
 - `hideDocs` [`boolean`, default `false`] - hide the docs sidebar
 - `hideSettings` [`boolean`, default `false`] - hide settings panel
 - `hideVoyagerLogo` [`boolean`, default `true`] - hide voyager logo

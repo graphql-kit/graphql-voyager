@@ -15,7 +15,7 @@ import Grid from '@mui/material/Unstable_Grid2';
 import { buildSchema, introspectionFromSchema } from 'graphql/utilities';
 import { useState } from 'react';
 
-import { voyagerIntrospectionQuery } from '../src/utils/introspection-query';
+import { voyagerIntrospectionQuery } from '../utils/introspection-query';
 
 enum InputType {
   Presets = 'Presets',
@@ -102,15 +102,14 @@ export function IntrospectionModal(props: IntrospectionModalProps) {
   function handleSubmit() {
     switch (inputType) {
       case InputType.Presets:
-        onChange(presets[activePreset]);
+        onChange(presets[activePreset].data);
         break;
       case InputType.Introspection:
-        onChange(JSON.parse(jsonText));
+        // check for errors and check if valid
+        onChange(JSON.parse(jsonText).data);
         break;
       case InputType.SDL:
-        onChange({
-          data: introspectionFromSchema(buildSchema(sdlText)),
-        });
+        onChange(introspectionFromSchema(buildSchema(sdlText)));
         break;
     }
     setSubmitted({ inputType, sdlText, jsonText, activePreset });
