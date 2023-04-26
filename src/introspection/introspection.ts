@@ -287,14 +287,14 @@ function assignTypesAndIDs(schema: SimplifiedIntrospection) {
 }
 
 export function getSchema(
-  introspection: any,
+  introspectionData: any,
   sortByAlphabet: boolean,
   skipRelay: boolean,
   skipDeprecated: boolean,
 ) {
-  if (!introspection) return null;
+  if (!introspectionData) return null;
 
-  let schema = buildClientSchema(introspection.data);
+  let schema = buildClientSchema(introspectionData);
   if (sortByAlphabet) {
     schema = lexicographicSortSchema(schema);
   }
