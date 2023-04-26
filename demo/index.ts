@@ -1,6 +1,7 @@
+import * as React from 'react';
 import * as ReactDOMClient from 'react-dom/client';
 
-import { GraphQLVoyager } from '../src';
+import { Voyager } from '../src';
 import { defaultPreset, PRESETS } from './presets';
 
 const currentUrl = new URL(window.location.href);
@@ -25,12 +26,13 @@ const introspection =
       }
     : defaultPreset;
 
-const reactRoot = ReactDOMClient.createRoot(document.getElementById('root'));
+const rootElement = document.getElementById('root');
+const reactRoot = ReactDOMClient.createRoot(rootElement);
 reactRoot.render(
-  <GraphQLVoyager
-    introspection={introspection}
-    introspectionPresets={PRESETS}
-    allowToChangeSchema={true}
-    hideVoyagerLogo={false}
-  />,
+  React.createElement(Voyager, {
+    introspection,
+    introspectionPresets: PRESETS,
+    allowToChangeSchema: true,
+    hideVoyagerLogo: false,
+  }),
 );
