@@ -1,6 +1,8 @@
 import './Voyager.css';
 import './viewport.css';
 
+import Button from '@mui/material/Button';
+import Stack from '@mui/material/Stack';
 import { ThemeProvider } from '@mui/material/styles';
 import {
   Children,
@@ -17,6 +19,7 @@ import { extractTypeId, getSchema } from '../introspection';
 import { voyagerIntrospectionQuery } from '../utils/introspection-query';
 import DocExplorer from './doc-explorer/DocExplorer';
 import GraphViewport from './GraphViewport';
+import { IntrospectionModal } from './IntrospectionModal';
 import { theme } from './MUITheme';
 import Settings from './settings/Settings';
 import PoweredBy from './utils/PoweredBy';
@@ -45,6 +48,8 @@ const defaultDisplayOptions = {
 export interface VoyagerProps {
   introspection: IntrospectionProvider | unknown;
   displayOptions?: VoyagerDisplayOptions;
+  introspectionPresets?: { [name: string]: any };
+  allowToChangeSchema?: boolean;
   hideDocs?: boolean;
   hideSettings?: boolean;
   hideVoyagerLogo?: boolean;
@@ -53,6 +58,7 @@ export interface VoyagerProps {
 }
 
 export default function Voyager(props: VoyagerProps) {
+  const [introspectionModalOpen, setIntrospectionModalOpen] = useState(false);
   const [introspectionData, setIntrospectionData] = useState(null);
   const [displayOptions, setDisplayOptions] = useState({
     ...defaultDisplayOptions,
@@ -103,6 +109,7 @@ export default function Voyager(props: VoyagerProps) {
   const [selected, setSelected] = useState({ typeID: null, edgeID: null });
 
   const {
+    allowToChangeSchema = false,
     hideDocs = false,
     hideSettings = false,
     // TODO: switch to false in the next major version
@@ -121,9 +128,21 @@ export default function Voyager(props: VoyagerProps) {
         {!hideDocs && renderPanel()}
         {!hideSettings && renderSettings()}
         {renderGraphViewport()}
+        {allowToChangeSchema && renderIntrospectionModal()}
       </div>
     </ThemeProvider>
   );
+
+  function renderIntrospectionModal() {
+    return (
+      <IntrospectionModal
+        open={introspectionModalOpen}
+        presets={props.introspectionPresets}
+        onClose={() => setIntrospectionModalOpen(false)}
+        onChange={setIntrospectionData}
+      />
+    );
+  }
 
   function renderPanel() {
     const children = Children.toArray(props.children);
@@ -135,6 +154,7 @@ export default function Voyager(props: VoyagerProps) {
       <div className="doc-panel">
         <div className="contents">
           {!hideVoyagerLogo && <VoyagerLogo />}
+          {allowToChangeSchema && renderChangeSchemaButton()}
           {panelHeader}
           <DocExplorer
             typeGraph={typeGraph}
@@ -147,6 +167,22 @@ export default function Voyager(props: VoyagerProps) {
           <PoweredBy />
         </div>
       </div>
+    );
+  }
+
+  function renderChangeSchemaButton() {
+    // TODO: generalize padding by applying it to the whole panel
+    return (
+      <Stack padding={({ panelSpacing }) => `0 ${panelSpacing}`}>
+        <Button
+          color="primary"
+          style={{ color: 'white' }}
+          variant="contained"
+          onClick={() => setIntrospectionModalOpen(true)}
+        >
+          Change Schema
+        </Button>
+      </Stack>
     );
   }
 
