@@ -2,17 +2,19 @@ import './Voyager.css';
 import './viewport.css';
 
 import { ThemeProvider } from '@mui/material/styles';
-import { getIntrospectionQuery } from 'graphql/utilities';
 import {
   Children,
-  Component,
-  createRef,
   type ReactElement,
   type ReactNode,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
 } from 'react';
 
 import { getTypeGraph, SVGRender } from '../graph/';
 import { extractTypeId, getSchema } from '../introspection';
+import { voyagerIntrospectionQuery } from '../utils/introspection-query';
 import DocExplorer from './doc-explorer/DocExplorer';
 import GraphViewport from './GraphViewport';
 import { theme } from './MUITheme';
@@ -40,12 +42,6 @@ const defaultDisplayOptions = {
   hideRoot: false,
 };
 
-function normalizeDisplayOptions(options) {
-  return options != null
-    ? { ...defaultDisplayOptions, ...options }
-    : defaultDisplayOptions;
-}
-
 export interface VoyagerProps {
   introspection: IntrospectionProvider | unknown;
   displayOptions?: VoyagerDisplayOptions;
@@ -56,126 +52,84 @@ export interface VoyagerProps {
   children?: ReactNode;
 }
 
-export default class Voyager extends Component<VoyagerProps> {
-  state = {
-    introspectionData: null,
-    schema: null,
-    typeGraph: null,
-    displayOptions: defaultDisplayOptions,
-    selectedTypeID: null,
-    selectedEdgeID: null,
-  };
+export default function Voyager(props: VoyagerProps) {
+  const [introspectionData, setIntrospectionData] = useState(null);
+  const [displayOptions, setDisplayOptions] = useState({
+    ...defaultDisplayOptions,
+    ...props.displayOptions,
+  });
 
-  svgRenderer: SVGRender;
-  viewportRef = createRef<GraphViewport>();
-  introspectionPromise = null;
+  useEffect(() => {
+    let introspection = props.introspection;
+    if (typeof introspection === 'function') {
+      console.warn(
+        'GraphQLVoyager: Passing function as "introspection" is deprecated.' +
+          'To access introspection query, please use "voyagerIntrospectionQuery".',
+      );
 
-  constructor(props) {
-    super(props);
-    this.svgRenderer = new SVGRender();
-  }
-
-  componentDidMount() {
-    this.fetchIntrospection();
-  }
-
-  fetchIntrospection() {
-    const displayOptions = normalizeDisplayOptions(this.props.displayOptions);
-
-    if (typeof this.props.introspection !== 'function') {
-      this.updateIntrospection(this.props.introspection, displayOptions);
-      return;
+      introspection = introspection(voyagerIntrospectionQuery);
     }
 
-    console.warn(
-      'GraphQLVoyager: Passing function as "introspection" is deprecated.' +
-        'To access introspection query, please use "voyagerIntrospectionQuery".',
-    );
-
-    const promise = this.props.introspection(getIntrospectionQuery());
-    this.setState({
-      introspectionData: null,
-      schema: null,
-      typeGraph: null,
-      displayOptions: null,
-      selectedTypeID: null,
-      selectedEdgeID: null,
+    // FIXME: handle rejection and also handle errors inside introspection
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    Promise.resolve(introspection).then(({ data }) => {
+      setIntrospectionData(data);
+      setSelected({ typeID: null, edgeID: null });
     });
+  }, [props.introspection]);
 
-    this.introspectionPromise = promise;
-    promise.then((introspectionData) => {
-      if (promise === this.introspectionPromise) {
-        this.introspectionPromise = null;
-        this.updateIntrospection(introspectionData, displayOptions);
-      }
-    });
-  }
-
-  updateIntrospection(introspectionData, displayOptions) {
-    const schema = getSchema(
+  const schema = useMemo(
+    () =>
+      getSchema(
+        introspectionData,
+        displayOptions.sortByAlphabet,
+        displayOptions.skipRelay,
+        displayOptions.skipDeprecated,
+      ),
+    [
       introspectionData,
       displayOptions.sortByAlphabet,
       displayOptions.skipRelay,
       displayOptions.skipDeprecated,
-    );
-    const typeGraph = getTypeGraph(
-      schema,
-      displayOptions.rootType,
-      displayOptions.hideRoot,
-    );
+    ],
+  );
 
-    this.setState({
-      introspectionData,
-      schema,
-      typeGraph,
-      displayOptions,
-      selectedTypeID: null,
-      selectedEdgeID: null,
-    });
-  }
+  const typeGraph = useMemo(
+    () =>
+      getTypeGraph(schema, displayOptions.rootType, displayOptions.hideRoot),
+    [schema, displayOptions.rootType, displayOptions.hideRoot],
+  );
 
-  componentDidUpdate(prevProps: VoyagerProps) {
-    if (this.props.introspection !== prevProps.introspection) {
-      this.fetchIntrospection();
-    } else if (this.props.displayOptions !== prevProps.displayOptions) {
-      this.updateIntrospection(
-        this.state.introspectionData,
-        normalizeDisplayOptions(this.props.displayOptions),
-      );
-    }
+  const [selected, setSelected] = useState({ typeID: null, edgeID: null });
 
-    if (this.props.hideDocs !== prevProps.hideDocs) {
-      this.viewportRef.current.resize();
-    }
-  }
+  const {
+    hideDocs = false,
+    hideSettings = false,
+    // TODO: switch to false in the next major version
+    hideVoyagerLogo = true,
+  } = props;
 
-  render() {
-    const {
-      hideDocs = false,
-      hideSettings = false,
-      // TODO: switch to false in the next major version
-      hideVoyagerLogo = true,
-    } = this.props;
+  const viewportRef = useRef(null);
+  useEffect(() => viewportRef.current?.resize(), [hideDocs]);
 
-    return (
-      <ThemeProvider theme={theme}>
-        <div className="graphql-voyager">
-          {!hideDocs && this.renderPanel(hideVoyagerLogo)}
-          {!hideSettings && this.renderSettings()}
-          {this.renderGraphViewport()}
-        </div>
-      </ThemeProvider>
-    );
-  }
+  // TODO: move into GraphViewport
+  const svgRenderer = useMemo(() => new SVGRender(), []);
 
-  renderPanel(hideVoyagerLogo: boolean) {
-    const children = Children.toArray(this.props.children);
+  return (
+    <ThemeProvider theme={theme}>
+      <div className="graphql-voyager">
+        {!hideDocs && renderPanel()}
+        {!hideSettings && renderSettings()}
+        {renderGraphViewport()}
+      </div>
+    </ThemeProvider>
+  );
+
+  function renderPanel() {
+    const children = Children.toArray(props.children);
     const panelHeader = children.find(
       (child: ReactElement) => child.type === Voyager.PanelHeader,
     );
-
-    const { typeGraph, selectedTypeID, selectedEdgeID } = this.state;
-    const onFocusNode = (id) => this.viewportRef.current.focusNode(id);
 
     return (
       <div className="doc-panel">
@@ -184,11 +138,11 @@ export default class Voyager extends Component<VoyagerProps> {
           {panelHeader}
           <DocExplorer
             typeGraph={typeGraph}
-            selectedTypeID={selectedTypeID}
-            selectedEdgeID={selectedEdgeID}
-            onFocusNode={onFocusNode}
-            onSelectNode={this.handleSelectNode}
-            onSelectEdge={this.handleSelectEdge}
+            selectedTypeID={selected.typeID}
+            selectedEdgeID={selected.edgeID}
+            onFocusNode={(id) => viewportRef.current.focusNode(id)}
+            onSelectNode={handleSelectNode}
+            onSelectEdge={handleSelectEdge}
           />
           <PoweredBy />
         </div>
@@ -196,60 +150,57 @@ export default class Voyager extends Component<VoyagerProps> {
     );
   }
 
-  renderSettings() {
-    const { schema, displayOptions } = this.state;
-
+  function renderSettings() {
     if (schema == null) return null;
 
     return (
       <Settings
         schema={schema}
         options={displayOptions}
-        onChange={this.handleDisplayOptionsChange}
+        onChange={(options) =>
+          setDisplayOptions((oldOptions) => ({ ...oldOptions, ...options }))
+        }
       />
     );
   }
 
-  renderGraphViewport() {
-    const { displayOptions, typeGraph, selectedTypeID, selectedEdgeID } =
-      this.state;
-
+  function renderGraphViewport() {
     return (
       <GraphViewport
-        svgRenderer={this.svgRenderer}
+        svgRenderer={svgRenderer}
         typeGraph={typeGraph}
         displayOptions={displayOptions}
-        selectedTypeID={selectedTypeID}
-        selectedEdgeID={selectedEdgeID}
-        onSelectNode={this.handleSelectNode}
-        onSelectEdge={this.handleSelectEdge}
-        ref={this.viewportRef}
+        selectedTypeID={selected.typeID}
+        selectedEdgeID={selected.edgeID}
+        onSelectNode={handleSelectNode}
+        onSelectEdge={handleSelectEdge}
+        ref={viewportRef}
       />
     );
   }
 
-  handleDisplayOptionsChange = (delta) => {
-    const displayOptions = { ...this.state.displayOptions, ...delta };
-    this.updateIntrospection(this.state.introspectionData, displayOptions);
-  };
+  function handleSelectNode(typeID: string) {
+    setSelected((oldSelected) => {
+      if (typeID === oldSelected.typeID) {
+        return oldSelected;
+      }
+      return { typeID, edgeID: null };
+    });
+  }
 
-  handleSelectNode = (selectedTypeID) => {
-    if (selectedTypeID !== this.state.selectedTypeID) {
-      this.setState({ selectedTypeID, selectedEdgeID: null });
-    }
-  };
-
-  handleSelectEdge = (selectedEdgeID) => {
-    if (selectedEdgeID === this.state.selectedEdgeID) {
-      // deselect if click again
-      this.setState({ selectedEdgeID: null });
-    } else {
-      const selectedTypeID = extractTypeId(selectedEdgeID);
-      this.setState({ selectedTypeID, selectedEdgeID });
-    }
-  };
-
-  static PanelHeader = (props) => {
-    return props.children || null;
-  };
+  function handleSelectEdge(edgeID: string) {
+    setSelected((oldSelected) => {
+      if (edgeID === oldSelected.edgeID) {
+        // deselect if click again
+        return { ...oldSelected, edgeID: null };
+      } else {
+        return { typeID: extractTypeId(edgeID), edgeID };
+      }
+    });
+  }
 }
+
+function PanelHeader(props: { children: ReactNode }) {
+  return <>{props.children}</>;
+}
+Voyager.PanelHeader = PanelHeader;
