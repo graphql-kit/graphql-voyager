@@ -78,6 +78,7 @@ export default function buildWebpackConfig(): webpack.Configuration {
       new CopyWebpackPlugin({
         patterns: [
           { from: '.nojekyll', context: './demo' },
+          { from: '**/*.json', context: './demo' },
           { from: '**/*.png', context: './demo' },
           { from: '**/*.ico', context: './demo' },
         ],
