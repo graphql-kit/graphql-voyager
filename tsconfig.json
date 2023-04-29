@@ -21,7 +21,7 @@
     "./src/**/*.ts",
     "./src/**/*.tsx",
     "./manual-types.d.ts",
-    "demo/**/*.tsx",
+    "demo/**/*.ts",
     "tests/**/*.ts",
     "scripts/**/*.ts",
     "playwright.config.ts",

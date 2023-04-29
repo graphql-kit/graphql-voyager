@@ -17,7 +17,7 @@ export default function buildWebpackConfig(): webpack.Configuration {
       extensions: ['.ts', '.tsx', '.mjs', '.js', '.json', '.css', '.svg'],
       alias: { '../../worker': '../../worker-dist' },
     },
-    entry: './demo/index.tsx',
+    entry: './demo/index.ts',
     devServer: {
       https: true,
       port: 9090,
