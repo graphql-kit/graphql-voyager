@@ -75,6 +75,15 @@ test('use custom SDL', async ({ page }) => {
   await expect(voyagerPage.page).toHaveScreenshot('display-sdl.png');
 });
 
+test.only('use custom SDL with custom directives', async ({ page }) => {
+  const voyagerPage = await gotoVoyagerPage(page);
+  await voyagerPage.submitSDL('type Query @foo { bar: String @baz }');
+
+  await expect(voyagerPage.page).toHaveScreenshot(
+    'display-sdl-with-unknown-directives.png',
+  );
+});
+
 test('use custom introspection', async ({ page }) => {
   const voyagerPage = await gotoVoyagerPage(page);
   const { changeSchemaDialog } = voyagerPage;
