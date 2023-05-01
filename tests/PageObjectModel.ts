@@ -40,6 +40,17 @@ class PlaywrightVoyagerPage {
   async waitForGraphToBeLoaded() {
     await this.graphLoadingAnimation.waitFor({ state: 'hidden' });
   }
+
+  async submitSDL(sdl: string) {
+    const { changeSchemaDialog } = this;
+    const { sdlTab } = changeSchemaDialog;
+
+    await changeSchemaDialog.openButton.click();
+    await sdlTab.tab.click();
+    await sdlTab.sdlTextArea.fill(sdl);
+    await changeSchemaDialog.displayButton.click();
+    await this.waitForGraphToBeLoaded();
+  }
 }
 
 class PlaywrightChangeSchemaDialog {
