@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as ReactDOMClient from 'react-dom/client';
 
-import { Voyager } from '../src';
+import { Voyager, voyagerIntrospectionQuery } from '../src';
 
 async function fetchPreset(name: string) {
   const response = await fetch(`./presets/${name}_introspection.json`);
@@ -30,22 +30,7 @@ Promise.all([
   const withCredentials = currentUrl.searchParams.get('withCredentials');
 
   const introspection =
-    url != null
-      ? async (introspectionQuery: string) => {
-          const response = await fetch(url, {
-            method: 'post',
-            headers: {
-              Accept: 'application/json',
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ query: introspectionQuery }),
-            ...(withCredentials === 'true'
-              ? { credentials: 'include', mode: 'cors' }
-              : {}),
-          });
-          return response.json();
-        }
-      : defaultPreset;
+    url != null ? fetchIntrospection(url, withCredentials) : defaultPreset;
 
   const rootElement = document.getElementById('root');
   const reactRoot = ReactDOMClient.createRoot(rootElement);
@@ -58,3 +43,18 @@ Promise.all([
     }),
   );
 });
+
+async function fetchIntrospection(url: string, withCredentials: string) {
+  const response = await fetch(url, {
+    method: 'post',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ query: voyagerIntrospectionQuery }),
+    ...(withCredentials === 'true'
+      ? { credentials: 'include', mode: 'cors' }
+      : {}),
+  });
+  return response.json();
+}
