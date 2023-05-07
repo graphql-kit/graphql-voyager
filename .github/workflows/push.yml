@@ -1,8 +1,13 @@
 name: Push
 on: push
+permissions: {}
 jobs:
   ci:
+    permissions:
+      contents: read # for actions/checkout
+      security-events: write # for codeql-action
     uses: ./.github/workflows/ci.yml
+
   deploy-to-gh-pages:
     name: Deploy to `npm` branch
     needs: ci
@@ -11,6 +16,8 @@ jobs:
       name: github-pages
       url: ${{ github.server_url }}/${{ github.repository }}/tree/gh-pages
     runs-on: ubuntu-latest
+    permissions:
+      contents: read # for actions/checkout
     steps:
       - name: Checkout `gh-pages` branch
         uses: actions/checkout@v3
