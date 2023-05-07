@@ -1,8 +1,11 @@
 name: CI
 on: workflow_call
+permissions: {}
 jobs:
   test:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read # for actions/checkout
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
@@ -30,6 +33,8 @@ jobs:
   lint:
     name: Lint source files
     runs-on: ubuntu-latest
+    permissions:
+      contents: read # for actions/checkout
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
@@ -65,6 +70,8 @@ jobs:
   checkForCommonlyIgnoredFiles:
     name: Check for commonly ignored files
     runs-on: ubuntu-latest
+    permissions:
+      contents: read # for actions/checkout
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
@@ -89,6 +96,8 @@ jobs:
   checkPackageLock:
     name: Check health of package-lock.json file
     runs-on: ubuntu-latest
+    permissions:
+      contents: read # for actions/checkout
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
@@ -114,7 +123,8 @@ jobs:
     name: Run CodeQL security scan
     runs-on: ubuntu-latest
     permissions:
-      security-events: write
+      contents: read # for actions/checkout
+      security-events: write # for codeql-action
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
@@ -132,6 +142,8 @@ jobs:
   buildDemo:
     name: Build Demo
     runs-on: ubuntu-latest
+    permissions:
+      contents: read # for actions/checkout
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
@@ -162,6 +174,8 @@ jobs:
   buildRelease:
     name: Build release
     runs-on: ubuntu-latest
+    permissions:
+      contents: read # for actions/checkout
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
