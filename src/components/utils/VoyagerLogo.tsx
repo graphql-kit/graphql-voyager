@@ -9,7 +9,7 @@ import LogoIcon from '../icons/logo-small.svg';
 export function VoyagerLogo() {
   return (
     <Link
-      href="https://github.com/IvanGoncharov/graphql-voyager"
+      href="https://github.com/graphql-kit/graphql-voyager"
       target="_blank"
       rel="noreferrer"
       color="logoColor.main"
