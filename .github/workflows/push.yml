@@ -9,40 +9,17 @@ jobs:
     uses: ./.github/workflows/ci.yml
 
   deploy-to-gh-pages:
-    name: Deploy to `npm` branch
+    name: Deploy to GitHub Pages
     needs: ci
     if: github.ref == 'refs/heads/main'
     environment:
       name: github-pages
-      url: ${{ github.server_url }}/${{ github.repository }}/tree/gh-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     permissions:
-      contents: read # for actions/checkout
+      pages: write # for actions/deploy-pages
+      id-token: write # for actions/deploy-pages
     steps:
-      - name: Checkout `gh-pages` branch
-        uses: actions/checkout@v3
-        with:
-          ref: gh-pages
-
-      - name: Remove existing files first
-        run: git rm -r .
-
-      - uses: actions/download-artifact@v3
-        with:
-          name: demo-dist
-
-      - name: Publish target branch
-        run: |
-          git add -A
-          if git diff --staged --quiet; then
-            echo 'Nothing to publish'
-          else
-            git config user.name 'GitHub Action Script'
-            git config user.email 'please@open.issue'
-
-            git commit -a -m "$COMMIT_MESSAGE"
-            git push
-            echo 'Pushed'
-          fi
-        env:
-          COMMIT_MESSAGE: 'Deploy ${{github.event.workflow_run.head_sha}} to `gh_pages` branch'
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2
