@@ -101,10 +101,9 @@ You can get GraphQL Voyager bundle from the following places:
 
 ### Using as a dependency
 
-You can install lib using `npm` or `yarn`:
+You can install lib:
 
     npm i --save graphql-voyager
-    yarn add graphql-voyager
 
 And then use it:
 
@@ -125,12 +124,11 @@ ReactDOM.render(
 );
 ```
 
-Build for the web with [webpack](https://webpack.js.org/) ([example](./example/webpack-example)) or
-[browserify](http://browserify.org/)
+Build for the web with [webpack](https://webpack.js.org/), see ([example](./example/webpack-example))
 
 ## Middleware
 
-Graphql Voyager has middleware for the next frameworks:
+GraphQL Voyager has middleware for the next frameworks:
 
 ### Properties
 
