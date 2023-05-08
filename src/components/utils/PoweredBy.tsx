@@ -12,7 +12,7 @@ export default function PoweredBy() {
     >
       🛰 Powered by{' '}
       <Link
-        href="https://github.com/IvanGoncharov/graphql-voyager"
+        href="https://github.com/graphql-kit/graphql-voyager"
         target="_blank"
         rel="noreferrer"
       >
