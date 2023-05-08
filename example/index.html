@@ -14,14 +14,6 @@
     </style>
 
     <!--
-      GraphQL Voyager itself depends on React DOM.
-      If you do not want to rely on a CDN, you can host these files locally or
-      include them directly in your favored resource bundler.
-    -->
-    <script src="https://cdn.jsdelivr.net/npm/react@16/umd/react.production.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/react-dom@16/umd/react-dom.production.min.js"></script>
-
-    <!--
       These two files are served from jsdelivr CDN, however you may wish to
       copy them directly into your environment, or perhaps include them in your
       favored resource bundler.
@@ -30,7 +22,7 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/graphql-voyager/dist/voyager.css"
     />
-    <script src="https://cdn.jsdelivr.net/npm/graphql-voyager/dist/voyager.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/graphql-voyager/dist/voyager.standalone.js"></script>
   </head>
   <body>
     <div id="voyager">Loading...</div>

@@ -58,8 +58,8 @@ The signature of the `init` function:
 You can get GraphQL Voyager bundle from the following places:
 
 - [![jsDelivr](https://data.jsdelivr.com/v1/package/npm/graphql-voyager/badge)](https://www.jsdelivr.com/package/npm/graphql-voyager)
-  - some exact version - https://cdn.jsdelivr.net/npm/graphql-voyager/v1.0.0-rc.15/voyager.min.js
-  - latest version - https://cdn.jsdelivr.net/npm/graphql-voyager/dist/voyager.min.js
+  - some exact version - https://cdn.jsdelivr.net/npm/graphql-voyager@1.2/dist/voyager.standalone.js
+  - latest version - https://cdn.jsdelivr.net/npm/graphql-voyager/dist/voyager.standalone.js
 - from `dist` folder of the npm package `graphql-voyager`
 
 **The HTML with minimal setup** (see the full [example](./example))
@@ -68,14 +68,11 @@ You can get GraphQL Voyager bundle from the following places:
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="https://cdn.jsdelivr.net/npm/react@16/umd/react.production.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/react-dom@16/umd/react-dom.production.min.js"></script>
-
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/graphql-voyager/dist/voyager.css"
     />
-    <script src="https://cdn.jsdelivr.net/npm/graphql-voyager/dist/voyager.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/graphql-voyager/dist/voyager.standalone.js"></script>
   </head>
   <body>
     <div id="voyager">Loading...</div>
