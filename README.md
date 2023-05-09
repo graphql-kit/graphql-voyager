@@ -62,7 +62,7 @@ You can get GraphQL Voyager bundle from the following places:
   - latest version - https://cdn.jsdelivr.net/npm/graphql-voyager/dist/voyager.standalone.js
 - from `dist` folder of the npm package `graphql-voyager`
 
-**The HTML with minimal setup** (see the full [example](./example))
+**The HTML with minimal setup** (see the full [example](./example/cdn))
 
 ```html
 <!DOCTYPE html>

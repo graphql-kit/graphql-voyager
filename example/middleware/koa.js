@@ -2,7 +2,7 @@ const Koa = require('koa');
 const KoaRouter = require('koa-router');
 const graphqlHTTP = require('koa-graphql');
 const { koa: voyagerMiddleware } = require('graphql-voyager/middleware');
-const schema = require('../schema');
+const schema = require('./schema');
 
 const app = new Koa();
 const router = new KoaRouter();

@@ -1,7 +1,7 @@
 const express = require('express');
 const graphqlHTTP = require('express-graphql');
 const { express: voyagerMiddleware } = require('graphql-voyager/middleware');
-const schema = require('../schema');
+const schema = require('./schema');
 
 const app = express();
 const PORT = 3001;
