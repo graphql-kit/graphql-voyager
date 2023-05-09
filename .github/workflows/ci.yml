@@ -164,9 +164,6 @@ jobs:
 
       - name: Build demo
         run: npm run build:demo
-        env:
-          # Temporary hack to fix webpack@4, see https://github.com/webpack/webpack/issues/14532
-          NODE_OPTIONS: '--openssl-legacy-provider'
 
       - name: Upload demo-dist folder
         uses: actions/upload-pages-artifact@v1
@@ -195,6 +192,3 @@ jobs:
 
       - name: Build release
         run: npm run build:release
-        env:
-          # Temporary hack to fix webpack@4, see https://github.com/webpack/webpack/issues/14532
-          NODE_OPTIONS: '--openssl-legacy-provider'
