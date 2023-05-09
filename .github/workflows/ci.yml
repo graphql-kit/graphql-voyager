@@ -169,9 +169,8 @@ jobs:
           NODE_OPTIONS: '--openssl-legacy-provider'
 
       - name: Upload demo-dist folder
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-pages-artifact@v1
         with:
-          name: github-pages
           path: ./demo-dist
 
   buildRelease:
