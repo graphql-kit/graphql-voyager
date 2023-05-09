@@ -1,7 +1,7 @@
 const Hapi = require('hapi');
 const { graphqlHapi } = require('graphql-server-hapi');
 const { hapi: voyagerMiddleware } = require('graphql-voyager/middleware');
-const schema = require('../schema');
+const schema = require('./schema');
 
 const server = new Hapi.Server({
   port: 3001,

@@ -27,17 +27,19 @@
   <body>
     <div id="voyager">Loading...</div>
     <script>
-      const { init, voyagerIntrospectionQuery } = GraphQLVoyager;
-
-      const introspection = fetch('/graphql', {
-        method: 'post',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
+      const { init, voyagerIntrospectionQuery: query } = GraphQLVoyager;
+      const introspection = fetch(
+        'https://swapi-graphql.netlify.app/.netlify/functions/index',
+        {
+          method: 'post',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ query }),
+          credentials: 'omit',
         },
-        body: JSON.stringify({ query: voyagerIntrospectionQuery }),
-        credentials: 'include',
-      }).then((response) => response.json());
+      ).then((response) => response.json());
 
       // Render <Voyager /> into the body.
       GraphQLVoyager.init(document.getElementById('voyager'), {
