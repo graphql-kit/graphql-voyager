@@ -62,69 +62,13 @@ You can get GraphQL Voyager bundle from the following places:
   - latest version - https://cdn.jsdelivr.net/npm/graphql-voyager/dist/voyager.standalone.js
 - from `dist` folder of the npm package `graphql-voyager`
 
-**The HTML with minimal setup** (see the full [example](./example/cdn))
-
-```html
-<!DOCTYPE html>
-<html>
-  <head>
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/graphql-voyager/dist/voyager.css"
-    />
-    <script src="https://cdn.jsdelivr.net/npm/graphql-voyager/dist/voyager.standalone.js"></script>
-  </head>
-  <body>
-    <div id="voyager">Loading...</div>
-    <script>
-      // do a call to server using voyagerIntrospectionQuery provided
-      const query = GraphQLVoyager.voyagerIntrospectionQuery;
-      const introspection = fetch('<server url>', {
-        method: 'post',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ query }),
-        // ...
-      }).then((response) => response.json());
-      // or just return pre-fetched introspection
-
-      // Render <Voyager />
-      GraphQLVoyager.init(document.getElementById('voyager'), {
-        introspection: introspection,
-      });
-    </script>
-  </body>
-</html>
-```
+**The HTML example**: [example/cdn/index.html](./example/cdn/index.html))
 
 ### Using as a dependency
 
-You can install lib:
+Build for the web with [webpack](https://webpack.js.org/), or any other bundle.
 
-    npm i --save graphql-voyager
-
-And then use it:
-
-```js
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
-import { Voyager, voyagerIntrospectionQuery } from 'graphql-voyager';
-
-const introspection = fetch(window.location.origin + '/graphql', {
-  method: 'post',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({ query: voyagerIntrospectionQuery }),
-}).then((response) => response.json());
-
-ReactDOM.render(
-  <Voyager introspection={introspection} />,
-  document.getElementById('voyager'),
-);
-```
-
-Build for the web with [webpack](https://webpack.js.org/), see ([example](./example/webpack-example))
+**The  minimal webpack setup**: [example/webpack](./example/webpack))
 
 ## Middleware
 
