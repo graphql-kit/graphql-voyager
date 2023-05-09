@@ -20,7 +20,7 @@ _[GraphQL Weekly #42](https://graphqlweekly.com/issues/42)_
 - "Skip Relay" option that simplifies graph by removing Relay wrapper classes
 - Ability to choose any type to be a root of the graph
 
-## Usage
+## API
 
 GraphQL Voyager exports `Voyager` React component and helper `init` function. If used without
 module system it is exported as `GraphQLVoyager` global variable.
@@ -53,7 +53,7 @@ The signature of the `init` function:
 - `hostElement` - parent element
 - `options` - is the JS object with [properties](#properties) of `Voyager` component
 
-### Using pre-bundled version
+## Using pre-bundled version
 
 You can get GraphQL Voyager bundle from the following places:
 
@@ -62,13 +62,13 @@ You can get GraphQL Voyager bundle from the following places:
   - latest version - https://cdn.jsdelivr.net/npm/graphql-voyager/dist/voyager.standalone.js
 - from `dist` folder of the npm package `graphql-voyager`
 
-**The HTML example**: [example/cdn/index.html](./example/cdn/index.html))
+### [HTML example](./example/cdn)
 
-### Using as a dependency
+## Using as a dependency
 
 Build for the web with [webpack](https://webpack.js.org/), or any other bundle.
 
-**The  minimal webpack setup**: [example/webpack](./example/webpack))
+### [Webpack example](./example/webpack)
 
 ## Middleware
 
