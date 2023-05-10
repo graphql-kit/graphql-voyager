@@ -1,7 +1,4 @@
-import * as React from 'react';
-import * as ReactDOMClient from 'react-dom/client';
-
-import { Voyager, voyagerIntrospectionQuery } from '../src';
+import { renderVoyager, voyagerIntrospectionQuery } from '../src/standalone';
 
 async function fetchPreset(name: string) {
   const response = await fetch(`./presets/${name}_introspection.json`);
@@ -32,16 +29,12 @@ Promise.all([
   const introspection =
     url != null ? fetchIntrospection(url, withCredentials) : defaultPreset;
 
-  const rootElement = document.getElementById('root');
-  const reactRoot = ReactDOMClient.createRoot(rootElement);
-  reactRoot.render(
-    React.createElement(Voyager, {
-      introspection,
-      introspectionPresets: PRESETS,
-      allowToChangeSchema: true,
-      hideVoyagerLogo: false,
-    }),
-  );
+  renderVoyager(document.getElementById('root'), {
+    introspection,
+    introspectionPresets: PRESETS,
+    allowToChangeSchema: true,
+    hideVoyagerLogo: false,
+  });
 });
 
 async function fetchIntrospection(url: string, withCredentials: string) {

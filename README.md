@@ -42,25 +42,17 @@ module system it is exported as `GraphQLVoyager` global variable.
 - `hideSettings` [`boolean`, default `false`] - hide settings panel
 - `hideVoyagerLogo` [`boolean`, default `true`] - hide voyager logo
 
-### `init` function
-
-The signature of the `init` function:
-
-```js
-(hostElement: HTMLElement, options: object) => void
-```
-
-- `hostElement` - parent element
-- `options` - is the JS object with [properties](#properties) of `Voyager` component
-
 ## Using pre-bundled version
 
 You can get GraphQL Voyager bundle from the following places:
 
 - [![jsDelivr](https://data.jsdelivr.com/v1/package/npm/graphql-voyager/badge)](https://www.jsdelivr.com/package/npm/graphql-voyager)
-  - some exact version - https://cdn.jsdelivr.net/npm/graphql-voyager@1.2/dist/voyager.standalone.js
+  - some exact version - https://cdn.jsdelivr.net/npm/graphql-voyager@1.3/dist/voyager.standalone.js
   - latest version - https://cdn.jsdelivr.net/npm/graphql-voyager/dist/voyager.standalone.js
 - from `dist` folder of the npm package `graphql-voyager`
+
+**Note: `voyager.standalone.js` is bundled with react, so you just need to call
+`renderVoyager` function that's it.**
 
 ### [HTML example](./example/cdn)
 
