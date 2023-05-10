@@ -20,7 +20,7 @@ _[GraphQL Weekly #42](https://graphqlweekly.com/issues/42)_
 - "Skip Relay" option that simplifies graph by removing Relay wrapper classes
 - Ability to choose any type to be a root of the graph
 
-## Usage
+## API
 
 GraphQL Voyager exports `Voyager` React component and helper `init` function. If used without
 module system it is exported as `GraphQLVoyager` global variable.
@@ -53,7 +53,7 @@ The signature of the `init` function:
 - `hostElement` - parent element
 - `options` - is the JS object with [properties](#properties) of `Voyager` component
 
-### Using pre-bundled version
+## Using pre-bundled version
 
 You can get GraphQL Voyager bundle from the following places:
 
@@ -62,69 +62,13 @@ You can get GraphQL Voyager bundle from the following places:
   - latest version - https://cdn.jsdelivr.net/npm/graphql-voyager/dist/voyager.standalone.js
 - from `dist` folder of the npm package `graphql-voyager`
 
-**The HTML with minimal setup** (see the full [example](./example/cdn))
+### [HTML example](./example/cdn)
 
-```html
-<!DOCTYPE html>
-<html>
-  <head>
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/graphql-voyager/dist/voyager.css"
-    />
-    <script src="https://cdn.jsdelivr.net/npm/graphql-voyager/dist/voyager.standalone.js"></script>
-  </head>
-  <body>
-    <div id="voyager">Loading...</div>
-    <script>
-      // do a call to server using voyagerIntrospectionQuery provided
-      const query = GraphQLVoyager.voyagerIntrospectionQuery;
-      const introspection = fetch('<server url>', {
-        method: 'post',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ query }),
-        // ...
-      }).then((response) => response.json());
-      // or just return pre-fetched introspection
+## Using as a dependency
 
-      // Render <Voyager />
-      GraphQLVoyager.init(document.getElementById('voyager'), {
-        introspection: introspection,
-      });
-    </script>
-  </body>
-</html>
-```
+Build for the web with [webpack](https://webpack.js.org/), or any other bundle.
 
-### Using as a dependency
-
-You can install lib:
-
-    npm i --save graphql-voyager
-
-And then use it:
-
-```js
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
-import { Voyager, voyagerIntrospectionQuery } from 'graphql-voyager';
-
-const introspection = fetch(window.location.origin + '/graphql', {
-  method: 'post',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({ query: voyagerIntrospectionQuery }),
-}).then((response) => response.json());
-
-ReactDOM.render(
-  <Voyager introspection={introspection} />,
-  document.getElementById('voyager'),
-);
-```
-
-Build for the web with [webpack](https://webpack.js.org/), see ([example](./example/webpack-example))
+### [Webpack example](./example/webpack)
 
 ## Middleware
 
