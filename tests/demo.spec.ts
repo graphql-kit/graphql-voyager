@@ -32,6 +32,7 @@ for (const name of SchemaPresets) {
 
     await changeSchemaDialog.displayButton.click();
 
+    // eslint-disable-next-line playwright/no-wait-for-timeout
     await page.waitForTimeout(200); // FIXME
     await voyagerPage.waitForGraphToBeLoaded();
     await expect(voyagerPage.page).toHaveScreenshot(`show-${slug}-preset.png`);
@@ -75,7 +76,7 @@ test('use custom SDL', async ({ page }) => {
   await expect(voyagerPage.page).toHaveScreenshot('display-sdl.png');
 });
 
-test.only('use custom SDL with custom directives', async ({ page }) => {
+test('use custom SDL with custom directives', async ({ page }) => {
   const voyagerPage = await gotoVoyagerPage(page);
   await voyagerPage.submitSDL('type Query @foo { bar: String @baz }');
 
