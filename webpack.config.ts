@@ -20,6 +20,7 @@ export default function buildWebpackConfig(env: Env): webpack.Configuration {
   if (env.lib === true) {
     return {
       ...baseConfig,
+      entry: './src/index.tsx',
       externals: NodeExternals(),
       output: {
         ...baseConfig.output,
@@ -31,6 +32,7 @@ export default function buildWebpackConfig(env: Env): webpack.Configuration {
   if (env.standalone === true) {
     return {
       ...baseConfig,
+      entry: './src/standalone.ts',
       optimization: { minimize: true },
       externals: undefined,
       output: {
@@ -44,6 +46,7 @@ export default function buildWebpackConfig(env: Env): webpack.Configuration {
   if (env.min === true) {
     return {
       ...baseConfig,
+      entry: './src/index.tsx',
       optimization: { minimize: true },
       externals: {
         react: {
@@ -76,7 +79,6 @@ const baseConfig: webpack.Configuration = {
     extensions: ['.ts', '.tsx', '.mjs', '.js', '.json', '.css', '.svg'],
     alias: { '../../worker': '../../worker-dist' },
   },
-  entry: './src/index.tsx',
   output: {
     path: path.resolve(__dirname, 'dist'),
     sourceMapFilename: '[file].map',
