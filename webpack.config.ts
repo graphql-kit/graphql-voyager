@@ -11,7 +11,6 @@ const BANNER = `GraphQL Voyager - Represent any GraphQL API as an interactive gr
   Repo: ${packageJSON.repository.url}`;
 
 interface Env {
-  min?: boolean;
   lib?: boolean;
   standalone?: boolean;
 }
@@ -42,32 +41,6 @@ export default function buildWebpackConfig(env: Env): webpack.Configuration {
     };
   }
 
-  // TODO: delete in next major version
-  if (env.min === true) {
-    return {
-      ...baseConfig,
-      entry: './src/index.tsx',
-      optimization: { minimize: true },
-      externals: {
-        react: {
-          root: 'React',
-          commonjs2: 'react',
-          commonjs: 'react',
-          amd: 'react',
-        },
-        'react-dom': {
-          root: 'ReactDOM',
-          commonjs2: 'react-dom',
-          commonjs: 'react-dom',
-          amd: 'react-dom',
-        },
-      },
-      output: {
-        ...baseConfig.output,
-        filename: 'voyager.min.js',
-      },
-    };
-  }
   throw new Error('Please specify correct env');
 }
 
