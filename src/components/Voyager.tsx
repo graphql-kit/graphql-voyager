@@ -16,7 +16,6 @@ import {
 
 import { getTypeGraph, SVGRender } from '../graph/';
 import { extractTypeId, getSchema } from '../introspection';
-import { voyagerIntrospectionQuery } from '../utils/introspection-query';
 import DocExplorer from './doc-explorer/DocExplorer';
 import GraphViewport from './GraphViewport';
 import { IntrospectionModal } from './IntrospectionModal';
@@ -24,8 +23,6 @@ import { theme } from './MUITheme';
 import Settings from './settings/Settings';
 import PoweredBy from './utils/PoweredBy';
 import { VoyagerLogo } from './utils/VoyagerLogo';
-
-type IntrospectionProvider = (query: string) => Promise<any>;
 
 export interface VoyagerDisplayOptions {
   rootType?: string;
@@ -46,7 +43,7 @@ const defaultDisplayOptions = {
 };
 
 export interface VoyagerProps {
-  introspection: IntrospectionProvider | unknown;
+  introspection: unknown;
   displayOptions?: VoyagerDisplayOptions;
   introspectionPresets?: { [name: string]: any };
   allowToChangeSchema?: boolean;
@@ -66,19 +63,9 @@ export default function Voyager(props: VoyagerProps) {
   });
 
   useEffect(() => {
-    let introspection = props.introspection;
-    if (typeof introspection === 'function') {
-      console.warn(
-        'GraphQLVoyager: Passing function as "introspection" is deprecated.' +
-          'To access introspection query, please use "voyagerIntrospectionQuery".',
-      );
-
-      introspection = introspection(voyagerIntrospectionQuery);
-    }
-
     // FIXME: handle rejection and also handle errors inside introspection
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    Promise.resolve(introspection).then(({ data }) => {
+    Promise.resolve(props.introspection).then(({ data }) => {
       setIntrospectionData(data);
       setSelected({ typeID: null, edgeID: null });
     });
