@@ -21,12 +21,10 @@
     "./src/**/*.ts",
     "./src/**/*.tsx",
     "./manual-types.d.ts",
-    "demo/**/*.ts",
     "tests/**/*.ts",
     "scripts/**/*.ts",
     "playwright.config.ts",
-    "webpack.config.ts",
-    "webpack-demo.config.ts"
+    "webpack.config.ts"
   ],
   "ts-node": {
     "compilerOptions": {

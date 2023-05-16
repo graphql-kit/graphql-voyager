@@ -15,7 +15,8 @@ interface Env {
   standalone?: boolean;
 }
 
-export default function buildWebpackConfig(env: Env): webpack.Configuration {
+// FIXME: switch any to webpack.Configuration
+export default function buildWebpackConfig(env: Env): any {
   if (env.lib === true) {
     return {
       ...baseConfig,
@@ -34,9 +35,19 @@ export default function buildWebpackConfig(env: Env): webpack.Configuration {
       entry: './src/standalone.ts',
       optimization: { minimize: true },
       externals: undefined,
+      devtool: 'source-map',
       output: {
         ...baseConfig.output,
         filename: 'voyager.standalone.js',
+        sourceMapFilename: '[file].map',
+      },
+      devServer: {
+        https: true,
+        port: 9090,
+        static: {
+          directory: path.join(__dirname, 'demo'),
+        },
+        liveReload: true,
       },
     };
   }
