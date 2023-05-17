@@ -1,3 +1,6 @@
+/* eslint-disable import/no-extraneous-dependencies */
+// All dependencies are bundled for this entry point
+
 import * as React from 'react';
 import * as ReactDOMClient from 'react-dom/client';
 
