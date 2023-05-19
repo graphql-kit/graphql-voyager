@@ -1,10 +1,11 @@
 import { Component } from 'react';
 
-import { Viewport } from './../graph/';
+import { SVGRender, Viewport } from './../graph/';
 import LoadingAnimation from './utils/LoadingAnimation';
 
+const svgRenderer = new SVGRender();
+
 interface GraphViewportProps {
-  svgRenderer: any;
   typeGraph: any;
   displayOptions: any;
 
@@ -83,7 +84,7 @@ export default class GraphViewport extends Component<GraphViewportProps> {
     this._currentTypeGraph = typeGraph;
     this._currentDisplayOptions = displayOptions;
 
-    const { svgRenderer, onSelectNode, onSelectEdge } = this.props;
+    const { onSelectNode, onSelectEdge } = this.props;
     svgRenderer
       .renderSvg(typeGraph, displayOptions)
       .then((svg) => {

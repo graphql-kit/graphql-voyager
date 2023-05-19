@@ -14,7 +14,7 @@ import {
   useState,
 } from 'react';
 
-import { getTypeGraph, SVGRender } from '../graph/';
+import { getTypeGraph } from '../graph/';
 import { extractTypeId, getSchema } from '../introspection';
 import DocExplorer from './doc-explorer/DocExplorer';
 import GraphViewport from './GraphViewport';
@@ -106,9 +106,6 @@ export default function Voyager(props: VoyagerProps) {
   const viewportRef = useRef(null);
   useEffect(() => viewportRef.current?.resize(), [hideDocs]);
 
-  // TODO: move into GraphViewport
-  const svgRenderer = useMemo(() => new SVGRender(), []);
-
   return (
     <ThemeProvider theme={theme}>
       <div className="graphql-voyager">
@@ -190,7 +187,6 @@ export default function Voyager(props: VoyagerProps) {
   function renderGraphViewport() {
     return (
       <GraphViewport
-        svgRenderer={svgRenderer}
         typeGraph={typeGraph}
         displayOptions={displayOptions}
         selectedTypeID={selected.typeID}
