@@ -27,6 +27,7 @@ export class Viewport {
   offsetLeft: number;
   offsetTop: number;
   maxZoom: number;
+  resizeObserver: ResizeObserver;
 
   constructor(
     svgString,
@@ -47,8 +48,8 @@ export class Viewport {
     this.bindClick();
     this.bindHover();
 
-    this.resize();
-    window.addEventListener('resize', () => this.resize());
+    this.resizeObserver = new ResizeObserver(() => this.resize());
+    this.resizeObserver.observe(this.container);
   }
 
   resize() {
@@ -217,7 +218,7 @@ export class Viewport {
   }
 
   destroy() {
-    window.removeEventListener('resize', () => this.resize());
+    this.resizeObserver.disconnect();
     try {
       this.zoomer.destroy();
     } catch (e) {

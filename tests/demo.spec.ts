@@ -10,6 +10,18 @@ test('open demo', async ({ page }) => {
   await expect(voyagerPage.page).toHaveScreenshot('loaded-demo.png');
 });
 
+test('resize screen', async ({ page }) => {
+  await page.setViewportSize({ width: 1920, height: 1080 });
+
+  const voyagerPage = await gotoVoyagerPage(page);
+
+  await voyagerPage.waitForGraphToBeLoaded();
+  await expect(voyagerPage.page).toHaveScreenshot('demo-before-resize.png');
+
+  await page.setViewportSize({ width: 1024, height: 768 });
+  await expect(voyagerPage.page).toHaveScreenshot('demo-after-resize.png');
+});
+
 for (const name of SchemaPresets) {
   test(`use ${name} preset`, async ({ page }) => {
     const voyagerPage = await gotoVoyagerPage(page);
