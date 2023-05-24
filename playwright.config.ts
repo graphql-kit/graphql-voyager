@@ -31,18 +31,20 @@ const config: PlaywrightTestConfig = {
 
     /* Maximum time each action such as `click()` can take. Defaults to 0 (no limit). */
     actionTimeout: 0,
-    /* Base URL to use in actions like `await page.goto('/')`. */
-    baseURL: 'http://localhost:9090',
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
   },
   projects: [
     {
-      name: 'chromium',
+      name: 'Demo',
+      testMatch: 'Demo.spec.ts',
       use: {
         ...devices['Desktop Chrome'],
         viewport: { width: 1920, height: 1001 },
+
+        /* Base URL to use in actions like `await page.goto('/')`. */
+        baseURL: 'http://localhost:9090',
       },
     },
   ],
