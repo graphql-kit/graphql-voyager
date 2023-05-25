@@ -36,7 +36,7 @@
     "prettier": "prettier --cache --write --list-different . **/*.svg",
     "prettier:check": "prettier --cache --check . **/*.svg",
     "check:spelling": "cspell --cache --no-progress '**/*'",
-    "testonly": "npm run build:demo && docker-compose up --abort-on-container-exit --build test",
+    "testonly": "npm run build:demo && npm pack && docker-compose up --abort-on-container-exit --build test",
     "declarations": "tsc --emitDeclarationOnly -p tsconfig.lib.json"
   },
   "peerDependencies": {
