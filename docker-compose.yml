@@ -9,7 +9,15 @@ services:
       - ./worker-dist:/home/worker-dist
     stdin_open: true
     tty: true
+  serve-webpack-example:
+    build:
+      context: .
+      dockerfile: ./example/webpack/Dockerfile
+    stdin_open: true
+    tty: true
   test:
+    depends_on:
+      - serve-webpack-example
     build:
       context: .
       dockerfile: ./tests/Dockerfile

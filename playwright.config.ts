@@ -47,6 +47,18 @@ const config: PlaywrightTestConfig = {
         baseURL: 'http://localhost:9090',
       },
     },
+    {
+      name: 'WebpackExample',
+      testMatch: 'webpack.spec.ts',
+      use: {
+        ...devices['Desktop Chrome'],
+        trace: 'on',
+        viewport: { width: 1920, height: 1001 },
+
+        /* Base URL to use in actions like `await page.goto('/')`. */
+        baseURL: 'http://serve-webpack-example:9090',
+      },
+    },
   ],
   outputDir: 'test-results/',
   webServer: {
