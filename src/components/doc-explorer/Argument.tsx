@@ -21,7 +21,9 @@ export default function Argument(props: ArgumentProps) {
         {arg.defaultValue != null && (
           <span>
             {' = '}
-            <span className="default-value">{arg.defaultValue}</span>
+            <span className="default-value">
+              {JSON.stringify(arg.defaultValue)}
+            </span>
           </span>
         )}
       </span>
