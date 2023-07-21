@@ -56,7 +56,7 @@ export class SVGRender {
 
   _renderString(src: string): Promise<string> {
     return new Promise((resolve, reject) => {
-      const id = this._nextId++;
+      const id = ++this._nextId;
 
       this._listeners[id] = function (error, result): void {
         if (error) {

@@ -16,3 +16,5 @@
 /test-results
 /playwright-report
 /graphql-voyager-*.tgz
+/.idea
+.DS_Store

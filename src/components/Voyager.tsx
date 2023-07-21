@@ -65,10 +65,17 @@ export default function Voyager(props: VoyagerProps) {
   useEffect(() => {
     // FIXME: handle rejection and also handle errors inside introspection
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    Promise.resolve(props.introspection).then(({ data }) => {
-      setIntrospectionData(data);
-      setSelected({ typeID: null, edgeID: null });
+    let isMounted = true;
+    void Promise.resolve(props.introspection).then(({ data }) => {
+      if(isMounted) {
+        setIntrospectionData(data);
+        setSelected({ typeID: null, edgeID: null });
+      }
     });
+
+    return () => {
+      isMounted = false;
+    }
   }, [props.introspection]);
 
   const schema = useMemo(
