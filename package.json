@@ -55,6 +55,8 @@
   },
   "devDependencies": {
     "@playwright/test": "1.32.0",
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/git": "^10.0.1",
     "@svgr/webpack": "6.5.1",
     "@types/commonmark": "0.27.5",
     "@types/lodash": "4.14.182",
@@ -81,6 +83,7 @@
     "raw-loader": "4.0.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "semantic-release": "^21.0.7",
     "style-loader": "0.23.1",
     "svg-as-symbol-loader": "1.2.4",
     "ts-loader": "5.3.3",

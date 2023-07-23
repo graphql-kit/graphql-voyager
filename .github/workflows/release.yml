@@ -1,0 +1,37 @@
+
+jobs:
+    release:
+      name: Release
+      permissions:
+        contents: write
+        id-token: write
+        issues: write
+        pull-requests: write
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout
+          uses: actions/checkout@v3
+          with:
+            fetch-depth: 0
+        - name: Setup Node.js
+          uses: actions/setup-node@v3
+          with:
+            node-version: lts/hydrogen
+        - name: Install dependencies
+          run: npm clean-install
+        - name: Verify the integrity of provenance attestations and registry signatures for installed dependencies
+          run: npm audit signatures
+        - env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          name: Release
+          run: npx semantic-release
+  name: Release
+  on:
+    push:
+      branches:
+        - main
+        - next
+  
+  permissions:
+    contents: read # for checkout
+  
