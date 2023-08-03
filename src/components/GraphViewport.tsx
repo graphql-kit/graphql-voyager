@@ -1,13 +1,14 @@
 import { Component } from 'react';
 
-import { SVGRender, Viewport } from './../graph/';
+import { SVGRender, TypeGraph, Viewport } from './../graph/';
 import LoadingAnimation from './utils/LoadingAnimation';
+import { VoyagerDisplayOptions } from './Voyager';
 
 const svgRenderer = new SVGRender();
 
 interface GraphViewportProps {
-  typeGraph: any;
-  displayOptions: any;
+  typeGraph: TypeGraph | null;
+  displayOptions: VoyagerDisplayOptions;
 
   selectedTypeID: string;
   selectedEdgeID: string;
@@ -16,8 +17,21 @@ interface GraphViewportProps {
   onSelectEdge: (id: string) => void;
 }
 
-export default class GraphViewport extends Component<GraphViewportProps> {
-  state = { typeGraph: null, displayOptions: null, svgViewport: null };
+interface GraphViewportState {
+  typeGraph: TypeGraph | null;
+  displayOptions: VoyagerDisplayOptions | null;
+  svgViewport: Viewport | null;
+}
+
+export default class GraphViewport extends Component<
+  GraphViewportProps,
+  GraphViewportState
+> {
+  state: GraphViewportState = {
+    typeGraph: null,
+    displayOptions: null,
+    svgViewport: null,
+  };
 
   // Handle async graph rendering based on this example
   // https://gist.github.com/bvaughn/982ab689a41097237f6e9860db7ca8d6
@@ -69,7 +83,10 @@ export default class GraphViewport extends Component<GraphViewportProps> {
     this._cleanupSvgViewport();
   }
 
-  _renderSvgAsync(typeGraph, displayOptions) {
+  _renderSvgAsync(
+    typeGraph: TypeGraph | null,
+    displayOptions: VoyagerDisplayOptions | null,
+  ) {
     if (typeGraph == null || displayOptions == null) {
       return; // Nothing to render
     }

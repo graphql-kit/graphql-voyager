@@ -1,7 +1,9 @@
+import { GraphQLEnumValue } from 'graphql/type';
+
 import Markdown from '../utils/Markdown';
 
 interface EnumValueProps {
-  value: any;
+  value: GraphQLEnumValue;
 }
 
 export default function EnumValue(props: EnumValueProps) {

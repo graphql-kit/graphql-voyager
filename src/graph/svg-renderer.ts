@@ -1,7 +1,9 @@
 // eslint-disable-next-line import/no-unresolved
 import VizWorker from '../../worker/voyager.worker.js';
+import { VoyagerDisplayOptions } from '../components/Voyager';
 import { stringToSvg } from '../utils/';
 import { getDot } from './dot';
+import { TypeGraph } from './type-graph';
 
 const RelayIconSvg = require('!!svg-as-symbol-loader?id=RelayIcon!../components/icons/relay-icon.svg');
 const DeprecatedIconSvg = require('!!svg-as-symbol-loader?id=DeprecatedIcon!../components/icons/deprecated-icon.svg');
@@ -45,7 +47,7 @@ export class SVGRender {
     });
   }
 
-  async renderSvg(typeGraph, displayOptions) {
+  async renderSvg(typeGraph: TypeGraph, displayOptions: VoyagerDisplayOptions) {
     console.time('Rendering Graph');
     const dot = getDot(typeGraph, displayOptions);
     const rawSVG = await this._renderString(dot);

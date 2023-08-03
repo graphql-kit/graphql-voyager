@@ -1,62 +1,79 @@
-import * as _ from 'lodash';
-
 import {
-  isInputObjectType,
-  isScalarType,
-  isSystemType,
-  typeNameToId,
-} from '../introspection/';
+  assertCompositeType,
+  getNamedType,
+  GraphQLCompositeType,
+  GraphQLNamedOutputType,
+  GraphQLNamedType,
+  GraphQLSchema,
+  isCompositeType,
+  isInterfaceType,
+  isUnionType,
+} from 'graphql/type';
 
-export function isNode(type) {
-  return !(
-    isScalarType(type) ||
-    isInputObjectType(type) ||
-    isSystemType(type) ||
-    type.isRelayType
+export interface TypeGraph {
+  schema: GraphQLSchema;
+  rootType: GraphQLCompositeType;
+  nodes: Map<string, GraphQLCompositeType>;
+}
+
+export function isNode(type: GraphQLNamedType): type is GraphQLCompositeType {
+  return (
+    isCompositeType(type) &&
+    type.extensions.isRelayType !== true &&
+    !type.name.startsWith('__')
   );
 }
 
-export function getDefaultRoot(schema) {
-  return schema.queryType.name;
-}
+export function getTypeGraph(
+  schema: GraphQLSchema,
+  rootName?: string,
+  hideRoot?: boolean,
+): TypeGraph {
+  const rootType = assertCompositeType(
+    schema.getType(rootName) ?? schema.getQueryType(),
+  );
 
-export function getTypeGraph(schema, rootType: string, hideRoot: boolean) {
-  if (schema === null) return null;
+  const nodeMap = new Map<string, GraphQLCompositeType>();
+  nodeMap.set(rootType.name, rootType);
 
-  const rootId = typeNameToId(rootType || getDefaultRoot(schema));
-  return buildGraph(rootId);
-
-  function getEdgeTargets(type) {
-    return _([
-      ..._.values(type.fields),
-      ...(type.derivedTypes || []),
-      ...(type.possibleTypes || []),
-    ])
-      .map('type')
-      .filter(isNode)
-      .map('id')
-      .value();
+  for (const type of nodeMap.values()) {
+    for (const edgeTarget of getEdgeTargets(type)) {
+      if (isNode(edgeTarget)) {
+        nodeMap.set(edgeTarget.name, edgeTarget);
+      }
+    }
   }
 
-  function buildGraph(rootId) {
-    const typeIds = [rootId];
-    const nodes = [];
-    const types = _.keyBy(schema.types, 'id');
+  if (hideRoot === true) {
+    nodeMap.delete(rootType.name);
+  }
 
-    for (let i = 0; i < typeIds.length; ++i) {
-      const id = typeIds[i];
-      if (typeIds.indexOf(id) < i) continue;
+  return {
+    schema,
+    rootType,
+    nodes: nodeMap,
+  };
 
-      const type = types[id];
-
-      nodes.push(type);
-      typeIds.push(...getEdgeTargets(type));
+  function getEdgeTargets(
+    type: GraphQLCompositeType,
+  ): ReadonlyArray<GraphQLNamedOutputType> {
+    if (isUnionType(type)) {
+      return type.getTypes();
     }
-    return {
-      rootId,
-      nodes: hideRoot
-        ? _.omit(_.keyBy(nodes, 'id'), [rootId])
-        : _.keyBy(nodes, 'id'),
-    };
+
+    const fieldTypes = Object.values(type.getFields()).map((field) =>
+      getNamedType(field.type),
+    );
+
+    if (isInterfaceType(type)) {
+      const implementations = schema.getImplementations(type);
+      return [
+        ...fieldTypes,
+        ...implementations.interfaces,
+        ...implementations.objects,
+      ];
+    }
+
+    return fieldTypes;
   }
 }

@@ -43,6 +43,12 @@ overrides:
       '@typescript-eslint/array-type': [error, { default: generic }]
       '@typescript-eslint/consistent-indexed-object-style':
         [error, index-signature]
+      '@typescript-eslint/no-unused-vars':
+        - 'error'
+        - vars: all
+          args: all
+          argsIgnorePattern: '^_'
+          varsIgnorePattern: '^_T'
 
       # FIXME: remove below rules
       'react/jsx-key': off

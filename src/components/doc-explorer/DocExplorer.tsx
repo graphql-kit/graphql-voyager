@@ -1,8 +1,10 @@
 import './DocExplorer.css';
 
+import { assertCompositeType, GraphQLNamedType } from 'graphql/type';
 import { Component } from 'react';
 
-import { isNode } from '../../graph';
+import { isNode, TypeGraph } from '../../graph';
+import { extractTypeName, typeObjToId } from '../../introspection/utils';
 import SearchBox from '../utils/SearchBox';
 import FocusTypeButton from './FocusTypeButton';
 import OtherSearchResults from './OtherSearchResults';
@@ -11,7 +13,7 @@ import TypeInfoPopover from './TypeInfoPopover';
 import TypeList from './TypeList';
 
 interface DocExplorerProps {
-  typeGraph: any;
+  typeGraph: TypeGraph;
   selectedTypeID: string;
   selectedEdgeID: string;
 
@@ -20,23 +22,48 @@ interface DocExplorerProps {
   onSelectEdge: (id: string) => void;
 }
 
+interface NavStackItem {
+  title: string;
+  type: GraphQLNamedType | null;
+  searchValue: string | null;
+}
+
+interface DocExplorerState {
+  navStack: ReadonlyArray<NavStackItem>;
+  typeForInfoPopover: GraphQLNamedType;
+}
+
 const initialNav = { title: 'Type List', type: null, searchValue: null };
 
-export default class DocExplorer extends Component<DocExplorerProps> {
-  state = { navStack: [initialNav], typeForInfoPopover: null };
+export default class DocExplorer extends Component<
+  DocExplorerProps,
+  DocExplorerState
+> {
+  state: DocExplorerState = {
+    navStack: [initialNav],
+    typeForInfoPopover: null,
+  };
 
-  static getDerivedStateFromProps(props, state) {
+  static getDerivedStateFromProps(
+    props: DocExplorerProps,
+    state: DocExplorerState,
+  ) {
     const { selectedTypeID, typeGraph } = props;
 
     const { navStack } = state;
     const lastNav = navStack[navStack.length - 1];
-    const lastTypeID = lastNav.type ? lastNav.type.id : null;
-    if (selectedTypeID !== lastTypeID) {
-      if (selectedTypeID == null) {
+    const type =
+      selectedTypeID != null
+        ? assertCompositeType(
+            typeGraph.nodes.get(extractTypeName(selectedTypeID)),
+          )
+        : null;
+
+    if (type !== lastNav.type) {
+      if (type == null) {
         return { navStack: [initialNav], typeForInfoPopover: null };
       }
 
-      const type = typeGraph.nodes[selectedTypeID];
       const newNavStack = [
         ...navStack,
         { title: type.name, type, searchValue: null },
@@ -51,7 +78,7 @@ export default class DocExplorer extends Component<DocExplorerProps> {
   render() {
     const { typeGraph } = this.props;
 
-    if (!typeGraph) {
+    if (typeGraph == null) {
       return (
         <div className="type-doc" key={0}>
           <span className="loading"> Loading... </span>
@@ -60,8 +87,8 @@ export default class DocExplorer extends Component<DocExplorerProps> {
     }
 
     const { navStack } = this.state;
-    const previousNav = navStack[navStack.length - 2];
-    const currentNav = navStack[navStack.length - 1];
+    const previousNav = navStack.at(-2);
+    const currentNav = navStack.at(-1);
 
     const name = currentNav.type ? currentNav.type.name : 'Schema';
     return (
@@ -94,7 +121,7 @@ export default class DocExplorer extends Component<DocExplorerProps> {
     );
   }
 
-  renderCurrentNav(currentNav) {
+  renderCurrentNav(currentNav: NavStackItem) {
     const { typeGraph, selectedEdgeID, onSelectEdge, onFocusNode } = this.props;
 
     if (currentNav.type) {
@@ -115,12 +142,12 @@ export default class DocExplorer extends Component<DocExplorerProps> {
         typeGraph={typeGraph}
         filter={currentNav.searchValue}
         onTypeLink={this.handleTypeLink}
-        onFocusType={(type) => onFocusNode(type.id)}
+        onFocusType={(type) => onFocusNode(typeObjToId(type))}
       />
     );
   }
 
-  renderNavigation(previousNav, currentNav) {
+  renderNavigation(previousNav: NavStackItem, currentNav: NavStackItem) {
     const { onFocusNode } = this.props;
     if (previousNav) {
       return (
@@ -130,7 +157,9 @@ export default class DocExplorer extends Component<DocExplorerProps> {
           </span>
           <span className="active" title={currentNav.title}>
             {currentNav.title}
-            <FocusTypeButton onClick={() => onFocusNode(currentNav.type.id)} />
+            <FocusTypeButton
+              onClick={() => onFocusNode(typeObjToId(currentNav.type))}
+            />
           </span>
         </div>
       );
@@ -143,31 +172,31 @@ export default class DocExplorer extends Component<DocExplorerProps> {
     );
   }
 
-  handleSearch = (value) => {
+  handleSearch = (value: string) => {
     const navStack = this.state.navStack.slice();
     const currentNav = navStack[navStack.length - 1];
     navStack[navStack.length - 1] = { ...currentNav, searchValue: value };
     this.setState({ navStack });
   };
 
-  handleTypeLink = (type) => {
+  handleTypeLink = (type: GraphQLNamedType) => {
     const { onFocusNode, onSelectNode } = this.props;
 
     if (isNode(type)) {
-      onFocusNode(type.id);
-      onSelectNode(type.id);
+      onFocusNode(typeObjToId(type));
+      onSelectNode(typeObjToId(type));
     } else {
       this.setState({ typeForInfoPopover: type });
     }
   };
 
-  handleFieldLink = (field, type) => {
+  handleFieldLink = (type: GraphQLNamedType, fieldID: string) => {
     const { onFocusNode, onSelectNode, onSelectEdge } = this.props;
 
-    onFocusNode(type.id);
-    onSelectNode(type.id);
+    onFocusNode(typeObjToId(type));
+    onSelectNode(typeObjToId(type));
     // wait for docs panel to rerender with new edges
-    setTimeout(() => onSelectEdge(field.id));
+    setTimeout(() => onSelectEdge(fieldID));
   };
 
   handleNavBackClick = () => {
@@ -181,7 +210,7 @@ export default class DocExplorer extends Component<DocExplorerProps> {
       return onSelectNode(null);
     }
 
-    onFocusNode(newCurrentNode.type.id);
-    onSelectNode(newCurrentNode.type.id);
+    onFocusNode(typeObjToId(newCurrentNode.type));
+    onSelectNode(typeObjToId(newCurrentNode.type));
   };
 }

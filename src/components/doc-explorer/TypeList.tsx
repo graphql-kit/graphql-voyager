@@ -1,49 +1,49 @@
 import './TypeList.css';
 
-import * as _ from 'lodash';
+import { GraphQLNamedType } from 'graphql/type';
 
+import { TypeGraph } from '../../graph/type-graph';
 import { isMatch } from '../../utils';
 import Description from './Description';
 import FocusTypeButton from './FocusTypeButton';
 import TypeLink from './TypeLink';
 
 interface TypeListProps {
-  typeGraph: any;
+  typeGraph: TypeGraph;
   filter: string;
-  onFocusType: (any) => void;
-  onTypeLink: (any) => void;
+  onFocusType: (type: GraphQLNamedType) => void;
+  onTypeLink: (type: GraphQLNamedType) => void;
 }
 
 export default function TypeList(props: TypeListProps) {
   const { typeGraph, filter, onFocusType, onTypeLink } = props;
 
-  if (typeGraph === null) return null;
+  const types = Array.from(typeGraph.nodes.values()).filter((type) =>
+    isMatch(type.name, filter),
+  );
 
-  const rootType = typeGraph.nodes[typeGraph.rootId];
-  const types = _(typeGraph.nodes)
-    .values()
-    .reject({ id: rootType?.id })
-    .sortBy('name')
-    .value();
+  // sort alphabetically but root is always be first
+  types.sort((a, b) => (isRoot(b) ? 1 : a.name.localeCompare(b.name)));
 
   return (
     <div className="doc-explorer-type-list">
-      {rootType && renderItem(rootType, '-root')}
-      {_.map(types, (type) => renderItem(type, ''))}
+      {types.map((type) => {
+        const className = isRoot(type)
+          ? 'typelist-item -root'
+          : 'typelist-item';
+
+        return (
+          <div key={type.name} className={className}>
+            <TypeLink type={type} onClick={onTypeLink} filter={filter} />
+            <FocusTypeButton onClick={() => onFocusType(type)} />
+            <Description className="-doc-type" text={type.description} />
+          </div>
+        );
+      })}
     </div>
   );
 
-  function renderItem(type, className?: string) {
-    if (!isMatch(type.name, filter)) {
-      return null;
-    }
-
-    return (
-      <div key={type.id} className={`typelist-item ${className}`}>
-        <TypeLink type={type} onClick={onTypeLink} filter={filter} />
-        <FocusTypeButton onClick={() => onFocusType(type)} />
-        <Description className="-doc-type" text={type.description} />
-      </div>
-    );
+  function isRoot(type: GraphQLNamedType) {
+    return type === typeGraph.rootType;
   }
 }
