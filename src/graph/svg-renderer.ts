@@ -34,8 +34,6 @@ export class SVGRender {
   private _worker: Worker;
 
   private _listeners: Array<RenderRequestListener> = [];
-  private _nextId = 0;
-
   constructor() {
     this._worker = VizWorker;
 
@@ -58,9 +56,9 @@ export class SVGRender {
 
   _renderString(src: string): Promise<string> {
     return new Promise((resolve, reject) => {
-      const id = this._nextId++;
+      const id = this._listeners.length;
 
-      this._listeners[id] = function (error, result): void {
+      this._listeners.push(function (error, result): void {
         if (error) {
           const e = new Error(error.message);
           if (error.fileName) (e as any).fileName = error.fileName;
@@ -69,7 +67,7 @@ export class SVGRender {
           return reject(e);
         }
         resolve(result);
-      };
+      });
 
       const renderRequest: RenderRequest = { id, src };
       this._worker.postMessage(renderRequest);
