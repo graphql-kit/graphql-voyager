@@ -1,14 +1,19 @@
-import * as _ from 'lodash';
+import {
+  GraphQLEnumType,
+  GraphQLInputObjectType,
+  GraphQLNamedType,
+  isEnumType,
+  isInputObjectType,
+} from 'graphql/type';
 
-import { SimplifiedTypeWithIDs } from '../../introspection/types';
 import Markdown from '../utils/Markdown';
 import Description from './Description';
 import EnumValue from './EnumValue';
 import WrappedTypeName from './WrappedTypeName';
 
 interface TypeDetailsProps {
-  type: SimplifiedTypeWithIDs;
-  onTypeLink: (any) => void;
+  type: GraphQLNamedType;
+  onTypeLink: (type: GraphQLNamedType) => void;
 }
 
 export default function TypeDetails(props: TypeDetailsProps) {
@@ -21,44 +26,46 @@ export default function TypeDetails(props: TypeDetailsProps) {
         <Description className="-doc-type" text={type.description} />
       </header>
       <div className="doc-categories">
-        {renderFields(type, onTypeLink)}
-        {renderEnumValues(type)}
+        {isInputObjectType(type) && renderFields(type)}
+        {isEnumType(type) && renderEnumValues(type)}
       </div>
     </div>
   );
-}
 
-function renderFields(type: SimplifiedTypeWithIDs, onTypeLink) {
-  if (_.isEmpty(type.inputFields)) return null;
+  function renderFields(type: GraphQLInputObjectType) {
+    const inputFields = Object.values(type.getFields());
+    if (inputFields.length === 0) return null;
 
-  return (
-    <div className="doc-category">
-      <div className="title">fields</div>
-      {_.map(type.inputFields, (field) => {
-        return (
-          <div key={field.id} className="item">
-            <a className="field-name">{field.name}</a>
-            <WrappedTypeName container={field} onTypeLink={onTypeLink} />
-            <Markdown
-              text={field.description}
-              className="description-box -field"
-            />
-          </div>
-        );
-      })}
-    </div>
-  );
-}
+    return (
+      <div className="doc-category">
+        <div className="title">fields</div>
+        {inputFields.map((field) => {
+          return (
+            <div key={field.name} className="item">
+              <a className="field-name">{field.name}</a>
+              <WrappedTypeName container={field} onTypeLink={onTypeLink} />
+              <Markdown
+                text={field.description}
+                className="description-box -field"
+              />
+            </div>
+          );
+        })}
+      </div>
+    );
+  }
 
-function renderEnumValues(type: SimplifiedTypeWithIDs) {
-  if (_.isEmpty(type.enumValues)) return null;
+  function renderEnumValues(type: GraphQLEnumType) {
+    const enumValues = type.getValues();
+    if (enumValues.length === 0) return null;
 
-  return (
-    <div className="doc-category">
-      <div className="title">values</div>
-      {_.map(type.enumValues, (value) => (
-        <EnumValue key={value.name} value={value} />
-      ))}
-    </div>
-  );
+    return (
+      <div className="doc-category">
+        <div className="title">values</div>
+        {enumValues.map((value) => (
+          <EnumValue key={value.name} value={value} />
+        ))}
+      </div>
+    );
+  }
 }

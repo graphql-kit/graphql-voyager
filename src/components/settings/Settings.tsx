@@ -1,22 +1,23 @@
 import Checkbox from '@mui/material/Checkbox';
 
+import { TypeGraph } from '../../graph';
+import { VoyagerDisplayOptions } from '../Voyager';
 import RootSelector from './RootSelector';
 
 interface SettingsProps {
-  schema: any;
-  options: any;
-  onChange: (any) => void;
+  typeGraph: TypeGraph;
+  options: VoyagerDisplayOptions;
+  onChange: (options: VoyagerDisplayOptions) => void;
 }
 
 export default function Settings(props: SettingsProps) {
-  const { schema, options, onChange } = props;
+  const { typeGraph, options, onChange } = props;
 
   return (
     <div className="menu-content">
       <div className="setting-change-root">
         <RootSelector
-          schema={schema}
-          rootType={options.rootType}
+          typeGraph={typeGraph}
           onChange={(rootType) => onChange({ rootType })}
         />
       </div>

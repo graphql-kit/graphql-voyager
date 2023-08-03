@@ -7,7 +7,7 @@ import { Component } from 'react';
 interface SearchBoxProps {
   placeholder: string;
   value?: string;
-  onSearch?: (string) => void;
+  onSearch?: (value: string) => void;
 }
 
 interface SearchBoxState {
@@ -20,7 +20,7 @@ export default class SearchBox extends Component<
 > {
   timeout = null;
 
-  constructor(props) {
+  constructor(props: SearchBoxProps) {
     super(props);
     this.state = { value: props.value || '' };
   }

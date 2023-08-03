@@ -30,10 +30,10 @@ export class Viewport {
   resizeObserver: ResizeObserver;
 
   constructor(
-    svgString,
+    svgString: string,
     public container: HTMLElement,
-    onSelectNode,
-    onSelectEdge,
+    onSelectNode: (id: string) => void,
+    onSelectEdge: (id: string) => void,
   ) {
     this.onSelectNode = onSelectNode;
     this.onSelectEdge = onSelectEdge;

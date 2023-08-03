@@ -2,28 +2,33 @@ import './WrappedTypeName.css';
 
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
+import {
+  getNamedType,
+  GraphQLArgument,
+  GraphQLField,
+  GraphQLNamedType,
+} from 'graphql/type';
 
-import { stringifyWrappers } from '../../introspection/';
+import { stringifyTypeWrappers } from '../../utils/stringify-type-wrappers';
 import RelayIcon from '../icons/relay-icon.svg';
 import TypeLink from './TypeLink';
 
 interface WrappedTypeNameProps {
-  container: any;
-  onTypeLink: (any) => void;
+  container: GraphQLField<any, any> | GraphQLArgument;
+  onTypeLink: (type: GraphQLNamedType) => void;
 }
 
 export default function WrappedTypeName(props: WrappedTypeNameProps) {
   const { container, onTypeLink } = props;
 
-  const type = container.type;
-  const wrappers = container.typeWrappers || [];
-  const [leftWrap, rightWrap] = stringifyWrappers(wrappers);
+  const type = getNamedType(container.type);
+  const [leftWrap, rightWrap] = stringifyTypeWrappers(container.type);
 
   return (
     <span className="wrapped-type-name">
       {leftWrap}
       <TypeLink type={type} onClick={onTypeLink} />
-      {rightWrap} {container.relayType && wrapRelayIcon()}
+      {rightWrap} {container.extensions.isRelayField && wrapRelayIcon()}
     </span>
   );
 }

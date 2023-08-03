@@ -1,25 +1,25 @@
 import './TypeLink.css';
 
 import {
-  isBuiltInScalarType,
+  GraphQLNamedType,
   isInputObjectType,
   isScalarType,
-} from '../../introspection';
+  isSpecifiedScalarType,
+} from 'graphql/type';
+
 import { highlightTerm } from '../../utils';
 
 interface TypeLinkProps {
-  type: {
-    name: string;
-  };
-  onClick: (any) => void;
+  type: GraphQLNamedType;
+  onClick: (type: GraphQLNamedType) => void;
   filter?: string;
 }
 
 export default function TypeLink(props: TypeLinkProps) {
   const { type, onClick, filter } = props;
 
-  let className;
-  if (isBuiltInScalarType(type)) className = '-built-in';
+  let className: string;
+  if (isSpecifiedScalarType(type)) className = '-built-in';
   else if (isScalarType(type)) className = '-scalar';
   else if (isInputObjectType(type)) className = '-input-obj';
   else className = '-object';

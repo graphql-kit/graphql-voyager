@@ -12,10 +12,11 @@ import TextField from '@mui/material/TextField';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Unstable_Grid2';
+import { buildClientSchema } from 'graphql/utilities';
 import { useState } from 'react';
 
 import { voyagerIntrospectionQuery } from '../utils/introspection-query';
-import { sdlToIntrospection } from '../utils/sdl-to-introspection';
+import { sdlToSchema } from '../utils/sdl-to-introspection';
 
 enum InputType {
   Presets = 'Presets',
@@ -102,14 +103,14 @@ export function IntrospectionModal(props: IntrospectionModalProps) {
   function handleSubmit() {
     switch (inputType) {
       case InputType.Presets:
-        onChange(presets[activePreset].data);
+        onChange(buildClientSchema(presets[activePreset].data));
         break;
       case InputType.Introspection:
         // check for errors and check if valid
-        onChange(JSON.parse(jsonText).data);
+        onChange(buildClientSchema(JSON.parse(jsonText).data));
         break;
       case InputType.SDL:
-        onChange(sdlToIntrospection(sdlText));
+        onChange(sdlToSchema(sdlText));
         break;
     }
     setSubmitted({ inputType, sdlText, jsonText, activePreset });

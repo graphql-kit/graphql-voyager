@@ -1,24 +1,28 @@
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
+import { GraphQLCompositeType } from 'graphql/type';
 
-import { getDefaultRoot, isNode } from '../../graph/';
+import { isNode, TypeGraph } from '../../graph/';
 
 interface RootSelectorProps {
-  rootType?: string;
-  schema: any;
-  onChange: any;
+  typeGraph: TypeGraph;
+  onChange: (rootType: string) => void;
 }
 
 export default function RootSelector(props: RootSelectorProps) {
-  const { schema, onChange } = props;
-  const rootType = props.rootType || getDefaultRoot(schema);
+  const { typeGraph, onChange } = props;
+  const { schema } = typeGraph;
 
-  const rootTypeNames = getRootTypeNames(schema);
-  const otherTypeNames = Object.keys(schema.types)
-    .map((id) => schema.types[id])
-    .filter(isNode)
+  const rootType = typeGraph.rootType.name;
+  const operationRootTypes: ReadonlyArray<GraphQLCompositeType> = [
+    schema.getQueryType(),
+    schema.getMutationType(),
+    schema.getSubscriptionType(),
+  ].filter((type) => type != null);
+
+  const otherTypeNames = Object.values(schema.getTypeMap())
+    .filter((type) => isNode(type) && !operationRootTypes.includes(type))
     .map((type) => type.name)
-    .filter((name) => !rootTypeNames.includes(name))
     .sort();
 
   return (
@@ -29,7 +33,7 @@ export default function RootSelector(props: RootSelectorProps) {
       onChange={handleChange}
       value={rootType}
     >
-      {rootTypeNames.map((name) => (
+      {operationRootTypes.map(({ name }) => (
         <MenuItem value={name} key={name}>
           <strong>{name}</strong>
         </MenuItem>
@@ -48,19 +52,4 @@ export default function RootSelector(props: RootSelectorProps) {
       onChange(newRootType);
     }
   }
-}
-
-function getRootTypeNames(schema) {
-  const { queryType, mutationType, subscriptionType } = schema;
-  const names = [];
-  if (queryType) {
-    names.push(queryType.name);
-  }
-  if (mutationType) {
-    names.push(mutationType.name);
-  }
-  if (subscriptionType) {
-    names.push(subscriptionType.name);
-  }
-  return names;
 }
