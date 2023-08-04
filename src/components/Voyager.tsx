@@ -19,6 +19,7 @@ import {
 
 import { getTypeGraph } from '../graph/';
 import { extractTypeName, getSchema, typeNameToId } from '../introspection';
+import { MaybePromise, usePromise } from '../utils/usePromise';
 import DocExplorer from './doc-explorer/DocExplorer';
 import GraphViewport from './GraphViewport';
 import { IntrospectionModal } from './IntrospectionModal';
@@ -37,7 +38,9 @@ export interface VoyagerDisplayOptions {
 }
 
 export interface VoyagerProps {
-  introspection: Promise<ExecutionResult<IntrospectionQuery> | GraphQLSchema>;
+  introspection?: MaybePromise<
+    ExecutionResult<IntrospectionQuery> | GraphQLSchema
+  >;
   displayOptions?: VoyagerDisplayOptions;
   introspectionPresets?: { [name: string]: any };
   allowToChangeSchema?: boolean;
@@ -62,29 +65,28 @@ export default function Voyager(props: VoyagerProps) {
     [props.displayOptions],
   );
 
-  const [introspectionModalOpen, setIntrospectionModalOpen] = useState(false);
-  const [introspectionResult, setIntrospectionResult] = useState(null);
+  const [introspectionModalOpen, setIntrospectionModalOpen] = useState(
+    props.introspection == null,
+  );
+  const [introspectionResult, resolveIntrospectionResult] = usePromise(
+    props.introspection,
+  );
   const [displayOptions, setDisplayOptions] = useState(initialDisplayOptions);
-
-  useEffect(() => {
-    // FIXME: handle rejection and also handle errors inside introspection
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    Promise.resolve(props.introspection).then(setIntrospectionResult);
-  }, [props.introspection]);
 
   useEffect(() => {
     setDisplayOptions(initialDisplayOptions);
   }, [introspectionResult, initialDisplayOptions]);
 
   const typeGraph = useMemo(() => {
-    if (introspectionResult == null) {
+    if (introspectionResult.loading || introspectionResult.value == null) {
+      // FIXME: display introspectionResult.error
       return null;
     }
 
     const introspectionSchema =
-      introspectionResult instanceof GraphQLSchema
-        ? introspectionResult
-        : buildClientSchema(introspectionResult.data);
+      introspectionResult.value instanceof GraphQLSchema
+        ? introspectionResult.value
+        : buildClientSchema(introspectionResult.value.data);
 
     const schema = getSchema(
       introspectionSchema,
@@ -133,7 +135,7 @@ export default function Voyager(props: VoyagerProps) {
         open={introspectionModalOpen}
         presets={props.introspectionPresets}
         onClose={() => setIntrospectionModalOpen(false)}
-        onChange={setIntrospectionResult}
+        onChange={resolveIntrospectionResult}
       />
     );
   }
