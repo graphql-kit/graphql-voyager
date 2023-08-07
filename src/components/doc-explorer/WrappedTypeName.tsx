@@ -26,9 +26,11 @@ export default function WrappedTypeName(props: WrappedTypeNameProps) {
 
   return (
     <span className="wrapped-type-name">
-      {leftWrap}
-      <TypeLink type={type} onClick={onTypeLink} />
-      {rightWrap} {container.extensions.isRelayField && wrapRelayIcon()}
+      <>
+        {leftWrap}
+        <TypeLink type={type} onClick={onTypeLink} />
+        {rightWrap} {container.extensions.isRelayField && wrapRelayIcon()}
+      </>
     </span>
   );
 }

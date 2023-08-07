@@ -33,6 +33,7 @@ import {
 } from 'graphql';
 
 import { collectDirectlyReferencedTypes } from '../utils/collect-referenced-types';
+import { unreachable } from '../utils/unreachable';
 
 declare module 'graphql' {
   interface GraphQLFieldExtensions<_TSource, _TContext, _TArgs> {
@@ -53,9 +54,15 @@ declare module 'graphql' {
 function removeRelayTypes(schema: GraphQLSchema) {
   const nodeType = getNodeType();
   const pageInfoType = getPageInfoType();
-  const relayTypes = new Set<GraphQLNamedType>([nodeType, pageInfoType]);
+  const relayTypes = new Set<GraphQLNamedType>();
   const relayTypeToNodeMap = new Map<GraphQLObjectType, GraphQLOutputType>();
 
+  if (nodeType != null) {
+    relayTypes.add(nodeType);
+  }
+  if (pageInfoType != null) {
+    relayTypes.add(pageInfoType);
+  }
   for (const type of Object.values(schema.getTypeMap())) {
     if (isInterfaceType(type) || isObjectType(type)) {
       for (const field of Object.values(type.getFields())) {
@@ -134,7 +141,9 @@ function removeRelayTypes(schema: GraphQLSchema) {
     return type;
   }
 
-  function changeFields(type: GraphQLObjectType | GraphQLInterfaceType) {
+  function changeFields(
+    type: GraphQLObjectType | GraphQLInterfaceType,
+  ): GraphQLFieldConfigMap<any, any> {
     return mapValues(type.toConfig().fields, (field, fieldName) => {
       if (type === schema.getQueryType()) {
         switch (fieldName) {
@@ -162,7 +171,8 @@ function removeRelayTypes(schema: GraphQLSchema) {
             type: isNonNullType(field.type)
               ? new GraphQLNonNull(relayNode)
               : relayNode,
-            args: mapValues(field.args, (arg, argName) =>
+            // FIXME: field from toConfig always has args
+            args: mapValues(field.args ?? {}, (arg, argName) =>
               isRelayArgumentName(argName) ? null : arg,
             ),
             extensions: {
@@ -276,7 +286,9 @@ export function getSchema(
 // FIXME: Contribute to graphql-js
 export function transformSchema(
   schema: GraphQLSchema,
-  transformType: ReadonlyArray<(type: GraphQLNamedType) => GraphQLNamedType>,
+  transformType: ReadonlyArray<
+    (type: GraphQLNamedType) => GraphQLNamedType | null
+  >,
   transformDirective: ReadonlyArray<
     (directive: GraphQLDirective) => GraphQLDirective
   > = [],
@@ -383,10 +395,11 @@ export function transformSchema(
 
     let newType = oldType;
     for (const fn of transformType) {
-      newType = fn(newType);
-      if (newType === null) {
+      const resultType = fn(newType);
+      if (resultType === null) {
         return null;
       }
+      newType = resultType;
     }
 
     if (isScalarType(newType)) {
@@ -426,12 +439,13 @@ export function transformSchema(
         fields: () => transformInputFields(config.fields),
       });
     }
+    unreachable(newType);
   }
 }
 
 function mapValues<T, R>(
   obj: { [key: string]: T },
-  mapper: (value: T, key: string) => R,
+  mapper: (value: T, key: string) => R | null,
 ): { [key: string]: R } {
   return Object.fromEntries(
     Object.entries(obj)

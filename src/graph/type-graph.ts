@@ -30,7 +30,7 @@ export function getTypeGraph(
   hideRoot?: boolean,
 ): TypeGraph {
   const rootType = assertCompositeType(
-    schema.getType(rootName) ?? schema.getQueryType(),
+    schema.getType(rootName ?? schema.getQueryType()!.name),
   );
 
   const nodeMap = new Map<string, GraphQLCompositeType>();

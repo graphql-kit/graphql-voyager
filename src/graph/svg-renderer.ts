@@ -17,7 +17,7 @@ interface SerializedError {
   stack?: string;
 }
 
-type RenderRequestListener = (error: SerializedError, result?: string) => void;
+type RenderRequestListener = (result: RenderResult) => void;
 
 interface RenderRequest {
   id: number;
@@ -26,9 +26,9 @@ interface RenderRequest {
 
 interface RenderResponse {
   id: number;
-  error?: SerializedError;
-  result?: string;
+  result: RenderResult;
 }
+type RenderResult = { error: SerializedError } | { value: string };
 
 export class SVGRender {
   private _worker: Worker;
@@ -38,9 +38,9 @@ export class SVGRender {
     this._worker = VizWorker;
 
     this._worker.addEventListener('message', (event) => {
-      const { id, error, result } = event.data as RenderResponse;
+      const { id, result } = event.data as RenderResponse;
 
-      this._listeners[id](error, result);
+      this._listeners[id](result);
       delete this._listeners[id];
     });
   }
@@ -58,15 +58,16 @@ export class SVGRender {
     return new Promise((resolve, reject) => {
       const id = this._listeners.length;
 
-      this._listeners.push(function (error, result): void {
-        if (error) {
+      this._listeners.push(function (result): void {
+        if ('error' in result) {
+          const { error } = result;
           const e = new Error(error.message);
           if (error.fileName) (e as any).fileName = error.fileName;
           if (error.lineNumber) (e as any).lineNumber = error.lineNumber;
           if (error.stack) (e as any).stack = error.stack;
           return reject(e);
         }
-        resolve(result);
+        resolve(result.value);
       });
 
       const renderRequest: RenderRequest = { id, src };
@@ -83,7 +84,7 @@ function preprocessVizSVG(svgString: string) {
   const svg = stringToSvg(svgString);
 
   for (const $a of svg.querySelectorAll('a')) {
-    const $g = $a.parentNode;
+    const $g = $a.parentNode!;
 
     const $docFrag = document.createDocumentFragment();
     while ($a.firstChild) {
@@ -101,13 +102,13 @@ function preprocessVizSVG(svgString: string) {
     $el.remove();
   }
 
-  const edgesSources = {};
+  const edgesSources = new Set<string>();
   for (const $edge of svg.querySelectorAll('.edge')) {
     const [from, to] = $edge.id.split(' => ');
     $edge.removeAttribute('id');
     $edge.setAttribute('data-from', from);
     $edge.setAttribute('data-to', to);
-    edgesSources[from] = true;
+    edgesSources.add(from);
   }
 
   for (const $el of svg.querySelectorAll('[id*=\\:\\:]')) {
@@ -119,7 +120,7 @@ function preprocessVizSVG(svgString: string) {
     const $newPath = $path.cloneNode() as HTMLElement;
     $newPath.classList.add('hover-path');
     $newPath.removeAttribute('stroke-dasharray');
-    $path.parentNode.appendChild($newPath);
+    $path.parentNode?.appendChild($newPath);
   }
 
   for (const $field of svg.querySelectorAll('.field')) {
@@ -128,7 +129,7 @@ function preprocessVizSVG(svgString: string) {
     //Remove spaces used for text alignment
     texts[1].remove();
 
-    if (edgesSources[$field.id]) $field.classList.add('edge-source');
+    if (edgesSources.has($field.id)) $field.classList.add('edge-source');
 
     for (let i = 2; i < texts.length; ++i) {
       const str = texts[i].innerHTML;
@@ -146,27 +147,27 @@ function preprocessVizSVG(svgString: string) {
         $useIcon.setAttribute('height', `${height}px`);
 
         //FIXME: remove hardcoded offset
-        const y = parseInt($iconPlaceholder.getAttribute('y')) - 15;
-        $useIcon.setAttribute('x', $iconPlaceholder.getAttribute('x'));
+        const y = parseInt($iconPlaceholder.getAttribute('y')!) - 15;
+        $useIcon.setAttribute('x', $iconPlaceholder.getAttribute('x')!);
         $useIcon.setAttribute('y', y.toString());
         $field.replaceChild($useIcon, $iconPlaceholder);
         continue;
       }
 
       texts[i].classList.add('field-type');
-      if (edgesSources[$field.id] && !/[[\]!]/.test(str))
+      if (edgesSources.has($field.id) && !/[[\]!]/.test(str))
         texts[i].classList.add('type-link');
     }
   }
 
   for (const $derivedType of svg.querySelectorAll('.derived-type')) {
     $derivedType.classList.add('edge-source');
-    $derivedType.querySelector('text').classList.add('type-link');
+    $derivedType.querySelector('text')?.classList.add('type-link');
   }
 
   for (const $possibleType of svg.querySelectorAll('.possible-type')) {
     $possibleType.classList.add('edge-source');
-    $possibleType.querySelector('text').classList.add('type-link');
+    $possibleType.querySelector('text')?.classList.add('type-link');
   }
 
   const serializer = new XMLSerializer();

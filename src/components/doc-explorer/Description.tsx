@@ -3,7 +3,7 @@ import './Description.css';
 import Markdown from '../utils/Markdown';
 
 interface DescriptionProps {
-  text?: string;
+  text: string | undefined | null;
   className: string;
 }
 

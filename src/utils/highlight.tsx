@@ -1,6 +1,9 @@
 import { Fragment } from 'react';
 
-export function highlightTerm(content: string, term: string) {
+export function highlightTerm(
+  content: string,
+  term: string | null | undefined,
+) {
   if (!term) {
     return content;
   }

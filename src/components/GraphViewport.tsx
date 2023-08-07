@@ -10,10 +10,10 @@ interface GraphViewportProps {
   typeGraph: TypeGraph | null;
   displayOptions: VoyagerDisplayOptions;
 
-  selectedTypeID: string;
-  selectedEdgeID: string;
+  selectedTypeID: string | null;
+  selectedEdgeID: string | null;
 
-  onSelectNode: (id: string) => void;
+  onSelectNode: (id: string | null) => void;
   onSelectEdge: (id: string) => void;
 }
 
@@ -35,10 +35,13 @@ export default class GraphViewport extends Component<
 
   // Handle async graph rendering based on this example
   // https://gist.github.com/bvaughn/982ab689a41097237f6e9860db7ca8d6
-  _currentTypeGraph = null;
-  _currentDisplayOptions = null;
+  _currentTypeGraph: TypeGraph | null = null;
+  _currentDisplayOptions: VoyagerDisplayOptions | null = null;
 
-  static getDerivedStateFromProps(props, state) {
+  static getDerivedStateFromProps(
+    props: GraphViewportProps,
+    state: GraphViewportState,
+  ): GraphViewportState | null {
     const { typeGraph, displayOptions } = props;
 
     if (
@@ -56,7 +59,10 @@ export default class GraphViewport extends Component<
     this._renderSvgAsync(typeGraph, displayOptions);
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(
+    prevProps: GraphViewportProps,
+    prevState: GraphViewportState,
+  ) {
     const { svgViewport } = this.state;
 
     if (svgViewport == null) {
@@ -150,7 +156,7 @@ export default class GraphViewport extends Component<
     }
   }
 
-  focusNode(id) {
+  focusNode(id: string) {
     const { svgViewport } = this.state;
     if (svgViewport) {
       svgViewport.focusElement(id);
