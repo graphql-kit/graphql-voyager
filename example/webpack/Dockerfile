@@ -10,8 +10,7 @@ COPY ./example/webpack ./example/webpack
 
 WORKDIR example/webpack
 RUN npm install
-# FIXME
-# RUN npm test
+RUN npm test
 
 EXPOSE  9091
 CMD npm start

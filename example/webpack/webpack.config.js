@@ -10,7 +10,7 @@ module.exports = {
     liveReload: true,
   },
   resolve: {
-    extensions: ['.ts', '.tsx', '.js'],
+    extensions: ['.mjs', '.ts', '.tsx', '.js'],
   },
   entry: ['./index.tsx'],
   output: {
