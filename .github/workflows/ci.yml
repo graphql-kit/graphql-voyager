@@ -195,7 +195,9 @@ jobs:
         run: npm run build:release
 
       - name: Upload npm folder
-        uses: actions/upload-pages-artifact@v1
+        uses: actions/upload-artifact@v3
         with:
           name: npmDist
-          path: ./
+          path: |
+            ./
+            !./node_modules

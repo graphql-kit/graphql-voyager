@@ -14,7 +14,7 @@ jobs:
   npm-publish:
     environment:
       name: npm-publish
-      url: https://www.npmjs.com/package/graphql-voyager/v/${GITHUB_REF/refs\/tags\//}
+      url: https://www.npmjs.com/package/graphql-voyager/v/${{github.ref_name}}
     needs: ci
     permissions:
       contents: read # for actions/checkout
