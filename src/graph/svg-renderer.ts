@@ -1,80 +1,25 @@
-// eslint-disable-next-line import/no-unresolved
-import VizWorker from '../../worker/voyager.worker.js';
 import { VoyagerDisplayOptions } from '../components/Voyager';
 import { stringToSvg } from '../utils/';
 import { getDot } from './dot';
+import { VizWorker } from './graphviz-worker';
 import { TypeGraph } from './type-graph';
+
+const vizWorker = new VizWorker();
+
+export async function renderSvg(
+  typeGraph: TypeGraph,
+  displayOptions: VoyagerDisplayOptions,
+) {
+  const dot = getDot(typeGraph, displayOptions);
+  const rawSVG = await vizWorker.renderString(dot);
+  const svg = preprocessVizSVG(rawSVG);
+  return svg;
+}
 
 const RelayIconSvg = require('!!svg-as-symbol-loader?id=RelayIcon!../components/icons/relay-icon.svg');
 const DeprecatedIconSvg = require('!!svg-as-symbol-loader?id=DeprecatedIcon!../components/icons/deprecated-icon.svg');
 const svgNS = 'http://www.w3.org/2000/svg';
 const xlinkNS = 'http://www.w3.org/1999/xlink';
-
-interface SerializedError {
-  message: string;
-  lineNumber?: number;
-  fileName?: string;
-  stack?: string;
-}
-
-type RenderRequestListener = (result: RenderResult) => void;
-
-interface RenderRequest {
-  id: number;
-  src: string;
-}
-
-interface RenderResponse {
-  id: number;
-  result: RenderResult;
-}
-type RenderResult = { error: SerializedError } | { value: string };
-
-export class SVGRender {
-  private _worker: Worker;
-
-  private _listeners: Array<RenderRequestListener> = [];
-  constructor() {
-    this._worker = VizWorker;
-
-    this._worker.addEventListener('message', (event) => {
-      const { id, result } = event.data as RenderResponse;
-
-      this._listeners[id](result);
-      delete this._listeners[id];
-    });
-  }
-
-  async renderSvg(typeGraph: TypeGraph, displayOptions: VoyagerDisplayOptions) {
-    console.time('Rendering Graph');
-    const dot = getDot(typeGraph, displayOptions);
-    const rawSVG = await this._renderString(dot);
-    const svg = preprocessVizSVG(rawSVG);
-    console.timeEnd('Rendering Graph');
-    return svg;
-  }
-
-  _renderString(src: string): Promise<string> {
-    return new Promise((resolve, reject) => {
-      const id = this._listeners.length;
-
-      this._listeners.push(function (result): void {
-        if ('error' in result) {
-          const { error } = result;
-          const e = new Error(error.message);
-          if (error.fileName) (e as any).fileName = error.fileName;
-          if (error.lineNumber) (e as any).lineNumber = error.lineNumber;
-          if (error.stack) (e as any).stack = error.stack;
-          return reject(e);
-        }
-        resolve(result.value);
-      });
-
-      const renderRequest: RenderRequest = { id, src };
-      this._worker.postMessage(renderRequest);
-    });
-  }
-}
 
 function preprocessVizSVG(svgString: string) {
   //Add Relay and Deprecated icons

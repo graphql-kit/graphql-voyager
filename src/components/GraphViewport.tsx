@@ -1,10 +1,8 @@
 import { Component } from 'react';
 
-import { SVGRender, TypeGraph, Viewport } from './../graph/';
+import { renderSvg, TypeGraph, Viewport } from './../graph/';
 import LoadingAnimation from './utils/LoadingAnimation';
 import { VoyagerDisplayOptions } from './Voyager';
-
-const svgRenderer = new SVGRender();
 
 interface GraphViewportProps {
   typeGraph: TypeGraph | null;
@@ -108,8 +106,7 @@ export default class GraphViewport extends Component<
     this._currentDisplayOptions = displayOptions;
 
     const { onSelectNode, onSelectEdge } = this.props;
-    svgRenderer
-      .renderSvg(typeGraph, displayOptions)
+    renderSvg(typeGraph, displayOptions)
       .then((svg) => {
         if (
           typeGraph !== this._currentTypeGraph ||
@@ -128,11 +125,14 @@ export default class GraphViewport extends Component<
         );
         this.setState({ svgViewport });
       })
-      .catch((error) => {
+      .catch((rawError) => {
         this._currentTypeGraph = null;
         this._currentDisplayOptions = null;
 
-        error.message = error.message || 'Unknown error';
+        const error =
+          rawError instanceof Error
+            ? rawError
+            : new Error('Unknown error: ' + String(rawError));
         this.setState(() => {
           throw error;
         });
