@@ -1,6 +1,6 @@
 {
   "name": "graphql-voyager",
-  "version": "1.3.0",
+  "version": "2.0.0",
   "description": "GraphQL introspection viewer",
   "author": "IvanGoncharov <ivan.goncharov.ua@gmail.com>",
   "license": "MIT",
