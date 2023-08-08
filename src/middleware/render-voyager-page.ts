@@ -55,7 +55,7 @@ export default function renderVoyagerPage(options: MiddlewareOptions) {
       GraphQLVoyager.init(document.getElementById('voyager'), {
         introspection,
         displayOptions: ${JSON.stringify(displayOptions)},
-      })
+      });
     })
   </script>
 </body>
