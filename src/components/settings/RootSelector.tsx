@@ -1,6 +1,6 @@
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
-import { GraphQLCompositeType } from 'graphql/type';
+import { GraphQLNamedType } from 'graphql/type';
 
 import { isNode, TypeGraph } from '../../graph/';
 
@@ -12,44 +12,48 @@ interface RootSelectorProps {
 export default function RootSelector(props: RootSelectorProps) {
   const { typeGraph, onChange } = props;
   const { schema } = typeGraph;
-
   const rootType = typeGraph.rootType.name;
-  const operationRootTypes: ReadonlyArray<GraphQLCompositeType> = [
-    schema.getQueryType(),
-    schema.getMutationType(),
-    schema.getSubscriptionType(),
-  ].filter((type) => type != null);
 
-  const otherTypeNames = Object.values(schema.getTypeMap())
-    .filter((type) => isNode(type) && !operationRootTypes.includes(type))
-    .map((type) => type.name)
-    .sort();
+  const types = Object.values(schema.getTypeMap())
+    .filter((type) => isNode(type) && !isOperationRootType(type))
+    .sort((a, b) => a.name.localeCompare(b.name));
+
+  const subscriptionRoot = schema.getSubscriptionType();
+  if (subscriptionRoot) {
+    types.unshift(subscriptionRoot);
+  }
+
+  const mutationRoot = schema.getMutationType();
+  if (mutationRoot) {
+    types.unshift(mutationRoot);
+  }
+
+  const queryRoot = schema.getQueryType();
+  if (queryRoot) {
+    types.unshift(queryRoot);
+  }
 
   return (
     <Select
       fullWidth
       variant="standard"
       className="root-selector"
-      onChange={handleChange}
+      onChange={({ target }) => onChange(target.value)}
       value={rootType}
     >
-      {operationRootTypes.map(({ name }) => (
-        <MenuItem value={name} key={name}>
-          <strong>{name}</strong>
-        </MenuItem>
-      ))}
-      {otherTypeNames.map((name) => (
-        <MenuItem value={name} key={name}>
-          {name}
+      {types.map((type) => (
+        <MenuItem value={type.name} key={type.name}>
+          {isOperationRootType(type) ? <strong>{type.name}</strong> : type.name}
         </MenuItem>
       ))}
     </Select>
   );
 
-  function handleChange(event) {
-    const newRootType = event.target.value;
-    if (newRootType !== rootType) {
-      onChange(newRootType);
-    }
+  function isOperationRootType(type: GraphQLNamedType) {
+    return (
+      type === schema.getQueryType() ||
+      type === schema.getMutationType() ||
+      type === schema.getSubscriptionType()
+    );
   }
 }

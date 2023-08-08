@@ -3,7 +3,7 @@ function onmessageCallBack(event) {
   const { id, src } = event.data;
 
   try {
-    const result = Module['vizRenderFromString'](src);
+    const value = Module['vizRenderFromString'](src);
 
     const errorMessageString = Module['vizLastErrorMessage']();
 
@@ -11,7 +11,7 @@ function onmessageCallBack(event) {
       throw new Error(errorMessageString);
     }
 
-    postMessage({ id, result });
+    postMessage({ id, result: { value } });
   } catch (e) {
     const error =
       e instanceof Error
@@ -23,7 +23,7 @@ function onmessageCallBack(event) {
           }
         : { message: e.toString() };
 
-    postMessage({ id, error });
+    postMessage({ id, result: { error } });
   }
 }
 

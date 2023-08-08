@@ -8,7 +8,7 @@ import WrappedTypeName from './WrappedTypeName';
 
 interface ArgumentProps {
   arg: GraphQLArgument;
-  filter: string;
+  filter: string | null;
   expanded: boolean;
   onTypeLink: (type: GraphQLNamedType) => void;
 }

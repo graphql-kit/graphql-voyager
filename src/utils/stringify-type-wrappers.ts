@@ -5,6 +5,8 @@ import {
   isNonNullType,
 } from 'graphql/type';
 
+import { unreachable } from './unreachable';
+
 export function stringifyTypeWrappers(type: GraphQLType): [string, string] {
   if (isNamedType(type)) {
     return ['', ''];
@@ -17,4 +19,5 @@ export function stringifyTypeWrappers(type: GraphQLType): [string, string] {
   if (isListType(type)) {
     return ['[' + left, right + ']'];
   }
+  unreachable(type);
 }

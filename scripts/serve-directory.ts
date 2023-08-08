@@ -26,7 +26,7 @@ function consoleError(msg: string) {
 
 http
   .createServer((request, response) => {
-    const url = new URL(request.url, 'file:');
+    const url = new URL(request.url!, 'file:');
     let filePath = url.pathname;
     if (filePath === '/') {
       filePath = '/index.html';
@@ -34,7 +34,7 @@ http
     filePath = path.join(options.directory, filePath);
 
     const extname = String(path.extname(filePath)).toLowerCase();
-    const mimeTypes = {
+    const mimeTypes: { [ext: string]: string } = {
       '.html': 'text/html',
       '.js': 'text/javascript',
       '.css': 'text/css',

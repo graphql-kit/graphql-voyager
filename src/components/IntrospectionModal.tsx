@@ -33,8 +33,8 @@ interface IntrospectionModalProps {
 
 export function IntrospectionModal(props: IntrospectionModalProps) {
   const { open, presets, onChange, onClose } = props;
-  const presetNames = presets != null ? Object.keys(presets) : [];
-  const hasPresets = presetNames.length > 0;
+  const hasPresets = presets != null;
+  const presetNames = hasPresets ? Object.keys(presets) : [];
 
   const [submitted, setSubmitted] = useState({
     inputType: hasPresets ? InputType.Presets : InputType.SDL,
@@ -103,7 +103,7 @@ export function IntrospectionModal(props: IntrospectionModalProps) {
   function handleSubmit() {
     switch (inputType) {
       case InputType.Presets:
-        onChange(buildClientSchema(presets[activePreset].data));
+        onChange(buildClientSchema(presets?.[activePreset].data));
         break;
       case InputType.Introspection:
         // check for errors and check if valid

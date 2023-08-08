@@ -12,7 +12,7 @@ import { highlightTerm } from '../../utils';
 interface TypeLinkProps {
   type: GraphQLNamedType;
   onClick: (type: GraphQLNamedType) => void;
-  filter?: string;
+  filter?: string | null;
 }
 
 export default function TypeLink(props: TypeLinkProps) {

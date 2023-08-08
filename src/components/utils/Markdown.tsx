@@ -4,7 +4,7 @@ const parser = new Parser();
 const renderer = new HtmlRenderer({ safe: true });
 
 interface MarkdownProps {
-  text: string;
+  text: string | null | undefined;
   className: string;
 }
 

@@ -9,16 +9,12 @@ import {
   isUnionType,
 } from 'graphql/type';
 
-export function buildId(...parts) {
-  return parts.join('::');
-}
-
 export function typeObjToId(type: GraphQLNamedType) {
   return typeNameToId(type.name);
 }
 
 export function typeNameToId(name: string) {
-  return buildId('TYPE', name);
+  return `TYPE::${name}`;
 }
 
 export function extractTypeName(typeID: string) {
@@ -26,75 +22,72 @@ export function extractTypeName(typeID: string) {
   return type;
 }
 
-export function extractTypeId(typeID: string) {
-  const [, name] = extractTypeName(typeID);
-  return typeNameToId(name);
-}
-
 export function mapFields<R>(
   type: GraphQLNamedType,
-  fn: (id: string, field: GraphQLField<any, any>) => R,
+  fn: (id: string, field: GraphQLField<any, any>) => R | null,
 ): Array<R> {
-  if (!isInterfaceType(type) && !isObjectType(type)) {
-    return [];
+  const array = [];
+  if (isInterfaceType(type) || isObjectType(type)) {
+    for (const field of Object.values(type.getFields())) {
+      const id = `FIELD::${type.name}::${field.name}`;
+      const result = fn(id, field);
+      if (result != null) {
+        array.push(result);
+      }
+    }
   }
-
-  return Object.values(type.getFields())
-    .map((field) => {
-      const fieldID = `FIELD::${type.name}::${field.name}`;
-      return fn(fieldID, field);
-    })
-    .filter((item) => item != null);
+  return array;
 }
 
 export function mapPossibleTypes<R>(
   type: GraphQLNamedType,
-  fn: (id: string, type: GraphQLObjectType) => R,
+  fn: (id: string, type: GraphQLObjectType) => R | null,
 ): Array<R> {
-  if (!isUnionType(type)) {
-    return [];
-  }
-
-  return type
-    .getTypes()
-    .map((possibleType) => {
+  const array = [];
+  if (isUnionType(type)) {
+    for (const possibleType of type.getTypes()) {
       const id = `POSSIBLE_TYPE::${type.name}::${possibleType.name}`;
-      return fn(id, possibleType);
-    })
-    .filter((item) => item != null);
+      const result = fn(id, possibleType);
+      if (result != null) {
+        array.push(result);
+      }
+    }
+  }
+  return array;
 }
 
 export function mapDerivedTypes<R>(
   schema: GraphQLSchema,
   type: GraphQLNamedType,
-  fn: (id: string, type: GraphQLObjectType | GraphQLInterfaceType) => R,
+  fn: (id: string, type: GraphQLObjectType | GraphQLInterfaceType) => R | null,
 ): Array<R> {
-  if (!isInterfaceType(type)) {
-    return [];
+  const array = [];
+  if (isInterfaceType(type)) {
+    const { interfaces, objects } = schema.getImplementations(type);
+    for (const derivedType of [...interfaces, ...objects]) {
+      const id = `DERIVED_TYPE::${type.name}::${derivedType.name}`;
+      const result = fn(id, derivedType);
+      if (result != null) {
+        array.push(result);
+      }
+    }
   }
-
-  const { interfaces, objects } = schema.getImplementations(type);
-  return [...interfaces, ...objects]
-    .map((possibleType) => {
-      const id = `POSSIBLE_TYPE::${type.name}::${possibleType.name}`;
-      return fn(id, possibleType);
-    })
-    .filter((item) => item != null);
+  return array;
 }
 
 export function mapInterfaces<R>(
   type: GraphQLNamedType,
-  fn: (id: string, type: GraphQLInterfaceType) => R,
+  fn: (id: string, type: GraphQLInterfaceType) => R | null,
 ): Array<R> {
-  if (!isInterfaceType(type) && !isObjectType(type)) {
-    return [];
-  }
-
-  return type
-    .getInterfaces()
-    .map((baseType) => {
+  const array = [];
+  if (isInterfaceType(type) || isObjectType(type)) {
+    for (const baseType of type.getInterfaces()) {
       const id = `INTERFACE::${type.name}::${baseType.name}`;
-      return fn(id, baseType);
-    })
-    .filter((item) => item != null);
+      const result = fn(id, baseType);
+      if (result != null) {
+        array.push(result);
+      }
+    }
+  }
+  return array;
 }

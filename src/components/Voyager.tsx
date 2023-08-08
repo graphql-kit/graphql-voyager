@@ -9,7 +9,6 @@ import { GraphQLSchema } from 'graphql/type';
 import { buildClientSchema, IntrospectionQuery } from 'graphql/utilities';
 import {
   Children,
-  type ReactElement,
   type ReactNode,
   useEffect,
   useMemo,
@@ -52,7 +51,7 @@ export interface VoyagerProps {
 }
 
 export default function Voyager(props: VoyagerProps) {
-  const initialDisplayOptions: VoyagerDisplayOptions = useMemo(
+  const initialDisplayOptions = useMemo(
     () => ({
       rootType: undefined,
       skipRelay: true,
@@ -83,10 +82,19 @@ export default function Voyager(props: VoyagerProps) {
       return null;
     }
 
-    const introspectionSchema =
-      introspectionResult.value instanceof GraphQLSchema
-        ? introspectionResult.value
-        : buildClientSchema(introspectionResult.value.data);
+    let introspectionSchema;
+    if (introspectionResult.value instanceof GraphQLSchema) {
+      introspectionSchema = introspectionResult.value;
+    } else {
+      if (
+        introspectionResult.value.errors != null ||
+        introspectionResult.value.data == null
+      ) {
+        // FIXME: display errors
+        return null;
+      }
+      introspectionSchema = buildClientSchema(introspectionResult.value.data);
+    }
 
     const schema = getSchema(
       introspectionSchema,
@@ -105,7 +113,13 @@ export default function Voyager(props: VoyagerProps) {
     setSelected({ typeID: null, edgeID: null });
   }, [typeGraph]);
 
-  const [selected, setSelected] = useState({ typeID: null, edgeID: null });
+  const [selected, setSelected] = useState<{
+    typeID: string | null;
+    edgeID: string | null;
+  }>({
+    typeID: null,
+    edgeID: null,
+  });
 
   const {
     allowToChangeSchema = false,
@@ -115,7 +129,7 @@ export default function Voyager(props: VoyagerProps) {
     hideVoyagerLogo = true,
   } = props;
 
-  const viewportRef = useRef(null);
+  const viewportRef = useRef<GraphViewport>(null);
   useEffect(() => viewportRef.current?.resize(), [hideDocs]);
 
   return (
@@ -143,7 +157,10 @@ export default function Voyager(props: VoyagerProps) {
   function renderPanel() {
     const children = Children.toArray(props.children);
     const panelHeader = children.find(
-      (child: ReactElement) => child.type === Voyager.PanelHeader,
+      (child) =>
+        typeof child === 'object' &&
+        'type' in child &&
+        child.type === Voyager.PanelHeader,
     );
 
     return (
@@ -156,7 +173,7 @@ export default function Voyager(props: VoyagerProps) {
             typeGraph={typeGraph}
             selectedTypeID={selected.typeID}
             selectedEdgeID={selected.edgeID}
-            onFocusNode={(id) => viewportRef.current.focusNode(id)}
+            onFocusNode={(id) => viewportRef.current?.focusNode(id)}
             onSelectNode={handleSelectNode}
             onSelectEdge={handleSelectEdge}
           />
@@ -210,7 +227,7 @@ export default function Voyager(props: VoyagerProps) {
     );
   }
 
-  function handleSelectNode(typeID: string) {
+  function handleSelectNode(typeID: string | null) {
     setSelected((oldSelected) => {
       if (typeID === oldSelected.typeID) {
         return oldSelected;
@@ -219,9 +236,9 @@ export default function Voyager(props: VoyagerProps) {
     });
   }
 
-  function handleSelectEdge(edgeID: string) {
+  function handleSelectEdge(edgeID: string | null) {
     setSelected((oldSelected) => {
-      if (edgeID === oldSelected.edgeID) {
+      if (edgeID === oldSelected.edgeID || edgeID == null) {
         // deselect if click again
         return { ...oldSelected, edgeID: null };
       } else {

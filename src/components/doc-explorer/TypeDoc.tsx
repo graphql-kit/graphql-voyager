@@ -19,9 +19,9 @@ import WrappedTypeName from './WrappedTypeName';
 
 interface TypeDocProps {
   selectedType: GraphQLNamedType;
-  selectedEdgeID: string;
+  selectedEdgeID: string | null;
   typeGraph: TypeGraph;
-  filter: string;
+  filter: string | null;
   onSelectEdge: (id: string) => void;
   onTypeLink: (type: GraphQLNamedType) => void;
 }

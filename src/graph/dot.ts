@@ -19,6 +19,7 @@ import {
   typeObjToId,
 } from '../introspection/utils';
 import { stringifyTypeWrappers } from '../utils/stringify-type-wrappers';
+import { unreachable } from '../utils/unreachable';
 import { TypeGraph } from './type-graph';
 
 export function getDot(
@@ -181,19 +182,19 @@ export function getDot(
     }
 
     function forEachField(
-      stringify: (id: string, field: GraphQLField<any, any>) => string,
+      stringify: (id: string, field: GraphQLField<any, any>) => string | null,
     ): string {
       return mapFields(node, stringify).join('\n');
     }
 
     function forEachPossibleTypes(
-      stringify: (id: string, type: GraphQLObjectType) => string,
+      stringify: (id: string, type: GraphQLObjectType) => string | null,
     ): string {
       return mapPossibleTypes(node, stringify).join('\n');
     }
 
     function forEachDerivedTypes(
-      stringify: (id: string, type: GraphQLNamedType) => string,
+      stringify: (id: string, type: GraphQLNamedType) => string | null,
     ) {
       return mapDerivedTypes(schema, node, stringify).join('\n');
     }
@@ -229,4 +230,5 @@ function typeToKind(type: GraphQLNamedType): string {
   if (isInputObjectType(type)) {
     return 'INPUT_OBJECT';
   }
+  unreachable(type);
 }
