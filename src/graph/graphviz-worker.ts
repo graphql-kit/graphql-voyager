@@ -22,8 +22,9 @@ export class VizWorker {
       type: 'application/javascript',
     });
     const url = URL.createObjectURL(blob);
-
     this._worker = new Worker(url, { name: 'graphql-voyager-worker' });
+    URL.revokeObjectURL(url);
+
     this._worker.addEventListener('message', (event) => {
       const { id, result } = event.data as RenderResponse;
 
