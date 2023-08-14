@@ -13,7 +13,7 @@ import {
 export interface TypeGraph {
   schema: GraphQLSchema;
   rootType: GraphQLCompositeType;
-  nodes: Map<string, GraphQLCompositeType>;
+  nodes: Map<string, GraphQLNamedType>;
 }
 
 export function isNode(type: GraphQLNamedType): type is GraphQLCompositeType {
