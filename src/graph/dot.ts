@@ -62,8 +62,8 @@ export function getDot(
         }
         return `
             "${node.name}":"${field.name}" -> "${
-          getNamedType(field.type).name
-        }" [
+              getNamedType(field.type).name
+            }" [
               id = "${id} => ${typeObjToId(getNamedType(field.type))}"
               label = "${node.name}:${field.name}"
             ]
@@ -97,8 +97,8 @@ export function getDot(
         <<TABLE ALIGN="LEFT" BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5">
           <TR>
             <TD CELLPADDING="4" ${htmlID}><FONT POINT-SIZE="18">${
-        node.name
-      }</FONT><BR/>${kindLabel}</TD>
+              node.name
+            }</FONT><BR/>${kindLabel}</TD>
           </TR>
           ${nodeFields()}
           ${possibleTypes()}
@@ -129,8 +129,8 @@ export function getDot(
                 <TR>
                   <TD ALIGN="LEFT">${field.name}<FONT>  </FONT></TD>
                   <TD ALIGN="RIGHT">${deprecatedIcon}${relayIcon}${parts[0]}${
-          namedType.name
-        }${parts[1]}</TD>
+                    namedType.name
+                  }${parts[1]}</TD>
                 </TR>
               </TABLE>
             </TD>
