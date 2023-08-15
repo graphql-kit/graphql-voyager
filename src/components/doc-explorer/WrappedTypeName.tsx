@@ -6,6 +6,7 @@ import {
   getNamedType,
   GraphQLArgument,
   GraphQLField,
+  GraphQLInputField,
   GraphQLNamedType,
 } from 'graphql/type';
 
@@ -14,7 +15,7 @@ import RelayIcon from '../icons/relay-icon.svg';
 import TypeLink from './TypeLink';
 
 interface WrappedTypeNameProps {
-  container: GraphQLField<any, any> | GraphQLArgument;
+  container: GraphQLField<any, any> | GraphQLArgument | GraphQLInputField;
   onTypeLink: (type: GraphQLNamedType) => void;
 }
 
