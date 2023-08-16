@@ -98,7 +98,7 @@ export const SchemaPresets = [
   'GitHub',
 ] as const;
 class PlaywrightChangeSchemaPresetsTab extends PlaywrightChangeSchemaBaseTab {
-  readonly presetButtons: { [name in typeof SchemaPresets[number]]: Locator };
+  readonly presetButtons: { [name in (typeof SchemaPresets)[number]]: Locator };
 
   constructor(dialog: Locator) {
     super(dialog, 'Presets');
