@@ -20,7 +20,7 @@ export default function buildWebpackConfig(env: Env): any {
   if (env.lib === true) {
     return {
       ...baseConfig,
-      entry: './src/index.tsx',
+      entry: './src/index.ts',
       externals: NodeExternals(),
       output: {
         ...baseConfig.output,

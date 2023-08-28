@@ -1,6 +1,6 @@
 import Checkbox from '@mui/material/Checkbox';
 
-import { TypeGraph } from '../../graph';
+import { TypeGraph } from '../../graph/type-graph';
 import { VoyagerDisplayOptions } from '../Voyager';
 import RootSelector from './RootSelector';
 

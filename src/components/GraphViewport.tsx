@@ -1,6 +1,8 @@
 import { Component } from 'react';
 
-import { renderSvg, TypeGraph, Viewport } from './../graph/';
+import { renderSvg } from '../graph/svg-renderer';
+import { TypeGraph } from '../graph/type-graph';
+import { Viewport } from '../graph/viewport';
 import LoadingAnimation from './utils/LoadingAnimation';
 import { VoyagerDisplayOptions } from './Voyager';
 
