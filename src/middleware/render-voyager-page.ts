@@ -38,8 +38,8 @@ export default function renderVoyagerPage(options: MiddlewareOptions) {
     <h1 style="text-align: center; color: #5d7e86;"> Loading... </h1>
   </main>
   <script type="module">
-    window.addEventListener('load', function(event) {
-      const response = fetch('${endpointUrl}', {
+    window.addEventListener('load', async function(event) {
+      const response = await fetch('${endpointUrl}', {
         method: 'post',
         headers: Object.assign({}, {
           'Accept': 'application/json',
@@ -52,7 +52,7 @@ export default function renderVoyagerPage(options: MiddlewareOptions) {
       });
       const introspection = await response.json();
 
-      GraphQLVoyager.init(document.getElementById('voyager'), {
+      GraphQLVoyager.renderVoyager(document.getElementById('voyager'), {
         introspection,
         displayOptions: ${JSON.stringify(displayOptions)},
       });
