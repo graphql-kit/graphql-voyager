@@ -16,8 +16,9 @@ import {
   useState,
 } from 'react';
 
-import { getTypeGraph } from '../graph/';
-import { extractTypeName, getSchema, typeNameToId } from '../introspection';
+import { getTypeGraph } from '../graph/type-graph';
+import { getSchema } from '../introspection/introspection';
+import { extractTypeName, typeNameToId } from '../introspection/utils';
 import { MaybePromise, usePromise } from '../utils/usePromise';
 import DocExplorer from './doc-explorer/DocExplorer';
 import GraphViewport from './GraphViewport';

@@ -7,7 +7,7 @@ import {
   isSpecifiedScalarType,
 } from 'graphql/type';
 
-import { highlightTerm } from '../../utils';
+import { highlightTerm } from '../../utils/highlight';
 
 interface TypeLinkProps {
   type: GraphQLNamedType;

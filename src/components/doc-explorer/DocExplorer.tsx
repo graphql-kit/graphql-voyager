@@ -3,7 +3,7 @@ import './DocExplorer.css';
 import { assertCompositeType, GraphQLNamedType } from 'graphql/type';
 import { Component } from 'react';
 
-import { isNode, TypeGraph } from '../../graph';
+import { isNode, TypeGraph } from '../../graph/type-graph';
 import { extractTypeName, typeObjToId } from '../../introspection/utils';
 import SearchBox from '../utils/SearchBox';
 import FocusTypeButton from './FocusTypeButton';

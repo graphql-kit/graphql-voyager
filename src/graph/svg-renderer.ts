@@ -1,5 +1,5 @@
 import { VoyagerDisplayOptions } from '../components/Voyager';
-import { stringToSvg } from '../utils/';
+import { stringToSvg } from '../utils/dom-helpers';
 import { getDot } from './dot';
 import { VizWorker } from './graphviz-worker';
 import { TypeGraph } from './type-graph';

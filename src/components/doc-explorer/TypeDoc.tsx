@@ -10,7 +10,8 @@ import {
   mapInterfaces,
   mapPossibleTypes,
 } from '../../introspection/utils';
-import { highlightTerm, isMatch } from '../../utils';
+import { highlightTerm } from '../../utils/highlight';
+import { isMatch } from '../../utils/is-match';
 import Markdown from '../utils/Markdown';
 import Argument from './Argument';
 import Description from './Description';

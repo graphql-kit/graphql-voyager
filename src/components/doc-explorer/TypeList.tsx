@@ -3,7 +3,7 @@ import './TypeList.css';
 import { GraphQLNamedType } from 'graphql/type';
 
 import { TypeGraph } from '../../graph/type-graph';
-import { isMatch } from '../../utils';
+import { isMatch } from '../../utils/is-match';
 import Description from './Description';
 import FocusTypeButton from './FocusTypeButton';
 import TypeLink from './TypeLink';
