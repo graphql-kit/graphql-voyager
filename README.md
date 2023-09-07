@@ -90,10 +90,10 @@ app.listen(3001);
 
 ### Hapi
 
-#### Version 17+
+#### Version 20+
 
 ```js
-import hapi from 'hapi';
+import Hapi from '@hapi/hapi';
 import { hapi as voyagerMiddleware } from 'graphql-voyager/middleware';
 
 const server = new Hapi.Server({
