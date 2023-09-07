@@ -21,23 +21,25 @@ import {
   isListType,
   isNonNullType,
   isObjectType,
-  isScalarType,
   isSpecifiedScalarType,
   isUnionType,
 } from 'graphql/type';
 
-import { unreachable } from '../utils/unreachable';
 import { mapValues } from './mapValues';
 
 // FIXME: Contribute to graphql-js
+export type NamedTypeTransformer = (
+  type: GraphQLNamedType,
+) => GraphQLNamedType | null;
+
+export type DirectiveTransformer = (
+  directive: GraphQLDirective,
+) => GraphQLDirective | null;
+
 export function transformSchema(
   schema: GraphQLSchema,
-  transformType: ReadonlyArray<
-    (type: GraphQLNamedType) => GraphQLNamedType | null
-  >,
-  transformDirective: ReadonlyArray<
-    (directive: GraphQLDirective) => GraphQLDirective
-  > = [],
+  namedTypeTransformers: ReadonlyArray<NamedTypeTransformer>,
+  directiveTransformers: ReadonlyArray<DirectiveTransformer> = [],
 ): GraphQLSchema {
   const schemaConfig = schema.toConfig();
 
@@ -51,18 +53,10 @@ export function transformSchema(
 
   const directives = [];
   for (const oldDirective of schemaConfig.directives) {
-    let newDirective = oldDirective;
-    for (const fn of transformDirective) {
-      if (newDirective === null) {
-        continue;
-      }
-      newDirective = fn(newDirective);
+    const newDirective = transformDirective(oldDirective);
+    if (newDirective != null) {
+      directives.push(newDirective);
     }
-
-    if (newDirective == null) {
-      continue;
-    }
-    directives.push(replaceDirective(newDirective));
   }
 
   return new GraphQLSchema({
@@ -74,62 +68,23 @@ export function transformSchema(
     subscription: replaceMaybeType(schemaConfig.subscription),
   });
 
-  function replaceType<T extends GraphQLType>(type: T): T {
-    if (isListType(type)) {
-      // @ts-expect-error Type mismatch
-      return new GraphQLList(replaceType(type.ofType));
-    } else if (isNonNullType(type)) {
-      // @ts-expect-error Type mismatch
-      return new GraphQLNonNull(replaceType(type.ofType));
+  function transformDirective(
+    oldDirective: GraphQLDirective,
+  ): GraphQLDirective | null {
+    let newDirective = oldDirective;
+    for (const fn of directiveTransformers) {
+      const resultDirective = fn(newDirective);
+      if (resultDirective === null) {
+        return null;
+      }
+      newDirective = resultDirective;
     }
-    // @ts-expect-error Type mismatch
-    return replaceNamedType<GraphQLNamedType>(type);
-  }
 
-  function replaceMaybeType<T extends GraphQLNamedType>(
-    maybeType: T | null | undefined,
-  ): T | null | undefined {
-    return maybeType && (replaceNamedType(maybeType) as T);
-  }
-
-  function replaceTypes<T extends GraphQLNamedType>(
-    array: ReadonlyArray<T>,
-  ): Array<T> {
-    return array.map(replaceNamedType) as Array<T>;
-  }
-
-  function replaceNamedType(type: GraphQLNamedType): GraphQLNamedType {
-    return assertNamedType(typeMap.get(type.name));
-  }
-
-  function replaceDirective(directive: GraphQLDirective) {
-    const config = directive.toConfig();
+    const config = newDirective.toConfig();
     return new GraphQLDirective({
       ...config,
       args: transformArgs(config.args),
     });
-  }
-
-  function transformArgs(args: GraphQLFieldConfigArgumentMap) {
-    return mapValues(args, (arg) => ({
-      ...arg,
-      type: replaceType(arg.type),
-    }));
-  }
-
-  function transformFields(fieldsMap: GraphQLFieldConfigMap<unknown, unknown>) {
-    return mapValues(fieldsMap, (field) => ({
-      ...field,
-      type: replaceType(field.type),
-      args: field.args && transformArgs(field.args),
-    }));
-  }
-
-  function transformInputFields(fieldsMap: GraphQLInputFieldConfigMap) {
-    return mapValues(fieldsMap, (field) => ({
-      ...field,
-      type: replaceType(field.type),
-    }));
   }
 
   function transformNamedType(
@@ -140,7 +95,7 @@ export function transformSchema(
     }
 
     let newType = oldType;
-    for (const fn of transformType) {
+    for (const fn of namedTypeTransformers) {
       const resultType = fn(newType);
       if (resultType === null) {
         return null;
@@ -148,9 +103,6 @@ export function transformSchema(
       newType = resultType;
     }
 
-    if (isScalarType(newType)) {
-      return newType;
-    }
     if (isObjectType(newType)) {
       const config = newType.toConfig();
       return new GraphQLObjectType({
@@ -185,6 +137,66 @@ export function transformSchema(
         fields: () => transformInputFields(config.fields),
       });
     }
-    unreachable(newType);
+    return newType;
+  }
+
+  function replaceType<T extends GraphQLType>(type: T): T {
+    if (isListType(type)) {
+      // @ts-expect-error Type mismatch
+      return new GraphQLList(replaceType(type.ofType));
+    } else if (isNonNullType(type)) {
+      // @ts-expect-error Type mismatch
+      return new GraphQLNonNull(replaceType(type.ofType));
+    }
+    // @ts-expect-error Type mismatch
+    return assertNamedType(replaceNamedType(type));
+  }
+
+  function replaceMaybeType<T extends GraphQLNamedType>(
+    maybeType: T | null | undefined,
+  ): T | null | undefined {
+    return maybeType && (replaceNamedType(maybeType) as T);
+  }
+
+  function replaceTypes<T extends GraphQLNamedType>(
+    array: ReadonlyArray<T>,
+  ): Array<T> {
+    const result = [];
+
+    for (const oldType of array) {
+      const newType = replaceNamedType(oldType);
+      if (newType != null) {
+        result.push(newType);
+      }
+    }
+    return result as Array<T>;
+  }
+
+  function replaceNamedType(
+    type: GraphQLNamedType,
+  ): GraphQLNamedType | undefined {
+    return typeMap.get(type.name);
+  }
+
+  function transformArgs(args: GraphQLFieldConfigArgumentMap) {
+    return mapValues(args, (arg) => ({
+      ...arg,
+      type: replaceType(arg.type),
+    }));
+  }
+
+  function transformFields(fieldsMap: GraphQLFieldConfigMap<unknown, unknown>) {
+    return mapValues(fieldsMap, (field) => ({
+      ...field,
+      type: replaceType(field.type),
+      args: field.args && transformArgs(field.args),
+    }));
+  }
+
+  function transformInputFields(fieldsMap: GraphQLInputFieldConfigMap) {
+    return mapValues(fieldsMap, (field) => ({
+      ...field,
+      type: replaceType(field.type),
+    }));
   }
 }
