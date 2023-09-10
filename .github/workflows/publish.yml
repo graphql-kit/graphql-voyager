@@ -11,11 +11,18 @@ jobs:
       security-events: write # for codeql-action
     uses: ./.github/workflows/ci.yml
 
+  changelog:
+    permissions:
+      contents: read # for actions/checkout
+    uses: ./.github/workflows/changelog.yml
+
   npm-publish:
     environment:
       name: npm-publish
       url: https://www.npmjs.com/package/graphql-voyager/v/${{github.ref_name}}
-    needs: ci
+    needs:
+      - ci
+      - changelog
     permissions:
       contents: read # for actions/checkout
     runs-on: ubuntu-latest

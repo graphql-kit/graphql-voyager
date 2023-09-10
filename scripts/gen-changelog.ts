@@ -31,10 +31,10 @@ const labelsConfig: { [label: string]: { section: string; fold?: boolean } } = {
     fold: true,
   },
 };
-const { GH_TOKEN } = process.env;
+const { GITHUB_TOKEN } = process.env;
 
-if (GH_TOKEN == null) {
-  console.error('Must provide GH_TOKEN as environment variable!');
+if (GITHUB_TOKEN == null) {
+  console.error('Must provide GITHUB_TOKEN as environment variable!');
   process.exit(1);
 }
 
@@ -55,7 +55,10 @@ const { githubOrg, githubRepo } = repoURLMatch.groups;
 
 genChangeLog()
   .then((result) => process.stdout.write(result))
-  .catch((e) => console.error(e));
+  .catch((e) => {
+    console.error(e);
+    process.exit(1);
+  });
 
 async function genChangeLog(): Promise<string> {
   const { version } = packageJSON;
@@ -136,7 +139,7 @@ async function graphqlRequest(query: string) {
   const response = await fetch('https://api.github.com/graphql', {
     method: 'POST',
     headers: {
-      Authorization: 'bearer ' + GH_TOKEN,
+      Authorization: 'bearer ' + GITHUB_TOKEN,
       'Content-Type': 'application/json',
       'User-Agent': 'gen-changelog',
     },
