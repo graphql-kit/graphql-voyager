@@ -1,4 +1,3 @@
-import { VoyagerDisplayOptions } from '../components/Voyager';
 import { stringToSvg } from '../utils/dom-helpers';
 import { getDot } from './dot';
 import { VizWorker } from './graphviz-worker';
@@ -6,11 +5,8 @@ import { TypeGraph } from './type-graph';
 
 const vizWorker = new VizWorker();
 
-export async function renderSvg(
-  typeGraph: TypeGraph,
-  displayOptions: VoyagerDisplayOptions,
-) {
-  const dot = getDot(typeGraph, displayOptions);
+export async function renderSvg(typeGraph: TypeGraph) {
+  const dot = getDot(typeGraph);
   const rawSVG = await vizWorker.renderString(dot);
   const svg = preprocessVizSVG(rawSVG);
   return svg;

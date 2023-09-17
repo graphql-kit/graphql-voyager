@@ -4,11 +4,9 @@ import { renderSvg } from '../graph/svg-renderer';
 import { TypeGraph } from '../graph/type-graph';
 import { Viewport } from '../graph/viewport';
 import LoadingAnimation from './utils/LoadingAnimation';
-import { VoyagerDisplayOptions } from './Voyager';
 
 interface GraphViewportProps {
   typeGraph: TypeGraph | null;
-  displayOptions: VoyagerDisplayOptions;
 
   selectedTypeID: string | null;
   selectedEdgeID: string | null;
@@ -19,7 +17,6 @@ interface GraphViewportProps {
 
 interface GraphViewportState {
   typeGraph: TypeGraph | null;
-  displayOptions: VoyagerDisplayOptions | null;
   svgViewport: Viewport | null;
 }
 
@@ -27,36 +24,27 @@ export default class GraphViewport extends Component<
   GraphViewportProps,
   GraphViewportState
 > {
-  state: GraphViewportState = {
-    typeGraph: null,
-    displayOptions: null,
-    svgViewport: null,
-  };
+  state: GraphViewportState = { typeGraph: null, svgViewport: null };
 
   // Handle async graph rendering based on this example
   // https://gist.github.com/bvaughn/982ab689a41097237f6e9860db7ca8d6
   _currentTypeGraph: TypeGraph | null = null;
-  _currentDisplayOptions: VoyagerDisplayOptions | null = null;
 
   static getDerivedStateFromProps(
     props: GraphViewportProps,
     state: GraphViewportState,
   ): GraphViewportState | null {
-    const { typeGraph, displayOptions } = props;
+    const { typeGraph } = props;
 
-    if (
-      typeGraph !== state.typeGraph ||
-      displayOptions !== state.displayOptions
-    ) {
-      return { typeGraph, displayOptions, svgViewport: null };
+    if (typeGraph !== state.typeGraph) {
+      return { typeGraph, svgViewport: null };
     }
 
     return null;
   }
 
   componentDidMount() {
-    const { typeGraph, displayOptions } = this.props;
-    this._renderSvgAsync(typeGraph, displayOptions);
+    this._renderSvgAsync(this.props.typeGraph);
   }
 
   componentDidUpdate(
@@ -66,8 +54,7 @@ export default class GraphViewport extends Component<
     const { svgViewport } = this.state;
 
     if (svgViewport == null) {
-      const { typeGraph, displayOptions } = this.props;
-      this._renderSvgAsync(typeGraph, displayOptions);
+      this._renderSvgAsync(this.props.typeGraph);
       return;
     }
 
@@ -85,35 +72,24 @@ export default class GraphViewport extends Component<
 
   componentWillUnmount() {
     this._currentTypeGraph = null;
-    this._currentDisplayOptions = null;
     this._cleanupSvgViewport();
   }
 
-  _renderSvgAsync(
-    typeGraph: TypeGraph | null,
-    displayOptions: VoyagerDisplayOptions | null,
-  ) {
-    if (typeGraph == null || displayOptions == null) {
+  _renderSvgAsync(typeGraph: TypeGraph | null) {
+    if (typeGraph == null) {
       return; // Nothing to render
     }
 
-    if (
-      typeGraph === this._currentTypeGraph &&
-      displayOptions === this._currentDisplayOptions
-    ) {
+    if (typeGraph === this._currentTypeGraph) {
       return; // Already rendering in background
     }
 
     this._currentTypeGraph = typeGraph;
-    this._currentDisplayOptions = displayOptions;
 
     const { onSelectNode, onSelectEdge } = this.props;
-    renderSvg(typeGraph, displayOptions)
+    renderSvg(typeGraph)
       .then((svg) => {
-        if (
-          typeGraph !== this._currentTypeGraph ||
-          displayOptions !== this._currentDisplayOptions
-        ) {
+        if (typeGraph !== this._currentTypeGraph) {
           return; // One of the past rendering jobs finished
         }
 
@@ -129,7 +105,6 @@ export default class GraphViewport extends Component<
       })
       .catch((rawError) => {
         this._currentTypeGraph = null;
-        this._currentDisplayOptions = null;
 
         const error =
           rawError instanceof Error

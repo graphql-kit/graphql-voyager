@@ -10,10 +10,13 @@ import {
   isUnionType,
 } from 'graphql/type';
 
+import { VoyagerDisplayOptions } from '../components/Voyager';
+
 export interface TypeGraph {
   schema: GraphQLSchema;
   rootType: GraphQLCompositeType;
   nodes: Map<string, GraphQLNamedType>;
+  showLeafFields: boolean;
 }
 
 export function isNode(type: GraphQLNamedType): type is GraphQLCompositeType {
@@ -26,11 +29,10 @@ export function isNode(type: GraphQLNamedType): type is GraphQLCompositeType {
 
 export function getTypeGraph(
   schema: GraphQLSchema,
-  rootName?: string,
-  hideRoot?: boolean,
+  displayOptions: VoyagerDisplayOptions,
 ): TypeGraph {
   const rootType = assertCompositeType(
-    schema.getType(rootName ?? schema.getQueryType()!.name),
+    schema.getType(displayOptions.rootType ?? schema.getQueryType()!.name),
   );
 
   const nodeMap = new Map<string, GraphQLCompositeType>();
@@ -44,7 +46,7 @@ export function getTypeGraph(
     }
   }
 
-  if (hideRoot === true) {
+  if (displayOptions.hideRoot === true) {
     nodeMap.delete(rootType.name);
   }
 
@@ -52,6 +54,7 @@ export function getTypeGraph(
     schema,
     rootType,
     nodes: nodeMap,
+    showLeafFields: displayOptions.showLeafFields ?? false,
   };
 
   function getEdgeTargets(

@@ -97,17 +97,8 @@ export default function Voyager(props: VoyagerProps) {
       introspectionSchema = buildClientSchema(introspectionResult.value.data);
     }
 
-    const schema = getSchema(
-      introspectionSchema,
-      displayOptions.sortByAlphabet,
-      displayOptions.skipRelay,
-      displayOptions.skipDeprecated,
-    );
-    return getTypeGraph(
-      schema,
-      displayOptions.rootType,
-      displayOptions.hideRoot,
-    );
+    const schema = getSchema(introspectionSchema, displayOptions);
+    return getTypeGraph(schema, displayOptions);
   }, [introspectionResult, displayOptions]);
 
   useEffect(() => {
@@ -218,7 +209,6 @@ export default function Voyager(props: VoyagerProps) {
     return (
       <GraphViewport
         typeGraph={typeGraph}
-        displayOptions={displayOptions}
         selectedTypeID={selected.typeID}
         selectedEdgeID={selected.edgeID}
         onSelectNode={handleSelectNode}
