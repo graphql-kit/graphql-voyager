@@ -11,7 +11,6 @@ import {
   isUnionType,
 } from 'graphql/type';
 
-import { VoyagerDisplayOptions } from '../components/Voyager';
 import {
   mapDerivedTypes,
   mapFields,
@@ -22,10 +21,7 @@ import { stringifyTypeWrappers } from '../utils/stringify-type-wrappers';
 import { unreachable } from '../utils/unreachable';
 import { TypeGraph } from './type-graph';
 
-export function getDot(
-  typeGraph: TypeGraph,
-  displayOptions: VoyagerDisplayOptions,
-): string {
+export function getDot(typeGraph: TypeGraph): string {
   const { schema } = typeGraph;
 
   const nodeResults = [];
@@ -114,7 +110,7 @@ export function getDot(
     function nodeFields() {
       return forEachField((id, field) => {
         const namedType = getNamedType(field.type);
-        if (displayOptions.showLeafFields !== true && !isNode(namedType)) {
+        if (typeGraph.showLeafFields !== true && !isNode(namedType)) {
           return null;
         }
 

@@ -19,6 +19,7 @@ import {
   lexicographicSortSchema,
 } from 'graphql';
 
+import { VoyagerDisplayOptions } from '../components/Voyager';
 import { collectDirectlyReferencedTypes } from '../utils/collect-referenced-types';
 import { mapValues } from '../utils/mapValues';
 import { transformSchema } from '../utils/transformSchema';
@@ -250,10 +251,9 @@ function removeDeprecated(type: GraphQLNamedType) {
 
 export function getSchema(
   introspectionSchema: GraphQLSchema,
-  sortByAlphabet: boolean,
-  skipRelay: boolean,
-  skipDeprecated: boolean,
+  displayOptions: VoyagerDisplayOptions,
 ): GraphQLSchema {
+  const { sortByAlphabet, skipRelay, skipDeprecated } = displayOptions;
   let schema = introspectionSchema;
 
   if (sortByAlphabet) {
