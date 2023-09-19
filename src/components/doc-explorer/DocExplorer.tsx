@@ -1,42 +1,73 @@
-import { isNode } from '../../graph';
-
-import * as React from 'react';
-import TypeList from './TypeList';
-import TypeDoc from './TypeDoc';
-import FocusTypeButton from './FocusTypeButton';
-import TypeInfoPopover from './TypeInfoPopover';
-import OtherSearchResults from './OtherSearchResults';
-import SearchBox from '../utils/SearchBox';
-
 import './DocExplorer.css';
 
+import { assertCompositeType, GraphQLNamedType } from 'graphql/type';
+import { Component } from 'react';
+
+import { isNode, TypeGraph } from '../../graph/type-graph';
+import { extractTypeName, typeObjToId } from '../../introspection/utils';
+import SearchBox from '../utils/SearchBox';
+import FocusTypeButton from './FocusTypeButton';
+import OtherSearchResults from './OtherSearchResults';
+import TypeDoc from './TypeDoc';
+import TypeInfoPopover from './TypeInfoPopover';
+import TypeList from './TypeList';
+
 interface DocExplorerProps {
-  typeGraph: any;
-  selectedTypeID: string;
-  selectedEdgeID: string;
+  typeGraph: TypeGraph | null;
+  selectedTypeID: string | null;
+  selectedEdgeID: string | null;
 
   onFocusNode: (id: string) => void;
-  onSelectNode: (id: string) => void;
-  onSelectEdge: (id: string) => void;
+  onSelectNode: (id: string | null) => void;
+  onSelectEdge: (id: string | null) => void;
 }
 
-const initialNav = { title: 'Type List', type: null, searchValue: null };
+interface NavStackItem {
+  title: string;
+  type: GraphQLNamedType | null;
+  searchValue: string | null;
+}
 
-export default class DocExplorer extends React.Component<DocExplorerProps> {
-  state = { navStack: [initialNav], typeForInfoPopover: null };
+interface DocExplorerState {
+  navStack: ReadonlyArray<NavStackItem>;
+  typeForInfoPopover: GraphQLNamedType | null;
+}
 
-  static getDerivedStateFromProps(props, state) {
+const initialNav: NavStackItem = {
+  title: 'Type List',
+  type: null,
+  searchValue: null,
+};
+
+export default class DocExplorer extends Component<
+  DocExplorerProps,
+  DocExplorerState
+> {
+  state: DocExplorerState = {
+    navStack: [initialNav],
+    typeForInfoPopover: null,
+  };
+
+  static getDerivedStateFromProps(
+    props: DocExplorerProps,
+    state: DocExplorerState,
+  ): DocExplorerState | null {
     const { selectedTypeID, typeGraph } = props;
 
     const { navStack } = state;
     const lastNav = navStack[navStack.length - 1];
-    const lastTypeID = lastNav.type ? lastNav.type.id : null;
-    if (selectedTypeID !== lastTypeID) {
-      if (selectedTypeID == null) {
+    const type =
+      selectedTypeID != null && typeGraph != null
+        ? assertCompositeType(
+            typeGraph.nodes.get(extractTypeName(selectedTypeID)),
+          )
+        : null;
+
+    if (type !== lastNav.type) {
+      if (type == null) {
         return { navStack: [initialNav], typeForInfoPopover: null };
       }
 
-      const type = typeGraph.nodes[selectedTypeID];
       const newNavStack = [
         ...navStack,
         { title: type.name, type, searchValue: null },
@@ -49,42 +80,78 @@ export default class DocExplorer extends React.Component<DocExplorerProps> {
   }
 
   render() {
-    const { typeGraph } = this.props;
+    const { navStack } = this.state;
+    const previousNav = navStack.at(-2);
+    const currentNav = navStack.at(-1);
 
-    if (!typeGraph) {
+    if (this.props.typeGraph == null || currentNav == null) {
       return (
         <div className="type-doc" key={0}>
-          <span className="loading"> Loading... </span>;
+          <span className="loading"> Loading... </span>
         </div>
       );
     }
 
-    const { navStack } = this.state;
-    const previousNav = navStack[navStack.length - 2];
-    const currentNav = navStack[navStack.length - 1];
+    const { typeGraph, selectedEdgeID, onFocusNode, onSelectEdge } = this.props;
 
     const name = currentNav.type ? currentNav.type.name : 'Schema';
+
+    const handleTypeLink = (type: GraphQLNamedType) => {
+      const { onFocusNode, onSelectNode } = this.props;
+
+      if (isNode(type)) {
+        onFocusNode(typeObjToId(type));
+        onSelectNode(typeObjToId(type));
+      } else {
+        this.setState({ typeForInfoPopover: type });
+      }
+    };
+
+    const handleFieldLink = (type: GraphQLNamedType, fieldID: string) => {
+      const { onFocusNode, onSelectNode, onSelectEdge } = this.props;
+
+      onFocusNode(typeObjToId(type));
+      onSelectNode(typeObjToId(type));
+      // wait for docs panel to rerender with new edges
+      setTimeout(() => onSelectEdge(fieldID));
+    };
+
+    const handleNavBackClick = () => {
+      const { onFocusNode, onSelectNode } = this.props;
+      const newNavStack = this.state.navStack.slice(0, -1);
+      const newCurrentNode = newNavStack[newNavStack.length - 1];
+
+      this.setState({ navStack: newNavStack, typeForInfoPopover: null });
+
+      if (newCurrentNode.type == null) {
+        return onSelectNode(null);
+      }
+
+      onFocusNode(typeObjToId(newCurrentNode.type));
+      onSelectNode(typeObjToId(newCurrentNode.type));
+    };
+
     return (
       <div className="type-doc" key={navStack.length}>
-        {this.renderNavigation(previousNav, currentNav)}
+        {renderNavigation(previousNav, currentNav)}
         <SearchBox
           placeholder={`Search ${name}...`}
           value={currentNav.searchValue}
           onSearch={this.handleSearch}
         />
         <div className="scroll-area">
-          {this.renderCurrentNav(currentNav)}
+          {renderCurrentNav(currentNav)}
           {currentNav.searchValue && (
             <OtherSearchResults
               typeGraph={typeGraph}
               withinType={currentNav.type}
               searchValue={currentNav.searchValue}
-              onTypeLink={this.handleTypeLink}
-              onFieldLink={this.handleFieldLink}
+              onTypeLink={handleTypeLink}
+              onFieldLink={handleFieldLink}
             />
           )}
         </div>
-        {currentNav.type && (
+        {this.state.typeForInfoPopover && (
           <TypeInfoPopover
             type={this.state.typeForInfoPopover}
             onChange={(type) => this.setState({ typeForInfoPopover: type })}
@@ -92,96 +159,63 @@ export default class DocExplorer extends React.Component<DocExplorerProps> {
         )}
       </div>
     );
-  }
 
-  renderCurrentNav(currentNav) {
-    const { typeGraph, selectedEdgeID, onSelectEdge, onFocusNode } = this.props;
+    function renderCurrentNav(currentNav: NavStackItem) {
+      if (currentNav.type) {
+        return (
+          <TypeDoc
+            selectedType={currentNav.type}
+            selectedEdgeID={selectedEdgeID}
+            typeGraph={typeGraph}
+            filter={currentNav.searchValue}
+            onTypeLink={handleTypeLink}
+            onSelectEdge={onSelectEdge}
+          />
+        );
+      }
 
-    if (currentNav.type) {
       return (
-        <TypeDoc
-          selectedType={currentNav.type}
-          selectedEdgeID={selectedEdgeID}
+        <TypeList
           typeGraph={typeGraph}
           filter={currentNav.searchValue}
-          onTypeLink={this.handleTypeLink}
-          onSelectEdge={onSelectEdge}
+          onTypeLink={handleTypeLink}
+          onFocusType={(type) => onFocusNode(typeObjToId(type))}
         />
       );
     }
 
-    return (
-      <TypeList
-        typeGraph={typeGraph}
-        filter={currentNav.searchValue}
-        onTypeLink={this.handleTypeLink}
-        onFocusType={(type) => onFocusNode(type.id)}
-      />
-    );
-  }
+    function renderNavigation(
+      previousNav: NavStackItem | undefined,
+      currentNav: NavStackItem,
+    ) {
+      const { title, type } = currentNav;
 
-  renderNavigation(previousNav, currentNav) {
-    const { onFocusNode } = this.props;
-    if (previousNav) {
+      if (previousNav && type) {
+        return (
+          <div className="doc-navigation">
+            <span className="back" onClick={handleNavBackClick}>
+              {previousNav.title}
+            </span>
+            <span className="active" title={title}>
+              {title}
+              <FocusTypeButton onClick={() => onFocusNode(typeObjToId(type))} />
+            </span>
+          </div>
+        );
+      }
+
       return (
         <div className="doc-navigation">
-          <span className="back" onClick={this.handleNavBackClick}>
-            {previousNav.title}
-          </span>
-          <span className="active" title={currentNav.title}>
-            {currentNav.title}
-            <FocusTypeButton onClick={() => onFocusNode(currentNav.type.id)} />
-          </span>
+          <span className="header">{title}</span>
         </div>
       );
     }
-
-    return (
-      <div className="doc-navigation">
-        <span className="header">{currentNav.title}</span>
-      </div>
-    );
   }
 
-  handleSearch = (value) => {
+  handleSearch = (value: string) => {
     const navStack = this.state.navStack.slice();
     const currentNav = navStack[navStack.length - 1];
     navStack[navStack.length - 1] = { ...currentNav, searchValue: value };
     this.setState({ navStack });
-  };
-
-  handleTypeLink = (type) => {
-    let { onFocusNode, onSelectNode } = this.props;
-
-    if (isNode(type)) {
-      onFocusNode(type.id);
-      onSelectNode(type.id);
-    } else {
-      this.setState({ typeForInfoPopover: type });
-    }
-  };
-
-  handleFieldLink = (field, type) => {
-    let { onFocusNode, onSelectNode, onSelectEdge } = this.props;
-
-    onFocusNode(type.id);
-    onSelectNode(type.id);
-    // wait for docs panel to rerender with new edges
-    setTimeout(() => onSelectEdge(field.id));
-  };
-
-  handleNavBackClick = () => {
-    const { onFocusNode, onSelectNode } = this.props;
-    const newNavStack = this.state.navStack.slice(0, -1);
-    const newCurrentNode = newNavStack[newNavStack.length - 1];
-
-    this.setState({ navStack: newNavStack, typeForInfoPopover: null });
-
-    if (newCurrentNode.type == null) {
-      return onSelectNode(null);
-    }
-
-    onFocusNode(newCurrentNode.type.id);
-    onSelectNode(newCurrentNode.type.id);
   };
 }

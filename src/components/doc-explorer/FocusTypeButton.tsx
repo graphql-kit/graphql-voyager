@@ -1,8 +1,8 @@
-import * as React from 'react';
-import IconButton from '@material-ui/core/IconButton';
-import EyeIcon from '../icons/remove-red-eye.svg';
-
 import './FocusTypeButton.css';
+
+import IconButton from '@mui/material/IconButton';
+
+import EyeIcon from '../icons/remove-red-eye.svg';
 
 function FocusTypeButton(props: { onClick: () => void }) {
   return (

@@ -1,28 +1,33 @@
-import * as _ from 'lodash';
-import * as React from 'react';
-import * as classNames from 'classnames';
-
 import './TypeDoc.css';
 
-import { SimplifiedTypeWithIDs } from '../../introspection/types';
-import { isMatch, highlightTerm } from '../../utils';
+import { GraphQLField, GraphQLNamedType } from 'graphql/type';
+import { Component } from 'react';
 
+import { TypeGraph } from '../../graph/type-graph';
+import {
+  mapDerivedTypes,
+  mapFields,
+  mapInterfaces,
+  mapPossibleTypes,
+} from '../../introspection/utils';
+import { highlightTerm } from '../../utils/highlight';
+import { isMatch } from '../../utils/is-match';
 import Markdown from '../utils/Markdown';
+import Argument from './Argument';
 import Description from './Description';
 import TypeLink from './TypeLink';
 import WrappedTypeName from './WrappedTypeName';
-import Argument from './Argument';
 
 interface TypeDocProps {
-  selectedType: any;
-  selectedEdgeID: string;
-  typeGraph: any;
-  filter: string;
-  onSelectEdge: (string) => void;
-  onTypeLink: (any) => void;
+  selectedType: GraphQLNamedType;
+  selectedEdgeID: string | null;
+  typeGraph: TypeGraph;
+  filter: string | null;
+  onSelectEdge: (id: string) => void;
+  onTypeLink: (type: GraphQLNamedType) => void;
 }
 
-export default class TypeDoc extends React.Component<TypeDocProps> {
+export default class TypeDoc extends Component<TypeDocProps> {
   componentDidUpdate(prevProps: TypeDocProps) {
     if (this.props.selectedEdgeID !== prevProps.selectedEdgeID) {
       this.ensureActiveVisible();
@@ -34,10 +39,10 @@ export default class TypeDoc extends React.Component<TypeDocProps> {
   }
 
   ensureActiveVisible() {
-    let itemComponent = this.refs['selectedItem'] as HTMLElement;
+    const itemComponent = this.refs['selectedItem'] as HTMLElement;
     if (!itemComponent) return;
 
-    itemComponent.scrollIntoViewIfNeeded();
+    itemComponent.scrollIntoView();
   }
 
   render() {
@@ -53,129 +58,103 @@ export default class TypeDoc extends React.Component<TypeDocProps> {
     return (
       <>
         <Description className="-doc-type" text={selectedType.description} />
-        {renderTypesDef(selectedType, selectedEdgeID)}
-        {renderFields(selectedType, selectedEdgeID)}
+        {renderDocCategory(
+          'possible types',
+          mapPossibleTypes(selectedType, renderTypesDef),
+        )}
+        {renderDocCategory(
+          'implementations',
+          mapDerivedTypes(typeGraph.schema, selectedType, renderTypesDef),
+        )}
+        {renderDocCategory(
+          'implements',
+          mapInterfaces(selectedType, renderTypesDef),
+        )}
+        {renderDocCategory('fields', mapFields(selectedType, renderField))}
       </>
     );
 
-    function renderTypesDef(type: SimplifiedTypeWithIDs, selectedId) {
-      let typesTitle;
-      let types: {
-        id: string;
-        type: SimplifiedTypeWithIDs;
-      }[];
-
-      switch (type.kind) {
-        case 'UNION':
-          typesTitle = 'possible types';
-          types = type.possibleTypes;
-          break;
-        case 'INTERFACE':
-          typesTitle = 'implementations';
-          types = type.derivedTypes;
-          break;
-        case 'OBJECT':
-          typesTitle = 'implements';
-          types = type.interfaces;
-          break;
-        default:
-          return null;
-      }
-
-      types = types.filter(
-        ({ type }) => typeGraph.nodes[type.id] && isMatch(type.name, filter),
-      );
-
-      if (types.length === 0) return null;
+    function renderDocCategory(title: string, items: Array<JSX.Element>) {
+      if (items.length === 0) return null;
 
       return (
         <div className="doc-category">
-          <div className="title">{typesTitle}</div>
-          {_.map(types, (type) => {
-            let props: any = {
-              key: type.id,
-              className: classNames('item', {
-                '-selected': type.id === selectedId,
-              }),
-              onClick: () => onSelectEdge(type.id),
-            };
-            if (type.id === selectedId) props.ref = 'selectedItem';
-            return (
-              <div {...props}>
-                <TypeLink
-                  type={type.type}
-                  onClick={onTypeLink}
-                  filter={filter}
-                />
-                <Description
-                  text={type.type.description}
-                  className="-linked-type"
-                />
-              </div>
-            );
-          })}
+          <div className="title">{title}</div>
+          {items}
         </div>
       );
     }
 
-    function renderFields(type: SimplifiedTypeWithIDs, selectedId: string) {
-      let fields: any = Object.values(type.fields);
-      fields = fields.filter((field) => {
-        const args: any = Object.values(field.args);
-        const matchingArgs = args.filter((arg) => isMatch(arg.name, filter));
+    function renderTypesDef(id: string, type: GraphQLNamedType) {
+      if (!isMatch(type.name, filter)) {
+        return null;
+      }
 
-        return isMatch(field.name, filter) || matchingArgs.length > 0;
-      });
-
-      if (fields.length === 0) return null;
-
+      const isSelected = id === selectedEdgeID;
+      const className = `item ${isSelected ? '-selected' : ''}`;
       return (
-        <div className="doc-category">
-          <div className="title">fields</div>
-          {fields.map((field) => {
-            let props: any = {
-              key: field.name,
-              className: classNames('item', {
-                '-selected': field.id === selectedId,
-                '-with-args': !_.isEmpty(field.args),
-              }),
-              onClick: () => onSelectEdge(field.id),
-            };
-            if (field.id === selectedId) props.ref = 'selectedItem';
-            return (
-              <div {...props}>
-                <a className="field-name">
-                  {highlightTerm(field.name, filter)}
-                </a>
-                <span
-                  className={classNames('args-wrap', {
-                    '-empty': _.isEmpty(field.args),
-                  })}
-                >
-                  {!_.isEmpty(field.args) && (
-                    <span key="args" className="args">
-                      {_.map(field.args, (arg) => (
-                        <Argument
-                          key={arg.name}
-                          arg={arg}
-                          expanded={field.id === selectedId}
-                          onTypeLink={onTypeLink}
-                        />
-                      ))}
-                    </span>
-                  )}
-                </span>
-                <WrappedTypeName container={field} onTypeLink={onTypeLink} />
-                {field.isDeprecated && (
-                  <span className="doc-alert-text"> DEPRECATED</span>
-                )}
-                <Markdown
-                  text={field.description}
-                  className="description-box -field"
-                />
-              </div>
-            );
-          })}
+        <div
+          key={type.name}
+          className={className}
+          onClick={() => onSelectEdge(id)}
+          ref={isSelected ? 'selectedItem' : undefined}
+        >
+          <TypeLink type={type} onClick={onTypeLink} filter={filter} />
+          <Description text={type.description} className="-linked-type" />
+        </div>
+      );
+    }
+
+    function isMatchingField(field: GraphQLField<any, any>): boolean {
+      const matchingArgs = field.args.filter((arg) =>
+        isMatch(arg.name, filter),
+      );
+
+      return isMatch(field.name, filter) || matchingArgs.length > 0;
+    }
+
+    function renderField(fieldID: string, field: GraphQLField<any, any>) {
+      if (!isMatchingField(field)) {
+        return null;
+      }
+
+      const hasArgs = field.args.length !== 0;
+      const isSelected = fieldID === selectedEdgeID;
+
+      const className = `item ${isSelected ? '-selected' : ''} ${
+        hasArgs ? '-with-args' : ''
+      }`;
+      return (
+        <div
+          key={field.name}
+          className={className}
+          onClick={() => onSelectEdge(fieldID)}
+          ref={isSelected ? 'selectedItem' : undefined}
+        >
+          <a className="field-name">{highlightTerm(field.name, filter)}</a>
+          <span className={`args-wrap ${hasArgs ? '' : '-empty'}`}>
+            {hasArgs && (
+              <span key="args" className="args">
+                {field.args.map((arg) => (
+                  <Argument
+                    key={arg.name}
+                    arg={arg}
+                    filter={filter}
+                    expanded={isSelected}
+                    onTypeLink={onTypeLink}
+                  />
+                ))}
+              </span>
+            )}
+          </span>
+          <WrappedTypeName container={field} onTypeLink={onTypeLink} />
+          {field.deprecationReason !== null && (
+            <span className="doc-alert-text"> DEPRECATED</span>
+          )}
+          <Markdown
+            text={field.description}
+            className="description-box -field"
+          />
         </div>
       );
     }

@@ -2,9 +2,9 @@
 
 ---
 
-**Attribution:** the contents of this folder was copied from [GraphiQL](https://github.com/graphql/graphiql/tree/master/example) example and modified for GraphQL-Voyager example. See copyright below:
+**Attribution:** the contents of this folder was copied from [GraphiQL](https://github.com/graphql/graphiql/tree/main/example) example and modified for GraphQL-Voyager example. See copyright below:
 
-> Copyright (c) Facebook, Inc. All rights reserved. [LICENSE](https://github.com/graphql/graphiql/blob/master/LICENSE)
+> Copyright (c) Facebook, Inc. All rights reserved. [LICENSE](https://github.com/graphql/graphiql/blob/main/LICENSE)
 
 ---
 

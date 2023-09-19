@@ -1,0 +1,32 @@
+name: Push
+on: push
+permissions: {}
+jobs:
+  ci:
+    permissions:
+      contents: read # for actions/checkout
+      security-events: write # for codeql-action
+    uses: ./.github/workflows/ci.yml
+
+  changelog:
+    permissions:
+      contents: read # for actions/checkout
+    uses: ./.github/workflows/changelog.yml
+
+  deploy-to-gh-pages:
+    name: Deploy to GitHub Pages
+    needs: ci
+    if: github.ref == 'refs/heads/main'
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write # for actions/deploy-pages
+      id-token: write # for actions/deploy-pages
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2
+        with:
+          artifact_name: demoDist

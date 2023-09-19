@@ -1,0 +1,51 @@
+name: Publish to NPM
+on:
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+*'
+permissions: {}
+jobs:
+  ci:
+    permissions:
+      contents: read # for actions/checkout
+      security-events: write # for codeql-action
+    uses: ./.github/workflows/ci.yml
+
+  changelog:
+    permissions:
+      contents: read # for actions/checkout
+    uses: ./.github/workflows/changelog.yml
+
+  npm-publish:
+    environment:
+      name: npm-publish
+      url: https://www.npmjs.com/package/graphql-voyager/v/${{github.ref_name}}
+    needs:
+      - ci
+      - changelog
+    permissions:
+      contents: read # for actions/checkout
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+        with:
+          persist-credentials: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          cache: npm
+          node-version-file: '.node-version'
+          # 'registry-url' is required for 'npm publish'
+          registry-url: 'https://registry.npmjs.org'
+
+      - uses: actions/download-artifact@v3
+        with:
+          name: npmDist
+          path: npmDist
+
+      - name: Publish package on NPM
+        run: npm publish ./npmDist
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

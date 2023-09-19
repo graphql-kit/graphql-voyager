@@ -1,9 +1,7 @@
-import * as _ from 'lodash';
 import * as svgPanZoom from 'svg-pan-zoom';
-import * as animate from '@f/animate';
 
-import { removeClass, forEachNode, stringToSvg } from '../utils/';
-import { typeNameToId } from '../introspection';
+import { typeNameToId } from '../introspection/utils';
+import { stringToSvg } from '../utils/dom-helpers';
 
 // FIXME: we are waiting for this [PR](https://github.com/ariutta/svg-pan-zoom/pull/379), after that this two interfaces might be removed in favor to `import { Instance, Point } from 'svg-pan-zoom'`
 interface Point {
@@ -21,21 +19,25 @@ interface Instance {
 }
 
 export class Viewport {
-  onSelectNode: (id: string) => void;
+  onSelectNode: (id: string | null) => void;
   onSelectEdge: (id: string) => void;
 
-  $svg: SVGElement;
+  $svg: SVGSVGElement;
+  // @ts-expect-error FIXME
   zoomer: Instance;
+  // @ts-expect-error FIXME
   offsetLeft: number;
+  // @ts-expect-error FIXME
   offsetTop: number;
+  // @ts-expect-error FIXME
   maxZoom: number;
-  isDestroyed = false;
+  resizeObserver: ResizeObserver;
 
   constructor(
-    svgString,
+    svgString: string,
     public container: HTMLElement,
-    onSelectNode,
-    onSelectEdge,
+    onSelectNode: (id: string | null) => void,
+    onSelectEdge: (id: string) => void,
   ) {
     this.onSelectNode = onSelectNode;
     this.onSelectEdge = onSelectEdge;
@@ -50,13 +52,12 @@ export class Viewport {
     this.bindClick();
     this.bindHover();
 
-    this.resize = this.resize.bind(this);
-    this.resize();
-    window.addEventListener('resize', this.resize);
+    this.resizeObserver = new ResizeObserver(() => this.resize());
+    this.resizeObserver.observe(this.container);
   }
 
   resize() {
-    let bbRect = this.container.getBoundingClientRect();
+    const bbRect = this.container.getBoundingClientRect();
     this.offsetLeft = bbRect.left;
     this.offsetTop = bbRect.top;
     if (this.zoomer !== undefined) {
@@ -76,16 +77,13 @@ export class Viewport {
       maxZoom: this.maxZoom,
       controlIconsEnabled: true,
     });
-    if (this.isDestroyed || this.zoomer === undefined) {
-      return;
-    }
     this.zoomer.zoom(0.95);
   }
 
   bindClick() {
     let dragged = false;
 
-    let moveHandler = () => (dragged = true);
+    const moveHandler = () => (dragged = true);
     this.$svg.addEventListener('mousedown', () => {
       dragged = false;
       setTimeout(() => this.$svg.addEventListener('mousemove', moveHandler));
@@ -94,15 +92,15 @@ export class Viewport {
       this.$svg.removeEventListener('mousemove', moveHandler);
       if (dragged) return;
 
-      var target = event.target as Element;
+      const target = event.target as SVGElement;
       if (isLink(target)) {
-        const typeId = typeNameToId(target.textContent);
+        const typeId = typeNameToId(target.textContent!);
         this.focusElement(typeId);
       } else if (isNode(target)) {
-        let $node = getParent(target, 'node');
+        const $node = getParent(target, 'node')!;
         this.onSelectNode($node.id);
       } else if (isEdge(target)) {
-        let $edge = getParent(target, 'edge');
+        const $edge = getParent(target, 'edge')!;
         this.onSelectEdge(edgeSource($edge).id);
       } else if (!isControl(target)) {
         this.onSelectNode(null);
@@ -111,8 +109,8 @@ export class Viewport {
   }
 
   bindHover() {
-    let $prevHovered = null;
-    let $prevHoveredEdge = null;
+    let $prevHovered: SVGElement | null = null;
+    let $prevHoveredEdge: SVGElement | null = null;
 
     function clearSelection() {
       if ($prevHovered) $prevHovered.classList.remove('hovered');
@@ -120,14 +118,14 @@ export class Viewport {
     }
 
     this.$svg.addEventListener('mousemove', (event) => {
-      let target = event.target as Element;
+      const target = event.target as SVGElement;
       if (isEdgeSource(target)) {
-        let $sourceGroup = getParent(target, 'edge-source');
+        const $sourceGroup = getParent(target, 'edge-source')!;
         if ($sourceGroup.classList.contains('hovered')) return;
         clearSelection();
         $sourceGroup.classList.add('hovered');
         $prevHovered = $sourceGroup;
-        let $edge = edgeFrom($sourceGroup.id);
+        const $edge = edgeFrom($sourceGroup.id);
         $edge.classList.add('hovered');
         $prevHoveredEdge = $edge;
       } else {
@@ -136,8 +134,10 @@ export class Viewport {
     });
   }
 
-  selectNodeById(id: string) {
-    this.deselectNode();
+  selectNodeById(id: string | null) {
+    this.removeClass('.node.selected', 'selected');
+    this.removeClass('.highlighted', 'highlighted');
+    this.removeClass('.selected-reachable', 'selected-reachable');
 
     if (id === null) {
       this.$svg.classList.remove('selection-active');
@@ -145,85 +145,77 @@ export class Viewport {
     }
 
     this.$svg.classList.add('selection-active');
-    var $selected = document.getElementById(id);
+    // @ts-expect-error https://github.com/microsoft/TypeScript/issues/4689#issuecomment-690503791
+    const $selected = document.getElementById(id) as SVGElement;
     this.selectNode($selected);
   }
 
-  selectNode(node: Element) {
+  selectNode(node: SVGElement) {
     node.classList.add('selected');
 
-    _.each(edgesFromNode(node), ($edge) => {
+    for (const $edge of edgesFromNode(node)) {
       $edge.classList.add('highlighted');
       edgeTarget($edge).classList.add('selected-reachable');
-    });
+    }
 
-    _.each(edgesTo(node.id), ($edge) => {
+    for (const $edge of edgesTo(node.id)) {
       $edge.classList.add('highlighted');
-      edgeSource($edge).parentElement.classList.add('selected-reachable');
-    });
+      edgeSource($edge).parentElement!.classList.add('selected-reachable');
+    }
   }
 
-  selectEdgeById(id: string) {
-    removeClass(this.$svg, '.edge.selected', 'selected');
-    removeClass(this.$svg, '.edge-source.selected', 'selected');
-    removeClass(this.$svg, '.field.selected', 'selected');
+  selectEdgeById(id: string | null) {
+    this.removeClass('.edge.selected', 'selected');
+    this.removeClass('.edge-source.selected', 'selected');
+    this.removeClass('.field.selected', 'selected');
 
     if (id === null) return;
 
-    var $selected = document.getElementById(id);
+    const $selected = document.getElementById(id);
     if ($selected) {
-      let $edge = edgeFrom($selected.id);
+      const $edge = edgeFrom($selected.id);
       if ($edge) $edge.classList.add('selected');
       $selected.classList.add('selected');
     }
   }
 
-  deselectNode() {
-    removeClass(this.$svg, '.node.selected', 'selected');
-    removeClass(this.$svg, '.highlighted', 'highlighted');
-    removeClass(this.$svg, '.selected-reachable', 'selected-reachable');
+  removeClass(selector: string, className: string) {
+    for (const node of this.$svg.querySelectorAll(selector)) {
+      node.classList.remove(className);
+    }
   }
 
   focusElement(id: string) {
-    if (this.isDestroyed || this.zoomer === undefined) {
-      return;
-    }
-    let bbBox = document.getElementById(id).getBoundingClientRect();
-    let currentPan = this.zoomer.getPan();
-    let viewPortSizes = (<any>this.zoomer).getSizes();
+    const bbBox = document.getElementById(id)!.getBoundingClientRect();
+    const currentPan = this.zoomer.getPan();
+    const viewPortSizes = (this.zoomer as any).getSizes();
 
     currentPan.x += viewPortSizes.width / 2 - bbBox.width / 2;
     currentPan.y += viewPortSizes.height / 2 - bbBox.height / 2;
 
-    let zoomUpdateToFit =
+    const zoomUpdateToFit =
       1.2 *
       Math.max(
         bbBox.height / viewPortSizes.height,
         bbBox.width / viewPortSizes.width,
       );
     let newZoom = this.zoomer.getZoom() / zoomUpdateToFit;
-    let recomendedZoom = this.maxZoom * 0.6;
-    if (newZoom > recomendedZoom) newZoom = recomendedZoom;
+    const recommendedZoom = this.maxZoom * 0.6;
+    if (newZoom > recommendedZoom) newZoom = recommendedZoom;
 
-    let newX = currentPan.x - bbBox.left + this.offsetLeft;
-    let newY = currentPan.y - bbBox.top + this.offsetTop;
+    const newX = currentPan.x - bbBox.left + this.offsetLeft;
+    const newY = currentPan.y - bbBox.top + this.offsetTop;
     this.animatePanAndZoom(newX, newY, newZoom);
   }
 
-  animatePanAndZoom(x, y, zoomEnd) {
-    let pan = this.zoomer.getPan();
-    let panEnd = { x, y };
+  animatePanAndZoom(x: number, y: number, zoomEnd: number) {
+    const pan = this.zoomer.getPan();
+    const panEnd = { x, y };
     animate(pan, panEnd, (props) => {
-      if (this.isDestroyed || this.zoomer === undefined) {
-        return;
-      }
       this.zoomer.pan({ x: props.x, y: props.y });
       if (props === panEnd) {
-        let zoom = this.zoomer.getZoom();
+        const zoom = this.zoomer.getZoom();
         animate({ zoom }, { zoom: zoomEnd }, (props) => {
-          if (this.isDestroyed || this.zoomer === undefined) {
-            return;
-          }
           this.zoomer.zoom(props.zoom);
         });
       }
@@ -231,8 +223,7 @@ export class Viewport {
   }
 
   destroy() {
-    this.isDestroyed = true;
-    window.removeEventListener('resize', this.resize);
+    this.resizeObserver.disconnect();
     try {
       this.zoomer.destroy();
     } catch (e) {
@@ -241,56 +232,97 @@ export class Viewport {
   }
 }
 
-function getParent(elem: Element, className: string): Element | null {
+function getParent(elem: SVGElement, className: string): SVGElement | null {
   while (elem && elem.tagName !== 'svg') {
     if (elem.classList.contains(className)) return elem;
-    elem = elem.parentNode as Element;
+    elem = elem.parentNode as SVGElement;
   }
   return null;
 }
 
-function isNode(elem: Element): boolean {
+function isNode(elem: SVGElement): boolean {
   return getParent(elem, 'node') != null;
 }
 
-function isEdge(elem: Element): boolean {
+function isEdge(elem: SVGElement): boolean {
   return getParent(elem, 'edge') != null;
 }
 
-function isLink(elem: Element): boolean {
+function isLink(elem: SVGElement): boolean {
   return elem.classList.contains('type-link');
 }
 
-function isEdgeSource(elem: Element): boolean {
+function isEdgeSource(elem: SVGElement): boolean {
   return getParent(elem, 'edge-source') != null;
 }
 
-function isControl(elem: Element) {
+function isControl(elem: SVGElement) {
   if (!(elem instanceof SVGElement)) return false;
   return elem.className.baseVal.startsWith('svg-pan-zoom');
 }
 
-function edgeSource(edge: Element) {
+function edgeSource(edge: SVGElement): SVGElement {
+  // @ts-expect-error FIXME
   return document.getElementById(edge['dataset']['from']);
 }
 
-function edgeTarget(edge: Element) {
+function edgeTarget(edge: SVGElement): SVGElement {
+  // @ts-expect-error FIXME
   return document.getElementById(edge['dataset']['to']);
 }
 
-function edgeFrom(id: String) {
+function edgeFrom(id: string): SVGElement {
+  // @ts-expect-error FIXME
   return document.querySelector(`.edge[data-from='${id}']`);
 }
 
-function edgesFromNode($node) {
-  var edges = [];
-  forEachNode($node, '.edge-source', ($source) => {
+function edgesFromNode($node: SVGElement) {
+  const edges = [];
+  for (const $source of $node.querySelectorAll('.edge-source')) {
     const $edge = edgeFrom($source.id);
     edges.push($edge);
-  });
+  }
   return edges;
 }
 
-function edgesTo(id: String) {
-  return _.toArray(document.querySelectorAll(`.edge[data-to='${id}']`));
+function edgesTo(id: string): NodeListOf<SVGElement> {
+  return document.querySelectorAll(`.edge[data-to='${id}']`);
+}
+
+function animate<OBJ extends { [key: string]: number }>(
+  startObj: OBJ,
+  endObj: OBJ,
+  render: (obj: OBJ) => void,
+) {
+  const defaultDuration = 350;
+  const fps60 = 1000 / 60;
+  const totalFrames = defaultDuration / fps60;
+  const startTime = new Date().getTime();
+
+  window.requestAnimationFrame(ticker);
+
+  function ticker() {
+    const timeElapsed = new Date().getTime() - startTime;
+    const framesElapsed = timeElapsed / fps60;
+
+    if (totalFrames - framesElapsed < 1) {
+      render(endObj);
+      return;
+    }
+
+    const t = framesElapsed / totalFrames;
+
+    const frame = Object.fromEntries(
+      Object.keys(startObj).map((key) => {
+        const start = startObj[key];
+        const end = endObj[key];
+
+        return [key, start + t * (end - start)];
+      }),
+    ) as OBJ;
+
+    render(frame);
+
+    window.requestAnimationFrame(ticker);
+  }
 }

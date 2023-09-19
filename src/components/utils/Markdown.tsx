@@ -1,34 +1,18 @@
-import * as React from 'react';
 import { HtmlRenderer, Parser } from 'commonmark';
 
+const parser = new Parser();
+const renderer = new HtmlRenderer({ safe: true });
+
 interface MarkdownProps {
-  text: string;
+  text: string | null | undefined;
   className: string;
 }
 
-export default class Markdown extends React.Component<MarkdownProps> {
-  renderer: HtmlRenderer;
-  parser: Parser;
+export default function Markdown(props: MarkdownProps) {
+  const { text, className } = props;
 
-  constructor(props) {
-    super(props);
-    this.renderer = new HtmlRenderer({ safe: true });
-    this.parser = new Parser();
-  }
-  shouldComponentUpdate(nextProps) {
-    return this.props.text !== nextProps.text;
-  }
+  if (!text) return null;
 
-  render() {
-    const { text, className } = this.props;
-
-    if (!text) return null;
-
-    const parsed = this.parser.parse(text);
-    const html = this.renderer.render(parsed);
-
-    return (
-      <div className={className} dangerouslySetInnerHTML={{ __html: html }} />
-    );
-  }
+  const __html = renderer.render(parser.parse(text));
+  return <div className={className} dangerouslySetInnerHTML={{ __html }} />;
 }

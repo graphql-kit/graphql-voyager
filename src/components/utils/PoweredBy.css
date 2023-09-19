@@ -1,8 +1,0 @@
-@import '../variables.css';
-
-.powered-by {
-  color: #333333;
-  text-align: center;
-  padding: 10px 10px;
-  border-top: 1px solid var(--shadow-color);
-}

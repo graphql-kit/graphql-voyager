@@ -1,18 +1,26 @@
-import * as React from 'react';
-import * as _ from 'lodash';
+import { Fragment } from 'react';
 
-export function highlightTerm(content: string, term: string) {
+export function highlightTerm(
+  content: string,
+  term: string | null | undefined,
+) {
   if (!term) {
     return content;
   }
 
-  var re = new RegExp('(' + _.escapeRegExp(term) + ')', 'gi');
-  var result: any = content.split(re);
+  const re = new RegExp('(' + escapeRegExp(term) + ')', 'gi');
+  return content.split(re).map(
+    // Apply highlight to all odd elements
+    (value, index) => (
+      <Fragment key={index}>
+        {index % 2 === 1 ? <mark>{value}</mark> : value}
+      </Fragment>
+    ),
+  );
+}
 
-  // Apply highlight to all odd elements
-  for (var i = 1, length = result.length; i < length; i += 2) {
-    result[i] = <mark key={i}>{result[i]}</mark>;
-  }
-
-  return result;
+// http://ecma-international.org/ecma-262/7.0/#sec-patterns).
+const reRegExpChar = /[\\^$.*+?()[\]{}|]/g;
+function escapeRegExp(string: string) {
+  return string.replace(reRegExpChar, '\\$&');
 }

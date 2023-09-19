@@ -1,272 +1,272 @@
-import * as _ from 'lodash';
 import {
-  buildClientSchema,
-  introspectionFromSchema,
+  getNamedType,
+  getNullableType,
+  GraphQLFieldConfig,
+  GraphQLFieldConfigMap,
+  GraphQLInputFieldConfig,
+  GraphQLInputObjectType,
+  GraphQLInterfaceType,
+  GraphQLList,
+  GraphQLNamedType,
+  GraphQLNonNull,
+  GraphQLObjectType,
+  GraphQLOutputType,
+  GraphQLSchema,
+  isInputObjectType,
+  isInterfaceType,
+  isNonNullType,
+  isObjectType,
   lexicographicSortSchema,
-  IntrospectionSchema,
-  IntrospectionType,
 } from 'graphql';
-import {
-  SimplifiedIntrospection,
-  SimplifiedIntrospectionWithIds,
-  SimplifiedType,
-} from './types';
-import { typeNameToId } from './utils';
 
-function unwrapType(type, wrappers) {
-  while (type.kind === 'NON_NULL' || type.kind == 'LIST') {
-    wrappers.push(type.kind);
-    type = type.ofType;
+import { VoyagerDisplayOptions } from '../components/Voyager';
+import { collectDirectlyReferencedTypes } from '../utils/collect-referenced-types';
+import { mapValues } from '../utils/mapValues';
+import { transformSchema } from '../utils/transformSchema';
+
+declare module 'graphql' {
+  interface GraphQLFieldExtensions<_TSource, _TContext, _TArgs> {
+    isRelayField?: boolean;
   }
 
-  return type.name;
-}
-
-function convertArg(inArg) {
-  var outArg = <any>{
-    name: inArg.name,
-    description: inArg.description,
-    defaultValue: inArg.defaultValue,
-    typeWrappers: [],
-  };
-  outArg.type = unwrapType(inArg.type, outArg.typeWrappers);
-
-  return outArg;
-}
-
-let convertInputField = convertArg;
-
-function convertField(inField) {
-  var outField = <any>{
-    name: inField.name,
-    description: inField.description,
-    typeWrappers: [],
-    isDeprecated: inField.isDeprecated,
-  };
-
-  outField.type = unwrapType(inField.type, outField.typeWrappers);
-
-  outField.args = _(inField.args).map(convertArg).keyBy('name').value();
-
-  if (outField.isDeprecated)
-    outField.deprecationReason = inField.deprecationReason;
-
-  return outField;
-}
-
-function convertType(inType: IntrospectionType): SimplifiedType {
-  const outType: SimplifiedType = {
-    kind: inType.kind,
-    name: inType.name,
-    description: inType.description,
-  };
-
-  switch (inType.kind) {
-    case 'OBJECT':
-      outType.interfaces = _(inType.interfaces).map('name').uniq().value();
-      outType.fields = _(inType.fields).map(convertField).keyBy('name').value();
-      break;
-    case 'INTERFACE':
-      outType.derivedTypes = _(inType.possibleTypes).map('name').uniq().value();
-      outType.fields = _(inType.fields).map(convertField).keyBy('name').value();
-      break;
-    case 'UNION':
-      outType.possibleTypes = _(inType.possibleTypes)
-        .map('name')
-        .uniq()
-        .value();
-      break;
-    case 'ENUM':
-      outType.enumValues = inType.enumValues.slice();
-      break;
-    case 'INPUT_OBJECT':
-      outType.inputFields = _(inType.inputFields)
-        .map(convertInputField)
-        .keyBy('name')
-        .value();
-      break;
+  interface GraphQLObjectTypeExtensions<_TSource, _TContext> {
+    isRelayType?: boolean;
   }
 
-  return outType;
+  interface GraphQLInterfaceTypeExtensions {
+    isRelayType?: boolean;
+  }
 }
 
-function simplifySchema(
-  inSchema: IntrospectionSchema,
-): SimplifiedIntrospection {
-  return {
-    types: _(inSchema.types).map(convertType).keyBy('name').value(),
-    queryType: inSchema.queryType.name,
-    mutationType: _.get(inSchema, 'mutationType.name', null),
-    subscriptionType: _.get(inSchema, 'subscriptionType.name', null),
-    //FIXME:
-    //directives:
-  };
-}
+// https://graphql.org/learn/global-object-identification/
+// https://relay.dev/graphql/connections.htm
+function removeRelayTypes(schema: GraphQLSchema) {
+  const nodeType = getNodeType();
+  const pageInfoType = getPageInfoType();
+  const relayTypes = new Set<GraphQLNamedType>();
+  const relayTypeToNodeMap = new Map<GraphQLObjectType, GraphQLOutputType>();
 
-function markRelayTypes(schema: SimplifiedIntrospectionWithIds): void {
-  const nodeType = schema.types[typeNameToId('Node')];
-  if (nodeType) nodeType.isRelayType = true;
+  if (nodeType != null) {
+    relayTypes.add(nodeType);
+  }
+  if (pageInfoType != null) {
+    relayTypes.add(pageInfoType);
+  }
+  for (const type of Object.values(schema.getTypeMap())) {
+    if (isInterfaceType(type) || isObjectType(type)) {
+      for (const field of Object.values(type.getFields())) {
+        const connectionType = getNamedType(field.type);
 
-  const pageInfoType = schema.types[typeNameToId('PageInfo')];
-  if (pageInfoType) pageInfoType.isRelayType = true;
+        if (
+          !isObjectType(connectionType) ||
+          !/.Connection$/.test(connectionType.name)
+        ) {
+          continue;
+        }
 
-  const edgeTypesMap = {};
+        const connectionFields = connectionType.getFields();
+        const edgeType = getNamedType(connectionFields.edges?.type);
+        if (!isObjectType(edgeType) || connectionFields.pageInfo == null) {
+          continue;
+        }
 
-  _.each(schema.types, (type) => {
-    if (!_.isEmpty(type.interfaces)) {
-      type.interfaces = _.reject(
-        type.interfaces,
-        (baseType) => baseType.type.name === 'Node',
-      );
+        const edgeFields = edgeType.getFields();
+        const nodeType = edgeFields.node?.type;
+        if (nodeType == null || edgeFields.cursor == null) {
+          continue;
+        }
+
+        relayTypes.add(connectionType);
+        relayTypes.add(edgeType);
+        relayTypeToNodeMap.set(connectionType, new GraphQLList(nodeType));
+        // GitHub uses edge type in mutations
+        relayTypeToNodeMap.set(edgeType, getNullableType(nodeType));
+      }
     }
-
-    _.each(type.fields, (field) => {
-      const connectionType = field.type;
-      if (
-        !/.Connection$/.test(connectionType.name) ||
-        connectionType.kind !== 'OBJECT' ||
-        !connectionType.fields.edges
-      ) {
-        return;
-      }
-
-      const edgesType = connectionType.fields.edges.type;
-      if (edgesType.kind !== 'OBJECT' || !edgesType.fields.node) {
-        return;
-      }
-
-      const nodeType = edgesType.fields.node.type;
-
-      connectionType.isRelayType = true;
-      edgesType.isRelayType = true;
-
-      edgeTypesMap[edgesType.name] = nodeType;
-
-      field.relayType = field.type;
-      field.type = nodeType;
-      field.typeWrappers = ['LIST'];
-
-      const relayArgNames = ['first', 'last', 'before', 'after'];
-      const isRelayArg = (arg) => relayArgNames.includes(arg.name);
-      field.relayArgs = _.pickBy(field.args, isRelayArg);
-      field.args = _.omitBy(field.args, isRelayArg);
-    });
-  });
-
-  _.each(schema.types, (type) => {
-    _.each(type.fields, (field) => {
-      var realType = edgeTypesMap[field.type.name];
-      if (realType === undefined) return;
-
-      field.relayType = field.type;
-      field.type = realType;
-    });
-  });
-
-  const { queryType } = schema;
-  let query = schema.types[queryType.id];
-
-  if (_.get(query, 'fields.node.type.isRelayType')) {
-    delete query.fields['node'];
   }
 
-  //GitHub use `nodes` instead of `node`.
-  if (_.get(query, 'fields.nodes.type.isRelayType')) {
-    delete query.fields['nodes'];
+  // Dry run changeType and collect all referenced types to eliminate unused Relay types
+  const allReferenceTypes = new Set<GraphQLNamedType>();
+  for (const oldType of Object.values(schema.getTypeMap())) {
+    if (!relayTypes.has(oldType)) {
+      const newType = changeType(oldType);
+      collectDirectlyReferencedTypes(newType, allReferenceTypes);
+    }
   }
 
-  if (_.get(query, 'fields.relay.type') === queryType) {
-    delete query.fields['relay'];
-  }
-}
+  return (type: GraphQLNamedType) => {
+    if (relayTypes.has(type) && !allReferenceTypes.has(type)) {
+      return null;
+    }
+    return changeType(type);
+  };
 
-function markDeprecated(schema: SimplifiedIntrospectionWithIds): void {
-  // Remove deprecated fields.
-  _.each(schema.types, (type) => {
-    type.fields = _.pickBy(type.fields, (field) => !field.isDeprecated);
-  });
-
-  // We can't remove types that end up being empty
-  // because we cannot be sure that the @deprecated directives where
-  // consistently added to the schema we're handling.
-  //
-  // Entities may have non deprecated fields pointing towards entities
-  // which are deprecated.
-}
-
-function assignTypesAndIDs(schema: SimplifiedIntrospection) {
-  (<any>schema).queryType = schema.types[schema.queryType];
-  (<any>schema).mutationType = schema.types[schema.mutationType];
-  (<any>schema).subscriptionType = schema.types[schema.subscriptionType];
-
-  _.each(schema.types, (type: any) => {
-    type.id = typeNameToId(type.name);
-
-    _.each(type.inputFields, (field: any) => {
-      field.id = `FIELD::${type.name}::${field.name}`;
-      field.type = schema.types[field.type];
-    });
-
-    _.each(type.fields, (field: any) => {
-      field.id = `FIELD::${type.name}::${field.name}`;
-      field.type = schema.types[field.type];
-      _.each(field.args, (arg: any) => {
-        arg.id = `ARGUMENT::${type.name}::${field.name}::${arg.name}`;
-        arg.type = schema.types[arg.type];
+  function changeType(type: GraphQLNamedType) {
+    if (isInterfaceType(type)) {
+      const config = type.toConfig();
+      return new GraphQLInterfaceType({
+        ...config,
+        ...type.toConfig(),
+        fields: changeFields(type),
+        interfaces: config.interfaces.filter((type) => type !== nodeType),
+        extensions: {
+          ...config.extensions,
+          isRelayType: relayTypes.has(type),
+        },
       });
+    }
+    if (isObjectType(type)) {
+      const config = type.toConfig();
+      return new GraphQLObjectType({
+        ...config,
+        fields: changeFields(type),
+        interfaces: config.interfaces.filter((type) => type !== nodeType),
+        extensions: {
+          ...config.extensions,
+          isRelayType: relayTypes.has(type),
+        },
+      });
+    }
+    return type;
+  }
+
+  function changeFields(
+    type: GraphQLObjectType | GraphQLInterfaceType,
+  ): GraphQLFieldConfigMap<any, any> {
+    return mapValues(type.toConfig().fields, (field, fieldName) => {
+      if (type === schema.getQueryType()) {
+        switch (fieldName) {
+          case 'relay':
+            if (getNamedType(field.type) === type) {
+              return null; // delete field
+            }
+            break;
+          case 'node':
+          // falls through since GitHub use `nodes` instead of `node`.
+          case 'nodes':
+            if (getNamedType(field.type) === nodeType) {
+              return null; // delete field
+            }
+            break;
+        }
+      }
+
+      const relayConnection = getNullableType(field.type);
+      if (isObjectType(relayConnection)) {
+        const relayNode = relayTypeToNodeMap.get(relayConnection);
+        if (relayNode !== undefined) {
+          return {
+            ...field,
+            type: isNonNullType(field.type)
+              ? new GraphQLNonNull(relayNode)
+              : relayNode,
+            // FIXME: field from toConfig always has args
+            args: mapValues(field.args ?? {}, (arg, argName) =>
+              isRelayArgumentName(argName) ? null : arg,
+            ),
+            extensions: {
+              ...field.extensions,
+              isRelayField: true,
+            },
+          };
+        }
+      }
+
+      return {
+        ...field,
+        extensions: {
+          ...field.extensions,
+          isRelayField: relayTypes.has(getNamedType(field.type)),
+        },
+      };
     });
+  }
 
-    if (!_.isEmpty(type.possibleTypes)) {
-      type.possibleTypes = _.map(
-        type.possibleTypes,
-        (possibleType: string) => ({
-          id: `POSSIBLE_TYPE::${type.name}::${possibleType}`,
-          type: schema.types[possibleType],
-        }),
-      );
+  function isRelayArgumentName(name: string) {
+    switch (name) {
+      case 'first':
+      case 'last':
+      case 'before':
+      case 'after':
+        return true;
+      default:
+        return false;
     }
+  }
 
-    if (!_.isEmpty(type.derivedTypes)) {
-      type.derivedTypes = _.map(type.derivedTypes, (derivedType: string) => ({
-        id: `DERIVED_TYPE::${type.name}::${derivedType}`,
-        type: schema.types[derivedType],
-      }));
-    }
+  function getNodeType(): GraphQLInterfaceType | null {
+    const nodeType = schema.getType('Node');
+    return isInterfaceType(nodeType) ? nodeType : null;
+  }
 
-    if (!_.isEmpty(type.interfaces)) {
-      type.interfaces = _.map(type.interfaces, (baseType: string) => ({
-        id: `INTERFACE::${type.name}::${baseType}`,
-        type: schema.types[baseType],
-      }));
-    }
-  });
+  function getPageInfoType() {
+    const pageInfo = schema.getType('PageInfo');
+    return isObjectType(pageInfo) ? pageInfo : null;
+  }
+}
 
-  schema.types = _.keyBy(schema.types, 'id');
+function removeDeprecated(type: GraphQLNamedType) {
+  // We can't remove types that end up being empty because we cannot be sure that
+  // the @deprecated directives where consistently added to the schema we're handling.
+  //
+  // Entities may have non deprecated fields pointing towards entities which are deprecated.
+
+  if (isObjectType(type)) {
+    const config = type.toConfig();
+    return new GraphQLObjectType({
+      ...config,
+      fields: Object.fromEntries(
+        Object.entries(config.fields).filter(notDeprecated),
+      ),
+    });
+  }
+  if (isInterfaceType(type)) {
+    const config = type.toConfig();
+    return new GraphQLInterfaceType({
+      ...config,
+      fields: Object.fromEntries(
+        Object.entries(config.fields).filter(notDeprecated),
+      ),
+    });
+  }
+  if (isInputObjectType(type)) {
+    const config = type.toConfig();
+    return new GraphQLInputObjectType({
+      ...config,
+      fields: Object.fromEntries(
+        Object.entries(config.fields).filter(notDeprecated),
+      ),
+    });
+  }
+
+  return type;
+
+  function notDeprecated([, field]: [
+    string,
+    GraphQLFieldConfig<any, any> | GraphQLInputFieldConfig,
+  ]) {
+    return field.deprecationReason == null;
+  }
 }
 
 export function getSchema(
-  introspection: any,
-  sortByAlphabet: boolean,
-  skipRelay: boolean,
-  skipDeprecated: boolean,
-) {
-  if (!introspection) return null;
+  introspectionSchema: GraphQLSchema,
+  displayOptions: VoyagerDisplayOptions,
+): GraphQLSchema {
+  const { sortByAlphabet, skipRelay, skipDeprecated } = displayOptions;
+  let schema = introspectionSchema;
 
-  let schema = buildClientSchema(introspection.data);
   if (sortByAlphabet) {
     schema = lexicographicSortSchema(schema);
   }
 
-  introspection = introspectionFromSchema(schema, { descriptions: true });
-  let simpleSchema = simplifySchema(introspection.__schema);
-
-  assignTypesAndIDs(simpleSchema);
-
-  if (skipRelay) {
-    markRelayTypes((<any>simpleSchema) as SimplifiedIntrospectionWithIds);
+  const typeTransformers = [];
+  if (skipRelay === true) {
+    typeTransformers.push(removeRelayTypes(schema));
   }
-  if (skipDeprecated) {
-    markDeprecated((<any>simpleSchema) as SimplifiedIntrospectionWithIds);
+  if (skipDeprecated === true) {
+    typeTransformers.push(removeDeprecated);
   }
-  return simpleSchema;
+
+  return transformSchema(schema, typeTransformers);
 }

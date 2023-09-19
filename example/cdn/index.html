@@ -1,0 +1,53 @@
+<!doctype html>
+<html>
+  <head>
+    <style>
+      body {
+        height: 100%;
+        margin: 0;
+        width: 100%;
+        overflow: hidden;
+      }
+
+      #voyager {
+        height: 100vh;
+      }
+    </style>
+
+    <!--
+      These two files are served from jsdelivr CDN, however you may wish to
+      copy them directly into your environment, or perhaps include them in your
+      favored resource bundler.
+     -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/graphql-voyager/dist/voyager.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/graphql-voyager/dist/voyager.standalone.js"></script>
+  </head>
+
+  <body>
+    <div id="voyager">Loading...</div>
+    <script type="module">
+      const { voyagerIntrospectionQuery: query } = GraphQLVoyager;
+      const response = await fetch(
+        'https://swapi-graphql.netlify.app/.netlify/functions/index',
+        {
+          method: 'post',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ query }),
+          credentials: 'omit',
+        },
+      );
+      const introspection = await response.json();
+
+      // Render <Voyager /> into the body.
+      GraphQLVoyager.renderVoyager(document.getElementById('voyager'), {
+        introspection,
+      });
+    </script>
+  </body>
+</html>
