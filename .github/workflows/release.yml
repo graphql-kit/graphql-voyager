@@ -10,7 +10,7 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     needs:
-      -build
+      - build
     permissions:
       contents: read
       packages: write
@@ -26,6 +26,5 @@ jobs:
           name: npmDist
           path: npmDist
       - run: npm publish ./npmDist
-        paths:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
