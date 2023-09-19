@@ -1,27 +1,26 @@
-import * as React from 'react';
-import * as classNames from 'classnames';
-
 import './TypeInfoPopover.css';
 
-import CloseIcon from '../icons/close-black.svg';
-import IconButton from '@material-ui/core/IconButton';
+import IconButton from '@mui/material/IconButton';
+import { GraphQLNamedType } from 'graphql/type';
+import { Component } from 'react';
 
 import TypeDetails from '../doc-explorer/TypeDetails';
+import CloseIcon from '../icons/close-black.svg';
 
 interface ScalarDetailsProps {
-  type: any;
-  onChange: any;
+  type: GraphQLNamedType;
+  onChange: (type: GraphQLNamedType | null) => void;
 }
 
 interface ScalarDetailsState {
-  localType: any;
+  localType: GraphQLNamedType | null;
 }
 
-export default class ScalarDetails extends React.Component<
+export default class ScalarDetails extends Component<
   ScalarDetailsProps,
   ScalarDetailsState
 > {
-  constructor(props) {
+  constructor(props: ScalarDetailsProps) {
     super(props);
     this.state = { localType: null };
   }
@@ -32,27 +31,23 @@ export default class ScalarDetails extends React.Component<
     }, 450);
   }
   render() {
-    let { type, onChange } = this.props;
+    const { type, onChange } = this.props;
 
     //FIXME: implement animation correctly
     //https://facebook.github.io/react/docs/animation.html
-    let { localType } = this.state;
-    if (type && (!localType || type.name !== localType.name)) {
+    const { localType } = this.state;
+    if (type && (!localType || type !== localType)) {
       setTimeout(() => {
         this.setState({ localType: type });
       });
     }
     return (
-      <div
-        className={classNames('type-info-popover', {
-          '-opened': !!type,
-        })}
-      >
+      <div className={`type-info-popover ${type != null ? '-opened' : ''}`}>
         <IconButton className="closeButton" onClick={() => this.close()}>
           <CloseIcon />
         </IconButton>
-        {(type || localType) && (
-          <TypeDetails type={type || localType} onTypeLink={onChange} />
+        {(type ?? localType) && (
+          <TypeDetails type={type ?? localType} onTypeLink={onChange} />
         )}
       </div>
     );

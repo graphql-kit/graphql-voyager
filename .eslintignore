@@ -1,0 +1,12 @@
+/example
+# Copied from '.gitignore', please keep it in sync.
+/.eslintcache
+/.cspellcache
+/node_modules
+/dist
+/demo-dist
+/worker-dist
+/middleware
+/typings
+/test-results
+/playwright-report

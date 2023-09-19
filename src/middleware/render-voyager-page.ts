@@ -31,41 +31,31 @@ export default function renderVoyagerPage(options: MiddlewareOptions) {
   <link rel="stylesheet"
     href="https://cdn.jsdelivr.net/npm/graphql-voyager@${version}/dist/voyager.css"
   />
-  <script src="https://cdn.jsdelivr.net/fetch/2.0.1/fetch.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/react@16/umd/react.production.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/react-dom@16/umd/react-dom.production.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/graphql-voyager@${version}/dist/voyager.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/graphql-voyager@${version}/dist/voyager.standalone.js"></script>
 </head>
 <body>
   <main id="voyager">
     <h1 style="text-align: center; color: #5d7e86;"> Loading... </h1>
   </main>
-  <script>
-    window.addEventListener('load', function(event) {
-      function introspectionProvider(introspectionQuery) {
-        return fetch('${endpointUrl}', {
-          method: 'post',
-          headers: Object.assign({}, {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-          }, ${headersJS}),
-          body: JSON.stringify({query: introspectionQuery }),
-          credentials: 'include',
-        }).then(function (response) {
-          return response.text();
-        }).then(function (responseBody) {
-          try {
-            return JSON.parse(responseBody);
-          } catch (error) {
-            return responseBody;
-          }
-        });
-      }
+  <script type="module">
+    window.addEventListener('load', async function(event) {
+      const response = await fetch('${endpointUrl}', {
+        method: 'post',
+        headers: Object.assign({}, {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        }, ${headersJS}),
+        body: JSON.stringify({
+          query: GraphQLVoyager.voyagerIntrospectionQuery,
+        }),
+        credentials: 'include',
+      });
+      const introspection = await response.json();
 
-      GraphQLVoyager.init(document.getElementById('voyager'), {
-        introspection: introspectionProvider,
+      GraphQLVoyager.renderVoyager(document.getElementById('voyager'), {
+        introspection,
         displayOptions: ${JSON.stringify(displayOptions)},
-      })
+      });
     })
   </script>
 </body>

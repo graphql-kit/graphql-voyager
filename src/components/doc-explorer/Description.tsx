@@ -1,33 +1,21 @@
-import * as React from 'react';
-import * as classNames from 'classnames';
-
 import './Description.css';
 
 import Markdown from '../utils/Markdown';
 
 interface DescriptionProps {
-  text?: string;
+  text: string | undefined | null;
   className: string;
 }
 
-export default class Description extends React.Component<DescriptionProps> {
-  render() {
-    const { text, className } = this.props;
+export default function Description(props: DescriptionProps) {
+  const { text, className } = props;
 
-    if (text)
-      return (
-        <Markdown
-          text={text}
-          className={classNames('description-box', className)}
-        />
-      );
+  if (text)
+    return <Markdown text={text} className={`description-box ${className}`} />;
 
-    return (
-      <div
-        className={classNames('description-box', className, '-no-description')}
-      >
-        <p>No Description</p>
-      </div>
-    );
-  }
+  return (
+    <div className={`description-box ${className} -no-description`}>
+      <p>No Description</p>
+    </div>
+  );
 }

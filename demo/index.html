@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head itemscope itemtype="http://schema.org/WebPage">
     <!-- <link href="style.css" rel="stylesheet" /> -->
@@ -40,12 +40,12 @@
     <meta
       itemprop="image"
       property="og:url"
-      content="https://apis.guru/graphql-voyager/"
+      content="https://graphql-kit.com/graphql-voyager/"
     />
     <meta
       itemprop="image"
       property="og:image"
-      content="https://apis.guru/graphql-voyager/images/cover-image.png"
+      content="https://graphql-kit.com/graphql-voyager/images/cover-image.png"
     />
     <meta name="theme-color" content="#ffffff" />
     <style>
@@ -107,13 +107,61 @@
         }
       }
     </style>
+    <link rel="stylesheet" href="./voyager.css" />
+    <script src="./voyager.standalone.js"></script>
   </head>
   <body>
+    <script type="module">
+      // FIXME: switch to import
+      const { renderVoyager, voyagerIntrospectionQuery } = GraphQLVoyager;
+      const PRESETS = {
+        'Star Wars': await fetchPreset('swapi'),
+        Yelp: await fetchPreset('yelp'),
+        'Shopify Storefront': await fetchPreset('shopify'),
+        GitHub: await fetchPreset('github'),
+      };
+
+      const defaultPreset = PRESETS['Star Wars'];
+
+      const currentUrl = new URL(window.location.href);
+      const url = currentUrl.searchParams.get('url');
+      const withCredentials = currentUrl.searchParams.get('withCredentials');
+
+      const introspection =
+        url != null ? fetchIntrospection(url, withCredentials) : defaultPreset;
+
+      renderVoyager(document.getElementById('root'), {
+        introspection,
+        introspectionPresets: PRESETS,
+        allowToChangeSchema: true,
+        hideVoyagerLogo: false,
+      });
+
+      async function fetchPreset(name) {
+        const response = await fetch(`./presets/${name}_introspection.json`);
+        return response.json();
+      }
+
+      async function fetchIntrospection(url, withCredentials) {
+        const response = await fetch(url, {
+          method: 'post',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ query: voyagerIntrospectionQuery }),
+          ...(withCredentials === 'true'
+            ? { credentials: 'include', mode: 'cors' }
+            : {}),
+        });
+        return response.json();
+      }
+    </script>
     <main id="root">
       <h1 style="text-align: center; color: #5d7e86">Loading...</h1>
     </main>
     <a
-      href="https://github.com/APIs-guru/graphql-voyager"
+      href="https://github.com/graphql-kit/graphql-voyager"
       class="github-corner"
       aria-label="View source on Github"
       ><svg
@@ -192,29 +240,19 @@
         skipBtn.addEventListener('click', handler, false);
       }
     </script>
+    <!-- Google tag (gtag.js) -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-91TCN6QF4G"
+    ></script>
     <script>
-      (function (i, s, o, g, r, a, m) {
-        i['GoogleAnalyticsObject'] = r;
-        (i[r] =
-          i[r] ||
-          function () {
-            (i[r].q = i[r].q || []).push(arguments);
-          }),
-          (i[r].l = 1 * new Date());
-        (a = s.createElement(o)), (m = s.getElementsByTagName(o)[0]);
-        a.async = 1;
-        a.src = g;
-        m.parentNode.insertBefore(a, m);
-      })(
-        window,
-        document,
-        'script',
-        'https://www.google-analytics.com/analytics.js',
-        'ga',
-      );
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag('js', new Date());
 
-      ga('create', 'UA-77831907-1', 'auto');
-      ga('send', 'pageview');
+      gtag('config', 'G-91TCN6QF4G');
     </script>
   </body>
 </html>

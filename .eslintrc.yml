@@ -1,0 +1,69 @@
+parserOptions:
+  sourceType: script
+env:
+  es2022: true
+  browser: true
+plugins: ['simple-import-sort', 'react', 'react-hooks']
+settings:
+  react:
+    version: detect
+extends:
+  - 'eslint:recommended'
+  - 'plugin:import/recommended'
+  - 'plugin:react/recommended'
+  - 'plugin:react/jsx-runtime'
+  - 'plugin:react-hooks/recommended'
+rules:
+  'simple-import-sort/imports': error
+  'simple-import-sort/exports': error
+  'import/no-extraneous-dependencies':
+    [error, { devDependencies: ['**/*.config.{js,ts}', 'tests/**'] }]
+overrides:
+  - files: '**/*.js'
+    env:
+      node: true
+
+  - files: 'tests/**.ts'
+    plugins: ['@typescript-eslint']
+    extends:
+      - 'plugin:playwright/playwright-test'
+
+  - files: ['**/*.ts', '**/*.tsx']
+    parser: '@typescript-eslint/parser'
+    parserOptions:
+      sourceType: module
+      project: ['tsconfig.json']
+    plugins: ['@typescript-eslint']
+    extends:
+      - 'plugin:import/typescript'
+      - 'plugin:@typescript-eslint/strict'
+      - 'plugin:@typescript-eslint/recommended'
+      - 'plugin:@typescript-eslint/recommended-requiring-type-checking'
+    rules:
+      '@typescript-eslint/array-type': [error, { default: generic }]
+      '@typescript-eslint/consistent-indexed-object-style':
+        [error, index-signature]
+      '@typescript-eslint/no-unused-vars':
+        - 'error'
+        - vars: all
+          args: all
+          argsIgnorePattern: '^_'
+          varsIgnorePattern: '^_T'
+
+      # FIXME: remove below rules
+      'react/jsx-key': off
+      'react/no-string-refs': off
+      '@typescript-eslint/no-var-requires': off
+      '@typescript-eslint/no-non-null-assertion': off
+      '@typescript-eslint/no-unnecessary-boolean-literal-compare': off
+      '@typescript-eslint/no-explicit-any': off
+      '@typescript-eslint/dot-notation': off
+      '@typescript-eslint/no-dynamic-delete': off
+      '@typescript-eslint/restrict-plus-operands': off
+      '@typescript-eslint/no-unsafe-call': off
+      '@typescript-eslint/no-unsafe-return': off
+      '@typescript-eslint/no-unsafe-argument': off
+      '@typescript-eslint/no-unsafe-assignment': off
+      '@typescript-eslint/no-unsafe-member-access': off
+      '@typescript-eslint/no-unnecessary-condition': off
+      '@typescript-eslint/restrict-template-expressions': off

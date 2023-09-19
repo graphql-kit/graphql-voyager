@@ -1,16 +1,23 @@
-import * as React from 'react';
+import Link from '@mui/material/Link';
+import Typography from '@mui/material/Typography';
 
-import './PoweredBy.css';
-
-export default class PoweredBy extends React.Component {
-  render() {
-    return (
-      <div className="powered-by">
-        🛰 Powered by{' '}
-        <a href="https://github.com/APIs-guru/graphql-voyager" target="_blank">
-          GraphQL Voyager
-        </a>
-      </div>
-    );
-  }
+export default function PoweredBy() {
+  return (
+    <Typography
+      textAlign="center"
+      padding={1}
+      color={({ palette }) => palette.logoColor.main}
+      borderTop="1px solid"
+      borderColor={({ palette }) => palette.shadowColor.main}
+    >
+      🛰 Powered by{' '}
+      <Link
+        href="https://github.com/graphql-kit/graphql-voyager"
+        target="_blank"
+        rel="noreferrer"
+      >
+        GraphQL Voyager
+      </Link>
+    </Typography>
+  );
 }

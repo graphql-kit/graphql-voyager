@@ -1,32 +1,31 @@
 {
   "compilerOptions": {
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
     "module": "es2015",
     "moduleResolution": "node",
-    "target": "es5",
-    "noImplicitAny": false,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
+    "target": "es2021",
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    // "strictNullChecks": false,
     "sourceMap": true,
-    "outDir": "lib",
+    "noEmit": true,
     "pretty": true,
-    "types": ["webpack"],
-    "lib": ["es2017", "dom", "esnext.asynciterable"],
-    "jsx": "react"
+    "lib": ["es2022", "dom", "dom.iterable"],
+    "jsx": "react-jsx"
   },
   "compileOnSave": false,
-  "exclude": [
-    "node_modules",
-    ".tmp",
-    "dist",
-    "demo-dist",
-    "**/**/voyager.worker.js"
-  ],
+  "exclude": ["node_modules", ".tmp", "dist", "demo-dist", "worker-dist"],
   "include": [
     "./src/**/*.ts",
     "./src/**/*.tsx",
     "./manual-types.d.ts",
-    "demo/**/*.tsx"
-  ]
+    "tests/**/*.ts",
+    "scripts/**/*.ts",
+    "playwright.config.ts",
+    "webpack.config.ts"
+  ],
+  "ts-node": {
+    "compilerOptions": {
+      "module": "CommonJS"
+    }
+  }
 }

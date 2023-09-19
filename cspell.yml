@@ -1,0 +1,40 @@
+language: en
+useGitignore: true
+ignorePaths:
+  # Excluded from spelling check
+  - cspell.yml
+  - package.json
+  - demo/presets
+  - worker/viz.cpp
+  - worker/Dockerfile
+dictionaries:
+  - html
+
+overrides:
+  - filename: '**/*.svg'
+    dictionaries:
+      - css
+
+words:
+  - graphviz
+  - svgr
+  - reactroot # FIXME https://github.com/facebook/react/issues/10971
+  - zoomer # FIXME
+  - typelist # FIXME
+  - positionals
+  - fontname
+  - rankdir
+  - asynciterable
+  - commonmark
+  - swapi
+  - cssnext
+  - ranksep
+  - CELLBORDER
+  - QLID # GraphQLID
+  - Goncharov
+  - octo
+  - octocat
+  - pageview
+  - jsdelivr
+  - GraphiQL
+  - nojekyll
