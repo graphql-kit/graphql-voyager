@@ -22,9 +22,9 @@ jobs:
           # 'registry-url' is required for 'npm publish'
           registry-url: 'https://npm.pkg.github.com'
       - uses: actions/download-artifact@v3
-          with:
-            name: npmDist
-            path: npmDist
+        with:
+          name: npmDist
+          path: npmDist
       - run: npm publish ./npmDist
         paths:
         env:

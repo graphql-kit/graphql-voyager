@@ -15,8 +15,8 @@ jobs:
       - run: npm ci --ignore-scripts
       - run: npm run build:release
       - uses: actions/upload-artifact@v3
-          with:
-            name: npmDist
-            path: |
-              ./
-              !./node_modules
+        with:
+          name: npmDist
+          path: |
+            ./
+            !./node_modules
