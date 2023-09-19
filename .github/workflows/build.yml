@@ -1,0 +1,22 @@
+name: Build package
+on: workflow_call
+permissions: {}
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '.node-version'
+      - run: npm ci --ignore-scripts
+      - run: npm run build:release
+      - uses: actions/upload-artifact@v3
+          with:
+            name: npmDist
+            path: |
+              ./
+              !./node_modules
