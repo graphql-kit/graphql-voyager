@@ -4,7 +4,7 @@ const pkg = require('../package.json');
 
 const hapi = {
   pkg,
-  register(server, options: any) {
+  register(server: any, options: any) {
     if (arguments.length !== 2) {
       throw new Error(
         `Voyager middleware expects exactly 3 arguments, got ${arguments.length}`,
@@ -17,7 +17,7 @@ const hapi = {
       method: 'GET',
       path,
       config,
-      handler: (_request, h) =>
+      handler: (_request: any, h: any) =>
         h.response(renderVoyagerPage(middlewareOptions as MiddlewareOptions)),
     });
   },

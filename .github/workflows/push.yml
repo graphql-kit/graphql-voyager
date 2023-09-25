@@ -8,6 +8,11 @@ jobs:
       security-events: write # for codeql-action
     uses: ./.github/workflows/ci.yml
 
+  changelog:
+    permissions:
+      contents: read # for actions/checkout
+    uses: ./.github/workflows/changelog.yml
+
   deploy-to-gh-pages:
     name: Deploy to GitHub Pages
     needs: ci
@@ -23,3 +28,5 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v2
+        with:
+          artifact_name: demoDist

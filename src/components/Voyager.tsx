@@ -4,9 +4,11 @@ import './viewport.css';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import { ThemeProvider } from '@mui/material/styles';
+import { ExecutionResult } from 'graphql/execution';
+import { GraphQLSchema } from 'graphql/type';
+import { buildClientSchema, IntrospectionQuery } from 'graphql/utilities';
 import {
   Children,
-  type ReactElement,
   type ReactNode,
   useEffect,
   useMemo,
@@ -14,8 +16,10 @@ import {
   useState,
 } from 'react';
 
-import { getTypeGraph } from '../graph/';
-import { extractTypeId, getSchema } from '../introspection';
+import { getTypeGraph } from '../graph/type-graph';
+import { getSchema } from '../introspection/introspection';
+import { extractTypeName, typeNameToId } from '../introspection/utils';
+import { MaybePromise, usePromise } from '../utils/usePromise';
 import DocExplorer from './doc-explorer/DocExplorer';
 import GraphViewport from './GraphViewport';
 import { IntrospectionModal } from './IntrospectionModal';
@@ -33,17 +37,10 @@ export interface VoyagerDisplayOptions {
   hideRoot?: boolean;
 }
 
-const defaultDisplayOptions = {
-  rootType: undefined,
-  skipRelay: true,
-  skipDeprecated: true,
-  sortByAlphabet: false,
-  showLeafFields: true,
-  hideRoot: false,
-};
-
 export interface VoyagerProps {
-  introspection: unknown;
+  introspection?: MaybePromise<
+    ExecutionResult<IntrospectionQuery> | GraphQLSchema
+  >;
   displayOptions?: VoyagerDisplayOptions;
   introspectionPresets?: { [name: string]: any };
   allowToChangeSchema?: boolean;
@@ -55,45 +52,66 @@ export interface VoyagerProps {
 }
 
 export default function Voyager(props: VoyagerProps) {
-  const [introspectionModalOpen, setIntrospectionModalOpen] = useState(false);
-  const [introspectionData, setIntrospectionData] = useState(null);
-  const [displayOptions, setDisplayOptions] = useState({
-    ...defaultDisplayOptions,
-    ...props.displayOptions,
-  });
+  const initialDisplayOptions = useMemo(
+    () => ({
+      rootType: undefined,
+      skipRelay: true,
+      skipDeprecated: true,
+      sortByAlphabet: false,
+      showLeafFields: true,
+      hideRoot: false,
+      ...props.displayOptions,
+    }),
+    [props.displayOptions],
+  );
+
+  const [introspectionModalOpen, setIntrospectionModalOpen] = useState(
+    props.introspection == null,
+  );
+  const [introspectionResult, resolveIntrospectionResult] = usePromise(
+    props.introspection,
+  );
+  const [displayOptions, setDisplayOptions] = useState(initialDisplayOptions);
 
   useEffect(() => {
-    // FIXME: handle rejection and also handle errors inside introspection
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    Promise.resolve(props.introspection).then(({ data }) => {
-      setIntrospectionData(data);
-      setSelected({ typeID: null, edgeID: null });
-    });
-  }, [props.introspection]);
+    setDisplayOptions(initialDisplayOptions);
+  }, [introspectionResult, initialDisplayOptions]);
 
-  const schema = useMemo(
-    () =>
-      getSchema(
-        introspectionData,
-        displayOptions.sortByAlphabet,
-        displayOptions.skipRelay,
-        displayOptions.skipDeprecated,
-      ),
-    [
-      introspectionData,
-      displayOptions.sortByAlphabet,
-      displayOptions.skipRelay,
-      displayOptions.skipDeprecated,
-    ],
-  );
+  const typeGraph = useMemo(() => {
+    if (introspectionResult.loading || introspectionResult.value == null) {
+      // FIXME: display introspectionResult.error
+      return null;
+    }
 
-  const typeGraph = useMemo(
-    () =>
-      getTypeGraph(schema, displayOptions.rootType, displayOptions.hideRoot),
-    [schema, displayOptions.rootType, displayOptions.hideRoot],
-  );
+    let introspectionSchema;
+    if (introspectionResult.value instanceof GraphQLSchema) {
+      introspectionSchema = introspectionResult.value;
+    } else {
+      if (
+        introspectionResult.value.errors != null ||
+        introspectionResult.value.data == null
+      ) {
+        // FIXME: display errors
+        return null;
+      }
+      introspectionSchema = buildClientSchema(introspectionResult.value.data);
+    }
 
-  const [selected, setSelected] = useState({ typeID: null, edgeID: null });
+    const schema = getSchema(introspectionSchema, displayOptions);
+    return getTypeGraph(schema, displayOptions);
+  }, [introspectionResult, displayOptions]);
+
+  useEffect(() => {
+    setSelected({ typeID: null, edgeID: null });
+  }, [typeGraph]);
+
+  const [selected, setSelected] = useState<{
+    typeID: string | null;
+    edgeID: string | null;
+  }>({
+    typeID: null,
+    edgeID: null,
+  });
 
   const {
     allowToChangeSchema = false,
@@ -103,7 +121,7 @@ export default function Voyager(props: VoyagerProps) {
     hideVoyagerLogo = true,
   } = props;
 
-  const viewportRef = useRef(null);
+  const viewportRef = useRef<GraphViewport>(null);
   useEffect(() => viewportRef.current?.resize(), [hideDocs]);
 
   return (
@@ -123,7 +141,7 @@ export default function Voyager(props: VoyagerProps) {
         open={introspectionModalOpen}
         presets={props.introspectionPresets}
         onClose={() => setIntrospectionModalOpen(false)}
-        onChange={setIntrospectionData}
+        onChange={resolveIntrospectionResult}
       />
     );
   }
@@ -131,7 +149,10 @@ export default function Voyager(props: VoyagerProps) {
   function renderPanel() {
     const children = Children.toArray(props.children);
     const panelHeader = children.find(
-      (child: ReactElement) => child.type === Voyager.PanelHeader,
+      (child) =>
+        typeof child === 'object' &&
+        'type' in child &&
+        child.type === Voyager.PanelHeader,
     );
 
     return (
@@ -144,7 +165,7 @@ export default function Voyager(props: VoyagerProps) {
             typeGraph={typeGraph}
             selectedTypeID={selected.typeID}
             selectedEdgeID={selected.edgeID}
-            onFocusNode={(id) => viewportRef.current.focusNode(id)}
+            onFocusNode={(id) => viewportRef.current?.focusNode(id)}
             onSelectNode={handleSelectNode}
             onSelectEdge={handleSelectEdge}
           />
@@ -171,12 +192,12 @@ export default function Voyager(props: VoyagerProps) {
   }
 
   function renderSettings() {
-    if (schema == null) return null;
+    if (typeGraph == null) return null;
 
     return (
       <Settings
-        schema={schema}
         options={displayOptions}
+        typeGraph={typeGraph}
         onChange={(options) =>
           setDisplayOptions((oldOptions) => ({ ...oldOptions, ...options }))
         }
@@ -188,7 +209,6 @@ export default function Voyager(props: VoyagerProps) {
     return (
       <GraphViewport
         typeGraph={typeGraph}
-        displayOptions={displayOptions}
         selectedTypeID={selected.typeID}
         selectedEdgeID={selected.edgeID}
         onSelectNode={handleSelectNode}
@@ -198,7 +218,7 @@ export default function Voyager(props: VoyagerProps) {
     );
   }
 
-  function handleSelectNode(typeID: string) {
+  function handleSelectNode(typeID: string | null) {
     setSelected((oldSelected) => {
       if (typeID === oldSelected.typeID) {
         return oldSelected;
@@ -207,13 +227,13 @@ export default function Voyager(props: VoyagerProps) {
     });
   }
 
-  function handleSelectEdge(edgeID: string) {
+  function handleSelectEdge(edgeID: string | null) {
     setSelected((oldSelected) => {
-      if (edgeID === oldSelected.edgeID) {
+      if (edgeID === oldSelected.edgeID || edgeID == null) {
         // deselect if click again
         return { ...oldSelected, edgeID: null };
       } else {
-        return { typeID: extractTypeId(edgeID), edgeID };
+        return { typeID: typeNameToId(extractTypeName(edgeID)), edgeID };
       }
     });
   }

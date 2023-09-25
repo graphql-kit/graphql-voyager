@@ -1,3 +1,3 @@
-export { Voyager, type VoyagerProps } from './components';
-export { voyagerIntrospectionQuery } from './utils/introspection-query';
+export { default as Voyager, type VoyagerProps } from './components/Voyager';
+export { voyagerIntrospectionQuery } from './utils/introspection-query
 export { sdlToSchema } from './utils/sdl-to-introspection';

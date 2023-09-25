@@ -37,23 +37,25 @@ export default function renderVoyagerPage(options: MiddlewareOptions) {
   <main id="voyager">
     <h1 style="text-align: center; color: #5d7e86;"> Loading... </h1>
   </main>
-  <script>
-    window.addEventListener('load', function(event) {
-      const query = GraphQLVoyager.voyagerIntrospectionQuery;
-      const introspection = fetch('${endpointUrl}', {
+  <script type="module">
+    window.addEventListener('load', async function(event) {
+      const response = await fetch('${endpointUrl}', {
         method: 'post',
         headers: Object.assign({}, {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
         }, ${headersJS}),
-        body: JSON.stringify({query}),
+        body: JSON.stringify({
+          query: GraphQLVoyager.voyagerIntrospectionQuery,
+        }),
         credentials: 'include',
-      }).then(response => response.json());
+      });
+      const introspection = await response.json();
 
-      GraphQLVoyager.init(document.getElementById('voyager'), {
+      GraphQLVoyager.renderVoyager(document.getElementById('voyager'), {
         introspection,
         displayOptions: ${JSON.stringify(displayOptions)},
-      })
+      });
     })
   </script>
 </body>

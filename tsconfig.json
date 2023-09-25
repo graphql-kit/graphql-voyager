@@ -1,14 +1,11 @@
 {
   "compilerOptions": {
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
     "module": "es2015",
     "moduleResolution": "node",
     "target": "es2021",
-    "noImplicitAny": false,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
     "allowSyntheticDefaultImports": true,
+    "strict": true,
+    // "strictNullChecks": false,
     "sourceMap": true,
     "noEmit": true,
     "pretty": true,

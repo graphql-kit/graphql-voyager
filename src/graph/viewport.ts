@@ -1,7 +1,7 @@
 import * as svgPanZoom from 'svg-pan-zoom';
 
-import { typeNameToId } from '../introspection';
-import { stringToSvg } from '../utils/';
+import { typeNameToId } from '../introspection/utils';
+import { stringToSvg } from '../utils/dom-helpers';
 
 // FIXME: we are waiting for this [PR](https://github.com/ariutta/svg-pan-zoom/pull/379), after that this two interfaces might be removed in favor to `import { Instance, Point } from 'svg-pan-zoom'`
 interface Point {
@@ -19,21 +19,25 @@ interface Instance {
 }
 
 export class Viewport {
-  onSelectNode: (id: string) => void;
+  onSelectNode: (id: string | null) => void;
   onSelectEdge: (id: string) => void;
 
-  $svg: SVGElement;
+  $svg: SVGSVGElement;
+  // @ts-expect-error FIXME
   zoomer: Instance;
+  // @ts-expect-error FIXME
   offsetLeft: number;
+  // @ts-expect-error FIXME
   offsetTop: number;
+  // @ts-expect-error FIXME
   maxZoom: number;
   resizeObserver: ResizeObserver;
 
   constructor(
-    svgString,
+    svgString: string,
     public container: HTMLElement,
-    onSelectNode,
-    onSelectEdge,
+    onSelectNode: (id: string | null) => void,
+    onSelectEdge: (id: string) => void,
   ) {
     this.onSelectNode = onSelectNode;
     this.onSelectEdge = onSelectEdge;
@@ -88,15 +92,15 @@ export class Viewport {
       this.$svg.removeEventListener('mousemove', moveHandler);
       if (dragged) return;
 
-      const target = event.target as Element;
+      const target = event.target as SVGElement;
       if (isLink(target)) {
-        const typeId = typeNameToId(target.textContent);
+        const typeId = typeNameToId(target.textContent!);
         this.focusElement(typeId);
       } else if (isNode(target)) {
-        const $node = getParent(target, 'node');
+        const $node = getParent(target, 'node')!;
         this.onSelectNode($node.id);
       } else if (isEdge(target)) {
-        const $edge = getParent(target, 'edge');
+        const $edge = getParent(target, 'edge')!;
         this.onSelectEdge(edgeSource($edge).id);
       } else if (!isControl(target)) {
         this.onSelectNode(null);
@@ -105,8 +109,8 @@ export class Viewport {
   }
 
   bindHover() {
-    let $prevHovered = null;
-    let $prevHoveredEdge = null;
+    let $prevHovered: SVGElement | null = null;
+    let $prevHoveredEdge: SVGElement | null = null;
 
     function clearSelection() {
       if ($prevHovered) $prevHovered.classList.remove('hovered');
@@ -114,9 +118,9 @@ export class Viewport {
     }
 
     this.$svg.addEventListener('mousemove', (event) => {
-      const target = event.target as Element;
+      const target = event.target as SVGElement;
       if (isEdgeSource(target)) {
-        const $sourceGroup = getParent(target, 'edge-source');
+        const $sourceGroup = getParent(target, 'edge-source')!;
         if ($sourceGroup.classList.contains('hovered')) return;
         clearSelection();
         $sourceGroup.classList.add('hovered');
@@ -130,7 +134,7 @@ export class Viewport {
     });
   }
 
-  selectNodeById(id: string) {
+  selectNodeById(id: string | null) {
     this.removeClass('.node.selected', 'selected');
     this.removeClass('.highlighted', 'highlighted');
     this.removeClass('.selected-reachable', 'selected-reachable');
@@ -141,11 +145,12 @@ export class Viewport {
     }
 
     this.$svg.classList.add('selection-active');
-    const $selected = document.getElementById(id);
+    // @ts-expect-error https://github.com/microsoft/TypeScript/issues/4689#issuecomment-690503791
+    const $selected = document.getElementById(id) as SVGElement;
     this.selectNode($selected);
   }
 
-  selectNode(node: Element) {
+  selectNode(node: SVGElement) {
     node.classList.add('selected');
 
     for (const $edge of edgesFromNode(node)) {
@@ -155,11 +160,11 @@ export class Viewport {
 
     for (const $edge of edgesTo(node.id)) {
       $edge.classList.add('highlighted');
-      edgeSource($edge).parentElement.classList.add('selected-reachable');
+      edgeSource($edge).parentElement!.classList.add('selected-reachable');
     }
   }
 
-  selectEdgeById(id: string) {
+  selectEdgeById(id: string | null) {
     this.removeClass('.edge.selected', 'selected');
     this.removeClass('.edge-source.selected', 'selected');
     this.removeClass('.field.selected', 'selected');
@@ -181,7 +186,7 @@ export class Viewport {
   }
 
   focusElement(id: string) {
-    const bbBox = document.getElementById(id).getBoundingClientRect();
+    const bbBox = document.getElementById(id)!.getBoundingClientRect();
     const currentPan = this.zoomer.getPan();
     const viewPortSizes = (this.zoomer as any).getSizes();
 
@@ -203,7 +208,7 @@ export class Viewport {
     this.animatePanAndZoom(newX, newY, newZoom);
   }
 
-  animatePanAndZoom(x, y, zoomEnd) {
+  animatePanAndZoom(x: number, y: number, zoomEnd: number) {
     const pan = this.zoomer.getPan();
     const panEnd = { x, y };
     animate(pan, panEnd, (props) => {
@@ -227,48 +232,51 @@ export class Viewport {
   }
 }
 
-function getParent(elem: Element, className: string): Element | null {
+function getParent(elem: SVGElement, className: string): SVGElement | null {
   while (elem && elem.tagName !== 'svg') {
     if (elem.classList.contains(className)) return elem;
-    elem = elem.parentNode as Element;
+    elem = elem.parentNode as SVGElement;
   }
   return null;
 }
 
-function isNode(elem: Element): boolean {
+function isNode(elem: SVGElement): boolean {
   return getParent(elem, 'node') != null;
 }
 
-function isEdge(elem: Element): boolean {
+function isEdge(elem: SVGElement): boolean {
   return getParent(elem, 'edge') != null;
 }
 
-function isLink(elem: Element): boolean {
+function isLink(elem: SVGElement): boolean {
   return elem.classList.contains('type-link');
 }
 
-function isEdgeSource(elem: Element): boolean {
+function isEdgeSource(elem: SVGElement): boolean {
   return getParent(elem, 'edge-source') != null;
 }
 
-function isControl(elem: Element) {
+function isControl(elem: SVGElement) {
   if (!(elem instanceof SVGElement)) return false;
   return elem.className.baseVal.startsWith('svg-pan-zoom');
 }
 
-function edgeSource(edge: Element) {
+function edgeSource(edge: SVGElement): SVGElement {
+  // @ts-expect-error FIXME
   return document.getElementById(edge['dataset']['from']);
 }
 
-function edgeTarget(edge: Element) {
+function edgeTarget(edge: SVGElement): SVGElement {
+  // @ts-expect-error FIXME
   return document.getElementById(edge['dataset']['to']);
 }
 
-function edgeFrom(id: string) {
+function edgeFrom(id: string): SVGElement {
+  // @ts-expect-error FIXME
   return document.querySelector(`.edge[data-from='${id}']`);
 }
 
-function edgesFromNode($node) {
+function edgesFromNode($node: SVGElement) {
   const edges = [];
   for (const $source of $node.querySelectorAll('.edge-source')) {
     const $edge = edgeFrom($source.id);
@@ -277,11 +285,15 @@ function edgesFromNode($node) {
   return edges;
 }
 
-function edgesTo(id: string) {
+function edgesTo(id: string): NodeListOf<SVGElement> {
   return document.querySelectorAll(`.edge[data-to='${id}']`);
 }
 
-function animate(startObj, endObj, render) {
+function animate<OBJ extends { [key: string]: number }>(
+  startObj: OBJ,
+  endObj: OBJ,
+  render: (obj: OBJ) => void,
+) {
   const defaultDuration = 350;
   const fps60 = 1000 / 60;
   const totalFrames = defaultDuration / fps60;
@@ -307,7 +319,7 @@ function animate(startObj, endObj, render) {
 
         return [key, start + t * (end - start)];
       }),
-    );
+    ) as OBJ;
 
     render(frame);
 

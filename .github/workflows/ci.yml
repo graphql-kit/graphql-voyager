@@ -168,6 +168,7 @@ jobs:
       - name: Upload demo-dist folder
         uses: actions/upload-pages-artifact@v1
         with:
+          name: demoDist
           path: ./demo-dist
 
   buildRelease:
@@ -192,3 +193,11 @@ jobs:
 
       - name: Build release
         run: npm run build:release
+
+      - name: Upload npm folder
+        uses: actions/upload-artifact@v3
+        with:
+          name: npmDist
+          path: |
+            ./
+            !./node_modules

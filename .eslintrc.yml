@@ -43,14 +43,18 @@ overrides:
       '@typescript-eslint/array-type': [error, { default: generic }]
       '@typescript-eslint/consistent-indexed-object-style':
         [error, index-signature]
+      '@typescript-eslint/no-unused-vars':
+        - 'error'
+        - vars: all
+          args: all
+          argsIgnorePattern: '^_'
+          varsIgnorePattern: '^_T'
 
       # FIXME: remove below rules
       'react/jsx-key': off
       'react/no-string-refs': off
       '@typescript-eslint/no-var-requires': off
-
-      # FIXME: blocked by improper type checking should be fixed
-      # after we switch TSC in strict mode
+      '@typescript-eslint/no-non-null-assertion': off
       '@typescript-eslint/no-unnecessary-boolean-literal-compare': off
       '@typescript-eslint/no-explicit-any': off
       '@typescript-eslint/dot-notation': off

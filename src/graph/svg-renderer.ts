@@ -1,79 +1,21 @@
-// eslint-disable-next-line import/no-unresolved
-import VizWorker from '../../worker/voyager.worker.js';
-import { stringToSvg } from '../utils/';
+import { stringToSvg } from '../utils/dom-helpers';
 import { getDot } from './dot';
+import { VizWorker } from './graphviz-worker';
+import { TypeGraph } from './type-graph';
+
+const vizWorker = new VizWorker();
+
+export async function renderSvg(typeGraph: TypeGraph) {
+  const dot = getDot(typeGraph);
+  const rawSVG = await vizWorker.renderString(dot);
+  const svg = preprocessVizSVG(rawSVG);
+  return svg;
+}
 
 const RelayIconSvg = require('!!svg-as-symbol-loader?id=RelayIcon!../components/icons/relay-icon.svg');
 const DeprecatedIconSvg = require('!!svg-as-symbol-loader?id=DeprecatedIcon!../components/icons/deprecated-icon.svg');
 const svgNS = 'http://www.w3.org/2000/svg';
 const xlinkNS = 'http://www.w3.org/1999/xlink';
-
-interface SerializedError {
-  message: string;
-  lineNumber?: number;
-  fileName?: string;
-  stack?: string;
-}
-
-type RenderRequestListener = (error: SerializedError, result?: string) => void;
-
-interface RenderRequest {
-  id: number;
-  src: string;
-}
-
-interface RenderResponse {
-  id: number;
-  error?: SerializedError;
-  result?: string;
-}
-
-export class SVGRender {
-  private _worker: Worker;
-
-  private _listeners: Array<RenderRequestListener> = [];
-  private _nextId = 0;
-
-  constructor() {
-    this._worker = VizWorker;
-
-    this._worker.addEventListener('message', (event) => {
-      const { id, error, result } = event.data as RenderResponse;
-
-      this._listeners[id](error, result);
-      delete this._listeners[id];
-    });
-  }
-
-  async renderSvg(typeGraph, displayOptions) {
-    console.time('Rendering Graph');
-    const dot = getDot(typeGraph, displayOptions);
-    const rawSVG = await this._renderString(dot);
-    const svg = preprocessVizSVG(rawSVG);
-    console.timeEnd('Rendering Graph');
-    return svg;
-  }
-
-  _renderString(src: string): Promise<string> {
-    return new Promise((resolve, reject) => {
-      const id = this._nextId++;
-
-      this._listeners[id] = function (error, result): void {
-        if (error) {
-          const e = new Error(error.message);
-          if (error.fileName) (e as any).fileName = error.fileName;
-          if (error.lineNumber) (e as any).lineNumber = error.lineNumber;
-          if (error.stack) (e as any).stack = error.stack;
-          return reject(e);
-        }
-        resolve(result);
-      };
-
-      const renderRequest: RenderRequest = { id, src };
-      this._worker.postMessage(renderRequest);
-    });
-  }
-}
 
 function preprocessVizSVG(svgString: string) {
   //Add Relay and Deprecated icons
@@ -83,7 +25,7 @@ function preprocessVizSVG(svgString: string) {
   const svg = stringToSvg(svgString);
 
   for (const $a of svg.querySelectorAll('a')) {
-    const $g = $a.parentNode;
+    const $g = $a.parentNode!;
 
     const $docFrag = document.createDocumentFragment();
     while ($a.firstChild) {
@@ -101,13 +43,13 @@ function preprocessVizSVG(svgString: string) {
     $el.remove();
   }
 
-  const edgesSources = {};
+  const edgesSources = new Set<string>();
   for (const $edge of svg.querySelectorAll('.edge')) {
     const [from, to] = $edge.id.split(' => ');
     $edge.removeAttribute('id');
     $edge.setAttribute('data-from', from);
     $edge.setAttribute('data-to', to);
-    edgesSources[from] = true;
+    edgesSources.add(from);
   }
 
   for (const $el of svg.querySelectorAll('[id*=\\:\\:]')) {
@@ -119,7 +61,7 @@ function preprocessVizSVG(svgString: string) {
     const $newPath = $path.cloneNode() as HTMLElement;
     $newPath.classList.add('hover-path');
     $newPath.removeAttribute('stroke-dasharray');
-    $path.parentNode.appendChild($newPath);
+    $path.parentNode?.appendChild($newPath);
   }
 
   for (const $field of svg.querySelectorAll('.field')) {
@@ -128,7 +70,7 @@ function preprocessVizSVG(svgString: string) {
     //Remove spaces used for text alignment
     texts[1].remove();
 
-    if (edgesSources[$field.id]) $field.classList.add('edge-source');
+    if (edgesSources.has($field.id)) $field.classList.add('edge-source');
 
     for (let i = 2; i < texts.length; ++i) {
       const str = texts[i].innerHTML;
@@ -146,27 +88,27 @@ function preprocessVizSVG(svgString: string) {
         $useIcon.setAttribute('height', `${height}px`);
 
         //FIXME: remove hardcoded offset
-        const y = parseInt($iconPlaceholder.getAttribute('y')) - 15;
-        $useIcon.setAttribute('x', $iconPlaceholder.getAttribute('x'));
+        const y = parseInt($iconPlaceholder.getAttribute('y')!) - 15;
+        $useIcon.setAttribute('x', $iconPlaceholder.getAttribute('x')!);
         $useIcon.setAttribute('y', y.toString());
         $field.replaceChild($useIcon, $iconPlaceholder);
         continue;
       }
 
       texts[i].classList.add('field-type');
-      if (edgesSources[$field.id] && !/[[\]!]/.test(str))
+      if (edgesSources.has($field.id) && !/[[\]!]/.test(str))
         texts[i].classList.add('type-link');
     }
   }
 
   for (const $derivedType of svg.querySelectorAll('.derived-type')) {
     $derivedType.classList.add('edge-source');
-    $derivedType.querySelector('text').classList.add('type-link');
+    $derivedType.querySelector('text')?.classList.add('type-link');
   }
 
   for (const $possibleType of svg.querySelectorAll('.possible-type')) {
     $possibleType.classList.add('edge-source');
-    $possibleType.querySelector('text').classList.add('type-link');
+    $possibleType.querySelector('text')?.classList.add('type-link');
   }
 
   const serializer = new XMLSerializer();

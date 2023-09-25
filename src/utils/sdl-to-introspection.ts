@@ -1,5 +1,5 @@
 import { parse } from 'graphql/language';
-import { buildSchema, introspectionFromSchema } from 'graphql/utilities';
+import { buildSchema } from 'graphql/utilities';
 import { KnownDirectivesRule } from 'graphql/validation/rules/KnownDirectivesRule';
 import { specifiedSDLRules } from 'graphql/validation/specifiedRules';
 import { validateSDL } from 'graphql/validation/validate';
@@ -10,13 +10,12 @@ const validationRules = specifiedSDLRules.filter(
   (rule) => rule !== KnownDirectivesRule,
 );
 
-export function sdlToIntrospection(sdl: string) {
+export function sdlToSchema(sdl: string) {
   const documentAST = parse(sdl);
   const errors = validateSDL(documentAST, null, validationRules);
   if (errors.length !== 0) {
     throw new Error(errors.map((error) => error.message).join('\n\n'));
   }
 
-  const schema = buildSchema(sdl, { assumeValidSDL: true });
-  return introspectionFromSchema(schema);
+  return buildSchema(sdl, { assumeValidSDL: true });
 }

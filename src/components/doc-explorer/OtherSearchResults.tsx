@@ -1,17 +1,22 @@
-import { highlightTerm, isMatch } from '../../utils';
+import { GraphQLNamedType } from 'graphql/type';
+
+import { TypeGraph } from '../../graph/type-graph';
+import { mapFields } from '../../introspection/utils';
+import { highlightTerm } from '../../utils/highlight';
+import { isMatch } from '../../utils/is-match';
 
 interface OtherSearchResultsProps {
-  typeGraph: any;
-  withinType: any;
+  typeGraph: TypeGraph;
+  withinType: GraphQLNamedType | null;
   searchValue: string;
-  onTypeLink: (type: any) => void;
-  onFieldLink: (field: any, type: any) => void;
+  onTypeLink: (type: GraphQLNamedType) => void;
+  onFieldLink: (type: GraphQLNamedType, fieldID: string) => void;
 }
 
 export default function OtherSearchResults(props: OtherSearchResultsProps) {
   const { typeGraph, withinType, searchValue, onTypeLink, onFieldLink } = props;
 
-  const types: any = Object.values(typeGraph.nodes).filter(
+  const types = Array.from(typeGraph.nodes.values()).filter(
     (type) => type !== withinType,
   );
 
@@ -39,43 +44,42 @@ export default function OtherSearchResults(props: OtherSearchResultsProps) {
     if (matchedFields.length >= 100) {
       break;
     }
-    if (type.fields == null) {
-      continue;
-    }
 
-    const fields: any = Object.values(type.fields);
-    for (const field of fields) {
-      const args: any = Object.values(field.args);
-      const matchingArgs = args.filter((arg) => isMatch(arg.name, searchValue));
+    matchedFields.push(
+      ...mapFields(type, (fieldID, field) => {
+        const matchingArgs = Object.values(field.args).filter((arg) =>
+          isMatch(arg.name, searchValue),
+        );
 
-      if (!isMatch(field.name, searchValue) && matchingArgs.length === 0) {
-        continue;
-      }
+        if (!isMatch(field.name, searchValue) && matchingArgs.length === 0) {
+          return null;
+        }
 
-      matchedFields.push(
-        <div
-          className="item"
-          key={field.id}
-          onClick={() => onFieldLink(field, type)}
-        >
-          <span className="type-name">{type.name}</span>
-          <span className="field-name">
-            {highlightTerm(field.name, searchValue)}
-          </span>
-          {matchingArgs.length > 0 && (
-            <span className="args args-wrap">
-              {matchingArgs.map((arg) => (
-                <span key={arg.id} className="arg-wrap">
-                  <span className="arg arg-name">
-                    {highlightTerm(arg.name, searchValue)}
-                  </span>
-                </span>
-              ))}
+        return (
+          <div
+            className="item"
+            key={fieldID}
+            onClick={() => onFieldLink(type, fieldID)}
+          >
+            <span className="type-name">{type.name}</span>
+            <span className="field-name">
+              {highlightTerm(field.name, searchValue)}
             </span>
-          )}
-        </div>,
-      );
-    }
+            {matchingArgs.length > 0 && (
+              <span className="args args-wrap">
+                {matchingArgs.map((arg) => (
+                  <span key={arg.name} className="arg-wrap">
+                    <span className="arg arg-name">
+                      {highlightTerm(arg.name, searchValue)}
+                    </span>
+                  </span>
+                ))}
+              </span>
+            )}
+          </div>
+        );
+      }),
+    );
   }
 
   return (

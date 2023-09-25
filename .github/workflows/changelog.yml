@@ -1,0 +1,35 @@
+name: CI
+on: workflow_call
+permissions: {}
+jobs:
+  generateChangelog:
+    name: Generate changelog
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read # for actions/checkout
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+        with:
+          persist-credentials: false
+          fetch-depth: 0 # fetch all history
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          cache: npm
+          node-version-file: '.node-version'
+
+      - name: Install Dependencies
+        run: npm ci --ignore-scripts
+
+      - name: Generate changelog
+        run: npm run changelog > changelog.txt
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload npm folder
+        uses: actions/upload-artifact@v3
+        with:
+          name: changelog
+          path: ./changelog.txt

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
     <style>
@@ -8,6 +8,7 @@
         width: 100%;
         overflow: hidden;
       }
+
       #voyager {
         height: 100vh;
       }
@@ -24,11 +25,12 @@
     />
     <script src="https://cdn.jsdelivr.net/npm/graphql-voyager/dist/voyager.standalone.js"></script>
   </head>
+
   <body>
     <div id="voyager">Loading...</div>
-    <script>
-      const { init, voyagerIntrospectionQuery: query } = GraphQLVoyager;
-      const introspection = fetch(
+    <script type="module">
+      const { voyagerIntrospectionQuery: query } = GraphQLVoyager;
+      const response = await fetch(
         'https://swapi-graphql.netlify.app/.netlify/functions/index',
         {
           method: 'post',
@@ -39,10 +41,11 @@
           body: JSON.stringify({ query }),
           credentials: 'omit',
         },
-      ).then((response) => response.json());
+      );
+      const introspection = await response.json();
 
       // Render <Voyager /> into the body.
-      GraphQLVoyager.init(document.getElementById('voyager'), {
+      GraphQLVoyager.renderVoyager(document.getElementById('voyager'), {
         introspection,
       });
     </script>

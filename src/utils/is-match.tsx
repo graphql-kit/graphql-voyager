@@ -1,7 +1,4 @@
-export * from './dom-helpers';
-export * from './highlight';
-
-export function isMatch(sourceText: string, searchValue: string) {
+export function isMatch(sourceText: string, searchValue: string | null) {
   if (!searchValue) {
     return true;
   }

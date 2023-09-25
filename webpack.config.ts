@@ -20,7 +20,7 @@ export default function buildWebpackConfig(env: Env): any {
   if (env.lib === true) {
     return {
       ...baseConfig,
-      entry: './src/index.tsx',
+      entry: './src/index.ts',
       externals: NodeExternals(),
       output: {
         ...baseConfig.output,
@@ -35,7 +35,6 @@ export default function buildWebpackConfig(env: Env): any {
       entry: './src/standalone.ts',
       optimization: { minimize: true },
       externals: undefined,
-      devtool: 'source-map',
       output: {
         ...baseConfig.output,
         filename: 'voyager.standalone.js',
@@ -56,6 +55,7 @@ export default function buildWebpackConfig(env: Env): any {
 }
 
 const baseConfig: webpack.Configuration = {
+  devtool: 'source-map',
   performance: {
     hints: false,
   },

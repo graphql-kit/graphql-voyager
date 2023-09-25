@@ -2,7 +2,7 @@ import * as ReactDOMClient from 'react-dom/client';
 
 import { Voyager, voyagerIntrospectionQuery } from 'graphql-voyager';
 
-const introspection = fetch(
+const response = await fetch(
   'https://swapi-graphql.netlify.app/.netlify/functions/index',
   {
     method: 'post',
@@ -13,7 +13,8 @@ const introspection = fetch(
     body: JSON.stringify({ query: voyagerIntrospectionQuery }),
     credentials: 'omit',
   },
-).then((response) => response.json());
+);
+const introspection = await response.json();
 
 const reactRoot = ReactDOMClient.createRoot(document.getElementById('voyager'));
 reactRoot.render(
