@@ -147,8 +147,8 @@ export default class TypeDoc extends Component<TypeDocProps> {
             )}
           </span>
           <WrappedTypeName container={field} onTypeLink={onTypeLink} />
-          {field.deprecationReason !== null && (
-            <span className="doc-alert-text"> DEPRECATED</span>
+          {field.deprecationReason && (
+            <span className="doc-alert-text"> DEPRECATED </span>
           )}
           <Markdown
             text={field.description}
