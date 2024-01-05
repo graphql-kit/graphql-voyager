@@ -135,7 +135,7 @@ export default class DocExplorer extends Component<
       <div className="type-doc" key={navStack.length}>
         {renderNavigation(previousNav, currentNav)}
         <SearchBox
-          placeholder={`Search ${name}...`}
+          placeholder={`Search ${name}... [ / ]`}
           value={currentNav.searchValue}
           onSearch={this.handleSearch}
         />
