@@ -38,24 +38,29 @@ export default function renderVoyagerPage(options: MiddlewareOptions) {
     <h1 style="text-align: center; color: #5d7e86;"> Loading... </h1>
   </main>
   <script type="module">
-    window.addEventListener('load', async function(event) {
-      const response = await fetch('${endpointUrl}', {
+    window.addEventListener('load', async function (event) {
+      fetch('${endpointUrl}', {
         method: 'post',
-        headers: Object.assign({}, {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        }, ${headersJS}),
+        headers: Object.assign(
+          {},
+          {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+          ${headersJS}
+        ),
         body: JSON.stringify({
           query: GraphQLVoyager.voyagerIntrospectionQuery,
         }),
         credentials: 'include',
-      });
-      const introspection = await response.json();
-
-      GraphQLVoyager.renderVoyager(document.getElementById('voyager'), {
-        introspection,
-        displayOptions: ${JSON.stringify(displayOptions)},
-      });
+      })
+        .then((response) => response.json())
+        .then((introspection) => {
+          GraphQLVoyager.renderVoyager(document.getElementById('voyager'), {
+            introspection,
+            displayOptions: ${JSON.stringify(displayOptions)},
+          })
+        })
     })
   </script>
 </body>
