@@ -38,7 +38,7 @@ export default function renderVoyagerPage(options: MiddlewareOptions) {
     <h1 style="text-align: center; color: #5d7e86;"> Loading... </h1>
   </main>
   <script type="module">
-    window.addEventListener('load', async function (event) {
+    window.addEventListener('load', function (event) {
       fetch('${endpointUrl}', {
         method: 'post',
         headers: Object.assign(
