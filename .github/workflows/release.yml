@@ -26,6 +26,7 @@ jobs:
         with:
           name: npmDist
           path: npmDist
+      - run: npm ci --ignore-scripts
       - run: npm publish ./npmDist
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
