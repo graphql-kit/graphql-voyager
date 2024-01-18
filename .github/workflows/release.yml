@@ -6,6 +6,7 @@ jobs:
   build:
     permissions:
       contents: read
+      packages: write
     uses: ./.github/workflows/build.yml
   publish:
     runs-on: ubuntu-latest
