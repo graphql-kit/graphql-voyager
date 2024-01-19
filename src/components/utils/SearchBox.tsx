@@ -3,17 +3,15 @@ import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import Input from '@mui/material/Input';
 import InputAdornment from '@mui/material/InputAdornment';
+import useEventListener from '@use-it/event-listener';
+import keycode from 'keycode';
 import { useEffect, useRef, useState } from 'react';
-
-import { useFocusInputWithHotkey } from '../../utils/useFocusInputWithHotkey';
 
 interface SearchBoxProps {
   placeholder: string;
   value: string | null;
   onSearch: (value: string) => void;
 }
-
-const SEARCH_FOCUS_KEY = '/';
 
 export default function SearchBox(props: SearchBoxProps) {
   const [value, setValue] = useState(props.value ?? '');
@@ -26,7 +24,17 @@ export default function SearchBox(props: SearchBoxProps) {
     return () => clearTimeout(timeout);
   }, [onSearch, value]);
 
-  useFocusInputWithHotkey(inputRef.current, SEARCH_FOCUS_KEY);
+  useEventListener('keydown', (event: KeyboardEvent) => {
+    if (
+      inputRef.current && 
+      ['/', 's'].includes(keycode(event)) &&
+      document.activeElement?.nodeName.toLowerCase() === 'body' &&
+      document.activeElement !== inputRef.current
+    ) {
+      event.preventDefault();
+      inputRef.current.focus();
+    }
+  })
 
   return (
     <Box paddingLeft={2} paddingRight={2}>

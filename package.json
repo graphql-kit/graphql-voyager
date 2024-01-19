@@ -49,7 +49,9 @@
     "@mui/icons-material": "5.11.0",
     "@mui/lab": "5.0.0-alpha.114",
     "@mui/material": "5.11.2",
+    "@use-it/event-listener": "^0.1.7",
     "commonmark": "0.30.0",
+    "keycode": "^2.2.1",
     "svg-pan-zoom": "3.6.1"
   },
   "devDependencies": {
