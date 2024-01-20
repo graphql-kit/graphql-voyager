@@ -148,3 +148,32 @@ test('use search params to pass url', async ({ page }) => {
     'display-schema-from-url.png',
   );
 });
+
+test.describe('search input focus with hotkey', () => {
+  test('pressing / key to focus the search input', async ({ page }) => {
+    const voyagerPage = await gotoVoyagerPage(page);
+    
+    await voyagerPage.waitForGraphToBeLoaded();
+    await expect(voyagerPage.page).toHaveScreenshot('before-search-input-focus.png');
+    
+    await voyagerPage.page.keyboard.press('/');
+    await expect(voyagerPage.page).toHaveScreenshot('after-search-input-focus.png');
+    
+    await voyagerPage.page.keyboard.press('/');
+    await expect(voyagerPage.page).toHaveScreenshot('after-search-input-typing-forward-slash.png');
+  })
+  
+  test('should not focus on the search input if any other input is focused', async ({ page }) => {
+    const voyagerPage = await gotoVoyagerPage(page);
+    const { changeSchemaDialog } = voyagerPage;
+    const { sdlTab } = changeSchemaDialog;
+    await voyagerPage.waitForGraphToBeLoaded();
+
+    await changeSchemaDialog.openButton.click();
+    await sdlTab.tab.click();
+    await expect(voyagerPage.page).toHaveScreenshot('sdl-tab-before-typing-forward-slash.png');
+
+    await sdlTab.sdlTextArea.fill("/");
+    await expect(voyagerPage.page).toHaveScreenshot('sdl-tab-after-typing-forward-slash.png');
+  })
+})
