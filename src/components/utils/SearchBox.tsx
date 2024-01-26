@@ -26,7 +26,7 @@ export default function SearchBox(props: SearchBoxProps) {
 
   useEventListener('keydown', (event: KeyboardEvent) => {
     if (
-      inputRef.current && 
+      inputRef.current &&
       ['/', 's'].includes(keycode(event)) &&
       document.activeElement?.nodeName.toLowerCase() === 'body' &&
       document.activeElement !== inputRef.current
@@ -34,7 +34,7 @@ export default function SearchBox(props: SearchBoxProps) {
       event.preventDefault();
       inputRef.current.focus();
     }
-  })
+  });
 
   return (
     <Box paddingLeft={2} paddingRight={2}>
