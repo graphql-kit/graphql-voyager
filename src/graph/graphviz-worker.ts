@@ -97,16 +97,14 @@ export class VizWorker {
 async function decompressFromDataURL(dataURL: string): Promise<string> {
   const response = await fetch(dataURL);
   const blob = await response.blob();
-  switch (blob.type) {
-    case 'application/gzip': {
+  if (blob.type == 'application/gzip') {
       // @ts-expect-error DecompressionStream is missing from DOM types
       const stream = blob.stream().pipeThrough(new DecompressionStream('gzip'));
       const decompressedBlob = await streamToBlob(stream, 'text/plain');
       return decompressedBlob.text();
-    }
-    case 'text/plain':
+  } else if (blob.type.startsWith('text/plain') {
       return blob.text();
-    default:
+  } else {
       throw new Error('Can not convert data url with MIME type:' + blob.type);
   }
 }
