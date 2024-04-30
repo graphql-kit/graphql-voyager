@@ -4,7 +4,7 @@
     "start": "node server.js"
   },
   "dependencies": {
-    "express": "4.16.3",
+    "express": "4.19.2",
     "express-graphql": "0.6.12",
     "graphql": "14.0.2",
     "graphql-server-hapi": "1.4.1",
