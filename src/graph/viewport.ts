@@ -23,13 +23,13 @@ export class Viewport {
   onSelectEdge: (id: string) => void;
 
   $svg: SVGSVGElement;
-  // @ts-expect-error FIXME
+  // @ts-expect-error FIXME: Consider for future fix
   zoomer: Instance;
-  // @ts-expect-error FIXME
+  // @ts-expect-error FIXME: Consider for future fix
   offsetLeft: number;
-  // @ts-expect-error FIXME
+  // @ts-expect-error FIXME: Consider for future fix
   offsetTop: number;
-  // @ts-expect-error FIXME
+  // @ts-expect-error FIXME: Consider for future fix
   maxZoom: number;
   resizeObserver: ResizeObserver;
 
@@ -262,17 +262,17 @@ function isControl(elem: SVGElement) {
 }
 
 function edgeSource(edge: SVGElement): SVGElement {
-  // @ts-expect-error FIXME
+  // @ts-expect-error FIXME: Consider for future fix
   return document.getElementById(edge['dataset']['from']);
 }
 
 function edgeTarget(edge: SVGElement): SVGElement {
-  // @ts-expect-error FIXME
+  // @ts-expect-error FIXME: Consider for future fix
   return document.getElementById(edge['dataset']['to']);
 }
 
 function edgeFrom(id: string): SVGElement {
-  // @ts-expect-error FIXME
+  // @ts-expect-error FIXME: Consider for future fix
   return document.querySelector(`.edge[data-from='${id}']`);
 }
 
