@@ -15,16 +15,13 @@ export default function Settings(props: SettingsProps) {
 
   return (
     <div className="menu-content">
-      <div className="setting-change-root">
-        <RootSelector
-          typeGraph={typeGraph}
-          onChange={(rootType) => onChange({ rootType })}
-        />
-      </div>
+      <RootSelector
+        typeGraph={typeGraph}
+        onChange={(rootType) => onChange({ rootType })}
+      />
       <div className="setting-other-options">
         <Checkbox
           id="sort"
-          color="primary"
           checked={!!options.sortByAlphabet}
           onChange={(event) =>
             onChange({ sortByAlphabet: event.target.checked })
@@ -33,14 +30,12 @@ export default function Settings(props: SettingsProps) {
         <label htmlFor="sort">Sort by Alphabet</label>
         <Checkbox
           id="skip"
-          color="primary"
           checked={!!options.skipRelay}
           onChange={(event) => onChange({ skipRelay: event.target.checked })}
         />
         <label htmlFor="skip">Skip Relay</label>
         <Checkbox
           id="deprecated"
-          color="primary"
           checked={!!options.skipDeprecated}
           onChange={(event) =>
             onChange({ skipDeprecated: event.target.checked })
@@ -49,7 +44,6 @@ export default function Settings(props: SettingsProps) {
         <label htmlFor="deprecated">Skip deprecated</label>
         <Checkbox
           id="showLeafFields"
-          color="primary"
           checked={!!options.showLeafFields}
           onChange={(event) =>
             onChange({ showLeafFields: event.target.checked })
