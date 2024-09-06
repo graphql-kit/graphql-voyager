@@ -33,8 +33,8 @@
     "stats": "NODE_ENV=production webpack --json --mode=production > stats.json",
     "lint": "eslint --cache --max-warnings 0 .",
     "check": "tsc",
-    "prettier": "prettier --cache --write --list-different . **/*.svg",
-    "prettier:check": "prettier --cache --check . **/*.svg",
+    "prettier": "prettier --write --list-different . **/*.svg",
+    "prettier:check": "prettier --check . **/*.svg",
     "check:spelling": "cspell --cache --no-progress '**/*'",
     "testonly": "npm run build:demo && npm pack && docker-compose up --abort-on-container-exit --build test",
     "declarations": "tsc --emitDeclarationOnly -p tsconfig.lib.json"
