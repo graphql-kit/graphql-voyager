@@ -41,5 +41,7 @@
   --selected-field-bg: rgba(255, 0, 0, 0.18);
 }
 
-@custom-media --small-viewport (max-width: 780px);
-@custom-media --big-viewport (min-width: 781px);
+/* match mui md breakpoint,
+   see https://mui.com/material-ui/customization/breakpoints/#default-breakpoints */
+@custom-media --small-viewport (max-width: 900px);
+@custom-media --big-viewport (min-width: 901px);

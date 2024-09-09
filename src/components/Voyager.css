@@ -23,19 +23,8 @@
     z-index: 10;
   }
 
-  & > .viewport {
-    flex: 1;
-    max-height: 100vh;
-
-    & > svg {
-      width: 100%;
-      height: 100%;
-    }
-  }
-
   @media (--small-viewport) {
-    & > .doc-panel,
-    & > .viewport {
+    & > .doc-panel {
       height: 50%;
       width: 100%;
       max-width: none;

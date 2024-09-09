@@ -1,4 +1,5 @@
-import { Component } from 'react';
+import Box from '@mui/material/Box';
+import { Component, createRef } from 'react';
 
 import { renderSvg } from '../graph/svg-renderer';
 import { TypeGraph } from '../graph/type-graph';
@@ -26,6 +27,7 @@ export default class GraphViewport extends Component<
 > {
   state: GraphViewportState = { typeGraph: null, svgViewport: null };
 
+  _containerRef = createRef<HTMLDivElement>();
   // Handle async graph rendering based on this example
   // https://gist.github.com/bvaughn/982ab689a41097237f6e9860db7ca8d6
   _currentTypeGraph: TypeGraph | null = null;
@@ -94,10 +96,9 @@ export default class GraphViewport extends Component<
         }
 
         this._cleanupSvgViewport();
-        const containerRef = this.refs['viewport'] as HTMLElement;
         const svgViewport = new Viewport(
           svg,
-          containerRef,
+          this._containerRef.current!,
           onSelectNode,
           onSelectEdge,
         );
@@ -120,7 +121,24 @@ export default class GraphViewport extends Component<
     const isLoading = this.state.svgViewport == null;
     return (
       <>
-        <div ref="viewport" className="viewport" />
+        <Box
+          ref={this._containerRef}
+          sx={(theme) => ({
+            '& > svg': {
+              height: '100%',
+              width: '100%',
+            },
+            [theme.breakpoints.down('md')]: {
+              height: '50%',
+              width: '100%',
+              maxWidth: 'none',
+            },
+            [theme.breakpoints.up('md')]: {
+              flex: 1,
+              maxHeight: '100%',
+            },
+          })}
+        />
         {isLoading && <LoadingAnimation />}
       </>
     );
