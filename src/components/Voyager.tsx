@@ -122,7 +122,6 @@ export default function Voyager(props: VoyagerProps) {
   } = props;
 
   const viewportRef = useRef<GraphViewport>(null);
-  useEffect(() => viewportRef.current?.resize(), [hideDocs]);
 
   return (
     <ThemeProvider theme={theme}>

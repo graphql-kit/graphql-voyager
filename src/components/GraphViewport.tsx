@@ -144,13 +144,6 @@ export default class GraphViewport extends Component<
     );
   }
 
-  resize() {
-    const { svgViewport } = this.state;
-    if (svgViewport) {
-      svgViewport.resize();
-    }
-  }
-
   focusNode(id: string) {
     const { svgViewport } = this.state;
     if (svgViewport) {

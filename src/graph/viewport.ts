@@ -52,17 +52,15 @@ export class Viewport {
     this.bindClick();
     this.bindHover();
 
-    this.resizeObserver = new ResizeObserver(() => this.resize());
+    this.resizeObserver = new ResizeObserver(() => {
+      const bbRect = this.container.getBoundingClientRect();
+      this.offsetLeft = bbRect.left;
+      this.offsetTop = bbRect.top;
+      if (this.zoomer !== undefined) {
+        this.zoomer.resize();
+      }
+    });
     this.resizeObserver.observe(this.container);
-  }
-
-  resize() {
-    const bbRect = this.container.getBoundingClientRect();
-    this.offsetLeft = bbRect.left;
-    this.offsetTop = bbRect.top;
-    if (this.zoomer !== undefined) {
-      this.zoomer.resize();
-    }
   }
 
   enableZoom() {
