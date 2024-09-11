@@ -27,6 +27,7 @@ export const theme = createTheme({
   },
   typography: {
     fontSize: 12,
+    fontFamily: 'helvetica neue, helvetica, arial, sans-serif',
   },
   panelSpacing: '15px',
   components: {
