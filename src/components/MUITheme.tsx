@@ -1,15 +1,13 @@
-import { cyan, grey } from '@mui/material/colors';
+import { cyan } from '@mui/material/colors';
 import { createTheme } from '@mui/material/styles';
 
 import variables from './variables.css';
 
 declare module '@mui/material/styles' {
   interface Palette {
-    logoColor: Palette['primary'];
     shadowColor: Palette['primary'];
   }
   interface PaletteOptions {
-    logoColor: PaletteOptions['primary'];
     shadowColor: PaletteOptions['primary'];
   }
 
@@ -24,8 +22,7 @@ declare module '@mui/material/styles' {
 export const theme = createTheme({
   palette: {
     primary: cyan,
-    secondary: grey,
-    logoColor: { main: '#27535e' },
+    secondary: { main: '#548f9e' },
     shadowColor: { main: 'rgba(0, 0, 0, 0.1)' },
   },
   typography: {

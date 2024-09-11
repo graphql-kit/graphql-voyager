@@ -182,14 +182,15 @@ function PresetsTab(props: PresetsTabProps) {
         <Grid xs={12} sm={6} key={name}>
           <Button
             fullWidth
-            color={activePreset === name ? 'primary' : 'secondary'}
             variant="outlined"
             onClick={() => onPresetChange(name)}
-            sx={{
+            sx={({ palette }) => ({
+              color: activePreset === name ? palette.primary.main : 'darkgrey',
               height: { sm: 100 },
+              border: 'none',
               boxShadow: '0px 0 8px 2px',
               textTransform: 'none',
-            }}
+            })}
           >
             <Typography component="span" variant="h5">
               {name}

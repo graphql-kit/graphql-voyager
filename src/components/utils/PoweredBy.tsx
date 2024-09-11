@@ -6,9 +6,9 @@ export default function PoweredBy() {
     <Typography
       textAlign="center"
       padding={1}
-      color={({ palette }) => palette.logoColor.main}
+      color="secondary.dark"
       borderTop="1px solid"
-      borderColor={({ palette }) => palette.shadowColor.main}
+      borderColor="shadowColor.main"
     >
       🛰 Powered by{' '}
       <Link

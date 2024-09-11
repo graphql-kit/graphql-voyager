@@ -12,7 +12,7 @@ export function VoyagerLogo() {
       href="https://github.com/graphql-kit/graphql-voyager"
       target="_blank"
       rel="noreferrer"
-      color="logoColor.main"
+      color="secondary.dark"
       underline="none"
       margin={2}
     >
