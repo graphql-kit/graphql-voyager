@@ -120,27 +120,33 @@ export default class GraphViewport extends Component<
   render() {
     const isLoading = this.state.svgViewport == null;
     return (
-      <>
+      <Box
+        sx={(theme) => ({
+          flex: 1,
+          position: 'relative',
+          display: 'inline-block',
+          width: '100%',
+          height: '100%',
+          maxHeight: '100%',
+
+          [theme.breakpoints.down('md')]: {
+            height: '50%',
+            maxWidth: 'none',
+          },
+        })}
+      >
         <Box
           ref={this._containerRef}
-          sx={(theme) => ({
+          sx={{
+            height: '100%',
             '& > svg': {
               height: '100%',
               width: '100%',
             },
-            [theme.breakpoints.down('md')]: {
-              height: '50%',
-              width: '100%',
-              maxWidth: 'none',
-            },
-            [theme.breakpoints.up('md')]: {
-              flex: 1,
-              maxHeight: '100%',
-            },
-          })}
+          }}
         />
         {isLoading && <LoadingAnimation />}
-      </>
+      </Box>
     );
   }
 

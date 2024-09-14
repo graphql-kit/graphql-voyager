@@ -33,6 +33,7 @@
 
   & > .menu-content {
     position: absolute;
+    z-index: 5;
     bottom: var(--panel-spacing);
     left: calc(var(--doc-panel-width) + var(--panel-spacing));
     background: var(--doc-panel-bg-color);
