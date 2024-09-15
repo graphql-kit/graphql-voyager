@@ -8,15 +8,15 @@ jobs:
       contents: read # for actions/checkout
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           persist-credentials: false
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           cache: npm
-          node-version-file: '.node-version'
+          node-version-file: 'package.json'
 
       - name: Install Dependencies
         run: npm ci --ignore-scripts
@@ -24,7 +24,7 @@ jobs:
       - name: Run tests
         run: npm run testonly
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: playwright-report
@@ -37,15 +37,15 @@ jobs:
       contents: read # for actions/checkout
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           persist-credentials: false
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           cache: npm
-          node-version-file: '.node-version'
+          node-version-file: 'package.json'
 
       - name: Install Dependencies
         run: npm ci --ignore-scripts
@@ -74,7 +74,7 @@ jobs:
       contents: read # for actions/checkout
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           persist-credentials: false
 
@@ -100,15 +100,15 @@ jobs:
       contents: read # for actions/checkout
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           persist-credentials: false
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           cache: npm
-          node-version-file: '.node-version'
+          node-version-file: 'package.json'
 
       - name: Install Dependencies
         run: npm ci --ignore-scripts
@@ -130,17 +130,18 @@ jobs:
       security-events: write # for codeql-action
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           persist-credentials: false
 
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@v2
+        uses: github/codeql-action/init@v3
         with:
-          languages: 'javascript, typescript'
+          languages: 'javascript, typescript' # TODO: add c-cpp
+          queries: security-and-quality
 
       - name: Perform CodeQL analysis
-        uses: github/codeql-action/analyze@v2
+        uses: github/codeql-action/analyze@v3
 
   buildDemo:
     name: Build Demo
@@ -149,15 +150,15 @@ jobs:
       contents: read # for actions/checkout
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           persist-credentials: false
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           cache: npm
-          node-version-file: '.node-version'
+          node-version-file: 'package.json'
 
       - name: Install Dependencies
         run: npm ci --ignore-scripts
@@ -166,7 +167,7 @@ jobs:
         run: npm run build:demo
 
       - name: Upload demo-dist folder
-        uses: actions/upload-pages-artifact@v1
+        uses: actions/upload-pages-artifact@v3
         with:
           name: demoDist
           path: ./demo-dist
@@ -178,15 +179,15 @@ jobs:
       contents: read # for actions/checkout
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           persist-credentials: false
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           cache: npm
-          node-version-file: '.node-version'
+          node-version-file: 'package.json'
 
       - name: Install Dependencies
         run: npm ci --ignore-scripts
@@ -195,7 +196,7 @@ jobs:
         run: npm run build:release
 
       - name: Upload npm folder
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: npmDist
           path: |

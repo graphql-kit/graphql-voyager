@@ -28,19 +28,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           persist-credentials: false
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           cache: npm
-          node-version-file: '.node-version'
+          node-version-file: 'package.json'
           # 'registry-url' is required for 'npm publish'
           registry-url: 'https://registry.npmjs.org'
 
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4
         with:
           name: npmDist
           path: npmDist
