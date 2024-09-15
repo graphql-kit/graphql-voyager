@@ -1,9 +1,14 @@
 import Box from '@mui/material/Box';
+import IconButton from '@mui/material/IconButton';
+import Stack from '@mui/material/Stack';
 import { Component, createRef } from 'react';
 
 import { renderSvg } from '../graph/svg-renderer';
 import { TypeGraph } from '../graph/type-graph';
 import { Viewport } from '../graph/viewport';
+import ZoomInIcon from './icons/zoom-in.svg';
+import ZoomOutIcon from './icons/zoom-out.svg';
+import ZoomResetIcon from './icons/zoom-reset.svg';
 import LoadingAnimation from './utils/LoadingAnimation';
 
 interface GraphViewportProps {
@@ -119,6 +124,7 @@ export default class GraphViewport extends Component<
 
   render() {
     const isLoading = this.state.svgViewport == null;
+    const { svgViewport } = this.state;
     return (
       <Box
         sx={(theme) => ({
@@ -145,6 +151,41 @@ export default class GraphViewport extends Component<
             },
           }}
         />
+        {!isLoading && (
+          <Stack
+            alignItems="center"
+            spacing={0.8}
+            padding={1}
+            position="absolute"
+            bottom={0}
+            right={0}
+          >
+            <IconButton
+              aria-label="Zoom in"
+              color="secondary"
+              sx={{ width: 18 }}
+              onClick={() => svgViewport?.zoomIn()}
+            >
+              <ZoomInIcon />
+            </IconButton>
+            <IconButton
+              aria-label="Reset zoom"
+              color="secondary"
+              sx={{ width: 55 }}
+              onClick={() => svgViewport?.reset()}
+            >
+              <ZoomResetIcon />
+            </IconButton>
+            <IconButton
+              aria-label="Zoom out"
+              color="secondary"
+              sx={{ width: 18 }}
+              onClick={() => svgViewport?.zoomOut()}
+            >
+              <ZoomOutIcon />
+            </IconButton>
+          </Stack>
+        )}
         {isLoading && <LoadingAnimation />}
       </Box>
     );

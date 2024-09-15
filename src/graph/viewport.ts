@@ -12,6 +12,9 @@ interface Point {
 interface Instance {
   resize(): Instance;
   zoom(scale: number): void;
+  zoomIn(): void;
+  zoomOut(): void;
+  reset(): void;
   getPan(): Point;
   getZoom(): number;
   pan(point: Point): Instance;
@@ -73,7 +76,6 @@ export class Viewport {
       zoomScaleSensitivity: 0.25,
       minZoom: 0.95,
       maxZoom: this.maxZoom,
-      controlIconsEnabled: true,
     });
     this.zoomer.zoom(0.95);
   }
@@ -218,6 +220,18 @@ export class Viewport {
         });
       }
     });
+  }
+
+  zoomIn() {
+    this.zoomer.zoomIn();
+  }
+
+  zoomOut() {
+    this.zoomer.zoomOut();
+  }
+
+  reset() {
+    this.zoomer.reset();
   }
 
   destroy() {
