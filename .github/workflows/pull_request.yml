@@ -15,9 +15,11 @@ jobs:
       contents: read # for actions/checkout
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           persist-credentials: false
 
       - name: Dependency review
-        uses: actions/dependency-review-action@v2
+        uses: actions/dependency-review-action@v4
+        with:
+          comment-summary-in-pr: always

@@ -13,6 +13,9 @@
   "bugs": {
     "url": "https://github.com/graphql-kit/graphql-voyager/issues"
   },
+  "engines": {
+    "node": ">=20.0.0"
+  },
   "main": "dist/voyager.lib.js",
   "types": "typings/index.d.ts",
   "scripts": {
@@ -27,7 +30,7 @@
     "bundle:lib": "webpack --mode=production --env lib",
     "bundle": "rm -rf dist && npm run bundle:lib && npm run bundle:standalone",
     "compile:middleware": "tsc -d src/middleware/index.ts --outDir middleware --lib ES6,DOM,esnext.asynciterable",
-    "build:worker": "npm run clean:worker && docker-compose up --abort-on-container-exit --build build-worker",
+    "build:worker": "npm run clean:worker && docker compose up --abort-on-container-exit --build build-worker",
     "build:release": "npm run build:worker && npm run bundle && npm run compile:middleware && npm run declarations",
     "build:demo": "npm run build:release && rm -rf demo-dist && cp -R demo/ demo-dist/ && cp dist/voyager.css* dist/voyager.standalone.js* demo-dist/",
     "stats": "NODE_ENV=production webpack --json --mode=production > stats.json",
@@ -36,9 +39,9 @@
     "prettier": "prettier --write --list-different . **/*.svg",
     "prettier:check": "prettier --check . **/*.svg",
     "check:spelling": "cspell --cache --no-progress '**/*'",
-    "testonly": "npm run build:demo && npm pack && docker-compose up --abort-on-container-exit --build test",
+    "testonly": "npm run build:demo && npm pack && docker compose up --abort-on-container-exit --build test",
     "declarations": "tsc --emitDeclarationOnly -p tsconfig.lib.json",
-    "update-snapshots": "docker-compose up --build update-snapshots"
+    "update-snapshots": "docker compose up --build update-snapshots"
   },
   "peerDependencies": {
     "graphql": ">=16.5.0",
