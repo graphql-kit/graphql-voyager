@@ -27,7 +27,12 @@ export default function LoadingAnimation() {
         color="secondary"
         sx={{ width: 180, height: 180 }}
       />
-      <Typography variant="h4" color="secondary" letterSpacing={4} fontWeight="medium">
+      <Typography
+        variant="h4"
+        color="secondary"
+        letterSpacing={4}
+        fontWeight="medium"
+      >
         Transmitting...
       </Typography>
     </Stack>
