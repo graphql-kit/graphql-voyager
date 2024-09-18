@@ -35,6 +35,7 @@ export interface VoyagerDisplayOptions {
   showLeafFields?: boolean;
   sortByAlphabet?: boolean;
   hideRoot?: boolean;
+  highlightSchema?: ExecutionResult<IntrospectionQuery>;
 }
 
 export interface VoyagerProps {
@@ -208,6 +209,7 @@ export default function Voyager(props: VoyagerProps) {
     return (
       <GraphViewport
         typeGraph={typeGraph}
+        highlightSchema={displayOptions.highlightSchema?.data?.__schema || null}
         selectedTypeID={selected.typeID}
         selectedEdgeID={selected.edgeID}
         onSelectNode={handleSelectNode}

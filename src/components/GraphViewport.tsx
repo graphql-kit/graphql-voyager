@@ -1,4 +1,5 @@
 import Box from '@mui/material/Box';
+import { IntrospectionObjectType, IntrospectionSchema } from 'graphql/utilities/getIntrospectionQuery';
 import { Component, createRef } from 'react';
 
 import { renderSvg } from '../graph/svg-renderer';
@@ -8,6 +9,7 @@ import LoadingAnimation from './utils/LoadingAnimation';
 
 interface GraphViewportProps {
   typeGraph: TypeGraph | null;
+  highlightSchema: IntrospectionSchema | null;
 
   selectedTypeID: string | null;
   selectedEdgeID: string | null;
@@ -61,7 +63,7 @@ export default class GraphViewport extends Component<
     }
 
     const isJustRendered = prevState.svgViewport == null;
-    const { selectedTypeID, selectedEdgeID } = this.props;
+    const { selectedTypeID, selectedEdgeID, highlightSchema } = this.props;
 
     if (prevProps.selectedTypeID !== selectedTypeID || isJustRendered) {
       svgViewport.selectNodeById(selectedTypeID);
@@ -69,6 +71,10 @@ export default class GraphViewport extends Component<
 
     if (prevProps.selectedEdgeID !== selectedEdgeID || isJustRendered) {
       svgViewport.selectEdgeById(selectedEdgeID);
+    }
+
+    if (highlightSchema) {
+      this.highlightNodes(highlightSchema);
     }
   }
 
@@ -155,6 +161,36 @@ export default class GraphViewport extends Component<
     if (svgViewport) {
       svgViewport.focusElement(id);
     }
+  }
+
+  highlightNodes(schema: IntrospectionSchema) {
+    console.log(schema);
+
+    [...document.getElementsByClassName('highlighted-schema')].forEach(
+      (el) => el.classList.remove('highlighted-schema')
+    );
+
+    Object.values(schema.types).forEach((type) => {
+      if (type.name.startsWith('__')) {
+        return;
+      }
+
+      // Highlight type
+      const $type = document.getElementById(`TYPE::${type.name}`);
+
+      if ($type) {
+        $type.classList.add('highlighted-schema')
+      }
+
+      // Highlight fields
+      ((type as IntrospectionObjectType).fields || []).forEach((field) => {
+        const $field = document.getElementById(`FIELD::${type.name}::${field.name}`);
+
+        if ($field) {
+          $field.classList.add('highlighted-schema');
+        }
+      })
+    });
   }
 
   _cleanupSvgViewport() {

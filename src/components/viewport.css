@@ -39,12 +39,22 @@ g.graph > polygon {
   &.selected .type-title polygon {
     fill: var(--highlight-color);
   }
+
+  &.highlighted-schema .type-title polygon {
+    fill: var(--highlighted-schema-color);
+  }
 }
 
 /* field */
 .field.selected {
   & > polygon {
     fill: var(--selected-field-bg);
+  }
+}
+
+.field.highlighted-schema {
+  & > polygon {
+    fill: color(var(--highlighted-schema-color) l(+ 40%));
   }
 }
 

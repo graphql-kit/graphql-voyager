@@ -39,6 +39,7 @@
   --edge-color: color(var(--secondary-color) l(- 15%));
   --selected-edge-color: red;
   --selected-field-bg: rgba(255, 0, 0, 0.18);
+  --highlighted-schema-color: #ff6600;
 }
 
 /* match mui md breakpoint,
