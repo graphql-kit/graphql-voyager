@@ -4,13 +4,6 @@ g.graph > polygon {
   fill: transparent;
 }
 
-#svg-pan-zoom-controls {
-  & path {
-    fill-opacity: 0.75;
-    fill: var(--field-name-color);
-  }
-}
-
 /* Nodes Styling */
 .node {
   pointer-events: bounding-box;
