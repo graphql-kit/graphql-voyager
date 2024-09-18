@@ -38,6 +38,8 @@ export function getTypeGraph(
   const nodeMap = new Map<string, GraphQLCompositeType>();
   nodeMap.set(rootType.name, rootType);
 
+  getOtherRootTypes(schema).forEach((type) => nodeMap.set(type.name, type));
+
   for (const type of nodeMap.values()) {
     for (const edgeTarget of getEdgeTargets(type)) {
       if (isNode(edgeTarget)) {
@@ -78,5 +80,25 @@ export function getTypeGraph(
     }
 
     return fieldTypes;
+  }
+
+  function getOtherRootTypes(schema: GraphQLSchema): Array<GraphQLCompositeType> {
+    const types = Object.values(schema.getTypeMap())
+      .filter(isNode)
+      .filter((type) => type !== rootType);
+
+    // Collect all types that are referenced from a source
+    const typesWithSourceReference: Set<string> = new Set();
+
+    types.forEach((type) => {
+      (isUnionType(type) ? type.getTypes() : [type]).map((type) => {
+        Object.values(type.getFields()).forEach((field) => {
+          typesWithSourceReference.add(getNamedType(field.type).name);
+        });
+      });
+    });
+
+    // Return only the types that have no source reference
+    return types.filter((type) => !typesWithSourceReference.has(getNamedType(type).name));
   }
 }

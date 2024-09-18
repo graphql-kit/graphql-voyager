@@ -24,6 +24,7 @@
     "test": "npm run lint && npm run check && npm run testonly && npm run prettier:check && npm run check:spelling",
     "start": "npm run build:worker && webpack serve --mode=development --env standalone",
     "serve": "ts-node ./scripts/serve-directory.ts -p 9090 demo-dist",
+    "serve-standalone": "webpack serve --mode=development --env standalone",
     "clean:release": "rm -rf middleware",
     "clean:worker": "rm -rf worker-dist",
     "bundle:standalone": "webpack --mode=production --env standalone",
