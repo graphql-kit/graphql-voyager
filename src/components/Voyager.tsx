@@ -35,6 +35,7 @@ export interface VoyagerDisplayOptions {
   showLeafFields?: boolean;
   sortByAlphabet?: boolean;
   hideRoot?: boolean;
+  showHighlightedOnly?: boolean;
   highlightSchema?: ExecutionResult<IntrospectionQuery>;
 }
 
@@ -61,6 +62,7 @@ export default function Voyager(props: VoyagerProps) {
       sortByAlphabet: false,
       showLeafFields: true,
       hideRoot: false,
+      showHighlightedOnly: false,
       ...props.displayOptions,
     }),
     [props.displayOptions],
@@ -96,6 +98,10 @@ export default function Voyager(props: VoyagerProps) {
         return null;
       }
       introspectionSchema = buildClientSchema(introspectionResult.value.data);
+    }
+
+    if (displayOptions.highlightSchema?.data && displayOptions.showHighlightedOnly) {
+      introspectionSchema = buildClientSchema(displayOptions.highlightSchema.data);
     }
 
     const schema = getSchema(introspectionSchema, displayOptions);

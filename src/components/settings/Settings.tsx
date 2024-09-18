@@ -50,6 +50,14 @@ export default function Settings(props: SettingsProps) {
           }
         />
         <label htmlFor="showLeafFields">Show leaf fields</label>
+        <Checkbox
+          id="showHighlightedOnly"
+          checked={!!options.showHighlightedOnly}
+          onChange={(event) =>
+            onChange({ showHighlightedOnly: event.target.checked })
+          }
+        />
+        <label htmlFor="showHighlightedOnly">Show highlighted only</label>
       </div>
     </div>
   );
