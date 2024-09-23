@@ -15,9 +15,16 @@ services:
       dockerfile: ./example/webpack/Dockerfile
     stdin_open: true
     tty: true
+  serve-express-example:
+    build:
+      context: .
+      dockerfile: ./example/express-server/Dockerfile
+    stdin_open: true
+    tty: true
   test:
     depends_on:
       - serve-webpack-example
+      - serve-express-example
     build:
       context: .
       dockerfile: ./tests/Dockerfile
@@ -29,6 +36,9 @@ services:
       - ./playwright-report:/app/playwright-report
     command: npx playwright test
   update-snapshots:
+    depends_on:
+      - serve-webpack-example
+      - serve-express-example
     build:
       context: .
       dockerfile: ./tests/Dockerfile

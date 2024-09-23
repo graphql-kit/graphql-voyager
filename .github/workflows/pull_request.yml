@@ -13,6 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read # for actions/checkout
+      pull-requests: write # for actions/dependency-review-action to publish summary
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4

@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "noImplicitAny": true,
+    "strict": true,
     "noEmit": true,
     "module": "esnext",
     "moduleResolution": "node",

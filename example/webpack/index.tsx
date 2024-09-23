@@ -1,3 +1,4 @@
+import { StrictMode } from 'react';
 import * as ReactDOMClient from 'react-dom/client';
 
 import { Voyager, voyagerIntrospectionQuery } from 'graphql-voyager';
@@ -16,10 +17,14 @@ const response = await fetch(
 );
 const introspection = await response.json();
 
-const reactRoot = ReactDOMClient.createRoot(document.getElementById('voyager'));
+const reactRoot = ReactDOMClient.createRoot(
+  document.getElementById('voyager')!,
+);
 reactRoot.render(
-  <Voyager
-    introspection={introspection}
-    displayOptions={{ skipRelay: false, showLeafFields: true }}
-  />,
+  <StrictMode>
+    <Voyager
+      introspection={introspection}
+      displayOptions={{ skipRelay: false, showLeafFields: true }}
+    />
+  </StrictMode>,
 );
