@@ -6,9 +6,9 @@ WORKDIR /app
 
 COPY ./graphql-voyager-*.tgz graphql-voyager.tgz
 
-COPY ./example/webpack ./example/webpack
+COPY ./example/express-server ./example/express-server
 
-WORKDIR example/webpack
+WORKDIR example/express-server
 RUN npm install
 RUN npm test
 
