@@ -1,3 +1,5 @@
+import 'webpack-dev-server';
+
 import * as path from 'node:path';
 
 import * as MiniCssExtractPlugin from 'mini-css-extract-plugin';
@@ -9,49 +11,6 @@ const BANNER = `GraphQL Voyager - Represent any GraphQL API as an interactive gr
 -------------------------------------------------------------
   Version: ${packageJSON.version}
   Repo: ${packageJSON.repository.url}`;
-
-interface Env {
-  lib?: boolean;
-  standalone?: boolean;
-}
-
-// FIXME: switch any to webpack.Configuration
-export default function buildWebpackConfig(env: Env): any {
-  if (env.lib === true) {
-    return {
-      ...baseConfig,
-      entry: './src/index.ts',
-      externals: NodeExternals(),
-      output: {
-        ...baseConfig.output,
-        filename: 'voyager.lib.js',
-      },
-    };
-  }
-
-  if (env.standalone === true) {
-    return {
-      ...baseConfig,
-      entry: './src/standalone.ts',
-      optimization: { minimize: true },
-      externals: undefined,
-      output: {
-        ...baseConfig.output,
-        filename: 'voyager.standalone.js',
-        sourceMapFilename: '[file].map',
-      },
-      devServer: {
-        port: 9090,
-        static: {
-          directory: path.join(__dirname, 'demo'),
-        },
-        liveReload: true,
-      },
-    };
-  }
-
-  throw new Error('Please specify correct env');
-}
 
 const baseConfig: webpack.Configuration = {
   devtool: 'source-map',
@@ -108,6 +67,40 @@ const baseConfig: webpack.Configuration = {
       filename: 'voyager.css',
     }),
 
-    new webpack.BannerPlugin(BANNER),
+    new webpack.BannerPlugin({
+      banner: BANNER,
+      stage: webpack.Compilation.PROCESS_ASSETS_STAGE_REPORT,
+    }),
   ],
 };
+
+const config: Array<webpack.Configuration> = [
+  {
+    ...baseConfig,
+    entry: './src/index.ts',
+    externals: NodeExternals(),
+    output: {
+      ...baseConfig.output,
+      filename: 'voyager.lib.js',
+    },
+  },
+  {
+    ...baseConfig,
+    entry: './src/standalone.ts',
+    optimization: { minimize: true },
+    externals: undefined,
+    output: {
+      ...baseConfig.output,
+      filename: 'voyager.standalone.js',
+      sourceMapFilename: '[file].map',
+    },
+    devServer: {
+      port: 9090,
+      static: {
+        directory: path.join(__dirname, 'demo'),
+      },
+      liveReload: true,
+    },
+  },
+];
+export default config;
