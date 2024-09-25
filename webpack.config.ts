@@ -57,7 +57,12 @@ const baseConfig: webpack.Configuration = {
       {
         test: /\.svg$/,
         issuer: /\.tsx?$/,
-        use: [{ loader: '@svgr/webpack' }],
+        use: [
+          {
+            loader: '@svgr/webpack',
+            options: { typescript: true, ext: 'tsx' },
+          },
+        ],
       },
     ],
   },
