@@ -14,6 +14,10 @@ overrides:
   - filename: '**/*.svg'
     dictionaries:
       - css
+  - filename: 'tests/*.ts'
+    words:
+      - pageerror
+      - requestfailed
 
 words:
   - graphviz

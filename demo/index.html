@@ -123,9 +123,9 @@
 
       const defaultPreset = PRESETS['Star Wars'];
 
-      const currentUrl = new URL(window.location.href);
-      const url = currentUrl.searchParams.get('url');
-      const withCredentials = currentUrl.searchParams.get('withCredentials');
+      const searchParams = new URLSearchParams(window.location.search);
+      const url = searchParams.get('url');
+      const withCredentials = searchParams.get('withCredentials');
 
       const introspection =
         url != null ? fetchIntrospection(url, withCredentials) : defaultPreset;

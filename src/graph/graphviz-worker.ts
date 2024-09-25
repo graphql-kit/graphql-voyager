@@ -61,13 +61,8 @@ export class VizWorker {
   }
 
   async generateCacheKey(dot: string): Promise<string | null> {
-    try {
-      const dotHash = await computeHash(dot);
-      return `worker:${VizWorkerHash}:dot:${dotHash}`;
-    } catch (err) {
-      console.warn('graphql-voyager: Can not generate cache key: ', err);
-      return null;
-    }
+    const dotHash = await computeHash(dot);
+    return dotHash == null ? null : `worker:${VizWorkerHash}:dot:${dotHash}`;
   }
 
   _renderString(src: string): Promise<string> {
