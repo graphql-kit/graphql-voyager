@@ -5,7 +5,6 @@
     "target": "es2021",
     "allowSyntheticDefaultImports": true,
     "strict": true,
-    // "strictNullChecks": false,
     "sourceMap": true,
     "noEmit": true,
     "pretty": true,

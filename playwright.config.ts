@@ -27,6 +27,9 @@ const config: PlaywrightTestConfig = {
   reporter: [['html', { open: 'never' }]],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
+    ...devices['Desktop Chrome'],
+    viewport: { width: 1920, height: 1001 },
+
     permissions: ['clipboard-read', 'clipboard-write'],
 
     /* Maximum time each action such as `click()` can take. Defaults to 0 (no limit). */
@@ -39,37 +42,17 @@ const config: PlaywrightTestConfig = {
     {
       name: 'Demo',
       testMatch: 'Demo.spec.ts',
-      use: {
-        ...devices['Desktop Chrome'],
-        viewport: { width: 1920, height: 1001 },
-
-        /* Base URL to use in actions like `await page.goto('/')`. */
-        baseURL: 'http://localhost:9090',
-      },
+      use: { baseURL: 'http://localhost:9090' },
     },
     {
       name: 'WebpackExample',
       testMatch: 'webpack.spec.ts',
-      use: {
-        ...devices['Desktop Chrome'],
-        trace: 'on',
-        viewport: { width: 1920, height: 1001 },
-
-        /* Base URL to use in actions like `await page.goto('/')`. */
-        baseURL: 'http://serve-webpack-example:9090',
-      },
+      use: { baseURL: 'http://serve-webpack-example:9090' },
     },
     {
       name: 'ExpressExample',
       testMatch: 'express.spec.ts',
-      use: {
-        ...devices['Desktop Chrome'],
-        trace: 'on',
-        viewport: { width: 1920, height: 1001 },
-
-        /* Base URL to use in actions like `await page.goto('/')`. */
-        baseURL: 'http://serve-express-example:9090',
-      },
+      use: { baseURL: 'http://serve-express-example:9090' },
     },
   ],
   outputDir: 'test-results/',

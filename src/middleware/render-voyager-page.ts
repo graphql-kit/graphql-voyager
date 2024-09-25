@@ -1,4 +1,13 @@
-const { version } = require('../package.json');
+import { readFileSync } from 'node:fs';
+
+const voyagerCSS = readFileSync(
+  require.resolve('../dist/voyager.css'),
+  'utf-8',
+);
+const voyagerStandaloneJS = readFileSync(
+  require.resolve('../dist/voyager.standalone.js'),
+  'utf-8',
+);
 
 export interface MiddlewareOptions {
   endpointUrl: string;
@@ -27,11 +36,11 @@ export default function renderVoyagerPage(options: MiddlewareOptions) {
     #voyager {
       height: 100vh;
     }
+    ${voyagerCSS}
   </style>
-  <link rel="stylesheet"
-    href="https://cdn.jsdelivr.net/npm/graphql-voyager@${version}/dist/voyager.css"
-  />
-  <script src="https://cdn.jsdelivr.net/npm/graphql-voyager@${version}/dist/voyager.standalone.js"></script>
+  <script>
+    ${voyagerStandaloneJS}
+  </script>
 </head>
 <body>
   <main id="voyager">
