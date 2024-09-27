@@ -37,7 +37,7 @@
     "check:spelling": "cspell --cache --no-progress '**/*'",
     "testonly": "npm run build:demo && npm pack && docker compose up --abort-on-container-exit --build test",
     "declarations": "tsc --emitDeclarationOnly -p tsconfig.lib.json",
-    "update-snapshots": "docker compose up --build update-snapshots"
+    "update-snapshots": "npm run build:demo && npm pack && docker compose up --build update-snapshots"
   },
   "peerDependencies": {
     "graphql": ">=16.5.0",
@@ -53,7 +53,7 @@
     "svg-pan-zoom": "3.6.1"
   },
   "devDependencies": {
-    "@playwright/test": "1.32.0",
+    "@playwright/test": "1.47.2",
     "@svgr/webpack": "6.5.1",
     "@types/commonmark": "0.27.9",
     "@types/node": "22.7.4",
