@@ -12,13 +12,17 @@ export async function renderSvg(typeGraph: TypeGraph) {
   return svg;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const RelayIconSvg = require('!!svg-as-symbol-loader?id=RelayIcon!../components/icons/relay-icon.svg');
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const DeprecatedIconSvg = require('!!svg-as-symbol-loader?id=DeprecatedIcon!../components/icons/deprecated-icon.svg');
+
 const svgNS = 'http://www.w3.org/2000/svg';
 const xlinkNS = 'http://www.w3.org/1999/xlink';
 
 function preprocessVizSVG(svgString: string) {
   //Add Relay and Deprecated icons
+  // eslint-disable-next-line @typescript-eslint/no-base-to-string
   svgString = svgString.replace(/<svg [^>]*>/, '$&' + RelayIconSvg);
   svgString = svgString.replace(/<svg [^>]*>/, '$&' + DeprecatedIconSvg);
 
