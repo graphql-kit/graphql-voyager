@@ -1,5 +1,6 @@
 import renderVoyagerPage, { MiddlewareOptions } from './render-voyager-page';
 
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const pkg = require('../package.json');
 
 const hapi = {

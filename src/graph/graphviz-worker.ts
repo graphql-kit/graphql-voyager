@@ -15,7 +15,7 @@ export class VizWorker {
     maxSize: 10,
   });
   private _worker: Worker;
-  private _listeners: Array<(result: RenderResult) => void> = [];
+  private _listeners: Map<number, (result: RenderResult) => void> = new Map();
 
   constructor() {
     const blob = new Blob([VizWorkerSource], {
@@ -28,8 +28,8 @@ export class VizWorker {
     this._worker.addEventListener('message', (event) => {
       const { id, result } = event.data as RenderResponse;
 
-      this._listeners[id](result);
-      delete this._listeners[id];
+      this._listeners.get(id)?.(result);
+      this._listeners.delete(id);
     });
   }
 
@@ -67,9 +67,9 @@ export class VizWorker {
 
   _renderString(src: string): Promise<string> {
     return new Promise((resolve, reject) => {
-      const id = this._listeners.length;
+      const id = this._listeners.size;
 
-      this._listeners.push(function (result): void {
+      this._listeners.set(id, function (result): void {
         if ('error' in result) {
           const { error } = result;
           const e = new Error(error.message);
@@ -94,7 +94,6 @@ async function decompressFromDataURL(dataURL: string): Promise<string> {
   const blob = await response.blob();
   switch (blob.type) {
     case 'application/gzip': {
-      // @ts-expect-error DecompressionStream is missing from DOM types
       const stream = blob.stream().pipeThrough(new DecompressionStream('gzip'));
       const decompressedBlob = await streamToBlob(stream, 'text/plain');
       return decompressedBlob.text();
@@ -109,7 +108,6 @@ async function decompressFromDataURL(dataURL: string): Promise<string> {
 async function compressToDataURL(str: string): Promise<string> {
   try {
     const blob = new Blob([str], { type: 'text/plain' });
-    // @ts-expect-error CompressionStream is missing from DOM types
     const stream = blob.stream().pipeThrough(new CompressionStream('gzip'));
     const compressedBlob = await streamToBlob(stream, 'application/gzip');
     return blobToDataURL(compressedBlob);
@@ -131,6 +129,7 @@ function blobToDataURL(blob: Blob): Promise<string> {
       };
       fileReader.readAsDataURL(blob);
     } catch (err) {
+      // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
       reject(err);
     }
   });

@@ -238,7 +238,7 @@ export class Viewport {
     this.resizeObserver.disconnect();
     try {
       this.zoomer.destroy();
-    } catch (e) {
+    } catch {
       // skip
     }
   }
