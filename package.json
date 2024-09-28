@@ -21,7 +21,7 @@
   "scripts": {
     "preversion": "npm ci --ignore-scripts && npm test",
     "changelog": "ts-node scripts/gen-changelog.ts",
-    "test": "npm run lint && npm run check && npm run testonly && npm run prettier:check && npm run check:spelling",
+    "test": "npm run lint && npm run check && npm run testonly && npm run prettier:check && npm run check:spell",
     "start": "npm run build:worker && webpack serve --mode=development",
     "serve": "ts-node ./scripts/serve-directory.ts -p 9090 demo-dist",
     "bundle": "rm -rf dist && webpack --mode=production",
@@ -34,7 +34,7 @@
     "check": "tsc",
     "prettier": "prettier --write --list-different . **/*.svg",
     "prettier:check": "prettier --check . **/*.svg",
-    "check:spelling": "cspell --cache --no-progress '**/*'",
+    "check:spell": "cspell --cache --no-progress '**/*'",
     "testonly": "npm run build:demo && npm pack && docker compose up --abort-on-container-exit --build test",
     "declarations": "tsc --emitDeclarationOnly -p tsconfig.lib.json",
     "update-snapshots": "npm run build:demo && npm pack && docker compose up --build update-snapshots"
@@ -62,7 +62,7 @@
     "@types/webpack-node-externals": "3.0.4",
     "@typescript-eslint/eslint-plugin": "8.7.0",
     "@typescript-eslint/parser": "8.7.0",
-    "cspell": "6.2.3",
+    "cspell": "8.14.4",
     "css-loader": "7.1.2",
     "eslint": "8.57.1",
     "eslint-plugin-import": "2.30.0",
