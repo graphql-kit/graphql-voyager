@@ -46,9 +46,9 @@
   "dependencies": {
     "@emotion/react": "11.13.3",
     "@emotion/styled": "11.13.0",
-    "@mui/icons-material": "5.16.7",
+    "@mui/icons-material": "6.1.1",
     "@mui/lab": "5.0.0-alpha.169",
-    "@mui/material": "5.16.7",
+    "@mui/material": "6.1.1",
     "commonmark": "0.31.2",
     "svg-pan-zoom": "3.6.1"
   },
