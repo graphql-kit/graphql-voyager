@@ -6,12 +6,12 @@ import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
+import Grid from '@mui/material/Grid2';
 import Stack from '@mui/material/Stack';
 import Tab from '@mui/material/Tab';
 import TextField from '@mui/material/TextField';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
-import Grid from '@mui/material/Unstable_Grid2';
 import { buildClientSchema } from 'graphql/utilities';
 import { useState } from 'react';
 
@@ -179,7 +179,7 @@ function PresetsTab(props: PresetsTabProps) {
   return (
     <Grid container spacing={4}>
       {presetNames.map((name) => (
-        <Grid xs={12} sm={6} key={name}>
+        <Grid size={{ xs: 12, sm: 6 }} key={name}>
           <Button
             fullWidth
             variant="outlined"
