@@ -26,7 +26,7 @@ overrides:
   - files: 'tests/**.ts'
     plugins: ['@typescript-eslint']
     extends:
-      - 'plugin:playwright/playwright-test'
+      - 'plugin:playwright/recommended'
 
   - files: ['**/*.ts', '**/*.tsx']
     parser: '@typescript-eslint/parser'
