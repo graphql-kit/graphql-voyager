@@ -17,7 +17,7 @@ export function typeNameToId(name: string) {
   return `TYPE::${name}`;
 }
 
-export function extractTypeName(typeID: string) {
+export function extractTypeName(typeID: string): string {
   const [, type] = typeID.split('::');
   return type;
 }

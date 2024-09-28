@@ -83,7 +83,8 @@ async function genChangeLog(): Promise<string> {
       .map((label) => label.name)
       .filter((label) => label.startsWith('PR: '));
 
-    if (labels.length === 0) {
+    const label = labels[0];
+    if (label == null) {
       throw new Error(`PR is missing label. See ${pr.url}`);
     }
     if (labels.length > 1) {
@@ -92,7 +93,6 @@ async function genChangeLog(): Promise<string> {
       );
     }
 
-    const label = labels[0];
     if (labelsConfig[label] == null) {
       throw new Error(`Unknown label: ${label}. See ${pr.url}`);
     }
@@ -275,22 +275,27 @@ function commitInfoToPR(commit: CommitInfo): number {
   const associatedPRs = commit.associatedPullRequests.nodes.filter(
     (pr) => pr.repository.nameWithOwner === `${githubOrg}/${githubRepo}`,
   );
-  if (associatedPRs.length === 0) {
-    const match = / \(#(?<prNumber>[0-9]+)\)$/m.exec(commit.message);
-    if (match?.groups?.prNumber != null) {
-      return parseInt(match.groups.prNumber, 10);
-    }
-    throw new Error(
-      `Commit ${commit.oid} has no associated PR: ${commit.message}`,
-    );
-  }
+
   if (associatedPRs.length > 1) {
     throw new Error(
       `Commit ${commit.oid} is associated with multiple PRs: ${commit.message}`,
     );
   }
 
-  return associatedPRs[0].number;
+  const associatedPR = associatedPRs[0];
+  if (associatedPR == null) {
+    const match = / \(#(?<prNumber>[0-9]+)\)$/m.exec(commit.message);
+    const { prNumber } = match?.groups ?? {};
+
+    if (prNumber != null) {
+      return parseInt(prNumber, 10);
+    }
+    throw new Error(
+      `Commit ${commit.oid} has no associated PR: ${commit.message}`,
+    );
+  }
+
+  return associatedPR.number;
 }
 
 async function getPRsInfo(

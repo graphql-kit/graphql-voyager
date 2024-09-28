@@ -1,10 +1,30 @@
 {
   "compilerOptions": {
+    // copy of https://github.com/tsconfig/bases/blob/main/bases/strictest.json
+    "strict": true,
+    "allowUnusedLabels": false,
+    "allowUnreachableCode": false,
+    // FIXME: "exactOptionalPropertyTypes": true,
+    "noFallthroughCasesInSwitch": true,
+    // FIXME: "noImplicitOverride": true,
+    "noImplicitReturns": true,
+    "noPropertyAccessFromIndexSignature": true,
+    // FIXME: "noUncheckedIndexedAccess": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+
+    "isolatedModules": true,
+
+    "checkJs": true,
+
+    // FIXME: "esModuleInterop": true,
+    "skipLibCheck": true,
+    // end copy
+
     "module": "es2015",
     "moduleResolution": "node",
     "target": "es2021",
     "allowSyntheticDefaultImports": true,
-    "strict": true,
     "sourceMap": true,
     "noEmit": true,
     "pretty": true,
