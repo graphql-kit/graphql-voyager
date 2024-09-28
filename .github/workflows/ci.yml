@@ -60,7 +60,7 @@ jobs:
         run: npm run prettier:check
 
       - name: Spellcheck
-        run: npm run check:spelling
+        run: npm run check:spell
 
       - name: Lint GitHub Actions
         uses: docker://rhysd/actionlint:latest
