@@ -65,14 +65,14 @@ function removeRelayTypes(schema: GraphQLSchema) {
         }
 
         const connectionFields = connectionType.getFields();
-        const edgeType = getNamedType(connectionFields.edges?.type);
-        if (!isObjectType(edgeType) || connectionFields.pageInfo == null) {
+        const edgeType = getNamedType(connectionFields['edges']?.type);
+        if (!isObjectType(edgeType) || connectionFields['pageInfo'] == null) {
           continue;
         }
 
         const edgeFields = edgeType.getFields();
-        const nodeType = edgeFields.node?.type;
-        if (nodeType == null || edgeFields.cursor == null) {
+        const nodeType = edgeFields['node']?.type;
+        if (nodeType == null || edgeFields['cursor'] == null) {
           continue;
         }
 
