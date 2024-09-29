@@ -59,7 +59,6 @@
     "@types/node": "22.7.4",
     "@types/react": "18.3.10",
     "@types/react-dom": "18.3.0",
-    "@types/webpack-node-externals": "3.0.4",
     "@typescript-eslint/eslint-plugin": "8.7.0",
     "@typescript-eslint/parser": "8.7.0",
     "cspell": "8.14.4",
@@ -87,7 +86,6 @@
     "typescript": "5.5.4",
     "webpack": "5.95.0",
     "webpack-cli": "5.1.4",
-    "webpack-dev-server": "5.1.0",
-    "webpack-node-externals": "3.0.0"
+    "webpack-dev-server": "5.1.0"
   }
 }

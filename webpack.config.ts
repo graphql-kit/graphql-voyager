@@ -4,7 +4,7 @@ import * as path from 'node:path';
 
 import * as MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import * as webpack from 'webpack';
-import * as NodeExternals from 'webpack-node-externals';
+import { ExternalItemFunctionData } from 'webpack';
 
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const packageJSON = require('./package.json');
@@ -84,7 +84,14 @@ const config: Array<webpack.Configuration> = [
   {
     ...baseConfig,
     entry: './src/index.ts',
-    externals: NodeExternals(),
+    externalsType: 'commonjs',
+    externals: ({ request }: ExternalItemFunctionData) =>
+      Promise.resolve(
+        [
+          ...Object.keys(packageJSON.peerDependencies),
+          ...Object.keys(packageJSON.dependencies),
+        ].some((pkg) => request === pkg || request?.startsWith(pkg + '/')),
+      ),
     output: {
       ...baseConfig.output,
       filename: 'voyager.lib.js',
