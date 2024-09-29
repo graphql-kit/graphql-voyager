@@ -1,0 +1,4913 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="2312pt"
+  height="2102pt"
+  xmlns:ev="http://www.w3.org/2001/xml-events"
+  style="overflow: hidden"
+>
+  <g
+    id="viewport-20240929221734636"
+    class="svg-pan-zoom_viewport"
+    transform="matrix(0.48819946094661054,0,0,0.48819946094661054,235.5584303665195,27.00000769192639)"
+    style="transform: matrix(0.488199, 0, 0, 0.488199, 235.558, 27)"
+  >
+    <symbol
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="-50 -50 580 700"
+      id="DeprecatedIcon"
+    >
+      <path
+        style="fill: #f74036"
+        d="M481.249,420.625l-219-380c-4-7-11-11-19-11s-15,4-19,11l-221,382c-10,17,5,33,19,33h442         c12,0,21-10,21-22C485.249,428.625,484.249,424.625,481.249,420.625z M60.249,411.625l183-317l183,317H60.249z"
+      ></path>
+      <path
+        style="fill: #f74036"
+        d="M221.249,192.625v97c0,12,10,22,22,22s22-10,22-22v-97c0-12-10-22-22-22         S221.249,180.625,221.249,192.625z"
+      ></path>
+      <path
+        style="fill: #f74036"
+        d="M243.249,330.625c-15,0-27,12-27,27s12,28,27,28s27-13,27-28S258.249,330.625,243.249,330.625z"
+      ></path>
+    </symbol>
+    <symbol
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 600 600"
+      id="RelayIcon"
+    >
+      <g fill="#F26B00">
+        <path
+          d="M142.536 198.858c0 26.36-21.368 47.72-47.72 47.72-26.36 0-47.722-21.36-47.722-47.72s21.36-47.72 47.72-47.72c26.355 0 47.722 21.36 47.722 47.72"
+        ></path>
+        <path
+          d="M505.18 414.225H238.124c-35.25 0-63.926-28.674-63.926-63.923s28.678-63.926 63.926-63.926h120.78c20.816 0 37.753-16.938 37.753-37.756s-16.938-37.756-37.753-37.756H94.81c-7.227 0-13.086-5.86-13.086-13.085 0-7.227 5.86-13.086 13.085-13.086h264.093c35.25 0 63.923 28.678 63.923 63.926s-28.674 63.923-63.923 63.923h-120.78c-20.82 0-37.756 16.938-37.756 37.76 0 20.816 16.938 37.753 37.756 37.753H505.18c7.227 0 13.086 5.86 13.086 13.085 0 7.226-5.858 13.085-13.085 13.085z"
+        ></path>
+        <path
+          d="M457.464 401.142c0-26.36 21.36-47.72 47.72-47.72s47.72 21.36 47.72 47.72-21.36 47.72-47.72 47.72-47.72-21.36-47.72-47.72"
+        ></path>
+      </g>
+    </symbol>
+    <g
+      id="graph0"
+      class="graph"
+      transform="scale(1 1) rotate(0) translate(4 2097.6)"
+    >
+      <polygon
+        fill="white"
+        stroke="none"
+        points="-4,4 -4,-2097.6 2308.34,-2097.6 2308.34,4 -4,4"
+      ></polygon>
+      <!-- Root -->
+      <g id="TYPE::Root" class="node type">
+        <g id="TYPE_TITLE::Root" class="type-title">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="8,-1590.8 8,-1622.4 201.42,-1622.4 201.42,-1590.8 8,-1590.8"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="85.7"
+            y="-1601.2"
+            font-family="Helvetica,sans-Serif"
+            font-size="18.00"
+          >
+            Root
+          </text>
+        </g>
+        <g id="FIELD::Root::allFilms" class="field edge-source">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="8,-1559.6 8,-1590.8 201.42,-1590.8 201.42,-1559.6 8,-1559.6"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="14"
+            y="-1571.4"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            allFilms
+          </text>
+
+          <use
+            xlink:href="#RelayIcon"
+            width="22px"
+            height="22px"
+            x="134.08"
+            y="-1586"
+          ></use>
+          <text
+            text-anchor="start"
+            x="156.32"
+            y="-1571.4"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            [
+          </text>
+          <text
+            text-anchor="start"
+            x="160.77"
+            y="-1571.4"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type type-link"
+          >
+            Film
+          </text>
+          <text
+            text-anchor="start"
+            x="190.98"
+            y="-1571.4"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            ]
+          </text>
+        </g>
+        <g id="FIELD::Root::film" class="field edge-source">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="8,-1528.4 8,-1559.6 201.42,-1559.6 201.42,-1528.4 8,-1528.4"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="14"
+            y="-1540.2"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            film
+          </text>
+
+          <text
+            text-anchor="start"
+            x="165.21"
+            y="-1539.2"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type type-link"
+          >
+            Film
+          </text>
+        </g>
+        <g id="FIELD::Root::allPeople" class="field edge-source">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="8,-1497.2 8,-1528.4 201.42,-1528.4 201.42,-1497.2 8,-1497.2"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="14"
+            y="-1509"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            allPeople
+          </text>
+
+          <use
+            xlink:href="#RelayIcon"
+            width="22px"
+            height="22px"
+            x="113.59"
+            y="-1524"
+          ></use>
+          <text
+            text-anchor="start"
+            x="135.84"
+            y="-1509"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            [
+          </text>
+          <text
+            text-anchor="start"
+            x="140.28"
+            y="-1509"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type type-link"
+          >
+            Person
+          </text>
+          <text
+            text-anchor="start"
+            x="190.98"
+            y="-1509"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            ]
+          </text>
+        </g>
+        <g id="FIELD::Root::person" class="field edge-source">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="8,-1466 8,-1497.2 201.42,-1497.2 201.42,-1466 8,-1466"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="14"
+            y="-1477.8"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            person
+          </text>
+
+          <text
+            text-anchor="start"
+            x="144.73"
+            y="-1476.8"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type type-link"
+          >
+            Person
+          </text>
+        </g>
+        <g id="FIELD::Root::allPlanets" class="field edge-source">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="8,-1434.8 8,-1466 201.42,-1466 201.42,-1434.8 8,-1434.8"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="14"
+            y="-1446.6"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            allPlanets
+          </text>
+
+          <use
+            xlink:href="#RelayIcon"
+            width="22px"
+            height="22px"
+            x="118.92"
+            y="-1461"
+          ></use>
+          <text
+            text-anchor="start"
+            x="141.16"
+            y="-1446.6"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            [
+          </text>
+          <text
+            text-anchor="start"
+            x="145.61"
+            y="-1446.6"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type type-link"
+          >
+            Planet
+          </text>
+          <text
+            text-anchor="start"
+            x="190.98"
+            y="-1446.6"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            ]
+          </text>
+        </g>
+        <g id="FIELD::Root::planet" class="field edge-source">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="8,-1403.6 8,-1434.8 201.42,-1434.8 201.42,-1403.6 8,-1403.6"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="14"
+            y="-1415.4"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            planet
+          </text>
+
+          <text
+            text-anchor="start"
+            x="150.05"
+            y="-1414.4"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type type-link"
+          >
+            Planet
+          </text>
+        </g>
+        <g id="FIELD::Root::allSpecies" class="field edge-source">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="8,-1372.4 8,-1403.6 201.42,-1403.6 201.42,-1372.4 8,-1372.4"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="14"
+            y="-1384.2"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            allSpecies
+          </text>
+
+          <use
+            xlink:href="#RelayIcon"
+            width="22px"
+            height="22px"
+            x="107.37"
+            y="-1399"
+          ></use>
+          <text
+            text-anchor="start"
+            x="129.61"
+            y="-1384.2"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            [
+          </text>
+          <text
+            text-anchor="start"
+            x="134.05"
+            y="-1384.2"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type type-link"
+          >
+            Species
+          </text>
+          <text
+            text-anchor="start"
+            x="190.98"
+            y="-1384.2"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            ]
+          </text>
+        </g>
+        <g id="FIELD::Root::species" class="field edge-source">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="8,-1341.2 8,-1372.4 201.42,-1372.4 201.42,-1341.2 8,-1341.2"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="14"
+            y="-1353"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            species
+          </text>
+
+          <text
+            text-anchor="start"
+            x="138.5"
+            y="-1352"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type type-link"
+          >
+            Species
+          </text>
+        </g>
+        <g id="FIELD::Root::allStarships" class="field edge-source">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="8,-1310 8,-1341.2 201.42,-1341.2 201.42,-1310 8,-1310"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="14"
+            y="-1321.8"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            allStarships
+          </text>
+
+          <use
+            xlink:href="#RelayIcon"
+            width="22px"
+            height="22px"
+            x="105.59"
+            y="-1336"
+          ></use>
+          <text
+            text-anchor="start"
+            x="127.84"
+            y="-1321.8"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            [
+          </text>
+          <text
+            text-anchor="start"
+            x="132.28"
+            y="-1321.8"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type type-link"
+          >
+            Starship
+          </text>
+          <text
+            text-anchor="start"
+            x="190.98"
+            y="-1321.8"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            ]
+          </text>
+        </g>
+        <g id="FIELD::Root::starship" class="field edge-source">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="8,-1278.8 8,-1310 201.42,-1310 201.42,-1278.8 8,-1278.8"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="14"
+            y="-1290.6"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            starship
+          </text>
+
+          <text
+            text-anchor="start"
+            x="136.73"
+            y="-1289.6"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type type-link"
+          >
+            Starship
+          </text>
+        </g>
+        <g id="FIELD::Root::allVehicles" class="field edge-source">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="8,-1247.6 8,-1278.8 201.42,-1278.8 201.42,-1247.6 8,-1247.6"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="14"
+            y="-1259.4"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            allVehicles
+          </text>
+
+          <use
+            xlink:href="#RelayIcon"
+            width="22px"
+            height="22px"
+            x="111.81"
+            y="-1274"
+          ></use>
+          <text
+            text-anchor="start"
+            x="134.05"
+            y="-1259.4"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            [
+          </text>
+          <text
+            text-anchor="start"
+            x="138.5"
+            y="-1259.4"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type type-link"
+          >
+            Vehicle
+          </text>
+          <text
+            text-anchor="start"
+            x="190.98"
+            y="-1259.4"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            ]
+          </text>
+        </g>
+        <g id="FIELD::Root::vehicle" class="field edge-source">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="8,-1216.4 8,-1247.6 201.42,-1247.6 201.42,-1216.4 8,-1216.4"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="14"
+            y="-1228.2"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            vehicle
+          </text>
+
+          <text
+            text-anchor="start"
+            x="142.95"
+            y="-1227.2"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type type-link"
+          >
+            Vehicle
+          </text>
+        </g>
+      </g>
+      <!-- Film -->
+      <g id="TYPE::Film" class="node type">
+        <g id="TYPE_TITLE::Film" class="type-title">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="438.44,-1637 438.44,-1668.6 688.79,-1668.6 688.79,-1637 438.44,-1637"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="546.62"
+            y="-1647.4"
+            font-family="Helvetica,sans-Serif"
+            font-size="18.00"
+          >
+            Film
+          </text>
+        </g>
+        <g id="FIELD::Film::title" class="field">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="438.44,-1605.8 438.44,-1637 688.79,-1637 688.79,-1605.8 438.44,-1605.8"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="444.44"
+            y="-1617.6"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            title
+          </text>
+
+          <text
+            text-anchor="start"
+            x="641"
+            y="-1616.6"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            String
+          </text>
+        </g>
+        <g id="FIELD::Film::episodeID" class="field">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="438.44,-1574.6 438.44,-1605.8 688.79,-1605.8 688.79,-1574.6 438.44,-1574.6"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="444.44"
+            y="-1586.4"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            episodeID
+          </text>
+
+          <text
+            text-anchor="start"
+            x="665.01"
+            y="-1585.4"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            Int
+          </text>
+        </g>
+        <g id="FIELD::Film::openingCrawl" class="field">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="438.44,-1543.4 438.44,-1574.6 688.79,-1574.6 688.79,-1543.4 438.44,-1543.4"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="444.44"
+            y="-1555.2"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            openingCrawl
+          </text>
+
+          <text
+            text-anchor="start"
+            x="641"
+            y="-1554.2"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            String
+          </text>
+        </g>
+        <g id="FIELD::Film::director" class="field">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="438.44,-1512.2 438.44,-1543.4 688.79,-1543.4 688.79,-1512.2 438.44,-1512.2"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="444.44"
+            y="-1524"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            director
+          </text>
+
+          <text
+            text-anchor="start"
+            x="641"
+            y="-1523"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            String
+          </text>
+        </g>
+        <g id="FIELD::Film::producers" class="field">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="438.44,-1481 438.44,-1512.2 688.79,-1512.2 688.79,-1481 438.44,-1481"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="444.44"
+            y="-1492.8"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            producers
+          </text>
+
+          <text
+            text-anchor="start"
+            x="632.11"
+            y="-1492.8"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            [
+          </text>
+          <text
+            text-anchor="start"
+            x="636.55"
+            y="-1492.8"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            String
+          </text>
+          <text
+            text-anchor="start"
+            x="678.35"
+            y="-1492.8"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            ]
+          </text>
+        </g>
+        <g id="FIELD::Film::releaseDate" class="field">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="438.44,-1449.8 438.44,-1481 688.79,-1481 688.79,-1449.8 438.44,-1449.8"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="444.44"
+            y="-1461.6"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            releaseDate
+          </text>
+
+          <text
+            text-anchor="start"
+            x="641"
+            y="-1460.6"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            String
+          </text>
+        </g>
+        <g id="FIELD::Film::speciesConnection" class="field edge-source">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="438.44,-1418.6 438.44,-1449.8 688.79,-1449.8 688.79,-1418.6 438.44,-1418.6"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="444.44"
+            y="-1430.4"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            speciesConnection
+          </text>
+
+          <use
+            xlink:href="#RelayIcon"
+            width="22px"
+            height="22px"
+            x="594.74"
+            y="-1445"
+          ></use>
+          <text
+            text-anchor="start"
+            x="616.98"
+            y="-1430.4"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            [
+          </text>
+          <text
+            text-anchor="start"
+            x="621.43"
+            y="-1430.4"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type type-link"
+          >
+            Species
+          </text>
+          <text
+            text-anchor="start"
+            x="678.35"
+            y="-1430.4"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            ]
+          </text>
+        </g>
+        <g id="FIELD::Film::starshipConnection" class="field edge-source">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="438.44,-1387.4 438.44,-1418.6 688.79,-1418.6 688.79,-1387.4 438.44,-1387.4"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="444.44"
+            y="-1399.2"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            starshipConnection
+          </text>
+
+          <use
+            xlink:href="#RelayIcon"
+            width="22px"
+            height="22px"
+            x="592.97"
+            y="-1414"
+          ></use>
+          <text
+            text-anchor="start"
+            x="615.21"
+            y="-1399.2"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            [
+          </text>
+          <text
+            text-anchor="start"
+            x="619.65"
+            y="-1399.2"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type type-link"
+          >
+            Starship
+          </text>
+          <text
+            text-anchor="start"
+            x="678.35"
+            y="-1399.2"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            ]
+          </text>
+        </g>
+        <g id="FIELD::Film::vehicleConnection" class="field edge-source">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="438.44,-1356.2 438.44,-1387.4 688.79,-1387.4 688.79,-1356.2 438.44,-1356.2"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="444.44"
+            y="-1368"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            vehicleConnection
+          </text>
+
+          <use
+            xlink:href="#RelayIcon"
+            width="22px"
+            height="22px"
+            x="599.19"
+            y="-1383"
+          ></use>
+          <text
+            text-anchor="start"
+            x="621.43"
+            y="-1368"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            [
+          </text>
+          <text
+            text-anchor="start"
+            x="625.87"
+            y="-1368"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type type-link"
+          >
+            Vehicle
+          </text>
+          <text
+            text-anchor="start"
+            x="678.35"
+            y="-1368"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            ]
+          </text>
+        </g>
+        <g id="FIELD::Film::characterConnection" class="field edge-source">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="438.44,-1325 438.44,-1356.2 688.79,-1356.2 688.79,-1325 438.44,-1325"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="444.44"
+            y="-1336.8"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            characterConnection
+          </text>
+
+          <use
+            xlink:href="#RelayIcon"
+            width="22px"
+            height="22px"
+            x="600.97"
+            y="-1351"
+          ></use>
+          <text
+            text-anchor="start"
+            x="623.21"
+            y="-1336.8"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            [
+          </text>
+          <text
+            text-anchor="start"
+            x="627.65"
+            y="-1336.8"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type type-link"
+          >
+            Person
+          </text>
+          <text
+            text-anchor="start"
+            x="678.35"
+            y="-1336.8"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            ]
+          </text>
+        </g>
+        <g id="FIELD::Film::planetConnection" class="field edge-source">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="438.44,-1293.8 438.44,-1325 688.79,-1325 688.79,-1293.8 438.44,-1293.8"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="444.44"
+            y="-1305.6"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            planetConnection
+          </text>
+
+          <use
+            xlink:href="#RelayIcon"
+            width="22px"
+            height="22px"
+            x="606.29"
+            y="-1320"
+          ></use>
+          <text
+            text-anchor="start"
+            x="628.54"
+            y="-1305.6"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            [
+          </text>
+          <text
+            text-anchor="start"
+            x="632.98"
+            y="-1305.6"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type type-link"
+          >
+            Planet
+          </text>
+          <text
+            text-anchor="start"
+            x="678.35"
+            y="-1305.6"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            ]
+          </text>
+        </g>
+        <g id="FIELD::Film::created" class="field">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="438.44,-1262.6 438.44,-1293.8 688.79,-1293.8 688.79,-1262.6 438.44,-1262.6"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="444.44"
+            y="-1274.4"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            created
+          </text>
+
+          <text
+            text-anchor="start"
+            x="641"
+            y="-1273.4"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            String
+          </text>
+        </g>
+        <g id="FIELD::Film::edited" class="field">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="438.44,-1231.4 438.44,-1262.6 688.79,-1262.6 688.79,-1231.4 438.44,-1231.4"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="444.44"
+            y="-1243.2"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            edited
+          </text>
+
+          <text
+            text-anchor="start"
+            x="641"
+            y="-1242.2"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            String
+          </text>
+        </g>
+        <g id="FIELD::Film::id" class="field">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="438.44,-1200.2 438.44,-1231.4 688.79,-1231.4 688.79,-1200.2 438.44,-1200.2"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="444.44"
+            y="-1212"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            id
+          </text>
+
+          <text
+            text-anchor="start"
+            x="662.35"
+            y="-1212"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            ID
+          </text>
+          <text
+            text-anchor="start"
+            x="678.35"
+            y="-1212"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            !
+          </text>
+        </g>
+      </g>
+      <!-- Root&#45;&gt;Film -->
+      <g class="edge" data-from="FIELD::Root::allFilms" data-to="TYPE::Film">
+        <path
+          fill="none"
+          stroke="black"
+          d="M202.71,-1575.4C301.97,-1575.4 199.8,-1727.92 281.42,-1784.4 309.57,-1803.88 328.75,-1801.45 358.44,-1784.4 371.59,-1776.84 399.06,-1734.64 429.71,-1682"
+        ></path>
+        <polygon
+          fill="black"
+          stroke="black"
+          points="433.08,-1684.17 435.06,-1673.76 427.02,-1680.66 433.08,-1684.17"
+        ></polygon>
+        <text
+          text-anchor="middle"
+          x="319.93"
+          y="-1801.6"
+          font-family="Times,serif"
+          font-size="14.00"
+        >
+          Root:allFilms
+        </text>
+        <path
+          fill="none"
+          stroke="black"
+          d="M202.71,-1575.4C301.97,-1575.4 199.8,-1727.92 281.42,-1784.4 309.57,-1803.88 328.75,-1801.45 358.44,-1784.4 371.59,-1776.84 399.06,-1734.64 429.71,-1682"
+          class="hover-path"
+        ></path>
+      </g>
+      <!-- Root&#45;&gt;Film -->
+      <g class="edge" data-from="FIELD::Root::film" data-to="TYPE::Film">
+        <path
+          fill="none"
+          stroke="black"
+          d="M202.71,-1544.4C276.67,-1544.4 355.58,-1522.9 420.61,-1498.9"
+        ></path>
+        <polygon
+          fill="black"
+          stroke="black"
+          points="421.38,-1501.98 429.52,-1495.19 418.92,-1495.42 421.38,-1501.98"
+        ></polygon>
+        <text
+          text-anchor="middle"
+          x="319.93"
+          y="-1541.6"
+          font-family="Times,serif"
+          font-size="14.00"
+        >
+          Root:film
+        </text>
+        <path
+          fill="none"
+          stroke="black"
+          d="M202.71,-1544.4C276.67,-1544.4 355.58,-1522.9 420.61,-1498.9"
+          class="hover-path"
+        ></path>
+      </g>
+      <!-- Person -->
+      <g id="TYPE::Person" class="node type">
+        <g id="TYPE_TITLE::Person" class="type-title">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="994.97,-1701.2 994.97,-1732.8 1242.66,-1732.8 1242.66,-1701.2 994.97,-1701.2"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="1090.3"
+            y="-1711.6"
+            font-family="Helvetica,sans-Serif"
+            font-size="18.00"
+          >
+            Person
+          </text>
+        </g>
+        <g id="FIELD::Person::name" class="field">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="994.97,-1670 994.97,-1701.2 1242.66,-1701.2 1242.66,-1670 994.97,-1670"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="1000.97"
+            y="-1681.8"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            name
+          </text>
+
+          <text
+            text-anchor="start"
+            x="1194.86"
+            y="-1680.8"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            String
+          </text>
+        </g>
+        <g id="FIELD::Person::birthYear" class="field">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="994.97,-1638.8 994.97,-1670 1242.66,-1670 1242.66,-1638.8 994.97,-1638.8"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="1000.97"
+            y="-1650.6"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            birthYear
+          </text>
+
+          <text
+            text-anchor="start"
+            x="1194.86"
+            y="-1649.6"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            String
+          </text>
+        </g>
+        <g id="FIELD::Person::eyeColor" class="field">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="994.97,-1607.6 994.97,-1638.8 1242.66,-1638.8 1242.66,-1607.6 994.97,-1607.6"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="1000.97"
+            y="-1619.4"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            eyeColor
+          </text>
+
+          <text
+            text-anchor="start"
+            x="1194.86"
+            y="-1618.4"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            String
+          </text>
+        </g>
+        <g id="FIELD::Person::gender" class="field">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="994.97,-1576.4 994.97,-1607.6 1242.66,-1607.6 1242.66,-1576.4 994.97,-1576.4"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="1000.97"
+            y="-1588.2"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            gender
+          </text>
+
+          <text
+            text-anchor="start"
+            x="1194.86"
+            y="-1587.2"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            String
+          </text>
+        </g>
+        <g id="FIELD::Person::hairColor" class="field">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="994.97,-1545.2 994.97,-1576.4 1242.66,-1576.4 1242.66,-1545.2 994.97,-1545.2"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="1000.97"
+            y="-1557"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            hairColor
+          </text>
+
+          <text
+            text-anchor="start"
+            x="1194.86"
+            y="-1556"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            String
+          </text>
+        </g>
+        <g id="FIELD::Person::height" class="field">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="994.97,-1514 994.97,-1545.2 1242.66,-1545.2 1242.66,-1514 994.97,-1514"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="1000.97"
+            y="-1525.8"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            height
+          </text>
+
+          <text
+            text-anchor="start"
+            x="1218.87"
+            y="-1524.8"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            Int
+          </text>
+        </g>
+        <g id="FIELD::Person::mass" class="field">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="994.97,-1482.8 994.97,-1514 1242.66,-1514 1242.66,-1482.8 994.97,-1482.8"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="1000.97"
+            y="-1494.6"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            mass
+          </text>
+
+          <text
+            text-anchor="start"
+            x="1218.87"
+            y="-1493.6"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            Int
+          </text>
+        </g>
+        <g id="FIELD::Person::skinColor" class="field">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="994.97,-1451.6 994.97,-1482.8 1242.66,-1482.8 1242.66,-1451.6 994.97,-1451.6"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="1000.97"
+            y="-1463.4"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            skinColor
+          </text>
+
+          <text
+            text-anchor="start"
+            x="1194.86"
+            y="-1462.4"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            String
+          </text>
+        </g>
+        <g id="FIELD::Person::homeworld" class="field edge-source">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="994.97,-1420.4 994.97,-1451.6 1242.66,-1451.6 1242.66,-1420.4 994.97,-1420.4"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="1000.97"
+            y="-1432.2"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            homeworld
+          </text>
+
+          <text
+            text-anchor="start"
+            x="1191.29"
+            y="-1431.2"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type type-link"
+          >
+            Planet
+          </text>
+        </g>
+        <g id="FIELD::Person::filmConnection" class="field edge-source">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="994.97,-1389.2 994.97,-1420.4 1242.66,-1420.4 1242.66,-1389.2 994.97,-1389.2"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="1000.97"
+            y="-1401"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            filmConnection
+          </text>
+
+          <use
+            xlink:href="#RelayIcon"
+            width="22px"
+            height="22px"
+            x="1175.31"
+            y="-1416"
+          ></use>
+          <text
+            text-anchor="start"
+            x="1197.55"
+            y="-1401"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            [
+          </text>
+          <text
+            text-anchor="start"
+            x="1202"
+            y="-1401"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type type-link"
+          >
+            Film
+          </text>
+          <text
+            text-anchor="start"
+            x="1232.21"
+            y="-1401"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            ]
+          </text>
+        </g>
+        <g id="FIELD::Person::species" class="field edge-source">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="994.97,-1358 994.97,-1389.2 1242.66,-1389.2 1242.66,-1358 994.97,-1358"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="1000.97"
+            y="-1369.8"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            species
+          </text>
+
+          <text
+            text-anchor="start"
+            x="1179.73"
+            y="-1368.8"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type type-link"
+          >
+            Species
+          </text>
+        </g>
+        <g id="FIELD::Person::starshipConnection" class="field edge-source">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="994.97,-1326.8 994.97,-1358 1242.66,-1358 1242.66,-1326.8 994.97,-1326.8"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="1000.97"
+            y="-1338.6"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            starshipConnection
+          </text>
+
+          <use
+            xlink:href="#RelayIcon"
+            width="22px"
+            height="22px"
+            x="1146.83"
+            y="-1353"
+          ></use>
+          <text
+            text-anchor="start"
+            x="1169.07"
+            y="-1338.6"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            [
+          </text>
+          <text
+            text-anchor="start"
+            x="1173.51"
+            y="-1338.6"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type type-link"
+          >
+            Starship
+          </text>
+          <text
+            text-anchor="start"
+            x="1232.21"
+            y="-1338.6"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            ]
+          </text>
+        </g>
+        <g id="FIELD::Person::vehicleConnection" class="field edge-source">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="994.97,-1295.6 994.97,-1326.8 1242.66,-1326.8 1242.66,-1295.6 994.97,-1295.6"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="1000.97"
+            y="-1307.4"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            vehicleConnection
+          </text>
+
+          <use
+            xlink:href="#RelayIcon"
+            width="22px"
+            height="22px"
+            x="1153.05"
+            y="-1322"
+          ></use>
+          <text
+            text-anchor="start"
+            x="1175.29"
+            y="-1307.4"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            [
+          </text>
+          <text
+            text-anchor="start"
+            x="1179.73"
+            y="-1307.4"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type type-link"
+          >
+            Vehicle
+          </text>
+          <text
+            text-anchor="start"
+            x="1232.21"
+            y="-1307.4"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            ]
+          </text>
+        </g>
+        <g id="FIELD::Person::created" class="field">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="994.97,-1264.4 994.97,-1295.6 1242.66,-1295.6 1242.66,-1264.4 994.97,-1264.4"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="1000.97"
+            y="-1276.2"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            created
+          </text>
+
+          <text
+            text-anchor="start"
+            x="1194.86"
+            y="-1275.2"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            String
+          </text>
+        </g>
+        <g id="FIELD::Person::edited" class="field">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="994.97,-1233.2 994.97,-1264.4 1242.66,-1264.4 1242.66,-1233.2 994.97,-1233.2"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="1000.97"
+            y="-1245"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            edited
+          </text>
+
+          <text
+            text-anchor="start"
+            x="1194.86"
+            y="-1244"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            String
+          </text>
+        </g>
+        <g id="FIELD::Person::id" class="field">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="994.97,-1202 994.97,-1233.2 1242.66,-1233.2 1242.66,-1202 994.97,-1202"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="1000.97"
+            y="-1213.8"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            id
+          </text>
+
+          <text
+            text-anchor="start"
+            x="1216.21"
+            y="-1213.8"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            ID
+          </text>
+          <text
+            text-anchor="start"
+            x="1232.21"
+            y="-1213.8"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            !
+          </text>
+        </g>
+      </g>
+      <!-- Root&#45;&gt;Person -->
+      <g class="edge" data-from="FIELD::Root::allPeople" data-to="TYPE::Person">
+        <path
+          fill="none"
+          stroke="black"
+          d="M202.71,-1512.4C301.14,-1512.4 202.31,-1660.84 281.42,-1719.4 338,-1761.28 852.06,-1753.99 914.97,-1722.4 938.29,-1710.68 959.8,-1694.91 979.39,-1676.91"
+        ></path>
+        <polygon
+          fill="black"
+          stroke="black"
+          points="981.52,-1679.77 986.37,-1670.36 976.7,-1674.69 981.52,-1679.77"
+        ></polygon>
+        <text
+          text-anchor="middle"
+          x="563.62"
+          y="-1752.6"
+          font-family="Times,serif"
+          font-size="14.00"
+        >
+          Root:allPeople
+        </text>
+        <path
+          fill="none"
+          stroke="black"
+          d="M202.71,-1512.4C301.14,-1512.4 202.31,-1660.84 281.42,-1719.4 338,-1761.28 852.06,-1753.99 914.97,-1722.4 938.29,-1710.68 959.8,-1694.91 979.39,-1676.91"
+          class="hover-path"
+        ></path>
+      </g>
+      <!-- Root&#45;&gt;Person -->
+      <g class="edge" data-from="FIELD::Root::person" data-to="TYPE::Person">
+        <path
+          fill="none"
+          stroke="black"
+          d="M202.71,-1481.4C337.41,-1481.4 304.38,-1633.91 430.44,-1681.4 541.21,-1723.14 581.67,-1708.98 696.79,-1681.4 796.61,-1657.49 899.47,-1605.8 978.54,-1559.21"
+        ></path>
+        <polygon
+          fill="black"
+          stroke="black"
+          points="979.76,-1561.96 986.57,-1553.85 976.18,-1555.94 979.76,-1561.96"
+        ></polygon>
+        <text
+          text-anchor="middle"
+          x="563.62"
+          y="-1711.6"
+          font-family="Times,serif"
+          font-size="14.00"
+        >
+          Root:person
+        </text>
+        <path
+          fill="none"
+          stroke="black"
+          d="M202.71,-1481.4C337.41,-1481.4 304.38,-1633.91 430.44,-1681.4 541.21,-1723.14 581.67,-1708.98 696.79,-1681.4 796.61,-1657.49 899.47,-1605.8 978.54,-1559.21"
+          class="hover-path"
+        ></path>
+      </g>
+      <!-- Planet -->
+      <g id="TYPE::Planet" class="node type">
+        <g id="TYPE_TITLE::Planet" class="type-title">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="2055.76,-2058 2055.76,-2089.6 2296.34,-2089.6 2296.34,-2058 2055.76,-2058"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="2150.53"
+            y="-2068.4"
+            font-family="Helvetica,sans-Serif"
+            font-size="18.00"
+          >
+            Planet
+          </text>
+        </g>
+        <g id="FIELD::Planet::name" class="field">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="2055.76,-2026.8 2055.76,-2058 2296.34,-2058 2296.34,-2026.8 2055.76,-2026.8"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="2061.76"
+            y="-2038.6"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            name
+          </text>
+
+          <text
+            text-anchor="start"
+            x="2248.55"
+            y="-2037.6"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            String
+          </text>
+        </g>
+        <g id="FIELD::Planet::diameter" class="field">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="2055.76,-1995.6 2055.76,-2026.8 2296.34,-2026.8 2296.34,-1995.6 2055.76,-1995.6"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="2061.76"
+            y="-2007.4"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            diameter
+          </text>
+
+          <text
+            text-anchor="start"
+            x="2272.56"
+            y="-2006.4"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            Int
+          </text>
+        </g>
+        <g id="FIELD::Planet::rotationPeriod" class="field">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="2055.76,-1964.4 2055.76,-1995.6 2296.34,-1995.6 2296.34,-1964.4 2055.76,-1964.4"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="2061.76"
+            y="-1976.2"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            rotationPeriod
+          </text>
+
+          <text
+            text-anchor="start"
+            x="2272.56"
+            y="-1975.2"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            Int
+          </text>
+        </g>
+        <g id="FIELD::Planet::orbitalPeriod" class="field">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="2055.76,-1933.2 2055.76,-1964.4 2296.34,-1964.4 2296.34,-1933.2 2055.76,-1933.2"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="2061.76"
+            y="-1945"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            orbitalPeriod
+          </text>
+
+          <text
+            text-anchor="start"
+            x="2272.56"
+            y="-1944"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            Int
+          </text>
+        </g>
+        <g id="FIELD::Planet::gravity" class="field">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="2055.76,-1902 2055.76,-1933.2 2296.34,-1933.2 2296.34,-1902 2055.76,-1902"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="2061.76"
+            y="-1913.8"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            gravity
+          </text>
+
+          <text
+            text-anchor="start"
+            x="2248.55"
+            y="-1912.8"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            String
+          </text>
+        </g>
+        <g id="FIELD::Planet::population" class="field">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="2055.76,-1870.8 2055.76,-1902 2296.34,-1902 2296.34,-1870.8 2055.76,-1870.8"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="2061.76"
+            y="-1882.6"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            population
+          </text>
+
+          <text
+            text-anchor="start"
+            x="2272.56"
+            y="-1881.6"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            Int
+          </text>
+        </g>
+        <g id="FIELD::Planet::climates" class="field">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="2055.76,-1839.6 2055.76,-1870.8 2296.34,-1870.8 2296.34,-1839.6 2055.76,-1839.6"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="2061.76"
+            y="-1851.4"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            climates
+          </text>
+
+          <text
+            text-anchor="start"
+            x="2239.66"
+            y="-1851.4"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            [
+          </text>
+          <text
+            text-anchor="start"
+            x="2244.1"
+            y="-1851.4"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            String
+          </text>
+          <text
+            text-anchor="start"
+            x="2285.9"
+            y="-1851.4"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            ]
+          </text>
+        </g>
+        <g id="FIELD::Planet::terrains" class="field">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="2055.76,-1808.4 2055.76,-1839.6 2296.34,-1839.6 2296.34,-1808.4 2055.76,-1808.4"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="2061.76"
+            y="-1820.2"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            terrains
+          </text>
+
+          <text
+            text-anchor="start"
+            x="2239.66"
+            y="-1820.2"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            [
+          </text>
+          <text
+            text-anchor="start"
+            x="2244.1"
+            y="-1820.2"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            String
+          </text>
+          <text
+            text-anchor="start"
+            x="2285.9"
+            y="-1820.2"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            ]
+          </text>
+        </g>
+        <g id="FIELD::Planet::surfaceWater" class="field">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="2055.76,-1777.2 2055.76,-1808.4 2296.34,-1808.4 2296.34,-1777.2 2055.76,-1777.2"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="2061.76"
+            y="-1789"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            surfaceWater
+          </text>
+
+          <text
+            text-anchor="start"
+            x="2254.77"
+            y="-1788"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            Float
+          </text>
+        </g>
+        <g id="FIELD::Planet::residentConnection" class="field edge-source">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="2055.76,-1746 2055.76,-1777.2 2296.34,-1777.2 2296.34,-1746 2055.76,-1746"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="2061.76"
+            y="-1757.8"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            residentConnection
+          </text>
+
+          <use
+            xlink:href="#RelayIcon"
+            width="22px"
+            height="22px"
+            x="2208.52"
+            y="-1772"
+          ></use>
+          <text
+            text-anchor="start"
+            x="2230.76"
+            y="-1757.8"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            [
+          </text>
+          <text
+            text-anchor="start"
+            x="2235.2"
+            y="-1757.8"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type type-link"
+          >
+            Person
+          </text>
+          <text
+            text-anchor="start"
+            x="2285.9"
+            y="-1757.8"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            ]
+          </text>
+        </g>
+        <g id="FIELD::Planet::filmConnection" class="field edge-source">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="2055.76,-1714.8 2055.76,-1746 2296.34,-1746 2296.34,-1714.8 2055.76,-1714.8"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="2061.76"
+            y="-1726.6"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            filmConnection
+          </text>
+
+          <use
+            xlink:href="#RelayIcon"
+            width="22px"
+            height="22px"
+            x="2229"
+            y="-1741"
+          ></use>
+          <text
+            text-anchor="start"
+            x="2251.24"
+            y="-1726.6"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            [
+          </text>
+          <text
+            text-anchor="start"
+            x="2255.69"
+            y="-1726.6"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type type-link"
+          >
+            Film
+          </text>
+          <text
+            text-anchor="start"
+            x="2285.9"
+            y="-1726.6"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            ]
+          </text>
+        </g>
+        <g id="FIELD::Planet::created" class="field">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="2055.76,-1683.6 2055.76,-1714.8 2296.34,-1714.8 2296.34,-1683.6 2055.76,-1683.6"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="2061.76"
+            y="-1695.4"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            created
+          </text>
+
+          <text
+            text-anchor="start"
+            x="2248.55"
+            y="-1694.4"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            String
+          </text>
+        </g>
+        <g id="FIELD::Planet::edited" class="field">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="2055.76,-1652.4 2055.76,-1683.6 2296.34,-1683.6 2296.34,-1652.4 2055.76,-1652.4"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="2061.76"
+            y="-1664.2"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            edited
+          </text>
+
+          <text
+            text-anchor="start"
+            x="2248.55"
+            y="-1663.2"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            String
+          </text>
+        </g>
+        <g id="FIELD::Planet::id" class="field">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="2055.76,-1621.2 2055.76,-1652.4 2296.34,-1652.4 2296.34,-1621.2 2055.76,-1621.2"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="2061.76"
+            y="-1633"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            id
+          </text>
+
+          <text
+            text-anchor="start"
+            x="2269.9"
+            y="-1633"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            ID
+          </text>
+          <text
+            text-anchor="start"
+            x="2285.9"
+            y="-1633"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            !
+          </text>
+        </g>
+      </g>
+      <!-- Root&#45;&gt;Planet -->
+      <g
+        class="edge"
+        data-from="FIELD::Root::allPlanets"
+        data-to="TYPE::Planet"
+      >
+        <path
+          fill="none"
+          stroke="black"
+          d="M202.71,-1450.4C305.76,-1450.4 207.37,-1835.73 281.42,-1907.4 372.09,-1995.14 436.44,-1946.4 562.62,-1946.4 562.62,-1946.4 562.62,-1946.4 1670.04,-1946.4 1795.88,-1946.4 1936.6,-1918.7 2037.47,-1893.86"
+        ></path>
+        <polygon
+          fill="black"
+          stroke="black"
+          points="2038.16,-1897.04 2047.02,-1891.23 2036.47,-1890.25 2038.16,-1897.04"
+        ></polygon>
+        <text
+          text-anchor="middle"
+          x="1118.81"
+          y="-1950.6"
+          font-family="Times,serif"
+          font-size="14.00"
+        >
+          Root:allPlanets
+        </text>
+        <path
+          fill="none"
+          stroke="black"
+          d="M202.71,-1450.4C305.76,-1450.4 207.37,-1835.73 281.42,-1907.4 372.09,-1995.14 436.44,-1946.4 562.62,-1946.4 562.62,-1946.4 562.62,-1946.4 1670.04,-1946.4 1795.88,-1946.4 1936.6,-1918.7 2037.47,-1893.86"
+          class="hover-path"
+        ></path>
+      </g>
+      <!-- Root&#45;&gt;Planet -->
+      <g class="edge" data-from="FIELD::Root::planet" data-to="TYPE::Planet">
+        <path
+          fill="none"
+          stroke="black"
+          d="M202.71,-1419.4C383.46,-1419.4 157.89,-1686.45 281.42,-1818.4 369.82,-1912.82 433.27,-1893.4 562.62,-1893.4 562.62,-1893.4 562.62,-1893.4 1670.04,-1893.4 1794.54,-1893.4 1935.8,-1881.78 2037.21,-1871.39"
+        ></path>
+        <polygon
+          fill="black"
+          stroke="black"
+          points="2037.54,-1874.77 2047.13,-1870.26 2036.82,-1867.8 2037.54,-1874.77"
+        ></polygon>
+        <text
+          text-anchor="middle"
+          x="1118.81"
+          y="-1897.6"
+          font-family="Times,serif"
+          font-size="14.00"
+        >
+          Root:planet
+        </text>
+        <path
+          fill="none"
+          stroke="black"
+          d="M202.71,-1419.4C383.46,-1419.4 157.89,-1686.45 281.42,-1818.4 369.82,-1912.82 433.27,-1893.4 562.62,-1893.4 562.62,-1893.4 562.62,-1893.4 1670.04,-1893.4 1794.54,-1893.4 1935.8,-1881.78 2037.21,-1871.39"
+          class="hover-path"
+        ></path>
+      </g>
+      <!-- Species -->
+      <g id="TYPE::Species" class="node type">
+        <g id="TYPE_TITLE::Species" class="type-title">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="1552.75,-1647.6 1552.75,-1679.2 1785.34,-1679.2 1785.34,-1647.6 1552.75,-1647.6"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="1637.03"
+            y="-1658"
+            font-family="Helvetica,sans-Serif"
+            font-size="18.00"
+          >
+            Species
+          </text>
+        </g>
+        <g id="FIELD::Species::name" class="field">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="1552.75,-1616.4 1552.75,-1647.6 1785.34,-1647.6 1785.34,-1616.4 1552.75,-1616.4"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="1558.75"
+            y="-1628.2"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            name
+          </text>
+
+          <text
+            text-anchor="start"
+            x="1737.54"
+            y="-1627.2"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            String
+          </text>
+        </g>
+        <g id="FIELD::Species::classification" class="field">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="1552.75,-1585.2 1552.75,-1616.4 1785.34,-1616.4 1785.34,-1585.2 1552.75,-1585.2"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="1558.75"
+            y="-1597"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            classification
+          </text>
+
+          <text
+            text-anchor="start"
+            x="1737.54"
+            y="-1596"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            String
+          </text>
+        </g>
+        <g id="FIELD::Species::designation" class="field">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="1552.75,-1554 1552.75,-1585.2 1785.34,-1585.2 1785.34,-1554 1552.75,-1554"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="1558.75"
+            y="-1565.8"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            designation
+          </text>
+
+          <text
+            text-anchor="start"
+            x="1737.54"
+            y="-1564.8"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            String
+          </text>
+        </g>
+        <g id="FIELD::Species::averageHeight" class="field">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="1552.75,-1522.8 1552.75,-1554 1785.34,-1554 1785.34,-1522.8 1552.75,-1522.8"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="1558.75"
+            y="-1534.6"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            averageHeight
+          </text>
+
+          <text
+            text-anchor="start"
+            x="1743.77"
+            y="-1533.6"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            Float
+          </text>
+        </g>
+        <g id="FIELD::Species::averageLifespan" class="field">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="1552.75,-1491.6 1552.75,-1522.8 1785.34,-1522.8 1785.34,-1491.6 1552.75,-1491.6"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="1558.75"
+            y="-1503.4"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            averageLifespan
+          </text>
+
+          <text
+            text-anchor="start"
+            x="1761.55"
+            y="-1502.4"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            Int
+          </text>
+        </g>
+        <g id="FIELD::Species::eyeColors" class="field">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="1552.75,-1460.4 1552.75,-1491.6 1785.34,-1491.6 1785.34,-1460.4 1552.75,-1460.4"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="1558.75"
+            y="-1472.2"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            eyeColors
+          </text>
+
+          <text
+            text-anchor="start"
+            x="1728.65"
+            y="-1472.2"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            [
+          </text>
+          <text
+            text-anchor="start"
+            x="1733.1"
+            y="-1472.2"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            String
+          </text>
+          <text
+            text-anchor="start"
+            x="1774.89"
+            y="-1472.2"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            ]
+          </text>
+        </g>
+        <g id="FIELD::Species::hairColors" class="field">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="1552.75,-1429.2 1552.75,-1460.4 1785.34,-1460.4 1785.34,-1429.2 1552.75,-1429.2"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="1558.75"
+            y="-1441"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            hairColors
+          </text>
+
+          <text
+            text-anchor="start"
+            x="1728.65"
+            y="-1441"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            [
+          </text>
+          <text
+            text-anchor="start"
+            x="1733.1"
+            y="-1441"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            String
+          </text>
+          <text
+            text-anchor="start"
+            x="1774.89"
+            y="-1441"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            ]
+          </text>
+        </g>
+        <g id="FIELD::Species::skinColors" class="field">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="1552.75,-1398 1552.75,-1429.2 1785.34,-1429.2 1785.34,-1398 1552.75,-1398"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="1558.75"
+            y="-1409.8"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            skinColors
+          </text>
+
+          <text
+            text-anchor="start"
+            x="1728.65"
+            y="-1409.8"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            [
+          </text>
+          <text
+            text-anchor="start"
+            x="1733.1"
+            y="-1409.8"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            String
+          </text>
+          <text
+            text-anchor="start"
+            x="1774.89"
+            y="-1409.8"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            ]
+          </text>
+        </g>
+        <g id="FIELD::Species::language" class="field">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="1552.75,-1366.8 1552.75,-1398 1785.34,-1398 1785.34,-1366.8 1552.75,-1366.8"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="1558.75"
+            y="-1378.6"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            language
+          </text>
+
+          <text
+            text-anchor="start"
+            x="1737.54"
+            y="-1377.6"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            String
+          </text>
+        </g>
+        <g id="FIELD::Species::homeworld" class="field edge-source">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="1552.75,-1335.6 1552.75,-1366.8 1785.34,-1366.8 1785.34,-1335.6 1552.75,-1335.6"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="1558.75"
+            y="-1347.4"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            homeworld
+          </text>
+
+          <text
+            text-anchor="start"
+            x="1733.97"
+            y="-1346.4"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type type-link"
+          >
+            Planet
+          </text>
+        </g>
+        <g id="FIELD::Species::personConnection" class="field edge-source">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="1552.75,-1304.4 1552.75,-1335.6 1785.34,-1335.6 1785.34,-1304.4 1552.75,-1304.4"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="1558.75"
+            y="-1316.2"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            personConnection
+          </text>
+
+          <use
+            xlink:href="#RelayIcon"
+            width="22px"
+            height="22px"
+            x="1697.51"
+            y="-1331"
+          ></use>
+          <text
+            text-anchor="start"
+            x="1719.75"
+            y="-1316.2"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            [
+          </text>
+          <text
+            text-anchor="start"
+            x="1724.2"
+            y="-1316.2"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type type-link"
+          >
+            Person
+          </text>
+          <text
+            text-anchor="start"
+            x="1774.89"
+            y="-1316.2"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            ]
+          </text>
+        </g>
+        <g id="FIELD::Species::filmConnection" class="field edge-source">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="1552.75,-1273.2 1552.75,-1304.4 1785.34,-1304.4 1785.34,-1273.2 1552.75,-1273.2"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="1558.75"
+            y="-1285"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            filmConnection
+          </text>
+
+          <use
+            xlink:href="#RelayIcon"
+            width="22px"
+            height="22px"
+            x="1717.99"
+            y="-1300"
+          ></use>
+          <text
+            text-anchor="start"
+            x="1740.24"
+            y="-1285"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            [
+          </text>
+          <text
+            text-anchor="start"
+            x="1744.68"
+            y="-1285"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type type-link"
+          >
+            Film
+          </text>
+          <text
+            text-anchor="start"
+            x="1774.89"
+            y="-1285"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            ]
+          </text>
+        </g>
+        <g id="FIELD::Species::created" class="field">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="1552.75,-1242 1552.75,-1273.2 1785.34,-1273.2 1785.34,-1242 1552.75,-1242"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="1558.75"
+            y="-1253.8"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            created
+          </text>
+
+          <text
+            text-anchor="start"
+            x="1737.54"
+            y="-1252.8"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            String
+          </text>
+        </g>
+        <g id="FIELD::Species::edited" class="field">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="1552.75,-1210.8 1552.75,-1242 1785.34,-1242 1785.34,-1210.8 1552.75,-1210.8"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="1558.75"
+            y="-1222.6"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            edited
+          </text>
+
+          <text
+            text-anchor="start"
+            x="1737.54"
+            y="-1221.6"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            String
+          </text>
+        </g>
+        <g id="FIELD::Species::id" class="field">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="1552.75,-1179.6 1552.75,-1210.8 1785.34,-1210.8 1785.34,-1179.6 1552.75,-1179.6"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="1558.75"
+            y="-1191.4"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            id
+          </text>
+
+          <text
+            text-anchor="start"
+            x="1758.89"
+            y="-1191.4"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            ID
+          </text>
+          <text
+            text-anchor="start"
+            x="1774.89"
+            y="-1191.4"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            !
+          </text>
+        </g>
+      </g>
+      <!-- Root&#45;&gt;Species -->
+      <g
+        class="edge"
+        data-from="FIELD::Root::allSpecies"
+        data-to="TYPE::Species"
+      >
+        <path
+          fill="none"
+          stroke="black"
+          d="M202.71,-1388.4C337.71,-1388.4 304.17,-1235.15 430.44,-1187.4 511.38,-1156.79 1025.48,-1128.84 1250.66,-1189.4 1353.64,-1217.1 1457.64,-1276.8 1536.07,-1329.72"
+        ></path>
+        <polygon
+          fill="black"
+          stroke="black"
+          points="1533.79,-1333.08 1544.03,-1335.81 1537.72,-1327.29 1533.79,-1333.08"
+        ></polygon>
+        <text
+          text-anchor="middle"
+          x="841.88"
+          y="-1159.6"
+          font-family="Times,serif"
+          font-size="14.00"
+        >
+          Root:allSpecies
+        </text>
+        <path
+          fill="none"
+          stroke="black"
+          d="M202.71,-1388.4C337.71,-1388.4 304.17,-1235.15 430.44,-1187.4 511.38,-1156.79 1025.48,-1128.84 1250.66,-1189.4 1353.64,-1217.1 1457.64,-1276.8 1536.07,-1329.72"
+          class="hover-path"
+        ></path>
+      </g>
+      <!-- Root&#45;&gt;Species -->
+      <g class="edge" data-from="FIELD::Root::species" data-to="TYPE::Species">
+        <path
+          fill="none"
+          stroke="black"
+          d="M202.71,-1356.4C265.75,-1356.4 235.31,-1281.39 281.42,-1238.4 337.19,-1186.4 357.34,-1175.09 430.44,-1153.4 605.18,-1101.56 1070.63,-1124.87 1250.66,-1153.4 1351.42,-1169.37 1385.66,-1158.26 1472.75,-1211.4 1495.54,-1225.3 1517.19,-1242.68 1537.22,-1261.52"
+        ></path>
+        <polygon
+          fill="black"
+          stroke="black"
+          points="1534.48,-1263.69 1544.11,-1268.09 1539.32,-1258.64 1534.48,-1263.69"
+        ></polygon>
+        <text
+          text-anchor="middle"
+          x="841.88"
+          y="-1129.6"
+          font-family="Times,serif"
+          font-size="14.00"
+        >
+          Root:species
+        </text>
+        <path
+          fill="none"
+          stroke="black"
+          d="M202.71,-1356.4C265.75,-1356.4 235.31,-1281.39 281.42,-1238.4 337.19,-1186.4 357.34,-1175.09 430.44,-1153.4 605.18,-1101.56 1070.63,-1124.87 1250.66,-1153.4 1351.42,-1169.37 1385.66,-1158.26 1472.75,-1211.4 1495.54,-1225.3 1517.19,-1242.68 1537.22,-1261.52"
+          class="hover-path"
+        ></path>
+      </g>
+      <!-- Starship -->
+      <g id="TYPE::Starship" class="node type">
+        <g id="TYPE_TITLE::Starship" class="type-title">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="1562.1,-1122.4 1562.1,-1154 1775.99,-1154 1775.99,-1122.4 1562.1,-1122.4"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="1636.03"
+            y="-1132.8"
+            font-family="Helvetica,sans-Serif"
+            font-size="18.00"
+          >
+            Starship
+          </text>
+        </g>
+        <g id="FIELD::Starship::name" class="field">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="1562.1,-1091.2 1562.1,-1122.4 1775.99,-1122.4 1775.99,-1091.2 1562.1,-1091.2"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="1568.1"
+            y="-1103"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            name
+          </text>
+
+          <text
+            text-anchor="start"
+            x="1728.19"
+            y="-1102"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            String
+          </text>
+        </g>
+        <g id="FIELD::Starship::model" class="field">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="1562.1,-1060 1562.1,-1091.2 1775.99,-1091.2 1775.99,-1060 1562.1,-1060"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="1568.1"
+            y="-1071.8"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            model
+          </text>
+
+          <text
+            text-anchor="start"
+            x="1728.19"
+            y="-1070.8"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            String
+          </text>
+        </g>
+        <g id="FIELD::Starship::starshipClass" class="field">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="1562.1,-1028.8 1562.1,-1060 1775.99,-1060 1775.99,-1028.8 1562.1,-1028.8"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="1568.1"
+            y="-1040.6"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            starshipClass
+          </text>
+
+          <text
+            text-anchor="start"
+            x="1728.19"
+            y="-1039.6"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            String
+          </text>
+        </g>
+        <g id="FIELD::Starship::manufacturers" class="field">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="1562.1,-997.6 1562.1,-1028.8 1775.99,-1028.8 1775.99,-997.6 1562.1,-997.6"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="1568.1"
+            y="-1009.4"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            manufacturers
+          </text>
+
+          <text
+            text-anchor="start"
+            x="1719.3"
+            y="-1009.4"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            [
+          </text>
+          <text
+            text-anchor="start"
+            x="1723.75"
+            y="-1009.4"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            String
+          </text>
+          <text
+            text-anchor="start"
+            x="1765.54"
+            y="-1009.4"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            ]
+          </text>
+        </g>
+        <g id="FIELD::Starship::costInCredits" class="field">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="1562.1,-966.4 1562.1,-997.6 1775.99,-997.6 1775.99,-966.4 1562.1,-966.4"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="1568.1"
+            y="-978.2"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            costInCredits
+          </text>
+
+          <text
+            text-anchor="start"
+            x="1734.42"
+            y="-977.2"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            Float
+          </text>
+        </g>
+        <g id="FIELD::Starship::length" class="field">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="1562.1,-935.2 1562.1,-966.4 1775.99,-966.4 1775.99,-935.2 1562.1,-935.2"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="1568.1"
+            y="-947"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            length
+          </text>
+
+          <text
+            text-anchor="start"
+            x="1734.42"
+            y="-946"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            Float
+          </text>
+        </g>
+        <g id="FIELD::Starship::crew" class="field">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="1562.1,-904 1562.1,-935.2 1775.99,-935.2 1775.99,-904 1562.1,-904"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="1568.1"
+            y="-915.8"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            crew
+          </text>
+
+          <text
+            text-anchor="start"
+            x="1728.19"
+            y="-914.8"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            String
+          </text>
+        </g>
+        <g id="FIELD::Starship::passengers" class="field">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="1562.1,-872.8 1562.1,-904 1775.99,-904 1775.99,-872.8 1562.1,-872.8"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="1568.1"
+            y="-884.6"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            passengers
+          </text>
+
+          <text
+            text-anchor="start"
+            x="1728.19"
+            y="-883.6"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            String
+          </text>
+        </g>
+        <g id="FIELD::Starship::maxAtmospheringSpeed" class="field">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="1562.1,-841.6 1562.1,-872.8 1775.99,-872.8 1775.99,-841.6 1562.1,-841.6"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="1568.1"
+            y="-853.4"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            maxAtmospheringSpeed
+          </text>
+
+          <text
+            text-anchor="start"
+            x="1752.2"
+            y="-852.4"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            Int
+          </text>
+        </g>
+        <g id="FIELD::Starship::hyperdriveRating" class="field">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="1562.1,-810.4 1562.1,-841.6 1775.99,-841.6 1775.99,-810.4 1562.1,-810.4"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="1568.1"
+            y="-822.2"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            hyperdriveRating
+          </text>
+
+          <text
+            text-anchor="start"
+            x="1734.42"
+            y="-821.2"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            Float
+          </text>
+        </g>
+        <g id="FIELD::Starship::MGLT" class="field">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="1562.1,-779.2 1562.1,-810.4 1775.99,-810.4 1775.99,-779.2 1562.1,-779.2"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="1568.1"
+            y="-791"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            MGLT
+          </text>
+
+          <text
+            text-anchor="start"
+            x="1752.2"
+            y="-790"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            Int
+          </text>
+        </g>
+        <g id="FIELD::Starship::cargoCapacity" class="field">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="1562.1,-748 1562.1,-779.2 1775.99,-779.2 1775.99,-748 1562.1,-748"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="1568.1"
+            y="-759.8"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            cargoCapacity
+          </text>
+
+          <text
+            text-anchor="start"
+            x="1734.42"
+            y="-758.8"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            Float
+          </text>
+        </g>
+        <g id="FIELD::Starship::consumables" class="field">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="1562.1,-716.8 1562.1,-748 1775.99,-748 1775.99,-716.8 1562.1,-716.8"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="1568.1"
+            y="-728.6"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            consumables
+          </text>
+
+          <text
+            text-anchor="start"
+            x="1728.19"
+            y="-727.6"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            String
+          </text>
+        </g>
+        <g id="FIELD::Starship::pilotConnection" class="field edge-source">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="1562.1,-685.6 1562.1,-716.8 1775.99,-716.8 1775.99,-685.6 1562.1,-685.6"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="1568.1"
+            y="-697.4"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            pilotConnection
+          </text>
+
+          <use
+            xlink:href="#RelayIcon"
+            width="22px"
+            height="22px"
+            x="1688.16"
+            y="-712"
+          ></use>
+          <text
+            text-anchor="start"
+            x="1710.4"
+            y="-697.4"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            [
+          </text>
+          <text
+            text-anchor="start"
+            x="1714.85"
+            y="-697.4"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type type-link"
+          >
+            Person
+          </text>
+          <text
+            text-anchor="start"
+            x="1765.54"
+            y="-697.4"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            ]
+          </text>
+        </g>
+        <g id="FIELD::Starship::filmConnection" class="field edge-source">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="1562.1,-654.4 1562.1,-685.6 1775.99,-685.6 1775.99,-654.4 1562.1,-654.4"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="1568.1"
+            y="-666.2"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            filmConnection
+          </text>
+
+          <use
+            xlink:href="#RelayIcon"
+            width="22px"
+            height="22px"
+            x="1708.65"
+            y="-681"
+          ></use>
+          <text
+            text-anchor="start"
+            x="1730.89"
+            y="-666.2"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            [
+          </text>
+          <text
+            text-anchor="start"
+            x="1735.33"
+            y="-666.2"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type type-link"
+          >
+            Film
+          </text>
+          <text
+            text-anchor="start"
+            x="1765.54"
+            y="-666.2"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            ]
+          </text>
+        </g>
+        <g id="FIELD::Starship::created" class="field">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="1562.1,-623.2 1562.1,-654.4 1775.99,-654.4 1775.99,-623.2 1562.1,-623.2"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="1568.1"
+            y="-635"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            created
+          </text>
+
+          <text
+            text-anchor="start"
+            x="1728.19"
+            y="-634"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            String
+          </text>
+        </g>
+        <g id="FIELD::Starship::edited" class="field">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="1562.1,-592 1562.1,-623.2 1775.99,-623.2 1775.99,-592 1562.1,-592"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="1568.1"
+            y="-603.8"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            edited
+          </text>
+
+          <text
+            text-anchor="start"
+            x="1728.19"
+            y="-602.8"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            String
+          </text>
+        </g>
+        <g id="FIELD::Starship::id" class="field">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="1562.1,-560.8 1562.1,-592 1775.99,-592 1775.99,-560.8 1562.1,-560.8"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="1568.1"
+            y="-572.6"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            id
+          </text>
+
+          <text
+            text-anchor="start"
+            x="1749.54"
+            y="-572.6"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            ID
+          </text>
+          <text
+            text-anchor="start"
+            x="1765.54"
+            y="-572.6"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            !
+          </text>
+        </g>
+      </g>
+      <!-- Root&#45;&gt;Starship -->
+      <g
+        class="edge"
+        data-from="FIELD::Root::allStarships"
+        data-to="TYPE::Starship"
+      >
+        <path
+          fill="none"
+          stroke="black"
+          d="M202.71,-1325.4C277.61,-1325.4 225.22,-1225.9 281.42,-1176.4 324.4,-1138.54 606.69,-1044.46 768.79,-1008.6 1076.36,-940.57 1165.9,-997.58 1472.75,-926.4 1496.09,-920.99 1520.52,-913.71 1543.88,-905.92"
+        ></path>
+        <polygon
+          fill="black"
+          stroke="black"
+          points="1544.82,-908.96 1553.17,-902.43 1542.58,-902.33 1544.82,-908.96"
+        ></polygon>
+        <text
+          text-anchor="middle"
+          x="841.88"
+          y="-1013.6"
+          font-family="Times,serif"
+          font-size="14.00"
+        >
+          Root:allStarships
+        </text>
+        <path
+          fill="none"
+          stroke="black"
+          d="M202.71,-1325.4C277.61,-1325.4 225.22,-1225.9 281.42,-1176.4 324.4,-1138.54 606.69,-1044.46 768.79,-1008.6 1076.36,-940.57 1165.9,-997.58 1472.75,-926.4 1496.09,-920.99 1520.52,-913.71 1543.88,-905.92"
+          class="hover-path"
+        ></path>
+      </g>
+      <!-- Root&#45;&gt;Starship -->
+      <g
+        class="edge"
+        data-from="FIELD::Root::starship"
+        data-to="TYPE::Starship"
+      >
+        <path
+          fill="none"
+          stroke="black"
+          d="M202.71,-1294.4C282.36,-1294.4 230.43,-1194.58 281.42,-1133.4 334.13,-1070.16 354.84,-1055.97 430.44,-1023.4 531.44,-979.88 1249.98,-901.05 1543.56,-870.23"
+        ></path>
+        <polygon
+          fill="black"
+          stroke="black"
+          points="1543.66,-873.64 1553.24,-869.11 1542.93,-866.67 1543.66,-873.64"
+        ></polygon>
+        <text
+          text-anchor="middle"
+          x="841.88"
+          y="-964.6"
+          font-family="Times,serif"
+          font-size="14.00"
+        >
+          Root:starship
+        </text>
+        <path
+          fill="none"
+          stroke="black"
+          d="M202.71,-1294.4C282.36,-1294.4 230.43,-1194.58 281.42,-1133.4 334.13,-1070.16 354.84,-1055.97 430.44,-1023.4 531.44,-979.88 1249.98,-901.05 1543.56,-870.23"
+          class="hover-path"
+        ></path>
+      </g>
+      <!-- Vehicle -->
+      <g id="TYPE::Vehicle" class="node type">
+        <g id="TYPE_TITLE::Vehicle" class="type-title">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="1562.1,-503.2 1562.1,-534.8 1775.99,-534.8 1775.99,-503.2 1562.1,-503.2"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="1639.53"
+            y="-513.6"
+            font-family="Helvetica,sans-Serif"
+            font-size="18.00"
+          >
+            Vehicle
+          </text>
+        </g>
+        <g id="FIELD::Vehicle::name" class="field">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="1562.1,-472 1562.1,-503.2 1775.99,-503.2 1775.99,-472 1562.1,-472"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="1568.1"
+            y="-483.8"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            name
+          </text>
+
+          <text
+            text-anchor="start"
+            x="1728.19"
+            y="-482.8"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            String
+          </text>
+        </g>
+        <g id="FIELD::Vehicle::model" class="field">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="1562.1,-440.8 1562.1,-472 1775.99,-472 1775.99,-440.8 1562.1,-440.8"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="1568.1"
+            y="-452.6"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            model
+          </text>
+
+          <text
+            text-anchor="start"
+            x="1728.19"
+            y="-451.6"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            String
+          </text>
+        </g>
+        <g id="FIELD::Vehicle::vehicleClass" class="field">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="1562.1,-409.6 1562.1,-440.8 1775.99,-440.8 1775.99,-409.6 1562.1,-409.6"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="1568.1"
+            y="-421.4"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            vehicleClass
+          </text>
+
+          <text
+            text-anchor="start"
+            x="1728.19"
+            y="-420.4"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            String
+          </text>
+        </g>
+        <g id="FIELD::Vehicle::manufacturers" class="field">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="1562.1,-378.4 1562.1,-409.6 1775.99,-409.6 1775.99,-378.4 1562.1,-378.4"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="1568.1"
+            y="-390.2"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            manufacturers
+          </text>
+
+          <text
+            text-anchor="start"
+            x="1719.3"
+            y="-390.2"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            [
+          </text>
+          <text
+            text-anchor="start"
+            x="1723.75"
+            y="-390.2"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            String
+          </text>
+          <text
+            text-anchor="start"
+            x="1765.54"
+            y="-390.2"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            ]
+          </text>
+        </g>
+        <g id="FIELD::Vehicle::costInCredits" class="field">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="1562.1,-347.2 1562.1,-378.4 1775.99,-378.4 1775.99,-347.2 1562.1,-347.2"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="1568.1"
+            y="-359"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            costInCredits
+          </text>
+
+          <text
+            text-anchor="start"
+            x="1752.2"
+            y="-358"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            Int
+          </text>
+        </g>
+        <g id="FIELD::Vehicle::length" class="field">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="1562.1,-316 1562.1,-347.2 1775.99,-347.2 1775.99,-316 1562.1,-316"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="1568.1"
+            y="-327.8"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            length
+          </text>
+
+          <text
+            text-anchor="start"
+            x="1734.42"
+            y="-326.8"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            Float
+          </text>
+        </g>
+        <g id="FIELD::Vehicle::crew" class="field">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="1562.1,-284.8 1562.1,-316 1775.99,-316 1775.99,-284.8 1562.1,-284.8"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="1568.1"
+            y="-296.6"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            crew
+          </text>
+
+          <text
+            text-anchor="start"
+            x="1728.19"
+            y="-295.6"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            String
+          </text>
+        </g>
+        <g id="FIELD::Vehicle::passengers" class="field">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="1562.1,-253.6 1562.1,-284.8 1775.99,-284.8 1775.99,-253.6 1562.1,-253.6"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="1568.1"
+            y="-265.4"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            passengers
+          </text>
+
+          <text
+            text-anchor="start"
+            x="1728.19"
+            y="-264.4"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            String
+          </text>
+        </g>
+        <g id="FIELD::Vehicle::maxAtmospheringSpeed" class="field">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="1562.1,-222.4 1562.1,-253.6 1775.99,-253.6 1775.99,-222.4 1562.1,-222.4"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="1568.1"
+            y="-234.2"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            maxAtmospheringSpeed
+          </text>
+
+          <text
+            text-anchor="start"
+            x="1752.2"
+            y="-233.2"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            Int
+          </text>
+        </g>
+        <g id="FIELD::Vehicle::cargoCapacity" class="field">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="1562.1,-191.2 1562.1,-222.4 1775.99,-222.4 1775.99,-191.2 1562.1,-191.2"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="1568.1"
+            y="-203"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            cargoCapacity
+          </text>
+
+          <text
+            text-anchor="start"
+            x="1752.2"
+            y="-202"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            Int
+          </text>
+        </g>
+        <g id="FIELD::Vehicle::consumables" class="field">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="1562.1,-160 1562.1,-191.2 1775.99,-191.2 1775.99,-160 1562.1,-160"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="1568.1"
+            y="-171.8"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            consumables
+          </text>
+
+          <text
+            text-anchor="start"
+            x="1728.19"
+            y="-170.8"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            String
+          </text>
+        </g>
+        <g id="FIELD::Vehicle::pilotConnection" class="field edge-source">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="1562.1,-128.8 1562.1,-160 1775.99,-160 1775.99,-128.8 1562.1,-128.8"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="1568.1"
+            y="-140.6"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            pilotConnection
+          </text>
+
+          <use
+            xlink:href="#RelayIcon"
+            width="22px"
+            height="22px"
+            x="1688.16"
+            y="-155"
+          ></use>
+          <text
+            text-anchor="start"
+            x="1710.4"
+            y="-140.6"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            [
+          </text>
+          <text
+            text-anchor="start"
+            x="1714.85"
+            y="-140.6"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type type-link"
+          >
+            Person
+          </text>
+          <text
+            text-anchor="start"
+            x="1765.54"
+            y="-140.6"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            ]
+          </text>
+        </g>
+        <g id="FIELD::Vehicle::filmConnection" class="field edge-source">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="1562.1,-97.6 1562.1,-128.8 1775.99,-128.8 1775.99,-97.6 1562.1,-97.6"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="1568.1"
+            y="-109.4"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            filmConnection
+          </text>
+
+          <use
+            xlink:href="#RelayIcon"
+            width="22px"
+            height="22px"
+            x="1708.65"
+            y="-124"
+          ></use>
+          <text
+            text-anchor="start"
+            x="1730.89"
+            y="-109.4"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            [
+          </text>
+          <text
+            text-anchor="start"
+            x="1735.33"
+            y="-109.4"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type type-link"
+          >
+            Film
+          </text>
+          <text
+            text-anchor="start"
+            x="1765.54"
+            y="-109.4"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            ]
+          </text>
+        </g>
+        <g id="FIELD::Vehicle::created" class="field">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="1562.1,-66.4 1562.1,-97.6 1775.99,-97.6 1775.99,-66.4 1562.1,-66.4"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="1568.1"
+            y="-78.2"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            created
+          </text>
+
+          <text
+            text-anchor="start"
+            x="1728.19"
+            y="-77.2"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            String
+          </text>
+        </g>
+        <g id="FIELD::Vehicle::edited" class="field">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="1562.1,-35.2 1562.1,-66.4 1775.99,-66.4 1775.99,-35.2 1562.1,-35.2"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="1568.1"
+            y="-47"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            edited
+          </text>
+
+          <text
+            text-anchor="start"
+            x="1728.19"
+            y="-46"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            String
+          </text>
+        </g>
+        <g id="FIELD::Vehicle::id" class="field">
+          <polygon
+            fill="none"
+            stroke="black"
+            points="1562.1,-4 1562.1,-35.2 1775.99,-35.2 1775.99,-4 1562.1,-4"
+          ></polygon>
+          <text
+            text-anchor="start"
+            x="1568.1"
+            y="-15.8"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-name"
+          >
+            id
+          </text>
+
+          <text
+            text-anchor="start"
+            x="1749.54"
+            y="-15.8"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            ID
+          </text>
+          <text
+            text-anchor="start"
+            x="1765.54"
+            y="-15.8"
+            font-family="Helvetica,sans-Serif"
+            font-size="16.00"
+            class="field-type"
+          >
+            !
+          </text>
+        </g>
+      </g>
+      <!-- Root&#45;&gt;Vehicle -->
+      <g
+        class="edge"
+        data-from="FIELD::Root::allVehicles"
+        data-to="TYPE::Vehicle"
+      >
+        <path
+          fill="none"
+          stroke="black"
+          d="M202.71,-1263.4C301.55,-1263.4 217.59,-1130.87 281.42,-1055.4 330.95,-996.85 364.09,-1006.87 430.44,-968.4 580.55,-881.37 614.69,-853.35 768.79,-773.6 1074.88,-615.2 1185.86,-639.38 1472.75,-448.4 1497.75,-431.76 1522.71,-411.96 1546.01,-391.7"
+        ></path>
+        <polygon
+          fill="black"
+          stroke="black"
+          points="1547.98,-393.74 1553.18,-384.51 1543.36,-388.49 1547.98,-393.74"
+        ></polygon>
+        <text
+          text-anchor="middle"
+          x="841.88"
+          y="-778.6"
+          font-family="Times,serif"
+          font-size="14.00"
+        >
+          Root:allVehicles
+        </text>
+        <path
+          fill="none"
+          stroke="black"
+          d="M202.71,-1263.4C301.55,-1263.4 217.59,-1130.87 281.42,-1055.4 330.95,-996.85 364.09,-1006.87 430.44,-968.4 580.55,-881.37 614.69,-853.35 768.79,-773.6 1074.88,-615.2 1185.86,-639.38 1472.75,-448.4 1497.75,-431.76 1522.71,-411.96 1546.01,-391.7"
+          class="hover-path"
+        ></path>
+      </g>
+      <!-- Root&#45;&gt;Vehicle -->
+      <g class="edge" data-from="FIELD::Root::vehicle" data-to="TYPE::Vehicle">
+        <path
+          fill="none"
+          stroke="black"
+          d="M202.71,-1232.4C312.86,-1232.4 228.93,-1094.24 281.42,-997.4 332.23,-903.67 345.95,-874.43 430.44,-809.4 788.29,-533.95 1308.36,-367.28 1543.89,-301.65"
+        ></path>
+        <polygon
+          fill="black"
+          stroke="black"
+          points="1544.5,-304.83 1553.2,-298.79 1542.63,-298.09 1544.5,-304.83"
+        ></polygon>
+        <text
+          text-anchor="middle"
+          x="841.88"
+          y="-597.6"
+          font-family="Times,serif"
+          font-size="14.00"
+        >
+          Root:vehicle
+        </text>
+        <path
+          fill="none"
+          stroke="black"
+          d="M202.71,-1232.4C312.86,-1232.4 228.93,-1094.24 281.42,-997.4 332.23,-903.67 345.95,-874.43 430.44,-809.4 788.29,-533.95 1308.36,-367.28 1543.89,-301.65"
+          class="hover-path"
+        ></path>
+      </g>
+      <!-- Film&#45;&gt;Person -->
+      <g
+        class="edge"
+        data-from="FIELD::Film::characterConnection"
+        data-to="TYPE::Person"
+      >
+        <path
+          fill="none"
+          stroke="black"
+          d="M689.62,-1340.4C743.23,-1340.4 721.21,-1406.7 768.79,-1431.4 831.92,-1464.16 910.06,-1474.53 976.39,-1476.11"
+        ></path>
+        <polygon
+          fill="black"
+          stroke="black"
+          points="976.29,-1479.63 986.35,-1476.3 976.41,-1472.63 976.29,-1479.63"
+        ></polygon>
+        <text
+          text-anchor="middle"
+          x="841.88"
+          y="-1476.6"
+          font-family="Times,serif"
+          font-size="14.00"
+        >
+          Film:characterConnection
+        </text>
+        <path
+          fill="none"
+          stroke="black"
+          d="M689.62,-1340.4C743.23,-1340.4 721.21,-1406.7 768.79,-1431.4 831.92,-1464.16 910.06,-1474.53 976.39,-1476.11"
+          class="hover-path"
+        ></path>
+      </g>
+      <!-- Film&#45;&gt;Planet -->
+      <g
+        class="edge"
+        data-from="FIELD::Film::planetConnection"
+        data-to="TYPE::Planet"
+      >
+        <path
+          fill="none"
+          stroke="black"
+          d="M689.62,-1309.4C865.61,-1309.4 654.3,-1563.74 768.79,-1697.4 836.08,-1775.95 886.35,-1754.42 986.97,-1778.4 1358.88,-1867.04 1813.61,-1867.79 2037.31,-1861.38"
+        ></path>
+        <polygon
+          fill="black"
+          stroke="black"
+          points="2037.22,-1864.85 2047.12,-1861.06 2037.02,-1857.86 2037.22,-1864.85"
+        ></polygon>
+        <text
+          text-anchor="middle"
+          x="1397.7"
+          y="-1852.6"
+          font-family="Times,serif"
+          font-size="14.00"
+        >
+          Film:planetConnection
+        </text>
+        <path
+          fill="none"
+          stroke="black"
+          d="M689.62,-1309.4C865.61,-1309.4 654.3,-1563.74 768.79,-1697.4 836.08,-1775.95 886.35,-1754.42 986.97,-1778.4 1358.88,-1867.04 1813.61,-1867.79 2037.31,-1861.38"
+          class="hover-path"
+        ></path>
+      </g>
+      <!-- Film&#45;&gt;Species -->
+      <g
+        class="edge"
+        data-from="FIELD::Film::speciesConnection"
+        data-to="TYPE::Species"
+      >
+        <path
+          fill="none"
+          stroke="black"
+          d="M689.62,-1434.4C838.72,-1434.4 651.58,-1200.55 768.79,-1108.4 781.21,-1098.64 1409.97,-1082.95 1472.75,-1118.4 1497,-1132.09 1518.65,-1150.16 1537.9,-1170.71"
+        ></path>
+        <polygon
+          fill="black"
+          stroke="black"
+          points="1534.84,-1172.66 1544.16,-1177.71 1540.03,-1167.95 1534.84,-1172.66"
+        ></polygon>
+        <text
+          text-anchor="middle"
+          x="1118.81"
+          y="-1102.6"
+          font-family="Times,serif"
+          font-size="14.00"
+        >
+          Film:speciesConnection
+        </text>
+        <path
+          fill="none"
+          stroke="black"
+          d="M689.62,-1434.4C838.72,-1434.4 651.58,-1200.55 768.79,-1108.4 781.21,-1098.64 1409.97,-1082.95 1472.75,-1118.4 1497,-1132.09 1518.65,-1150.16 1537.9,-1170.71"
+          class="hover-path"
+        ></path>
+      </g>
+      <!-- Film&#45;&gt;Starship -->
+      <g
+        class="edge"
+        data-from="FIELD::Film::starshipConnection"
+        data-to="TYPE::Starship"
+      >
+        <path
+          fill="none"
+          stroke="black"
+          d="M689.62,-1403.4C804.97,-1403.4 682.62,-967.08 768.79,-890.4 797.23,-865.1 1303.49,-859.2 1543.61,-857.82"
+        ></path>
+        <polygon
+          fill="black"
+          stroke="black"
+          points="1543.51,-861.31 1553.49,-857.76 1543.47,-854.31 1543.51,-861.31"
+        ></polygon>
+        <text
+          text-anchor="middle"
+          x="1118.81"
+          y="-872.6"
+          font-family="Times,serif"
+          font-size="14.00"
+        >
+          Film:starshipConnection
+        </text>
+        <path
+          fill="none"
+          stroke="black"
+          d="M689.62,-1403.4C804.97,-1403.4 682.62,-967.08 768.79,-890.4 797.23,-865.1 1303.49,-859.2 1543.61,-857.82"
+          class="hover-path"
+        ></path>
+      </g>
+      <!-- Film&#45;&gt;Vehicle -->
+      <g
+        class="edge"
+        data-from="FIELD::Film::vehicleConnection"
+        data-to="TYPE::Vehicle"
+      >
+        <path
+          fill="none"
+          stroke="black"
+          d="M689.62,-1371.4C796.53,-1371.4 696.09,-490.8 768.79,-412.4 820.87,-356.25 1309.32,-303.17 1543.7,-280.69"
+        ></path>
+        <polygon
+          fill="black"
+          stroke="black"
+          points="1543.71,-284.11 1553.33,-279.67 1543.04,-277.14 1543.71,-284.11"
+        ></polygon>
+        <text
+          text-anchor="middle"
+          x="1118.81"
+          y="-353.6"
+          font-family="Times,serif"
+          font-size="14.00"
+        >
+          Film:vehicleConnection
+        </text>
+        <path
+          fill="none"
+          stroke="black"
+          d="M689.62,-1371.4C796.53,-1371.4 696.09,-490.8 768.79,-412.4 820.87,-356.25 1309.32,-303.17 1543.7,-280.69"
+          class="hover-path"
+        ></path>
+      </g>
+      <!-- Person&#45;&gt;Film -->
+      <g
+        class="edge"
+        data-from="FIELD::Person::filmConnection"
+        data-to="TYPE::Film"
+      >
+        <path
+          fill="none"
+          stroke="black"
+          d="M993.81,-1404.4C893.77,-1404.4 868.58,-1403.42 768.79,-1410.6 748.94,-1412.03 728.05,-1413.96 707.5,-1416.12"
+        ></path>
+        <polygon
+          fill="black"
+          stroke="black"
+          points="707.37,-1412.72 697.8,-1417.26 708.12,-1419.68 707.37,-1412.72"
+        ></polygon>
+        <text
+          text-anchor="middle"
+          x="841.88"
+          y="-1415.6"
+          font-family="Times,serif"
+          font-size="14.00"
+        >
+          Person:filmConnection
+        </text>
+        <path
+          fill="none"
+          stroke="black"
+          d="M993.81,-1404.4C893.77,-1404.4 868.58,-1403.42 768.79,-1410.6 748.94,-1412.03 728.05,-1413.96 707.5,-1416.12"
+          class="hover-path"
+        ></path>
+      </g>
+      <!-- Person&#45;&gt;Planet -->
+      <g
+        class="edge"
+        data-from="FIELD::Person::homeworld"
+        data-to="TYPE::Planet"
+      >
+        <path
+          fill="none"
+          stroke="black"
+          d="M1243.81,-1436.4C1402.83,-1436.4 1202.61,-1681.11 1322.66,-1785.4 1323.49,-1786.13 1796.05,-1824.61 2037.1,-1844.2"
+        ></path>
+        <polygon
+          fill="black"
+          stroke="black"
+          points="2036.8,-1847.77 2047.05,-1845.09 2037.37,-1840.79 2036.8,-1847.77"
+        ></polygon>
+        <text
+          text-anchor="middle"
+          x="1669.04"
+          y="-1827.6"
+          font-family="Times,serif"
+          font-size="14.00"
+        >
+          Person:homeworld
+        </text>
+        <path
+          fill="none"
+          stroke="black"
+          d="M1243.81,-1436.4C1402.83,-1436.4 1202.61,-1681.11 1322.66,-1785.4 1323.49,-1786.13 1796.05,-1824.61 2037.1,-1844.2"
+          class="hover-path"
+        ></path>
+      </g>
+      <!-- Person&#45;&gt;Species -->
+      <g
+        class="edge"
+        data-from="FIELD::Person::species"
+        data-to="TYPE::Species"
+      >
+        <path
+          fill="none"
+          stroke="black"
+          d="M1243.81,-1373.4C1341.67,-1373.4 1451.15,-1388.23 1534.37,-1402.62"
+        ></path>
+        <polygon
+          fill="black"
+          stroke="black"
+          points="1533.71,-1406.23 1544.16,-1404.51 1534.91,-1399.34 1533.71,-1406.23"
+        ></polygon>
+        <text
+          text-anchor="middle"
+          x="1397.7"
+          y="-1396.6"
+          font-family="Times,serif"
+          font-size="14.00"
+        >
+          Person:species
+        </text>
+        <path
+          fill="none"
+          stroke="black"
+          d="M1243.81,-1373.4C1341.67,-1373.4 1451.15,-1388.23 1534.37,-1402.62"
+          class="hover-path"
+        ></path>
+      </g>
+      <!-- Person&#45;&gt;Starship -->
+      <g
+        class="edge"
+        data-from="FIELD::Person::starshipConnection"
+        data-to="TYPE::Starship"
+      >
+        <path
+          fill="none"
+          stroke="black"
+          d="M1243.81,-1342.4C1287.89,-1342.4 1438.5,-1158.56 1547.75,-1017.25"
+        ></path>
+        <polygon
+          fill="black"
+          stroke="black"
+          points="1550.89,-1019.92 1554.23,-1009.86 1545.35,-1015.64 1550.89,-1019.92"
+        ></polygon>
+        <text
+          text-anchor="middle"
+          x="1397.7"
+          y="-1286.6"
+          font-family="Times,serif"
+          font-size="14.00"
+        >
+          Person:starshipConnection
+        </text>
+        <path
+          fill="none"
+          stroke="black"
+          d="M1243.81,-1342.4C1287.89,-1342.4 1438.5,-1158.56 1547.75,-1017.25"
+          class="hover-path"
+        ></path>
+      </g>
+      <!-- Person&#45;&gt;Vehicle -->
+      <g
+        class="edge"
+        data-from="FIELD::Person::vehicleConnection"
+        data-to="TYPE::Vehicle"
+      >
+        <path
+          fill="none"
+          stroke="black"
+          d="M1243.81,-1311.4C1356.69,-1311.4 1266.6,-907.58 1322.66,-809.6 1365.51,-734.69 1419.79,-754.54 1472.75,-686.4 1484.68,-671.05 1515.73,-607.18 1549.66,-533.87"
+        ></path>
+        <polygon
+          fill="black"
+          stroke="black"
+          points="1553.23,-535.48 1554.24,-524.94 1546.87,-532.55 1553.23,-535.48"
+        ></polygon>
+        <text
+          text-anchor="middle"
+          x="1397.7"
+          y="-814.6"
+          font-family="Times,serif"
+          font-size="14.00"
+        >
+          Person:vehicleConnection
+        </text>
+        <path
+          fill="none"
+          stroke="black"
+          d="M1243.81,-1311.4C1356.69,-1311.4 1266.6,-907.58 1322.66,-809.6 1365.51,-734.69 1419.79,-754.54 1472.75,-686.4 1484.68,-671.05 1515.73,-607.18 1549.66,-533.87"
+          class="hover-path"
+        ></path>
+      </g>
+      <!-- Planet&#45;&gt;Film -->
+      <g
+        class="edge"
+        data-from="FIELD::Planet::filmConnection"
+        data-to="TYPE::Film"
+      >
+        <path
+          fill="none"
+          stroke="black"
+          d="M2055.05,-1730.4C2018.71,-1730.4 2011.83,-1745.92 1975.76,-1750.4 1866.73,-1763.94 1091.19,-1780.15 986.97,-1745.4 970.39,-1739.87 821.78,-1629.11 705.47,-1541.33"
+        ></path>
+        <polygon
+          fill="black"
+          stroke="black"
+          points="707.9,-1538.02 697.81,-1534.79 703.68,-1543.61 707.9,-1538.02"
+        ></polygon>
+        <text
+          text-anchor="middle"
+          x="1397.7"
+          y="-1769.6"
+          font-family="Times,serif"
+          font-size="14.00"
+        >
+          Planet:filmConnection
+        </text>
+        <path
+          fill="none"
+          stroke="black"
+          d="M2055.05,-1730.4C2018.71,-1730.4 2011.83,-1745.92 1975.76,-1750.4 1866.73,-1763.94 1091.19,-1780.15 986.97,-1745.4 970.39,-1739.87 821.78,-1629.11 705.47,-1541.33"
+          class="hover-path"
+        ></path>
+      </g>
+      <!-- Planet&#45;&gt;Person -->
+      <g
+        class="edge"
+        data-from="FIELD::Planet::residentConnection"
+        data-to="TYPE::Person"
+      >
+        <path
+          fill="none"
+          stroke="black"
+          d="M2055.05,-1761.4C2019.47,-1761.4 2011.01,-1755.22 1975.76,-1750.4 1880.01,-1737.32 1636.78,-1721.91 1544.75,-1692.4 1444.48,-1660.24 1339.86,-1605.15 1259.51,-1557.53"
+        ></path>
+        <polygon
+          fill="black"
+          stroke="black"
+          points="1261.72,-1554.17 1251.33,-1552.06 1258.13,-1560.18 1261.72,-1554.17"
+        ></polygon>
+        <text
+          text-anchor="middle"
+          x="1669.04"
+          y="-1734.6"
+          font-family="Times,serif"
+          font-size="14.00"
+        >
+          Planet:residentConnection
+        </text>
+        <path
+          fill="none"
+          stroke="black"
+          d="M2055.05,-1761.4C2019.47,-1761.4 2011.01,-1755.22 1975.76,-1750.4 1880.01,-1737.32 1636.78,-1721.91 1544.75,-1692.4 1444.48,-1660.24 1339.86,-1605.15 1259.51,-1557.53"
+          class="hover-path"
+        ></path>
+      </g>
+      <!-- Species&#45;&gt;Film -->
+      <g
+        class="edge"
+        data-from="FIELD::Species::filmConnection"
+        data-to="TYPE::Film"
+      >
+        <path
+          fill="none"
+          stroke="black"
+          d="M1552.04,-1288.4C1388.07,-1288.4 1406.94,-1125.21 1250.66,-1075.6 1046.34,-1010.74 950.27,-982.31 768.79,-1096.4 731.99,-1119.54 700.89,-1151.95 674.92,-1187.63"
+        ></path>
+        <polygon
+          fill="black"
+          stroke="black"
+          points="671.72,-1185.09 668.78,-1195.27 677.43,-1189.15 671.72,-1185.09"
+        ></polygon>
+        <text
+          text-anchor="middle"
+          x="1118.81"
+          y="-1080.6"
+          font-family="Times,serif"
+          font-size="14.00"
+        >
+          Species:filmConnection
+        </text>
+        <path
+          fill="none"
+          stroke="black"
+          d="M1552.04,-1288.4C1388.07,-1288.4 1406.94,-1125.21 1250.66,-1075.6 1046.34,-1010.74 950.27,-982.31 768.79,-1096.4 731.99,-1119.54 700.89,-1151.95 674.92,-1187.63"
+          class="hover-path"
+        ></path>
+      </g>
+      <!-- Species&#45;&gt;Person -->
+      <g
+        class="edge"
+        data-from="FIELD::Species::personConnection"
+        data-to="TYPE::Person"
+      >
+        <path
+          fill="none"
+          stroke="black"
+          d="M1552.04,-1320.4C1448.9,-1320.4 1420.3,-1322.37 1322.66,-1355.6 1301.79,-1362.7 1280.56,-1371.89 1260.07,-1381.94"
+        ></path>
+        <polygon
+          fill="black"
+          stroke="black"
+          points="1258.78,-1379.17 1251.4,-1386.78 1261.91,-1385.43 1258.78,-1379.17"
+        ></polygon>
+        <text
+          text-anchor="middle"
+          x="1397.7"
+          y="-1360.6"
+          font-family="Times,serif"
+          font-size="14.00"
+        >
+          Species:personConnection
+        </text>
+        <path
+          fill="none"
+          stroke="black"
+          d="M1552.04,-1320.4C1448.9,-1320.4 1420.3,-1322.37 1322.66,-1355.6 1301.79,-1362.7 1280.56,-1371.89 1260.07,-1381.94"
+          class="hover-path"
+        ></path>
+      </g>
+      <!-- Species&#45;&gt;Planet -->
+      <g
+        class="edge"
+        data-from="FIELD::Species::homeworld"
+        data-to="TYPE::Planet"
+      >
+        <path
+          fill="none"
+          stroke="black"
+          d="M1786.04,-1351.4C1929.06,-1351.4 2026.88,-1480.15 2088.66,-1607.5"
+        ></path>
+        <polygon
+          fill="black"
+          stroke="black"
+          points="2085.76,-1608.54 2093.23,-1616.05 2092.07,-1605.52 2085.76,-1608.54"
+        ></polygon>
+        <text
+          text-anchor="middle"
+          x="1920.55"
+          y="-1440.6"
+          font-family="Times,serif"
+          font-size="14.00"
+        >
+          Species:homeworld
+        </text>
+        <path
+          fill="none"
+          stroke="black"
+          d="M1786.04,-1351.4C1929.06,-1351.4 2026.88,-1480.15 2088.66,-1607.5"
+          class="hover-path"
+        ></path>
+      </g>
+      <!-- Starship&#45;&gt;Film -->
+      <g
+        class="edge"
+        data-from="FIELD::Starship::filmConnection"
+        data-to="TYPE::Film"
+      >
+        <path
+          fill="none"
+          stroke="black"
+          d="M1561.04,-670.4C1504.69,-670.4 1522.85,-735.59 1472.75,-761.4 1191.42,-906.32 1013.33,-667.52 768.79,-868.4 673.79,-946.45 622.98,-1072.37 595.82,-1185.65"
+        ></path>
+        <polygon
+          fill="black"
+          stroke="black"
+          points="592.22,-1184.69 593.34,-1195.22 599.03,-1186.28 592.22,-1184.69"
+        ></polygon>
+        <text
+          text-anchor="middle"
+          x="1118.81"
+          y="-815.6"
+          font-family="Times,serif"
+          font-size="14.00"
+        >
+          Starship:filmConnection
+        </text>
+        <path
+          fill="none"
+          stroke="black"
+          d="M1561.04,-670.4C1504.69,-670.4 1522.85,-735.59 1472.75,-761.4 1191.42,-906.32 1013.33,-667.52 768.79,-868.4 673.79,-946.45 622.98,-1072.37 595.82,-1185.65"
+          class="hover-path"
+        ></path>
+      </g>
+      <!-- Starship&#45;&gt;Person -->
+      <g
+        class="edge"
+        data-from="FIELD::Starship::pilotConnection"
+        data-to="TYPE::Person"
+      >
+        <path
+          fill="none"
+          stroke="black"
+          d="M1561.04,-701.4C1531.12,-701.4 1373.8,-985.88 1255.47,-1208.11"
+        ></path>
+        <polygon
+          fill="black"
+          stroke="black"
+          points="1252.01,-1206.17 1250.4,-1216.64 1258.19,-1209.46 1252.01,-1206.17"
+        ></polygon>
+        <text
+          text-anchor="middle"
+          x="1397.7"
+          y="-1066.6"
+          font-family="Times,serif"
+          font-size="14.00"
+        >
+          Starship:pilotConnection
+        </text>
+        <path
+          fill="none"
+          stroke="black"
+          d="M1561.04,-701.4C1531.12,-701.4 1373.8,-985.88 1255.47,-1208.11"
+          class="hover-path"
+        ></path>
+      </g>
+      <!-- Vehicle&#45;&gt;Film -->
+      <g
+        class="edge"
+        data-from="FIELD::Vehicle::filmConnection"
+        data-to="TYPE::Film"
+      >
+        <path
+          fill="none"
+          stroke="black"
+          d="M1561.04,-113.4C1192.09,-113.4 1005.76,-78.59 768.79,-361.4 666.36,-483.65 610.39,-908.51 584.04,-1185.53"
+        ></path>
+        <polygon
+          fill="black"
+          stroke="black"
+          points="580.5,-1184.85 583.04,-1195.14 587.47,-1185.51 580.5,-1184.85"
+        ></polygon>
+        <text
+          text-anchor="middle"
+          x="1118.81"
+          y="-179.6"
+          font-family="Times,serif"
+          font-size="14.00"
+        >
+          Vehicle:filmConnection
+        </text>
+        <path
+          fill="none"
+          stroke="black"
+          d="M1561.04,-113.4C1192.09,-113.4 1005.76,-78.59 768.79,-361.4 666.36,-483.65 610.39,-908.51 584.04,-1185.53"
+          class="hover-path"
+        ></path>
+      </g>
+      <!-- Vehicle&#45;&gt;Person -->
+      <g
+        class="edge"
+        data-from="FIELD::Vehicle::pilotConnection"
+        data-to="TYPE::Person"
+      >
+        <path
+          fill="none"
+          stroke="black"
+          d="M1561.04,-144.4C1110.94,-144.4 1364.34,-672.89 1250.66,-1108.4 1243.86,-1134.44 1235.93,-1161.24 1227.4,-1187.91"
+        ></path>
+        <polygon
+          fill="black"
+          stroke="black"
+          points="1223.84,-1186.53 1224.1,-1197.12 1230.5,-1188.68 1223.84,-1186.53"
+        ></polygon>
+        <text
+          text-anchor="middle"
+          x="1397.7"
+          y="-259.6"
+          font-family="Times,serif"
+          font-size="14.00"
+        >
+          Vehicle:pilotConnection
+        </text>
+        <path
+          fill="none"
+          stroke="black"
+          d="M1561.04,-144.4C1110.94,-144.4 1364.34,-672.89 1250.66,-1108.4 1243.86,-1134.44 1235.93,-1161.24 1227.4,-1187.91"
+          class="hover-path"
+        ></path>
+      </g>
+    </g>
+  </g>
+</svg>
