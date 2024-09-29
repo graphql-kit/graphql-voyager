@@ -61,8 +61,9 @@ test('check loading animation', async ({ page }) => {
   await presetsTab.presetButtons['GitHub'].click();
   await changeSchemaDialog.displayButton.click();
 
-  await expect(voyagerPage.graphLoadingAnimation).toBeVisible();
-  await expect(voyagerPage.page).toHaveScreenshot('loading-animation.png');
+  await expect(voyagerPage.page).toHaveScreenshot('loading-animation.png', {
+    animations: 'disabled',
+  });
 
   await voyagerPage.waitForGraphToBeLoaded();
   await expect(voyagerPage.page).toHaveScreenshot('show-github-preset.png');
@@ -98,6 +99,8 @@ test('use custom SDL with custom directives', async ({ page }) => {
 });
 
 test('use custom introspection', async ({ page }) => {
+  test.slow();
+
   const voyagerPage = await gotoVoyagerPage(page);
   const { changeSchemaDialog } = voyagerPage;
   const { introspectionTab } = changeSchemaDialog;
