@@ -6,12 +6,7 @@
   xmlns:ev="http://www.w3.org/2001/xml-events"
   style="overflow: hidden"
 >
-  <g
-    id="viewport-{datetime}"
-    class="svg-pan-zoom_viewport"
-    transform="matrix(0.48819946094661054,0,0,0.48819946094661054,235.5584303665195,27.00000769192639)"
-    style="transform: matrix(0.488199, 0, 0, 0.488199, 235.558, 27)"
-  >
+  <defs>
     <symbol
       xmlns="http://www.w3.org/2000/svg"
       viewBox="-50 -50 580 700"
@@ -47,6 +42,13 @@
         ></path>
       </g>
     </symbol>
+  </defs>
+  <g
+    id="viewport-{datetime}"
+    class="svg-pan-zoom_viewport"
+    transform="matrix(0.48819946094661054,0,0,0.48819946094661054,235.5584303665195,27.00000769192639)"
+    style="transform: matrix(0.488199, 0, 0, 0.488199, 235.558, 27)"
+  >
     <g
       id="graph0"
       class="graph"
