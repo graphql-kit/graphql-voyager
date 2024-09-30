@@ -98,8 +98,9 @@ class PlaywrightVoyagerPage {
   }
 
   async getGraphSVG(): Promise<string> {
-    const svg = await this.svgContainer.innerHTML();
-    return format(svg, { parser: 'html' });
+    let svg = await this.svgContainer.innerHTML();
+    svg = await format(svg, { parser: 'html' });
+    return svg.replace(/id="viewport-.*?"/, 'id="viewport-{datetime}"');
   }
 
   async submitSDL(sdl: string) {
