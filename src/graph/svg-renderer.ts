@@ -21,12 +21,16 @@ const svgNS = 'http://www.w3.org/2000/svg';
 const xlinkNS = 'http://www.w3.org/1999/xlink';
 
 function preprocessVizSVG(svgString: string) {
-  //Add Relay and Deprecated icons
-  // eslint-disable-next-line @typescript-eslint/no-base-to-string
-  svgString = svgString.replace(/<svg [^>]*>/, '$&' + RelayIconSvg);
-  svgString = svgString.replace(/<svg [^>]*>/, '$&' + DeprecatedIconSvg);
-
   const svg = stringToSvg(svgString);
+
+  //Add Relay and Deprecated icons
+  let defs = svg.querySelector('defs');
+  if (!defs) {
+    defs = document.createElementNS(svgNS, 'defs');
+    svg.insertBefore(defs, svg.firstChild);
+  }
+  defs.appendChild(stringToSvg(DeprecatedIconSvg));
+  defs.appendChild(stringToSvg(RelayIconSvg));
 
   for (const $a of svg.querySelectorAll('a')) {
     const $g = $a.parentNode!;
