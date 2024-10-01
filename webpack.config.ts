@@ -56,8 +56,13 @@ const baseConfig: webpack.Configuration = {
         use: [{ loader: 'postcss-variables-loader?es5=1' }],
       },
       {
+        resourceQuery: /raw/,
+        type: 'asset/source',
+      },
+      {
         test: /\.svg$/,
         issuer: /\.tsx?$/,
+        resourceQuery: { not: [/raw/] },
         use: [
           {
             loader: '@svgr/webpack',
