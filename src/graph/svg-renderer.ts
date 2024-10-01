@@ -1,3 +1,7 @@
+// eslint-disable-next-line import/no-unresolved
+import DeprecatedIconSvg from '../components/icons/deprecated-icon.svg?raw';
+// eslint-disable-next-line import/no-unresolved
+import RelayIconSvg from '../components/icons/relay-icon.svg?raw';
 import { stringToSvg } from '../utils/dom-helpers';
 import { getDot } from './dot';
 import { VizWorker } from './graphviz-worker';
@@ -12,15 +16,10 @@ export async function renderSvg(typeGraph: TypeGraph) {
   return svg;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const RelayIconSvg = require('!!svg-as-symbol-loader?id=RelayIcon!../components/icons/relay-icon.svg');
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const DeprecatedIconSvg = require('!!svg-as-symbol-loader?id=DeprecatedIcon!../components/icons/deprecated-icon.svg');
-
 const svgNS = 'http://www.w3.org/2000/svg';
 const xlinkNS = 'http://www.w3.org/1999/xlink';
 
-function preprocessVizSVG(svgString: string) {
+function preprocessVizSVG(svgString: string): string {
   const svg = stringToSvg(svgString);
 
   //Add Relay and Deprecated icons
@@ -29,8 +28,8 @@ function preprocessVizSVG(svgString: string) {
     defs = document.createElementNS(svgNS, 'defs');
     svg.insertBefore(defs, svg.firstChild);
   }
-  defs.appendChild(stringToSvg(DeprecatedIconSvg));
-  defs.appendChild(stringToSvg(RelayIconSvg));
+  defs.appendChild(svgToSymbol(DeprecatedIconSvg, 'DeprecatedIcon'));
+  defs.appendChild(svgToSymbol(RelayIconSvg, 'RelayIcon'));
 
   for (const $a of svg.querySelectorAll('a')) {
     const $g = $a.parentNode!;
@@ -121,4 +120,24 @@ function preprocessVizSVG(svgString: string) {
 
   const serializer = new XMLSerializer();
   return serializer.serializeToString(svg);
+}
+
+function svgToSymbol(svg: string, id: string): SVGSymbolElement {
+  const $svg = stringToSvg(svg);
+  const $symbol = document.createElementNS(svgNS, 'symbol');
+
+  // Transfer supported attributes <svg> to the <symbol>.
+  const attributes = ['viewBox', 'height', 'width', 'preserveAspectRatio'];
+  attributes.forEach(function (attr) {
+    const value = $svg.getAttribute(attr);
+    if (value != null) {
+      $symbol.setAttribute(attr, value);
+    }
+  });
+  $symbol.setAttribute('id', id);
+
+  // Move all child nodes from <svg> to the <symbol>
+  $symbol.append(...$svg.children);
+
+  return $symbol;
 }

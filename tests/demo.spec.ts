@@ -116,6 +116,26 @@ test('use custom SDL with custom directives', async ({ page }) => {
   );
 });
 
+/* FIXME: need a way to disable "Skip deprecated" (uncheck it in UI) in tests
+test('use custom SDL with deprecated fields', async ({ page }) => {
+  const voyagerPage = await gotoVoyagerPage(page);
+  // TODO: test deprecated args and input fields
+  await voyagerPage.submitSDL(`
+    type Query {
+      foo: String @deprecated
+      bar: Int @deprecated(reason: "Just because")
+    }
+  `);
+
+  expect
+    .soft(await voyagerPage.getGraphSVG())
+    .toMatchSnapshot('custom-sdl-with-deprecated-graph.svg');
+  await expect(voyagerPage.page).toHaveScreenshot(
+    'display-sdl-with-deprecated.png',
+  );
+});
+*/
+
 test('use custom introspection', async ({ page }) => {
   test.slow();
 
