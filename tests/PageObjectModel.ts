@@ -1,4 +1,5 @@
 import { type Locator, type Page } from '@playwright/test';
+import { format } from 'prettier';
 
 interface VoyagerURLParams {
   path?: string;
@@ -40,6 +41,7 @@ export async function gotoVoyagerPage(
 class PlaywrightVoyagerPage {
   readonly page: Page;
   readonly graphLoadingAnimation: Locator;
+  readonly svgContainer: Locator;
 
   readonly changeSchemaDialog: PlaywrightChangeSchemaDialog;
 
@@ -49,6 +51,9 @@ class PlaywrightVoyagerPage {
     this.graphLoadingAnimation = page
       .getByRole('status')
       .getByText('Transmitting...');
+    this.svgContainer = this.page.getByRole('img', {
+      name: 'Visual representation of the GraphQL schema',
+    });
 
     this.changeSchemaDialog = new PlaywrightChangeSchemaDialog(page);
 
@@ -87,8 +92,15 @@ class PlaywrightVoyagerPage {
     });
   }
 
-  async waitForGraphToBeLoaded() {
+  async waitForGraphToBeLoaded(): Promise<void> {
+    await this.svgContainer.waitFor({ state: 'visible' });
     await this.graphLoadingAnimation.waitFor({ state: 'hidden' });
+  }
+
+  async getGraphSVG(): Promise<string> {
+    let svg = await this.svgContainer.innerHTML();
+    svg = await format(svg, { parser: 'html' });
+    return svg.replace(/id="viewport-.*?"/, 'id="viewport-{datetime}"');
   }
 
   async submitSDL(sdl: string) {

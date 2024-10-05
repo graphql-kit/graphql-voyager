@@ -142,6 +142,8 @@ export default class GraphViewport extends Component<
         })}
       >
         <Box
+          role="img"
+          aria-label="Visual representation of the GraphQL schema"
           ref={this._containerRef}
           sx={{
             height: '100%',
