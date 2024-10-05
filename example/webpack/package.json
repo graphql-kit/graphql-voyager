@@ -2,7 +2,7 @@
   "private": "true",
   "description": "An example using GraphQL-Voyager",
   "scripts": {
-    "start": "webpack-dev-server --config webpack.config.js --mode=development",
+    "start": "webpack-dev-server --config webpack.config.js --mode=production",
     "test": "tsc"
   },
   "dependencies": {
