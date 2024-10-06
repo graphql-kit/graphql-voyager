@@ -28,7 +28,6 @@ export default function SearchBox(props: SearchBoxProps) {
         value={value}
         onChange={(event) => setValue(event.target.value)}
         type="text"
-        className="search-box"
         endAdornment={
           value && (
             <InputAdornment position="end">
