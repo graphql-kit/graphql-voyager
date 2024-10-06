@@ -4,11 +4,12 @@ module.exports = {
   devServer: {
     port: 9090,
     allowedHosts: 'all',
-    static: {
-      directory: __dirname,
-    },
-    liveReload: true,
+    static: { directory: __dirname },
+    // needed to prevent info messages during integration tests
+    client: { logging: 'warn' },
   },
+  // disable hints since Voyager is too big :(
+  performance: { hints: false },
   resolve: {
     extensions: ['.mjs', '.ts', '.tsx', '.js'],
   },

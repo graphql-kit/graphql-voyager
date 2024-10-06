@@ -15,9 +15,8 @@ const BANNER = `GraphQL Voyager - Represent any GraphQL API as an interactive gr
 
 const baseConfig: webpack.Configuration = {
   devtool: 'source-map',
-  performance: {
-    hints: false,
-  },
+  // disable hints since Voyager is too big :(
+  performance: { hints: false },
   resolve: {
     extensions: ['.ts', '.tsx', '.mjs', '.js', '.json', '.css', '.svg'],
     alias: { '../../worker': '../../worker-dist' },
