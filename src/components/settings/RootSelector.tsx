@@ -37,7 +37,6 @@ export default function RootSelector(props: RootSelectorProps) {
     <Select
       fullWidth
       variant="standard"
-      className="root-selector"
       onChange={({ target }) => onChange(target.value)}
       value={rootType}
     >
