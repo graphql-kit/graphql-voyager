@@ -30,31 +30,4 @@
       max-width: none;
     }
   }
-
-  & > .menu-content {
-    position: absolute;
-    z-index: 5;
-    bottom: var(--panel-spacing);
-    left: calc(var(--doc-panel-width) + var(--panel-spacing));
-    background: var(--doc-panel-bg-color);
-    box-shadow: 0 4px 4px -2px var(--shadow-color);
-    border: 1px solid var(--shadow-color);
-    padding: var(--spacing-unit);
-
-    & > .setting-other-options {
-      display: flex;
-
-      & > label:first-of-type {
-        padding-right: var(--spacing-unit);
-      }
-
-      & > label {
-        margin-bottom: calc(var(--panel-spacing) - var(--spacing-unit));
-      }
-    }
-
-    @media (--small-viewport) {
-      left: 10px;
-    }
-  }
 }

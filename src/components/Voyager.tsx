@@ -1,6 +1,7 @@
 import './Voyager.css';
 import './viewport.css';
 
+import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import { ThemeProvider } from '@mui/material/styles';
@@ -127,7 +128,6 @@ export default function Voyager(props: VoyagerProps) {
     <ThemeProvider theme={theme}>
       <div className="graphql-voyager">
         {!hideDocs && renderPanel()}
-        {!hideSettings && renderSettings()}
         {renderGraphViewport()}
         {allowToChangeSchema && renderIntrospectionModal()}
       </div>
@@ -190,30 +190,41 @@ export default function Voyager(props: VoyagerProps) {
     );
   }
 
-  function renderSettings() {
-    if (typeGraph == null) return null;
-
-    return (
-      <Settings
-        options={displayOptions}
-        typeGraph={typeGraph}
-        onChange={(options) =>
-          setDisplayOptions((oldOptions) => ({ ...oldOptions, ...options }))
-        }
-      />
-    );
-  }
-
   function renderGraphViewport() {
     return (
-      <GraphViewport
-        typeGraph={typeGraph}
-        selectedTypeID={selected.typeID}
-        selectedEdgeID={selected.edgeID}
-        onSelectNode={handleSelectNode}
-        onSelectEdge={handleSelectEdge}
-        ref={viewportRef}
-      />
+      <Box
+        sx={(theme) => ({
+          flex: 1,
+          position: 'relative',
+          display: 'inline-block',
+          width: '100%',
+          height: '100%',
+          maxHeight: '100%',
+
+          [theme.breakpoints.down('md')]: {
+            height: '50%',
+            maxWidth: 'none',
+          },
+        })}
+      >
+        {!hideSettings && (
+          <Settings
+            options={displayOptions}
+            typeGraph={typeGraph}
+            onChange={(options) =>
+              setDisplayOptions((oldOptions) => ({ ...oldOptions, ...options }))
+            }
+          />
+        )}
+        <GraphViewport
+          typeGraph={typeGraph}
+          selectedTypeID={selected.typeID}
+          selectedEdgeID={selected.edgeID}
+          onSelectNode={handleSelectNode}
+          onSelectEdge={handleSelectEdge}
+          ref={viewportRef}
+        />
+      </Box>
     );
   }
 
