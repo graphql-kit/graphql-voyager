@@ -1,25 +1,44 @@
 import Checkbox from '@mui/material/Checkbox';
+import Stack from '@mui/material/Stack';
 
 import { TypeGraph } from '../../graph/type-graph';
 import { VoyagerDisplayOptions } from '../Voyager';
 import RootSelector from './RootSelector';
 
 interface SettingsProps {
-  typeGraph: TypeGraph;
+  typeGraph: TypeGraph | null;
   options: VoyagerDisplayOptions;
   onChange: (options: VoyagerDisplayOptions) => void;
 }
 
 export default function Settings(props: SettingsProps) {
   const { typeGraph, options, onChange } = props;
+  if (typeGraph == null) {
+    return null;
+  }
 
   return (
-    <div className="menu-content">
+    <Stack
+      sx={(theme) => ({
+        position: 'absolute',
+        opacity: 1,
+        overflow: 'hidden',
+        background: theme.palette.background.default,
+        margin: 2,
+        border: 1,
+        borderColor: theme.palette.shadowColor.main,
+        boxShadow: 2,
+        padding: 1,
+        // left-bottom corner
+        left: 0,
+        bottom: 0,
+      })}
+    >
       <RootSelector
         typeGraph={typeGraph}
         onChange={(rootType) => onChange({ rootType })}
       />
-      <div className="setting-other-options">
+      <Stack direction="row" className="setting-other-options">
         <Checkbox
           id="sort"
           checked={!!options.sortByAlphabet}
@@ -50,7 +69,7 @@ export default function Settings(props: SettingsProps) {
           }
         />
         <label htmlFor="showLeafFields">Show leaf fields</label>
-      </div>
-    </div>
+      </Stack>
+    </Stack>
   );
 }

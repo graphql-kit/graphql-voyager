@@ -126,21 +126,7 @@ export default class GraphViewport extends Component<
     const isLoading = this.state.svgViewport == null;
     const { svgViewport } = this.state;
     return (
-      <Box
-        sx={(theme) => ({
-          flex: 1,
-          position: 'relative',
-          display: 'inline-block',
-          width: '100%',
-          height: '100%',
-          maxHeight: '100%',
-
-          [theme.breakpoints.down('md')]: {
-            height: '50%',
-            maxWidth: 'none',
-          },
-        })}
-      >
+      <>
         <Box
           role="img"
           aria-label="Visual representation of the GraphQL schema"
@@ -189,7 +175,7 @@ export default class GraphViewport extends Component<
           </Stack>
         )}
         {isLoading && <LoadingAnimation />}
-      </Box>
+      </>
     );
   }
 
