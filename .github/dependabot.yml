@@ -1,0 +1,19 @@
+# Please see the documentation for all configuration options:
+# https://docs.github.com/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
+
+version: 2
+updates:
+  - package-ecosystem: 'github-actions'
+    directory: '/'
+    schedule:
+      interval: 'weekly'
+    labels:
+      - 'PR: dependency 📦'
+    groups:
+      major_updates:
+        update-types:
+          - 'major'
+      non_major_updates:
+        update-types:
+          - 'minor'
+          - 'patch'
