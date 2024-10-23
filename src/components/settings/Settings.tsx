@@ -1,3 +1,4 @@
+import { ChangeEvent, Fragment, useMemo } from "react";
 import Checkbox from '@mui/material/Checkbox';
 import Stack from '@mui/material/Stack';
 
@@ -11,19 +12,39 @@ interface SettingsProps {
   onChange: (options: VoyagerDisplayOptions) => void;
 }
 
-// What is the reason to export this component by default?
-export default function Settings(props: SettingsProps) {
-  // Why you avoid destructuring component's parameters and doing it inside component's body?
-  const { typeGraph, options, onChange } = props;
-  // Move this outside of the component. No need to run all this code, including imports, if "typegraph == null".
-  if (typeGraph == null) {
-    return null;
-  }
+export default function Settings({ typeGraph, options, onChange }: SettingsProps) {
+  const checkboxes = useMemo(
+    () => [
+      {
+        id: "sort",
+        label: "Sort by Alphabet",
+        checked: options.sortByAlphabet ?? false,
+        onChange: (e: ChangeEvent<HTMLInputElement>) => onChange({ sortByAlphabet: e.target.checked }),
+      },
+      {
+        id: "skip",
+        label: "Skip Relay",
+        checked: options.skipRelay ?? false,
+        onChange: (e: ChangeEvent<HTMLInputElement>) => onChange({ skipRelay: e.target.checked }),
+      },
+      {
+        id: "deprecated",
+        label: "Skip deprecated",
+        checked: options.skipDeprecated ?? false,
+        onChange: (e: ChangeEvent<HTMLInputElement>) => onChange({ skipDeprecated: e.target.checked }),
+      },
+      {
+        id: "showLeafFields",
+        label: "Show leaf fields",
+        checked: options.showLeafFields ?? false,
+        onChange: (e: ChangeEvent<HTMLInputElement>) => onChange({ showLeafFields: e.target.checked }),
+      },
+    ],
+    [options, onChange]
+  );
 
   return (
     <Stack
-      // I would prefer if it was an iternal constant variable. Much cleaner JSX.
-      // For example - const WRAPPER_STYLING = (theme) => { ... }
       sx={(theme) => ({
         position: 'absolute',
         opacity: 1,
@@ -34,8 +55,6 @@ export default function Settings(props: SettingsProps) {
         borderColor: theme.palette.shadowColor.main,
         boxShadow: 2,
         padding: 1,
-        // Obvious and useless hint, agree?
-        // left-bottom corner
         left: 0,
         bottom: 0,
       })}
@@ -44,39 +63,14 @@ export default function Settings(props: SettingsProps) {
         typeGraph={typeGraph}
         onChange={(rootType) => onChange({ rootType })}
       />
-      <Stack direction="row" className="setting-other-options">
-        {/* 4 similar checkboxes with labels. Create a data structure (Checkbox[]) and loop through its items rendering Checkbox + label on each step.
-        Use "useMemo" for this data structure to avoid problems with re-renders. */}
-        <Checkbox
-          id="sort"
-          checked={!!options.sortByAlphabet}
-          onChange={(event) =>
-            onChange({ sortByAlphabet: event.target.checked })
-          }
-        />
-        <label htmlFor="sort">Sort by Alphabet</label>
-        <Checkbox
-          id="skip"
-          checked={!!options.skipRelay}
-          onChange={(event) => onChange({ skipRelay: event.target.checked })}
-        />
-        <label htmlFor="skip">Skip Relay</label>
-        <Checkbox
-          id="deprecated"
-          checked={!!options.skipDeprecated}
-          onChange={(event) =>
-            onChange({ skipDeprecated: event.target.checked })
-          }
-        />
-        <label htmlFor="deprecated">Skip deprecated</label>
-        <Checkbox
-          id="showLeafFields"
-          checked={!!options.showLeafFields}
-          onChange={(event) =>
-            onChange({ showLeafFields: event.target.checked })
-          }
-        />
-        <label htmlFor="showLeafFields">Show leaf fields</label>
+      
+      <Stack className="setting-other-options" direction="row">
+        {checkboxes.map(({ id, checked, label, onChange }) => (
+          <Fragment key={id}>
+            <Checkbox id={id} checked={checked} onChange={onChange} />
+            <label htmlFor={id}>{label}</label>
+          </Fragment>
+        ))}
       </Stack>
     </Stack>
   );
