@@ -11,14 +11,19 @@ interface SettingsProps {
   onChange: (options: VoyagerDisplayOptions) => void;
 }
 
+// What is the reason to export this component by default?
 export default function Settings(props: SettingsProps) {
+  // Why you avoid destructuring component's parameters and doing it inside component's body?
   const { typeGraph, options, onChange } = props;
+  // Move this outside of the component. No need to run all this code, including imports, if "typegraph == null".
   if (typeGraph == null) {
     return null;
   }
 
   return (
     <Stack
+      // I would prefer if it was an iternal constant variable. Much cleaner JSX.
+      // For example - const WRAPPER_STYLING = (theme) => { ... }
       sx={(theme) => ({
         position: 'absolute',
         opacity: 1,
@@ -29,6 +34,7 @@ export default function Settings(props: SettingsProps) {
         borderColor: theme.palette.shadowColor.main,
         boxShadow: 2,
         padding: 1,
+        // Obvious and useless hint, agree?
         // left-bottom corner
         left: 0,
         bottom: 0,
@@ -39,6 +45,8 @@ export default function Settings(props: SettingsProps) {
         onChange={(rootType) => onChange({ rootType })}
       />
       <Stack direction="row" className="setting-other-options">
+        {/* 4 similar checkboxes with labels. Create a data structure (Checkbox[]) and loop through its items rendering Checkbox + label on each step.
+        Use "useMemo" for this data structure to avoid problems with re-renders. */}
         <Checkbox
           id="sort"
           checked={!!options.sortByAlphabet}
