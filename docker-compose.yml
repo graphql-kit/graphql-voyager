@@ -5,7 +5,7 @@ services:
       dockerfile: ./worker/Dockerfile
     volumes:
       - ./worker:/home/worker:ro
-      - ./worker-dist:/home/worker-dist
+      - ./worker-dist/:/home/worker-dist/
     stdin_open: true
     tty: true
   serve-webpack-example:
