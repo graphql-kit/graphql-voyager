@@ -108,7 +108,11 @@ export default class GraphViewport extends Component<
           this._containerRef.current!,
           onSelectNode,
           onSelectEdge,
-          { mouseWheelZoomEnabled: this.props.disableMouseWheelZoom ? false : true },
+          {
+            mouseWheelZoomEnabled: this.props.disableMouseWheelZoom
+              ? false
+              : true,
+          },
         );
         this.setState({ svgViewport });
       })
