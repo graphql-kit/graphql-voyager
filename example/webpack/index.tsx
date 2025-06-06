@@ -1,20 +1,16 @@
+import { Voyager, voyagerIntrospectionQuery } from 'graphql-voyager';
 import { StrictMode } from 'react';
 import * as ReactDOMClient from 'react-dom/client';
 
-import { Voyager, voyagerIntrospectionQuery } from 'graphql-voyager';
-
-const response = await fetch(
-  'https://swapi-graphql.netlify.app/.netlify/functions/index',
-  {
-    method: 'post',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ query: voyagerIntrospectionQuery }),
-    credentials: 'omit',
+const response = await fetch('https://swapi-graphql.netlify.app/graphql', {
+  method: 'post',
+  headers: {
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
   },
-);
+  body: JSON.stringify({ query: voyagerIntrospectionQuery }),
+  credentials: 'omit',
+});
 const introspection = await response.json();
 
 const reactRoot = ReactDOMClient.createRoot(
