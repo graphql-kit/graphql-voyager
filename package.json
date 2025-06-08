@@ -26,7 +26,7 @@
     "serve": "ts-node ./scripts/serve-directory.ts -p 9090 demo-dist",
     "bundle": "rm -rf dist && webpack --mode=production",
     "compile:middleware": "tsc -d src/middleware/index.ts --outDir middleware --lib ES6,DOM,esnext.asynciterable",
-    "build:worker": "rm -rf worker-dist && docker compose up --abort-on-container-exit --build build-worker",
+    "build:worker": "rm -rf worker-dist && podman compose up --abort-on-container-exit --build build-worker",
     "build:release": "rm -rf middleware && npm run build:worker && npm run bundle && npm run compile:middleware && npm run declarations",
     "build:demo": "npm run build:release && rm -rf demo-dist && cp -R demo/ demo-dist/ && cp dist/voyager.css* dist/voyager.standalone.js* demo-dist/",
     "stats": "NODE_ENV=production webpack --json --mode=production > stats.json",
@@ -35,9 +35,9 @@
     "prettier": "prettier --write --list-different . **/*.svg",
     "prettier:check": "prettier --check . **/*.svg",
     "check:spell": "cspell --cache --no-progress '**/*'",
-    "testonly": "npm run build:demo && npm pack && docker compose up --abort-on-container-exit --build test",
+    "testonly": "npm run build:demo && npm pack && podman compose up --abort-on-container-exit --build test",
     "declarations": "tsc --emitDeclarationOnly -p tsconfig.lib.json",
-    "update-snapshots": "npm run build:demo && npm pack && docker compose up --build update-snapshots"
+    "update-snapshots": "npm run build:demo && npm pack && podman compose up --build update-snapshots"
   },
   "peerDependencies": {
     "graphql": ">=16.5.0",
