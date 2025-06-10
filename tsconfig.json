@@ -21,7 +21,8 @@
     "skipLibCheck": true,
     // end copy
 
-    "module": "es2015",
+    "resolveJsonModule": true,
+    "module": "esnext",
     "moduleResolution": "node",
     "target": "es2021",
     "allowSyntheticDefaultImports": true,

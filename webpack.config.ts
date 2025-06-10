@@ -1,13 +1,12 @@
 import 'webpack-dev-server';
 
-import * as path from 'node:path';
+import path from 'node:path';
 
-import * as MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import * as webpack from 'webpack';
-import { ExternalItemFunctionData } from 'webpack';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import type { ExternalItemFunctionData } from 'webpack';
+import webpack from 'webpack';
 
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const packageJSON = require('./package.json');
+import packageJSON from './package.json' with { type: 'json' };
 const BANNER = `GraphQL Voyager - Represent any GraphQL API as an interactive graph
 -------------------------------------------------------------
   Version: ${packageJSON.version}
@@ -22,7 +21,7 @@ const baseConfig: webpack.Configuration = {
     alias: { '../../worker': '../../worker-dist' },
   },
   output: {
-    path: path.resolve(__dirname, 'dist'),
+    path: path.join(import.meta.dirname, 'dist'),
     sourceMapFilename: '[file].map',
     library: 'GraphQLVoyager',
     libraryTarget: 'umd',
@@ -114,7 +113,7 @@ const config: Array<webpack.Configuration> = [
     devServer: {
       port: 9090,
       static: {
-        directory: path.join(__dirname, 'demo'),
+        directory: path.join(import.meta.dirname, 'demo'),
       },
       liveReload: true,
     },
