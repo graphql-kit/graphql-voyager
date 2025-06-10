@@ -14,7 +14,7 @@
     "url": "https://github.com/graphql-kit/graphql-voyager/issues"
   },
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=24.0.0"
   },
   "main": "dist/voyager.lib.js",
   "types": "typings/index.d.ts",
