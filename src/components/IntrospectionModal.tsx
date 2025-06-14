@@ -13,7 +13,7 @@ import TextField from '@mui/material/TextField';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import { buildClientSchema } from 'graphql/utilities';
-import { useState } from 'react';
+import { ReactElement, useState } from 'react';
 
 import { voyagerIntrospectionQuery } from '../utils/introspection-query';
 import { sdlToSchema } from '../utils/sdl-to-introspection';
@@ -122,7 +122,7 @@ interface IntrospectionDialogProps {
   open: boolean;
   onCancel: () => void;
   onSubmit: () => void;
-  children: JSX.Element;
+  children: ReactElement;
 }
 
 function IntrospectionDialog(props: IntrospectionDialogProps) {
