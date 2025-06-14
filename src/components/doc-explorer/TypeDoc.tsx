@@ -1,7 +1,7 @@
 import './TypeDoc.css';
 
 import { GraphQLField, GraphQLNamedType } from 'graphql/type';
-import { Component } from 'react';
+import React, { Component, ReactElement } from 'react';
 
 import { TypeGraph } from '../../graph/type-graph';
 import {
@@ -28,6 +28,8 @@ interface TypeDocProps {
 }
 
 export default class TypeDoc extends Component<TypeDocProps> {
+  private selectedItemRef = React.createRef<HTMLDivElement>();
+
   componentDidUpdate(prevProps: TypeDocProps) {
     if (this.props.selectedEdgeID !== prevProps.selectedEdgeID) {
       this.ensureActiveVisible();
@@ -39,7 +41,7 @@ export default class TypeDoc extends Component<TypeDocProps> {
   }
 
   ensureActiveVisible() {
-    const itemComponent = this.refs['selectedItem'] as HTMLElement;
+    const itemComponent = this.selectedItemRef.current;
     if (!itemComponent) return;
 
     itemComponent.scrollIntoView();
@@ -54,6 +56,7 @@ export default class TypeDoc extends Component<TypeDocProps> {
       onSelectEdge,
       onTypeLink,
     } = this.props;
+    const { selectedItemRef } = this;
 
     return (
       <>
@@ -74,7 +77,7 @@ export default class TypeDoc extends Component<TypeDocProps> {
       </>
     );
 
-    function renderDocCategory(title: string, items: Array<JSX.Element>) {
+    function renderDocCategory(title: string, items: Array<ReactElement>) {
       if (items.length === 0) return null;
 
       return (
@@ -97,7 +100,7 @@ export default class TypeDoc extends Component<TypeDocProps> {
           key={type.name}
           className={className}
           onClick={() => onSelectEdge(id)}
-          ref={isSelected ? 'selectedItem' : undefined}
+          ref={isSelected ? selectedItemRef : undefined}
         >
           <TypeLink type={type} onClick={onTypeLink} filter={filter} />
           <Description text={type.description} className="-linked-type" />
@@ -129,7 +132,7 @@ export default class TypeDoc extends Component<TypeDocProps> {
           key={field.name}
           className={className}
           onClick={() => onSelectEdge(fieldID)}
-          ref={isSelected ? 'selectedItem' : undefined}
+          ref={isSelected ? selectedItemRef : undefined}
         >
           <a className="field-name">{highlightTerm(field.name, filter)}</a>
           <span className={`args-wrap ${hasArgs ? '' : '-empty'}`}>
