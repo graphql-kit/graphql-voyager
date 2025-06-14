@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 
-FROM mcr.microsoft.com/playwright:v1.47.2
+FROM node:24
 
 WORKDIR /app
 

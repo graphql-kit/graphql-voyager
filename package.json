@@ -53,7 +53,7 @@
     "svg-pan-zoom": "3.6.2"
   },
   "devDependencies": {
-    "@playwright/test": "1.47.2",
+    "@playwright/test": "1.53.0",
     "@svgr/webpack": "8.1.0",
     "@types/commonmark": "0.27.9",
     "@types/node": "24.0.1",
