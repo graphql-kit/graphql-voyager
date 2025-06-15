@@ -46,7 +46,15 @@ const baseConfig: webpack.Configuration = {
             loader: 'css-loader',
             options: { sourceMap: true },
           },
-          { loader: 'postcss-loader', options: { sourceMap: true } },
+          {
+            loader: 'postcss-loader',
+            options: {
+              sourceMap: true,
+              postcssOptions: {
+                plugins: ['postcss-import', 'postcss-cssnext'],
+              },
+            },
+          },
         ],
       },
       {
