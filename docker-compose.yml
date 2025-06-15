@@ -4,7 +4,6 @@ services:
       context: .
       dockerfile: ./worker/Dockerfile
     volumes:
-      - ./worker:/home/worker:ro
       - ./worker-dist/:/home/worker-dist/
     stdin_open: true
     tty: true
