@@ -54,11 +54,6 @@ export async function gotoVoyagerPage(
     search.append('withCredential', searchParams.withCredential.toString());
   }
 
-  // Disable Google Analytics
-  await page.route('https://www.googletagmanager.com/gtag/js*', (route) =>
-    route.fulfill({ status: 200, body: '' }),
-  );
-
   const response = await page.goto(
     (searchParams?.path || '/') + '?' + search.toString(),
   );
