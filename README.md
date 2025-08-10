@@ -140,3 +140,5 @@ app.listen(3001);
 ## Credits
 
 This tool is inspired by [graphql-visualizer](https://github.com/NathanRSmith/graphql-visualizer) project.
+
+This project is tested with BrowserStack.
