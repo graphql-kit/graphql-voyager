@@ -26,7 +26,7 @@
     "serve": "ts-node ./scripts/serve-directory.ts -p 9090 demo-dist",
     "bundle": "rm -rf dist && webpack --mode=production",
     "compile:middleware": "tsc -d src/middleware/index.ts --outDir middleware --lib ES6,DOM,esnext.asynciterable",
-    "build:worker": "rm -rf worker-dist && docker compose up --abort-on-container-exit --build build-worker",
+    "build:worker": "ts-node scripts/bundle_worker.ts",
     "build:release": "rm -rf middleware && npm run build:worker && npm run bundle && npm run compile:middleware && npm run declarations",
     "build:demo": "npm run build:release && rm -rf demo-dist && cp -R demo/ demo-dist/ && cp dist/voyager.css* dist/voyager.standalone.js* demo-dist/",
     "stats": "NODE_ENV=production webpack --json --mode=production > stats.json",
