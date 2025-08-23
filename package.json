@@ -4,14 +4,14 @@
   "description": "GraphQL introspection viewer",
   "author": "IvanGoncharov <ivan.goncharov.ua@gmail.com>",
   "license": "MIT",
-  "homepage": "https://github.com/graphql-kit/graphql-voyager#readme",
+  "homepage": "https://apis.guru/graphql-voyager",
   "repository": {
     "type": "git",
-    "url": "https://github.com/graphql-kit/graphql-voyager.git"
+    "url": "https://github.com/APIs-guru/graphql-voyager.git"
   },
-  "funding": "https://github.com/graphql-kit/graphql-voyager?sponsor=1",
+  "funding": "https://github.com/APIs-guru/graphql-voyager?sponsor=1",
   "bugs": {
-    "url": "https://github.com/graphql-kit/graphql-voyager/issues"
+    "url": "https://github.com/APIs-guru/graphql-voyager/issues"
   },
   "engines": {
     "node": ">=24.0.0"
